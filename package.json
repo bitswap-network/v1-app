@@ -1,0 +1,78 @@
+{
+  "name": "bitswap",
+  "version": "0.1.0",
+  "description": "exchanging bitclout for eth",
+  "author": "https://github.com/aryanmisra",
+  "homepage": ".",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/styles": "^4.11.3",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.6.0",
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.5.3",
+    "crypto-js": "^4.0.0",
+    "firebase": "^8.3.3",
+    "particles-bg": "^2.5.0",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.5.2",
+    "react-dom": "^17.0.1",
+    "react-icons": "^4.2.0",
+    "react-password-strength-bar": "^0.3.3",
+    "react-popup": "^0.10.0",
+    "react-redux": "^7.2.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "react-spinners": "^0.10.6",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "serve": "^11.3.2",
+    "socket.io-client": "^4.0.1",
+    "styled-components": "^5.2.3",
+    "styled-content-loader": "^1.2.2",
+    "typescript": "^4.2.3",
+    "web3": "^1.3.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "start-dev": "react-scripts start",
+    "test": "react-scripts test --verbose --watchAll",
+    "eject": "react-scripts eject",
+    "prod": "serve -l 3000 -s build",
+    "precommit": "lint-staged",
+    "heroku-postbuild": "npm run build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.8.0",
+    "@testing-library/react": "^9.5.0",
+    "@types/crypto-js": "^4.0.1",
+    "@types/material-ui": "^0.21.8",
+    "@types/react-router-transition": "^2.1.0",
+    "@types/styled-components": "^5.1.9",
+    "react-refresh": "^0.10.0"
+  }
+}

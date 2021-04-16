@@ -94,12 +94,8 @@ function App(props: any) {
                 <Route exact path="/buy/:id" component={Buy} />
                 <Route exact path="/userlistings" component={UserListings} />
                 <PrivateRoute exact path="/profile" component={EditProfile} />
-                {/* <PrivateRoute exact path="/profile/:id" component={Profile} /> */}
                 <PrivateRoute exact path="/manage/:id" component={Manage} />
-                {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
-                {/* <Route path="/">
-                <Redirect to="/" />
-              </Route> */}
+                
               </Col>
             </Row>
           </Router>

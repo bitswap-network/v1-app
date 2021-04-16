@@ -12,6 +12,10 @@ import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
 import axios from "axios";
 import env from "../../components/data/env.json";
+
+import MediaQuery from 'react-responsive';
+
+
 const Login = (props: any) => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
@@ -35,8 +39,8 @@ const Login = (props: any) => {
       })
       .then((response) => {
         console.log(response);
-        // props.history.push("/");
-        // window.location.reload();
+        props.history.push("/");
+        window.location.reload();
       })
       .catch((err) => {
         setInvalid(true);
@@ -48,46 +52,6 @@ const Login = (props: any) => {
   }
 
   return (
-    // <Container
-    //   className="p-3 align-items-center"
-    //   style={{ textAlign: "center", marginTop: "20%" }}
-    // >
-    //   {invalid && <h5 className="error">Invalid Login</h5>}
-
-    //   <h3>
-    //     <b>Login:</b>
-    //   </h3>
-    //   <Row
-    //     className="align-items-center"
-    //     style={{ marginTop: "3%", marginBottom: "3%" }}
-    //   >
-    //     <Col>
-    //       <TextField
-    //         id="username"
-    //         label="Username"
-    //         variant="outlined"
-    //         value={form.username}
-    //         onChange={handleNameChange}
-    //       />
-    //     </Col>
-    //   </Row>
-    //   <Row
-    //     className="align-items-center"
-    //     style={{ marginTop: "3%", marginBottom: "3%" }}
-    //   >
-    //     <Col>
-    //       <TextField
-    //         id="password"
-    //         label="Password"
-    //         variant="outlined"
-    //         type="password"
-    //         value={form.password}
-    //         onChange={handleNameChange}
-    //       />
-    //     </Col>
-    //   </Row>
-    //
-    // </Container>
     <Container
       style={{
         flexDirection: "row",
@@ -96,22 +60,29 @@ const Login = (props: any) => {
         marginLeft: "0",
       }}
     >
+      
+
+
+
       {/* Image */}
-      <Col sm={8} style={{ backgroundColor: "#DBE6FF", height: "100vh" }}>
-        <Row style={{ paddingLeft: "40px", paddingTop: "30px" }}>
+      <MediaQuery minWidth={768}>
+      <Col xs={0} sm={8} style={{ backgroundColor: "#DBE6FF", height: "100vh",  justifyContent: "center", display:"flex", flexDirection: "column" }}>
+        <Row style={{ marginLeft: "5%", paddingTop: "10%" }}>
           <img src={Logo} style={{ width: "18%", height: "auto" }} />
         </Row>
-        <Row style={{ marginTop: "-90px" }}>
+        <Row style={{marginTop: "-5%"}}>
           <img
             src={RegImage}
-            style={{ width: "100%", height: "auto", marginTop: "30px" }}
+            style={{ width: "100%", height: "auto"}}
           />
         </Row>
       </Col>
+      </MediaQuery>
 
       {/* Registration Form */}
-      <Col sm={7} style={{ paddingLeft: "6em", marginTop: "13em" }}>
-        <h3>
+      <MediaQuery minWidth={768}>
+      <Col xs={12} sm={6} style={{ paddingLeft: "6em", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <h3 style={{fontSize: "30px"}}>
           <b>Log In</b>
         </h3>
         <h5>
@@ -132,7 +103,8 @@ const Login = (props: any) => {
                 variant="outlined"
                 value={form.username}
                 onChange={handleNameChange}
-                fullWidth={true}
+                style={{width: "92%"}}
+
               />
             </Col>
           </Row>
@@ -145,7 +117,7 @@ const Login = (props: any) => {
                 type="password"
                 value={form.password}
                 onChange={handleNameChange}
-                fullWidth={true}
+                style={{width: "92%"}}
               />
             </Col>
           </Row>
@@ -153,7 +125,7 @@ const Login = (props: any) => {
             <Col style={{ marginTop: "2%" }}>
               <Button
                 onClick={handleLogin}
-                style={{ height: "120%", width: "100%" }}
+                style={{ height: "120%", width: "92%" }}
               >
                 Login
               </Button>
@@ -161,7 +133,71 @@ const Login = (props: any) => {
           </Row>
         </>
       </Col>
+    </MediaQuery>
+
+     {/* Registration Form */}
+     <MediaQuery maxWidth={768}>
+      <Col xs={12} sm={6} style={{marginTop:"2em",marginLeft: "1.5em", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <Row>
+          <img src={Logo} style={{ width: "45%", height: "auto" }} />
+        </Row>
+        <h3 style={{fontSize: "25px", marginTop: "10%"}}>
+          <b>Log In</b>
+        </h3>
+        <h5>
+          <p style={{ color: "#ACB5BD", fontSize: "%", marginTop: "3%" }}>
+            Don't have an account?<br />
+            <Link to="/register" style={{ color: "#6494FF" }} replace>
+              <p style={{marginTop: "2%"}}>
+              Create an Account
+              </p>
+            </Link>
+          </p>
+        </h5>
+
+        <>
+          <Row style={{ marginTop: "7%", marginBottom: "3%" }}>
+            <Col>
+              <TextField
+                id="username"
+                label="Username"
+                variant="outlined"
+                value={form.username}
+                onChange={handleNameChange}
+                style={{width: "92%"}}
+
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "3%", marginBottom: "3%" }}>
+            <Col>
+              <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={form.password}
+                onChange={handleNameChange}
+                style={{width: "92%"}}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col style={{ marginTop: "2%" }}>
+              <Button
+                onClick={handleLogin}
+                style={{ height: "120%", width: "92%" }}
+              >
+                Login
+              </Button>
+            </Col>
+          </Row>
+        </>
+      </Col>
+    </MediaQuery>
+    
     </Container>
   );
 };
+
 export default Login;

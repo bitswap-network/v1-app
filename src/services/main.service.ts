@@ -73,7 +73,7 @@ const register = (
 
 const login = (username: string, password: string) => {
   return axios
-    .post(env.url + "/login", {
+    .post(env.url + "/auth/login", {
       username,
       password,
     })

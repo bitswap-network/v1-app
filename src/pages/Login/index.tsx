@@ -10,42 +10,35 @@ import { Link } from "react-router-dom";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
-
+import axios from "axios";
+import env from "../../components/data/env.json";
 const Login = (props: any) => {
-  const { isLoggedIn } = useAppSelector(state => state.auth);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [invalid, setInvalid] = useState(false);
   const [form, setForm] = useState({
     username: "" as string,
-    password: "" as string
+    password: "" as string,
   });
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
   const handleLogin = () => {
-    // dispatch(login(form.username, form.password) as any)
-    //   .then(() => {
-    //     dispatch(getListings() as any).then(() => {
-    //       props.history.push("/");
-    //       window.location.reload();
-    //     });
-    //   })
-    //   .catch((error: any) => {
-    //     console.log("not logged in ", error);
-    //     setInvalid(true);
-    //   });
-
-    main
-      .login(form.username, form.password)
-      .then(() => {
-        props.history.push("/");
-        window.location.reload();
+    axios
+      .post(`${env.url}/auth/login`, {
+        username: form.username,
+        password: form.password,
       })
-      .catch(err => {
+      .then((response) => {
+        console.log(response);
+        // props.history.push("/");
+        // window.location.reload();
+      })
+      .catch((err) => {
         setInvalid(true);
       });
   };
@@ -93,41 +86,47 @@ const Login = (props: any) => {
     //       />
     //     </Col>
     //   </Row>
-    //  
+    //
     // </Container>
-    <Container style={{flexDirection: "row", display:'flex', paddingLeft: "0", marginLeft:"0"}}>
-    {/* Image */}
-    <Col sm={8} style={{backgroundColor:"#DBE6FF", height: "100vh", }}>
-      <Row style={{paddingLeft: "40px", paddingTop: "30px"}}>
-      <img
-              src={Logo}
-              style={{ width: "18%", height: "auto" }}
-            />
-      </Row>
-      <Row style={{marginTop: "-90px"}}>
-      <img
+    <Container
+      style={{
+        flexDirection: "row",
+        display: "flex",
+        paddingLeft: "0",
+        marginLeft: "0",
+      }}
+    >
+      {/* Image */}
+      <Col sm={8} style={{ backgroundColor: "#DBE6FF", height: "100vh" }}>
+        <Row style={{ paddingLeft: "40px", paddingTop: "30px" }}>
+          <img src={Logo} style={{ width: "18%", height: "auto" }} />
+        </Row>
+        <Row style={{ marginTop: "-90px" }}>
+          <img
             src={RegImage}
             style={{ width: "100%", height: "auto", marginTop: "30px" }}
-      />
-      </Row>
-    </Col>
+          />
+        </Row>
+      </Col>
 
+      {/* Registration Form */}
+      <Col sm={7} style={{ paddingLeft: "6em", marginTop: "13em" }}>
+        <h3>
+          <b>Log In</b>
+        </h3>
+        <h5>
+          <p style={{ color: "#ACB5BD", fontSize: "0.8em", marginTop: "3%" }}>
+            Don't have an account?{" "}
+            <Link to="/register" style={{ color: "#6494FF" }} replace>
+              Create an Account
+            </Link>
+          </p>
+        </h5>
 
-    {/* Registration Form */}
-    <Col sm={7} style={{paddingLeft: "6em", marginTop: "13em"}}>
-      <h3>
-        <b>Log In</b>
-      </h3>
-      <h5>
-        <p style={{color: "#ACB5BD", fontSize: "0.8em", marginTop: "3%"}}>Don't have an account?   <Link to="/register" style={{ color: "#6494FF" }} replace>Create an Account</Link></p>
-      </h5>
-     
         <>
-          <Row
-            style={{ marginTop: "7%", marginBottom: "3%" }}
-          >
+          <Row style={{ marginTop: "7%", marginBottom: "3%" }}>
             <Col>
-            <TextField
+              <TextField
                 id="username"
                 label="Username"
                 variant="outlined"
@@ -137,47 +136,31 @@ const Login = (props: any) => {
               />
             </Col>
           </Row>
-          <Row
-            style={{ marginTop: "3%", marginBottom: "3%" }}
-          >
+          <Row style={{ marginTop: "3%", marginBottom: "3%" }}>
             <Col>
-            <TextField
-            id="password"
-            label="Password"
-            variant="outlined"
-            type="password"
-            value={form.password}
-            onChange={handleNameChange}
-            fullWidth={true}
-          />
+              <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+                value={form.password}
+                onChange={handleNameChange}
+                fullWidth={true}
+              />
             </Col>
           </Row>
-         
-      
-          {/* <Row>
-            <Col>
-              <Checkbox
-                checked={checked}
-                onChange={handleChange}
-                inputProps={{ "aria-label": "primary checkbox" }}
-                style={{ alignItems: "right" }}
-              />
-              <h6>Agree to let us send emails to you.</h6>
+          <Row>
+            <Col style={{ marginTop: "2%" }}>
+              <Button
+                onClick={handleLogin}
+                style={{ height: "120%", width: "100%" }}
+              >
+                Login
+              </Button>
             </Col>
-          </Row> */}
-      <Row>
-         <Col style={{marginTop: "2%"}}>
-           <Button
-            onClick={handleLogin}
-            style={{ height: "120%", width: "100%" }}
-          >
-            Login
-          </Button>
-        </Col>
-      </Row>
+          </Row>
         </>
-       
-    </Col>
+      </Col>
     </Container>
   );
 };

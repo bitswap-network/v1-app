@@ -27,7 +27,6 @@ import axios from "axios";
 import NavBar from "./components/NavBar";
 import type { RootState } from "./store";
 import { connect } from "react-redux";
-import socketIOClient from "socket.io-client";
 import PrivateRoute from "./components/PrivateRoute";
 const theme = createMuiTheme({
   typography: {
@@ -62,58 +61,58 @@ function App(props: any) {
   }, []);
 
   return (
-  
     <ThemeProvider theme={theme}>
-        {isLoggedIn ? (
-          <Container style={{marginLeft: 0,}}>
-
+      {isLoggedIn ? (
+        <Container style={{ marginLeft: 0 }}>
           <Router history={history}>
-          <Row>
-            <Col
-              sm={2}
-              style={{
-                marginLeft: "3.5%",
-                marginTop: "2%",
-                overflowX: "hidden",
-                overflowY: "hidden"
-              }}
-            >
-              <NavBar />
-            </Col>
-            <div style={{ borderLeft: "1px solid #DDE2E5", height: "100vh", marginLeft: "7vh"}} />
+            <Row>
+              <Col
+                sm={2}
+                style={{
+                  marginLeft: "3.5%",
+                  marginTop: "2%",
+                  overflowX: "hidden",
+                  overflowY: "hidden",
+                }}
+              >
+                <NavBar />
+              </Col>
+              <div
+                style={{
+                  borderLeft: "1px solid #DDE2E5",
+                  height: "100vh",
+                  marginLeft: "7vh",
+                }}
+              />
 
-            <Col sm={8}>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/logout" component={Logout} />
-              <Route exact path="/postad" component={PostAd} />
-              <Route exact path="/buy/:id" component={Buy} />
-              <Route exact path="/userlistings" component={UserListings} />
-              <PrivateRoute exact path="/profile" component={EditProfile} />
-              {/* <PrivateRoute exact path="/profile/:id" component={Profile} /> */}
-              <PrivateRoute exact path="/manage/:id" component={Manage} />
-              {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
-              {/* <Route path="/">
+              <Col sm={8}>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/logout" component={Logout} />
+                <Route exact path="/postad" component={PostAd} />
+                <Route exact path="/buy/:id" component={Buy} />
+                <Route exact path="/userlistings" component={UserListings} />
+                <PrivateRoute exact path="/profile" component={EditProfile} />
+                {/* <PrivateRoute exact path="/profile/:id" component={Profile} /> */}
+                <PrivateRoute exact path="/manage/:id" component={Manage} />
+                {/* <PrivateRoute exact path="/admin" component={Admin} /> */}
+                {/* <Route path="/">
                 <Redirect to="/" />
               </Route> */}
-            </Col>
-          </Row>
-        </Router>
+              </Col>
+            </Row>
+          </Router>
         </Container>
-        ): (
-          <Container style={{marginLeft: 0, paddingLeft: 0}}>
-
+      ) : (
+        <Container style={{ marginLeft: 0, paddingLeft: 0 }}>
           <Router history={history}>
             <Route exact path="/" component={Login} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
           </Router>
-          </Container>
-
-        )}
-        
-
+        </Container>
+      )}
     </ThemeProvider>
   );
 }

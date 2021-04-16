@@ -193,7 +193,7 @@ const EditProfile = (props: any) => {
   }
 
   return (
-    <Container className="p-3" style={{ marginTop: "3%", marginLeft: "5%" }}>
+    <Container className="p-3" style={{ marginTop: "12%", marginLeft: "12%", width: "50em" }}>
       {loading && <div className="loader"></div>}
       {!loading && (
         <>
@@ -219,11 +219,10 @@ const EditProfile = (props: any) => {
             </Col>
             
           </Row>
-          <Row>
+          <Row style={{flexDirection: "row", display: "flex", marginTop: "5%"}}>
             
-            <Col sm={8}>
+            <Col sm={5}>
               <Row
-                className="align-items-center"
                 style={{ marginBottom: "30px" }}
               >
                 <Col>
@@ -234,6 +233,7 @@ const EditProfile = (props: any) => {
                     value={form.email}
                     error={error.email}
                     onChange={handleNameChange}
+                    fullWidth={true}
                   />
                 </Col>
               </Row>
@@ -249,6 +249,8 @@ const EditProfile = (props: any) => {
                     value={form.bitcloutid}
                     error={error.bitcloutid}
                     onChange={handleNameChange}
+                    fullWidth={true}
+
                   />
                 </Col>
               </Row>
@@ -264,6 +266,8 @@ const EditProfile = (props: any) => {
                     value={form.ethAddress}
                     error={error.ethAddress}
                     onChange={handleNameChange}
+                    fullWidth={true}
+
                   />
                 </Col>
               </Row>
@@ -276,14 +280,8 @@ const EditProfile = (props: any) => {
               </Row>
              
             </Col>
-            
-          </Row>
-          <Row>
-          <Col sm={8}>
-            <Row
-                className="align-items-center"
-                style={{ marginTop: "30px", marginBottom: "30px" }}
-              >
+            <Col sm={5} style={{marginLeft: "10px"}}>
+            <Row>
                 <Col>
                   <TextField
                     id="password"
@@ -292,6 +290,8 @@ const EditProfile = (props: any) => {
                     value={form.password}
                     error={error.password}
                     onChange={handlePassChange}
+                    fullWidth={true}
+
                   />
                 </Col>
               </Row>
@@ -307,6 +307,8 @@ const EditProfile = (props: any) => {
                     value={form.newPassword}
                     error={error.newPassword}
                     onChange={handlePassChange}
+                    fullWidth={true}
+
                   />
                 </Col>
               </Row>
@@ -325,7 +327,9 @@ const EditProfile = (props: any) => {
                 </Col>
               </Row>
             </Col>
+            
           </Row>
+          
         </>
       )}
     </Container>

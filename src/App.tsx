@@ -64,8 +64,10 @@ function App(props: any) {
   return (
   
     <ThemeProvider theme={theme}>
-      <Container style={{marginLeft: 0}}>
-        <Router history={history}>
+        {isLoggedIn ? (
+          <Container style={{marginLeft: 0,}}>
+
+          <Router history={history}>
           <Row>
             <Col
               sm={2}
@@ -98,7 +100,20 @@ function App(props: any) {
             </Col>
           </Row>
         </Router>
-      </Container>
+        </Container>
+        ): (
+          <Container style={{marginLeft: 0, paddingLeft: 0}}>
+
+          <Router history={history}>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+          </Router>
+          </Container>
+
+        )}
+        
+
     </ThemeProvider>
   );
 }

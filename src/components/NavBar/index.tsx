@@ -84,7 +84,7 @@ export const NavBar: React.FC = (props: any) => {
     </MediaQuery>
 
     <MediaQuery query="(min-device-width: 768px)">
-    <Col style={{flexDirection: "row", display:'flex'}} sm={window.innerWidth > 1600 ?  6 : 4}>
+    <Col style={{flexDirection: "row", display:'flex'}} sm={window.visualViewport.width > 1600 ?  6 : 4}>
       <Container
         style={{ flexDirection: "column", marginTop: "5px", textAlign: "right", height:"90vh", display:'flex' }}
       >

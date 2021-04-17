@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container } from "react-bootstrap";
 import axios from "axios";
 import { ListingSchema } from "../interfaces";
 import { useAppSelector } from "../../components/hooks";
@@ -8,6 +8,8 @@ import { RootState } from "../../store";
 import { connect } from "react-redux";
 import env from "../data/env.json";
 import StyledContentLoader from "styled-content-loader";
+import MediaQuery from 'react-responsive';
+
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
 const Wrapper = styled.section`
@@ -39,74 +41,44 @@ const Listing: React.FC<UserListing> = (
   console.log(props, listing);
 
   return (
-    // <>
-    //   <StyledContentLoader isLoading={loading}>
-    //     <Wrapper key={index}>
-    //       <Row>
-    //         <Col>
-    //           <h3>
-    //             <b>{listing.name}</b>
-    //           </h3>
-    //         </Col>
-    //       </Row>
-    //       <Row className="align-items-center">
-    //         <p className="detailsSellFeed">
-    //           {listing.bitcloutamount} $Bitclout for {listing.ethAmount} $ETH
-    //         </p>
-    //       </Row>
-    //       <Row style={{ marginTop: "5px" }}>
-    //         {!listing.sold && (
-    //           <Col>
-    //             <Button
-    //               onClick={() => {
-    //                 let config = {
-    //                   headers: {
-    //                     Authorization: `Bearer ${currentUser.token}`,
-    //                   },
-    //                 };
-    //                 axios
-    //                   .post(
-    //                     `${env.url}/deleteListing`,
-    //                     {
-    //                       id: listing._id,
-    //                       username: listing.lister.username,
-    //                     },
-    //                     config
-    //                   )
-    //                   .then((response) => {
-    //                     console.log(response);
-    //                     window.location.reload();
-    //                   })
-    //                   .catch((error) => console.log(error));
-    //               }}
-    //               disabled={listing.processing}
-    //             >
-    //               Delete
-    //             </Button>
-    //           </Col>
-    //         )}
-    //         <Col>
-    //           <Button
-    //             onClick={() => {
-    //               history.push(`/manage/${listing._id}`);
-    //             }}
-    //           >
-    //             View
-    //           </Button>
-    //         </Col>
-    //       </Row>
-    //       {listing.processing && !listing.sold && <h5>Swap Ongoing</h5>}
-    //       <div style={{ marginTop: "10px" }}>
-    //         {buy && <h5>Swapped from {listing.lister.username}</h5>}
-    //         {!buy && listing.buyer && <h5>Sold to {listing.buyer.username}</h5>}
-    //       </div>
-    //     </Wrapper>
-    //   </StyledContentLoader>
-    // </>
+ 
     <>
-      <StyledContentLoader isLoading={loading} >
-        <hr></hr>
+      <Container >
+        <MediaQuery query="(max-device-width: 768px)">
+        <Wrapper key={index} style={{ backgroundColor: "transparent", width: "20em"}}>
+          <hr></hr>
+          <Row key={index} className="align-items-center" >
+            
+            <Col style={{ textAlign: "left" }} xs={5}>
+              <p className="userNameSellFeed" style={{fontSize: "0.9em"}}>{listing.name}<br></br>{"listing"}</p>
+            </Col>
+            
+            <Col style={{ textAlign: "left",  }} xs={6} >
+              <p className="detailsSellFeed" style={{fontSize: "0.9em"}}>
+              {listing.bitcloutamount} $Bitclout for {listing.ethAmount} $ETH
+              </p>
+            </Col>
+          </Row>
+          <Col>
+         
+            <Col sm={0}>
+              <Button
+                style={{width: "12em", backgroundColor: "#4263EB", marginTop: "1.3em"}}
+                onClick={() => {
+                  // history.push(`/buy/${listing._id}`);
+                }}
+              >
+                Delete Offer
+              </Button>
+            </Col>
+          </Col>
+      
+        </Wrapper>
+        </MediaQuery>
+
+        <MediaQuery query="(min-device-width: 768px)">
         <Wrapper key={index} style={{ backgroundColor: "transparent",width: "100em"}}>
+          <hr></hr>
           <Row key={index} className="align-items-center" >
             
             <Col style={{ textAlign: "left" }} sm={2}>
@@ -134,12 +106,12 @@ const Listing: React.FC<UserListing> = (
               </Button>
             </Col>
           </Row>
-          {listing.processing && (
-            <h5>Swap Ongoing w/ {"sigil"}</h5>
-          )}
+      
         </Wrapper>
+        </MediaQuery>
+        
        
-      </StyledContentLoader>
+      </Container>
     </>
   );
 };

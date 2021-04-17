@@ -58,14 +58,58 @@ const UserListings = (props: any) => {
       sold: false,
       _id: 'yessir',
       escrowBalance: 10,
-      finalTransactionId: undefined},])
+      finalTransactionId: 'yes'},
+      {  bitCloutSent: true,
+        bitcloutTransactionId: 'yessir',
+        bitcloutamount: 5,
+        buyer: null,
+        created: 'yesterday',
+        escrowFull: true,
+        ethAmount: 10,
+        lister: null,
+        name: 'vanish',
+        processing: true,
+        sold: false,
+        _id: 'yessir',
+        escrowBalance: 10,
+        finalTransactionId: 'yes'},
+        {  bitCloutSent: true,
+          bitcloutTransactionId: 'yessir',
+          bitcloutamount: 5,
+          buyer: null,
+          created: 'yesterday',
+          escrowFull: true,
+          ethAmount: 10,
+          lister: null,
+          name: 'vanish',
+          processing: true,
+          sold: false,
+          _id: 'yessir',
+          escrowBalance: 10,
+          finalTransactionId: 'yes'},
+          {  bitCloutSent: true,
+            bitcloutTransactionId: 'yessir',
+            bitcloutamount: 5,
+            buyer: null,
+            created: 'yesterday',
+            escrowFull: true,
+            ethAmount: 10,
+            lister: null,
+            name: 'vanish',
+            processing: true,
+            sold: false,
+            _id: 'yessir',
+            escrowBalance: 10,
+            finalTransactionId: 'yes'},
+            
+    ]);
   }, []);
 
   const Rows: Function = (groups: any[]): JSX.Element[] =>
     listings.map((listing: any, i: number) => {
       return (
         <>
-          {listing && (
+          {true && (
             <UserListing
               listing={listing}
               index={i}
@@ -95,7 +139,7 @@ const UserListings = (props: any) => {
     });
 
   return (
-    <Container style={{flexDirection: 'row', display:"flex"}}>
+    <Container style={window.visualViewport.width <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0, display: "flex", flexDirection: "column"} : {display: "flex", flexDirection: "row",}}>
       <NavBar />
       <Row style={{width: "70em", marginTop: "8%"}}>
         <Col>
@@ -106,13 +150,22 @@ const UserListings = (props: any) => {
           )}
           {true && listings.length > 0 && (
             <>
-              <h3>
+              <h3 style={window.visualViewport.width <= 768 ? {marginLeft: "2rem"}:{}}>
                 <b>My Listings</b>
               </h3>
-              <h4 style={{marginTop: "1em"}}>
+              <h4 style={window.visualViewport.width <= 768 ? {marginTop: "1em", marginLeft: "2rem"}: {marginTop: "1em"}}>
                 Listing Feed
               </h4>
-              <Row style={{width: "20em", marginLeft: "45rem", marginTop: "2em"}}>
+              <Button
+                    style={window.visualViewport.width <= 768 ? {width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginTop: "2%", marginLeft: "2rem"}:{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginTop: "2%", marginLeft: "55rem"}}
+                    onClick={() => {
+                      props.history.push("/postad");
+                    }}
+                  >
+                    
+                    Post Swap
+                  </Button>
+              <Row style={window.visualViewport.width <= 768 ? {width: "16em", marginTop: "2em", marginLeft: "2rem"}:{width: "20em", marginLeft: "45rem", marginTop: "2em"}}>
                     <InputGroup className="mb-3">
                       <InputGroup.Prepend>
                         <InputGroup.Text id="basic-addon1"><FiBookmark size={20} style={{color: "#43494f"}} /></InputGroup.Text>
@@ -127,10 +180,10 @@ const UserListings = (props: any) => {
               </Row>
             
               <div className="scrollNoBar" style={{marginTop: "2em"}}>
-              <Row style={{marginBottom: "-1.2em", marginLeft: "1em"}}>
-                    <p style={{color: "#C4C4C4", marginRight: "14em", fontSize: "0.8em"}}>Listing Name</p>
-                    <p style={{color: "#C4C4C4", marginRight: "23em", fontSize: "0.8em"}}>Offer</p>
-                    <p style={{color: "#C4C4C4", fontSize: "0.8em"}}>Posted Time</p>
+              <Row style={{marginBottom: "-1.2em", marginLeft: "2em"}}>
+                    <p style={window.visualViewport.width <= 768 ? {color: "#C4C4C4", fontSize: "0.8em", marginRight: "4.5em" }:{color: "#C4C4C4", marginRight: "14em", fontSize: "0.8em"}}>Listing Name</p>
+                    <p style={window.visualViewport.width <= 768 ? {color: "#C4C4C4", fontSize: "0.8em"}:{color: "#C4C4C4", marginRight: "23em", fontSize: "0.8em"}}>Offer</p>
+                    <p style={window.visualViewport.width <= 768 ? {display: "none"}:{color: "#C4C4C4", fontSize: "0.8em"}}>Posted Time</p>
               </Row>
                 <Rows />
               </div>

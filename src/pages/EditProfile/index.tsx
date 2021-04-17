@@ -15,6 +15,7 @@ import { logout } from "../../actions/auth";
 import { useAppSelector, useAppDispatch } from "../../components/hooks";
 import { Redirect } from "react-router-dom";
 import MD5 from "crypto-js/md5";
+import NavBar from "components/NavBar";
 const Web3 = require("web3");
 
 const EditProfile = (props: any) => {
@@ -40,9 +41,9 @@ const EditProfile = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [form, setForm] = useState({
-    email: currentUser.email as string,
-    bitcloutid: currentUser.bitcloutid as string,
-    ethAddress: currentUser.ethAddress as string,
+    email: "Vansh Sethi",
+    bitcloutid: "0xfewfwefweffewfwefewfwefwe",
+    ethAddress: "0xfewfwefweffewfwefewfwefwe",
     password: "",
     newPassword: "",
   });
@@ -163,59 +164,53 @@ const EditProfile = (props: any) => {
       //   username: form.username,
       //   bitcloutid: form.bitcloutid
       // });
-      let config = {
-        headers: { Authorization: `Bearer ${currentUser.token}` },
-      };
-      axios
-        .post(
-          `${env.url}/updatePassword`,
-          {
-            username: currentUser.username,
-            password: form.password,
-            newPassword: form.newPassword,
-          },
-          config
-        )
-        .then((response) => {
-          console.log(response);
-          setLoading(false);
-          setSuccessful(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoading(false);
-        });
+      // let config = {
+      //   headers: { Authorization: `Bearer ${currentUser.token}` },
+      // };
+      // axios
+      //   .post(
+      //     `${env.url}/updatePassword`,
+      //     {
+      //       username: currentUser.username,
+      //       password: form.password,
+      //       newPassword: form.newPassword,
+      //     },
+      //     config
+      //   )
+      //   .then((response) => {
+      //     console.log(response);
+      //     setLoading(false);
+      //     setSuccessful(true);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     setLoading(false);
+      //   });
     }
   };
 
-  if (!isLoggedIn) {
-    return <Redirect to="/login" />;
-  }
 
   return (
-    <Container className="p-3" style={{ marginTop: "12%", marginLeft: "12%", width: "50em" }}>
-      {loading && <div className="loader"></div>}
-      {!loading && (
+    <Container style={window.innerWidth <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0} : {display: "flex", flexDirection: "row",}}>
+        <NavBar />
         <>
+        <Container style={window.innerWidth <= 768 ? {marginTop: "2rem"}:{display: "flex", flexDirection: "column", alignSelf: "center"}}>
           <Row
-            style={{ marginTop: "40px", marginBottom: "40px" }}
+            style={{ marginBottom: "40px"}}
           >
             <Col sm={2}>
-
                 <img
-                  src={`https://gravatar.com/avatar/${MD5(
-                    currentUser.email.toLowerCase()
-                  ).toString()}?s=120&d=mp`}
+                  src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
                   style={{ borderRadius: "60px", height:"auto", width: "6em" }}
                 />
             </Col>
             <Col>
-              <h3>
-                <b>{"@"}{currentUser.username}</b>
+              <h3 style={window.innerWidth <= 768 ? {marginTop: "1em"}: {}}>
+                <b>{"@"}{"Vansh"}</b>
               </h3>
-              <h5 style={{marginTop: "1em"}}>
-                <a href={"https://bitclout.com/u/" + currentUser.username}>https://bitclout.com/u/Vansh</a>
-              </h5>
+              <h6 style={{marginTop: "1em"}}>
+                <a href={"https://bitclout.com/u/" + "Vansh"}>https://bitclout.com/u/Vansh</a>
+              </h6>
             </Col>
             
           </Row>
@@ -272,7 +267,7 @@ const EditProfile = (props: any) => {
                 </Col>
               </Row>
               <Row>
-                <Col>
+                <Col style={window.innerWidth <= 768 ? {marginBottom: "1.5em"}: {}}>
                   <Button onClick={handlePost} style={{ height: "100%" }}>
                     Update Profile
                   </Button>
@@ -329,9 +324,8 @@ const EditProfile = (props: any) => {
             </Col>
             
           </Row>
-          
+          </Container>
         </>
-      )}
     </Container>
   );
 };

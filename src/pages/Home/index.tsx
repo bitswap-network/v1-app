@@ -12,6 +12,8 @@ import Ongoing from "../../components/Ongoing";
 import socketIOClient from "socket.io-client";
 import { FiBookmark } from "react-icons/fi"
 import NavBar from "../../components/NavBar"
+import MediaQuery from 'react-responsive';
+
 
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
@@ -64,6 +66,7 @@ const Home = (props: any) => {
   // }
 
   useEffect(() => {
+    console.log();
     setListings([  {bitCloutSent: false,
       bitcloutTransactionId: "yessir",
       bitcloutamount: 10,
@@ -179,29 +182,42 @@ const Home = (props: any) => {
     }
   };
   return (
-    <Container style={{display:"flex", flexDirection: "row"}}>
+    <Container style={window.visualViewport.width <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0, display: "flex", flexDirection: "column", marginBottom: "2rem"} : {display: "flex", flexDirection: "row",}}>
       <NavBar />
       <Col>
         <Col sm={12} style={{marginTop: "7%", marginLeft: "-5%"}}>
               <Row>
-                <h3>
+                <h3 style={window.visualViewport.width <= 768 ? {marginLeft: '2.5rem'}: {}}>
                   <b>Swap Feed</b>
                 </h3>
-                
+                <MediaQuery query="(min-device-width: 768px)">
                   <Button
                     style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginLeft: "45em"}}
                     onClick={() => {
                       props.history.push("/postad");
                     }}
                   >
+                    
                     Post Swap
                   </Button>
+                </MediaQuery>
               </Row>
-              <Row style={{marginTop: "10vh"}}>
+              <MediaQuery query="(max-device-width: 768px)">
+                  <Button
+                    style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginTop: "5%", marginBottom: "10%", marginLeft: "1.6rem"}}
+                    onClick={() => {
+                      props.history.push("/postad");
+                    }}
+                  >
+                    
+                    Post Swap
+                  </Button>
+                </MediaQuery>
+              <Row style={window.visualViewport.width <= 768 ? {} : {marginTop: "10vh"}}>
                 
                 <Col>
                   
-                  <Row style={{width: "20em", marginLeft: "45rem", marginBottom: "2rem"}}>
+                  <Row style={window.visualViewport.width <= 768 ? {display:'none'}:{width: "20em", marginLeft: "45rem", marginBottom: "2rem"}}>
                     <InputGroup className="mb-3">
                       <InputGroup.Prepend>
                         <InputGroup.Text id="basic-addon1"><FiBookmark size={20} style={{color: "#43494f"}} /></InputGroup.Text>
@@ -216,9 +232,9 @@ const Home = (props: any) => {
 
                   <div className="scrollNoBar" style={{background: "transparent"}}>
                   <Row style={{marginBottom: "-1.2em", marginLeft: "1em"}}>
-                    <p style={{color: "#C4C4C4", marginRight: "22em", fontSize: "0.8em"}}>Username</p>
-                    <p style={{color: "#C4C4C4", marginRight: "23em", fontSize: "0.8em"}}>Offer</p>
-                    <p style={{color: "#C4C4C4", fontSize: "0.8em"}}>Posted Time</p>
+                    <p style={window.visualViewport.width <= 768 ? {marginRight: "6rem", color: "#C4C4C4", fontSize: "0.8em"}:{color: "#C4C4C4", marginRight: "22em", fontSize: "0.8em"}}>Username</p>
+                    <p style={window.visualViewport.width <= 768 ? { color: "#C4C4C4", fontSize: "0.8em"}:{color: "#C4C4C4", marginRight: "23em", fontSize: "0.8em"}}>Offer</p>
+                    <p style={window.visualViewport.width <= 768 ? {display:'none'}:{color: "#C4C4C4", fontSize: "0.8em"}}>Posted Time</p>
                   </Row>
                     {listings
                       .slice(0)

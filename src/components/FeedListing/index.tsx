@@ -8,6 +8,8 @@ import { RootState } from "../../store";
 import { connect } from "react-redux";
 import StyledContentLoader from "styled-content-loader";
 import MD5 from "crypto-js/md5";
+import MediaQuery from 'react-responsive';
+
 
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
@@ -84,6 +86,44 @@ const Listing: React.FC<FeedListing> = (
     <>
       <StyledContentLoader isLoading={false} >
         <hr></hr>
+        <MediaQuery query="(max-device-width: 768px)">
+        <Row key={index} className="align-items-center" >
+            <Col style={{ marginRight: "0.3rem", marginLeft: "-0.3rem"}} xs={2}>
+                <img
+                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                style={{ borderRadius: "60px", height: "auto", width:"5vh", marginLeft: "1.2em", marginRight: "1.3rem" }}
+              />
+            </Col>
+            <Col  xs={4}>
+              <p style={{fontSize: "0.8rem"}} className="userNameSellFeed">{"@"}{'Sigil Wen'}</p>
+            </Col>
+            
+            <Col xs={6}>
+              <p style={{fontSize: "0.8rem"}} className="detailsSellFeed">
+                {listing.bitcloutamount} @{" "}
+                {((listing.ethAmount * price) / listing.bitcloutamount).toFixed(
+                  2
+                )}{" "}
+                $USD
+              </p>
+            </Col>
+          
+            <Col style={{marginLeft: "5rem", marginTop: "3%"}}>
+              <Button
+                style={{width: "10em", height: "2.5rem",backgroundColor: "#4263EB",}}
+                onClick={() => {
+                  // history.push(`/buy/${listing._id}`);
+                  state.modalOpen = true;
+                }}
+                disabled={viewCheck()}
+              >
+                Buy
+              </Button>
+            </Col>
+          </Row>
+        </MediaQuery>
+       
+        <MediaQuery query="(min-device-width: 768px)">
         <Wrapper key={index} style={{backgroundColor: "transparent", width: "100em"}}>
           <Row key={index} className="align-items-center" >
             <Col sm={0.2}>
@@ -131,6 +171,7 @@ const Listing: React.FC<FeedListing> = (
         show={state.modalOpen}
         onHide={() => console.log("hehy")}
       />
+      </MediaQuery>
       </StyledContentLoader>
     </>
   );

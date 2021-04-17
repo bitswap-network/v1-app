@@ -8,6 +8,7 @@ import UserListing from "../../components/UserListing";
 import { ListingSchema } from "../../components/interfaces";
 import { RootState } from "../../store";
 import { FiBookmark } from "react-icons/fi"
+import NavBar from "components/NavBar";
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
 const UserListings = (props: any) => {
@@ -17,33 +18,47 @@ const UserListings = (props: any) => {
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [buylistings, setBuyListings] = useState<ListingSchema[]>([]);
   useEffect(() => {
-    let config = {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    };
-    axios
-      .post(
-        `${env.url}/listings/${currentUser.username}`,
-        { ongoing: "none" },
-        config
-      )
-      .then((response) => {
-        console.log(response.data);
-        setListings(response.data);
-        setLoading(false);
-      });
-    axios
-      .post(
-        `${env.url}/buylistings/${currentUser.username}`,
-        { ongoing: "none" },
-        config
-      )
-      .then((response) => {
-        console.log(response.data);
-        setBuyListings(response.data);
-        setLoading(false);
-      });
+  //   let config = {
+  //     headers: {
+  //       Authorization: `Bearer ${currentUser.token}`,
+  //     },
+  //   };
+  //   axios
+  //     .post(
+  //       `${env.url}/listings/${currentUser.username}`,
+  //       { ongoing: "none" },
+  //       config
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setListings(response.data);
+  //       setLoading(false);
+  //     });
+  //   axios
+  //     .post(
+  //       `${env.url}/buylistings/${currentUser.username}`,
+  //       { ongoing: "none" },
+  //       config
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setBuyListings(response.data);
+  //       setLoading(false);
+  //     });
+    setListings([{  bitCloutSent: true,
+      bitcloutTransactionId: 'yessir',
+      bitcloutamount: 5,
+      buyer: null,
+      created: 'yesterday',
+      escrowFull: true,
+      ethAmount: 10,
+      lister: null,
+      name: 'vanish',
+      processing: true,
+      sold: false,
+      _id: 'yessir',
+      escrowBalance: 10,
+      finalTransactionId: undefined},])
   }, []);
 
   const Rows: Function = (groups: any[]): JSX.Element[] =>
@@ -80,15 +95,16 @@ const UserListings = (props: any) => {
     });
 
   return (
-    <Container className="p-3" style={{ marginTop: "6%", marginLeft: "5%" }}>
-      <Row className="align-items-center"  style={{width: "70em"}}>
+    <Container style={{flexDirection: 'row', display:"flex"}}>
+      <NavBar />
+      <Row style={{width: "70em", marginTop: "8%"}}>
         <Col>
           {listings.length == 0 && (
             <h3>
               <b>No Listings</b>
             </h3>
           )}
-          {isLoggedIn && listings.length > 0 && (
+          {true && listings.length > 0 && (
             <>
               <h3>
                 <b>My Listings</b>

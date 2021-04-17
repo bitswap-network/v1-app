@@ -7,6 +7,7 @@ import env from "../../components/data/env.json";
 import { logout } from "../../actions/auth";
 import { useAppSelector, useAppDispatch } from "../../components/hooks";
 import { Redirect } from "react-router-dom";
+import NavBar from "components/NavBar";
 const Web3 = require("web3");
 
 
@@ -92,9 +93,9 @@ const PostAd = (props: any) => {
   const [successful, setSuccessful] = useState(false);
   const [form, setForm] = useState({
     name: "" as string,
-    username: currentUser.username as string,
-    bitcloutid: currentUser.bitcloutid as string,
-    ethAddress: currentUser.ethAddress as string,
+    username: "Sigil",
+    bitcloutid: "Sigils Bitclout ID",
+    ethAddress: "Sigils Ethereum Address",
     bitcloutamount: 0 as number,
     pricePerBitclout: 0 as number,
     ethAmount: 0 as number,
@@ -219,20 +220,19 @@ const PostAd = (props: any) => {
     }
   };
 
-  if (!isLoggedIn) {
-    return <Redirect to="/login" />;
-  }
+
 
   return (
-    <Container className="p-3" style={{ marginTop: "3%", marginLeft: "2em" }}>
-      {loading && <div className="loader"></div>}
+    <Container style={window.innerWidth <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0} : {display: "flex", flexDirection: "row",}}>
+      <NavBar />
       {!successful && !loading && (
         <>
+        <Col style={window.innerWidth > 768 ? { alignSelf: "center", justifySelf: "center"} : {marginLeft: "8%"}} xs={window.innerWidth <= 768 ? 10 : 10} xl={window.innerWidth >=1600 ? 12: 8}>
           <Row
-            style={{ marginTop: "3%", marginBottom: "3%" }}
+            style={{ marginTop: "0%"}}
           >
             <Col>
-              <h3>
+              <h3 style={window.innerWidth <= 768 ? {marginTop: '5%',}: {}}>
                 <b>Post Swap for Bitclout to ETH</b>
               </h3>
             </Col>
@@ -373,7 +373,10 @@ const PostAd = (props: any) => {
             </Col>
             <Col sm={4} />
           </Row>
+          </Col>
+
         </>
+
       )}
       {successful && !loading && (
         <>
@@ -382,7 +385,7 @@ const PostAd = (props: any) => {
               <h3>Listing Created!</h3>
             </Col>
           </Row>
-          <Row style={{ marginTop: "5%" }}>
+          <Row>
             <Col>
               <Button
                 onClick={() => {
@@ -396,6 +399,7 @@ const PostAd = (props: any) => {
             </Col>
           </Row>
         </>
+        
       )}
       
     </Container>

@@ -74,7 +74,7 @@ const Listing: React.FC<FeedListing> = (
         return true;
       }
     }
-    if (listing.lister.username === currentUser.username) {
+    if (false) {
       return true;
     } else {
       return false;
@@ -82,20 +82,18 @@ const Listing: React.FC<FeedListing> = (
   };
   return (
     <>
-      <StyledContentLoader isLoading={loading} >
+      <StyledContentLoader isLoading={false} >
         <hr></hr>
         <Wrapper key={index} style={{backgroundColor: "transparent", width: "100em"}}>
           <Row key={index} className="align-items-center" >
             <Col sm={0.2}>
                 <img
-                src={`https://gravatar.com/avatar/${MD5(
-                  currentUser.email.toLowerCase()
-                ).toString()}?s=120&d=mp`}
+                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
                 style={{ borderRadius: "60px", height: "auto", width:"5vh", marginLeft: "1.2em", marginRight: "1.3rem" }}
               />
             </Col>
             <Col style={{ textAlign: "left" }} sm={2}>
-              <p className="userNameSellFeed">{"@"}{listing.lister.username}</p>
+              <p className="userNameSellFeed">{"@"}{'Sigil Wen'}</p>
             </Col>
             
             <Col style={{ textAlign: "left",  }} sm={2} >

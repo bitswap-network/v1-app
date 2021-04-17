@@ -61,31 +61,11 @@ function App(props: any) {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      {isLoggedIn ? (
         <Container style={{ marginLeft: 0}}>
+     
           <Router history={history}>
             <Row>
-              <Col
-                sm={2}
-                style={{
-                  marginLeft: "3.5%",
-                  marginTop: "2%",
-                  overflowX: "hidden",
-                  overflowY: "hidden",
-                }}
-              >
-                <NavBar />
-              </Col>
-              <div
-                style={{
-                  borderLeft: "1px solid #DDE2E5",
-                  height: "100vh",
-                  marginLeft: "7vh",
-                }}
-              />
 
-              <Col sm={8}>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
@@ -96,20 +76,10 @@ function App(props: any) {
                 <PrivateRoute exact path="/profile" component={EditProfile} />
                 <PrivateRoute exact path="/manage/:id" component={Manage} />
                 
-              </Col>
             </Row>
           </Router>
-        </Container>
-      ) : (
-        <Container style={{ paddingRight: 0, paddingLeft: 0, marginLeft: 0, marginRight:0,}}>
-          <Router history={history}>
-            <Route exact path="/" component={Login} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-          </Router>
-        </Container>
-      )}
-    </ThemeProvider>
+     
+      </Container>
   );
 }
 export default connect(mapStateToProps)(App);

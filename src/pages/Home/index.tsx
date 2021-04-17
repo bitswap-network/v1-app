@@ -11,6 +11,7 @@ import env from "../../components/data/env.json";
 import Ongoing from "../../components/Ongoing";
 import socketIOClient from "socket.io-client";
 import { FiBookmark } from "react-icons/fi"
+import NavBar from "../../components/NavBar"
 
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
@@ -63,6 +64,64 @@ const Home = (props: any) => {
   // }
 
   useEffect(() => {
+    setListings([  {bitCloutSent: false,
+      bitcloutTransactionId: "yessir",
+      bitcloutamount: 10,
+      buyer: null,
+      created: "yesterday",
+      escrowFull: false,
+      ethAmount: 10,
+      lister: null,
+      name: 'ues',
+      processing: false,
+      sold: false,
+      _id: 'yes',
+      escrowBalance: 10,
+      finalTransactionId: undefined},
+      {bitCloutSent: false,
+        bitcloutTransactionId: "yessir",
+        bitcloutamount: 10,
+        buyer: null,
+        created: "yesterday",
+        escrowFull: false,
+        ethAmount: 10,
+        lister: null,
+        name: 'ues',
+        processing: false,
+        sold: false,
+        _id: 'yes',
+        escrowBalance: 10,
+        finalTransactionId: undefined},
+        {bitCloutSent: false,
+          bitcloutTransactionId: "yessir",
+          bitcloutamount: 10,
+          buyer: null,
+          created: "yesterday",
+          escrowFull: false,
+          ethAmount: 10,
+          lister: null,
+          name: 'ues',
+          processing: false,
+          sold: false,
+          _id: 'yes',
+          escrowBalance: 10,
+          finalTransactionId: undefined},
+          {bitCloutSent: false,
+            bitcloutTransactionId: "yessir",
+            bitcloutamount: 10,
+            buyer: null,
+            created: "yesterday",
+            escrowFull: false,
+            ethAmount: 10,
+            lister: null,
+            name: 'ues',
+            processing: false,
+            sold: false,
+            _id: 'yes',
+            escrowBalance: 10,
+            finalTransactionId: undefined}
+          ])
+
     if (isLoggedIn) {
       if (!socketOn) {
         let usertoken = currentUser.token;
@@ -79,6 +138,7 @@ const Home = (props: any) => {
       axios
         .get(`${env.url}/listings`, config)
         .then(response => {
+          console.log(response.data)
           setListings(response.data);
           setLoading(false);
         })
@@ -119,16 +179,12 @@ const Home = (props: any) => {
     }
   };
   return (
-    <Container
-      style={{ textAlign: "left", marginTop: "3.8em", width: "100em", paddingLeft: "3em", overflowX: "hidden",
-    }}
-    >
-      <Row>
-        <Col sm={12 - scaler()}>
-          {isLoggedIn ? (
-            <>
+    <Container style={{display:"flex", flexDirection: "row"}}>
+      <NavBar />
+      <Col>
+        <Col sm={12} style={{marginTop: "7%", marginLeft: "-5%"}}>
               <Row>
-                <h3 style={{marginLeft: "1em"}}>
+                <h3>
                   <b>Swap Feed</b>
                 </h3>
                 
@@ -180,39 +236,7 @@ const Home = (props: any) => {
                   </div>
                 </Col>
               </Row>
-            </>
-          ) : (
-            <>
-              <h3>Not Logged In</h3>
-              <Row className="align-items-center" style={{ marginTop: "10%" }}>
-                <Col style={{ textAlign: "center" }}>
-                  <h5>New Here?</h5>
-                </Col>
-              </Row>
-              <Row className="align-items-center">
-                <Col style={{ textAlign: "center" }}>
-                  <a href="http://bitswap.network/signup" target="_blank">
-                    <Button>Join Waitlist</Button>
-                  </a>
-                </Col>
-              </Row>
-            </>
-          )}
-          {/* <Row className="align-items-center" style={{ marginTop: "2%" }}>
-            <Col>
-              {isLoggedIn && (
-                <Button
-                  style={{ height: "100%", width: "50%" }}
-                  onClick={() => {
-                    props.history.push("/postad");
-                    window.location.reload();
-                  }}
-                >
-                  Post Listing
-                </Button>
-              )}
-            </Col>
-          </Row> */}
+          
         </Col>
         <Col
           sm={3}
@@ -250,9 +274,8 @@ const Home = (props: any) => {
             )}
           </>
         </Col>
-      </Row>
+      </Col>
     </Container>
-    // </div>
   );
 };
 

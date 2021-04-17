@@ -135,7 +135,7 @@ const Listing: React.FC<UserListing> = (
             </Col>
           </Row>
           {listing.processing && (
-            <h5>Swap Ongoing w/ {listing.buyer.username}</h5>
+            <h5>Swap Ongoing w/ {"sigil"}</h5>
           )}
         </Wrapper>
        

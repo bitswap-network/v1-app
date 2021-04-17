@@ -42,7 +42,7 @@ const Login = (props: any) => {
         console.log(response);
         props.history.push("/");
         dispatch(getListings() as any).then(() => {
-                props.history.push("/");
+                props.history.push("/home");
                 window.location.reload();
               });
         window.location.reload();
@@ -58,16 +58,14 @@ const Login = (props: any) => {
     // });
   };
 
-  if (isLoggedIn) {
-    return <Redirect to="/home" />;
-  }
+
 
   return (
     <Wrapper>
       {/* Image */}
 
 
-      <LeftDisplay className="col-xxl-10"  sm={8} xl={window.innerWidth > 1600 ?  10 : 8}>
+      <LeftDisplay className="col-xxl-10"  sm={8} xl={window.innerWidth > 1600 ?  11 : 8}>
         <LogoRow>
           <img src={Logo} width={"18%"} height={'auto'}/>
         </LogoRow>

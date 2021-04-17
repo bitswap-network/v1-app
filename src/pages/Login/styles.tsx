@@ -21,9 +21,6 @@ const LeftDisplay = styled(Col)`
   @media only screen and (max-width: 768px){
     display: none;
   }
-
- 
-
 `
 
 const RegArea = styled(Col)`

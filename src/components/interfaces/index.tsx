@@ -24,7 +24,7 @@ export interface ListingSchema {
   created: string;
   escrowFull: boolean;
   ethAmount: number;
-  lister: UserSchema;
+  lister: UserSchema | null;
   name: string;
   processing: boolean;
   sold: boolean;

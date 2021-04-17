@@ -68,10 +68,12 @@ export const NavBar: React.FC = (props: any) => {
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#features">Swap Feed</Nav.Link>
-            <Nav.Link href="#pricing">Post Ad</Nav.Link>
+            <Nav.Link href="/">Swap Feed</Nav.Link>
+            <Nav.Link href="/PostAd">Post Ad</Nav.Link>
             <Nav.Link href="#pricing">My Listings</Nav.Link>
             <Nav.Link href="#pricing">My Profile</Nav.Link>
+            <Nav.Link href="/logout" style={{color: "red"}}>Logout</Nav.Link>
+
 
             
           </Nav>

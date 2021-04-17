@@ -11,6 +11,8 @@ import PasswordStrengthBar from "react-password-strength-bar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
+import {Wrapper, LeftDisplay, RegArea, LogoRow, ImageRow, HaveAnAccountText, UserField, RegisterButton, MobileLogo} from "./styles"
+
 
 const Register = (props: any) => {
   const [successful, setSuccessful] = useState(false);
@@ -112,29 +114,25 @@ const Register = (props: any) => {
   };
 
   return (
-    <Container
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        paddingLeft: "0",
-        marginLeft: "0",
-      }}
-    >
+    <Wrapper>
       {/* Image */}
-      <Col sm={8} style={{ backgroundColor: "#DBE6FF", height: "100vh" }}>
-        <Row style={{ paddingLeft: "40px", paddingTop: "30px" }}>
-          <img src={Logo} style={{ width: "18%", height: "auto" }} />
-        </Row>
-        <Row style={{ marginTop: "-90px" }}>
+      <LeftDisplay sm={8} xl={window.innerWidth > 1600 ?  11 : 8}>
+
+        <LogoRow>
+          <img src={Logo} width={'18%'} height={'auto'} />
+        </LogoRow>
+        <ImageRow>
           <img
-            src={RegImage}
-            style={{ width: "100%", height: "auto", marginTop: "30px" }}
+            src={RegImage} width={'100%'} height={'auto'}
           />
-        </Row>
-      </Col>
+        </ImageRow>
+      </LeftDisplay>
 
       {/* Registration Form */}
-      <Col sm={7} style={{ paddingLeft: "6em", marginTop: "3.6em" }}>
+      <RegArea  xs={12} sm={7} xxl={8} >
+         <MobileLogo>
+          <img src={Logo} width={"55%"} height={'auto'}/>
+        </MobileLogo>
         {creationerror && <h5 className="error">{errorMsg}</h5>}
         {!successful && (
           <>
@@ -142,14 +140,12 @@ const Register = (props: any) => {
               <b>Get Started</b>
             </h3>
             <h5>
-              <p
-                style={{ color: "#ACB5BD", fontSize: "0.8em", marginTop: "2%" }}
-              >
+              <HaveAnAccountText>
                 Already have an account?{" "}
                 <Link to="/login" style={{ color: "#6494FF" }} replace>
                   Log In
                 </Link>
-              </p>
+              </HaveAnAccountText>
             </h5>
           </>
         )}
@@ -165,11 +161,11 @@ const Register = (props: any) => {
                   value={form.username}
                   onChange={handleNameChange}
                   error={error.username}
-                  fullWidth={true}
+                  style={{width: '90%'}}
                 />
               </Col>
             </Row>
-            <Row style={{ marginTop: "3%", marginBottom: "3%" }}>
+            <UserField>
               <Col>
                 <TextField
                   id="email"
@@ -179,14 +175,12 @@ const Register = (props: any) => {
                   value={form.email}
                   onChange={handleNameChange}
                   error={error.email}
-                  fullWidth={true}
+                  style={{width: '90%'}}
+
                 />
               </Col>
-            </Row>
-            <Row
-              className="align-items-center"
-              style={{ marginTop: "3%", marginBottom: "3%" }}
-            >
+            </UserField>
+            <UserField>
               <Col>
                 <TextField
                   id="bitcloutpubkey"
@@ -195,14 +189,11 @@ const Register = (props: any) => {
                   value={form.bitcloutpubkey}
                   onChange={handleNameChange}
                   error={error.bitcloutpubkey}
-                  fullWidth={true}
+                  style={{width: '90%'}}
                 />
               </Col>
-            </Row>
-            <Row
-              className="align-items-center"
-              style={{ marginTop: "3%", marginBottom: "3%" }}
-            >
+            </UserField>
+            <UserField>
               <Col>
                 <TextField
                   id="ethereumaddress"
@@ -211,14 +202,11 @@ const Register = (props: any) => {
                   value={form.ethereumaddress}
                   onChange={handleNameChange}
                   error={error.ethereumaddress}
-                  fullWidth={true}
+                  style={{width: '90%'}}
                 />
               </Col>
-            </Row>
-            <Row
-              className="align-items-center"
-              style={{ marginTop: "3%", marginBottom: "3%" }}
-            >
+            </UserField>
+            <UserField>
               <Col>
                 <TextField
                   id="password"
@@ -228,14 +216,11 @@ const Register = (props: any) => {
                   value={form.password}
                   onChange={handleNameChange}
                   error={error.password}
-                  fullWidth={true}
+                  style={{width: '90%'}}
                 />
               </Col>
-            </Row>
-            <Row
-              className="align-items-center"
-              style={{ marginTop: "3%", marginBottom: "3%" }}
-            >
+            </UserField>
+            <UserField>
               <Col>
                 <TextField
                   id="confirmPassword"
@@ -245,45 +230,27 @@ const Register = (props: any) => {
                   value={form.confirmPassword}
                   onChange={handleNameChange}
                   error={error.confirmPassword}
-                  fullWidth={true}
+                  style={{width: '90%'}}
                 />
                 <PasswordStrengthBar
-                  style={{ width: "100%", paddingTop: "20px" }}
+                  style={{ width: "90%", paddingTop: "20px" }}
                   password={form.password}
                 />
               </Col>
-            </Row>
+            </UserField>
             {error.password ? (
-              <Row style={{ marginTop: "15px", color: "red" }}>
+              <Row style={{color: "red"}}>
                 <Col>
                   <p>Passwords don't match!</p>
                 </Col>
               </Row>
             ) : null}
-            {/* <Row>
-            <Col>
-              <Checkbox
-                checked={checked}
-                onChange={handleChange}
-                inputProps={{ "aria-label": "primary checkbox" }}
-                style={{ alignItems: "right" }}
-              />
-              <h6>Agree to let us send emails to you.</h6>
-            </Col>
-          </Row> */}
+
             <Row>
               <Col>
-                <Button
-                  onClick={handleSubmit}
-                  style={{
-                    height: "80%",
-                    width: "75%",
-                    marginLeft: "15%",
-                    marginTop: "2%",
-                  }}
-                >
+                <RegisterButton onClick={handleSubmit}>
                   Register
-                </Button>
+                </RegisterButton>
               </Col>
             </Row>
             <Row style={{ marginTop: "15px", textAlign: "center" }}>
@@ -317,8 +284,8 @@ const Register = (props: any) => {
             </Row>
           </>
         )}
-      </Col>
-    </Container>
+      </RegArea>
+    </Wrapper>
   );
 };
 export default Register;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../App.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import { getListings } from "../../actions/auth";
 import main from "../../services/main.service";
@@ -12,6 +12,7 @@ import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
 import axios from "axios";
 import env from "../../components/data/env.json";
+import {Wrapper, LeftDisplay, RegArea, LogoRow, ImageRow, LoginText, RegAccountText, UsernameRow, PasswordRow, MobileLogo} from "./styles"
 
 import MediaQuery from 'react-responsive';
 
@@ -40,11 +41,21 @@ const Login = (props: any) => {
       .then((response) => {
         console.log(response);
         props.history.push("/");
+        dispatch(getListings() as any).then(() => {
+                props.history.push("/");
+                window.location.reload();
+              });
         window.location.reload();
       })
       .catch((err) => {
         setInvalid(true);
       });
+    // main
+    // .login(form.username, form.password)
+    // .then(() => {
+    //   props.history.push("/");
+    //   window.location.reload();
+    // });
   };
 
   if (isLoggedIn) {
@@ -52,50 +63,37 @@ const Login = (props: any) => {
   }
 
   return (
-    <Container
-      style={{
-        flexDirection: "row",
-        display: "flex",
-        paddingLeft: "0",
-        marginLeft: "0",
-      }}
-    >
-      
-
-
-
+    <Wrapper>
       {/* Image */}
-      <MediaQuery minWidth={768}>
-      <Col xs={0} sm={8} style={{ backgroundColor: "#DBE6FF", height: "100vh",  justifyContent: "center", display:"flex", flexDirection: "column" }}>
-        <Row style={{ marginLeft: "5%", paddingTop: "10%" }}>
-          <img src={Logo} style={{ width: "18%", height: "auto" }} />
-        </Row>
-        <Row style={{marginTop: "-5%"}}>
-          <img
-            src={RegImage}
-            style={{ width: "100%", height: "auto"}}
-          />
-        </Row>
-      </Col>
-      </MediaQuery>
+
+
+      <LeftDisplay className="col-xxl-10"  sm={8} xl={window.innerWidth > 1600 ?  10 : 8}>
+        <LogoRow>
+          <img src={Logo} width={"18%"} height={'auto'}/>
+        </LogoRow>
+        <ImageRow>
+          <img src={RegImage} width={'100%'} height={'auto'}/>
+        </ImageRow>
+      </LeftDisplay>
 
       {/* Registration Form */}
-      <MediaQuery minWidth={768}>
-      <Col xs={12} sm={6} style={{ paddingLeft: "6em", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <h3 style={{fontSize: "30px"}}>
+      <RegArea className="col-xxl-8" xs={12} sm={6} xxl={8} >
+        <MobileLogo>
+          <img src={Logo} width={"55%"} height={'auto'}/>
+        </MobileLogo>
+        <LoginText>
           <b>Log In</b>
-        </h3>
+        </LoginText>
         <h5>
-          <p style={{ color: "#ACB5BD", fontSize: "0.8em", marginTop: "3%" }}>
+          <RegAccountText>
             Don't have an account?{" "}
             <Link to="/register" style={{ color: "#6494FF" }} replace>
               Create an Account
             </Link>
-          </p>
+          </RegAccountText>
         </h5>
 
-        <>
-          <Row style={{ marginTop: "7%", marginBottom: "3%" }}>
+          <UsernameRow>
             <Col>
               <TextField
                 id="username"
@@ -103,12 +101,12 @@ const Login = (props: any) => {
                 variant="outlined"
                 value={form.username}
                 onChange={handleNameChange}
-                style={{width: "92%"}}
-
+                fullWidth={true}
               />
             </Col>
-          </Row>
-          <Row style={{ marginTop: "3%", marginBottom: "3%" }}>
+          </UsernameRow>
+
+          <PasswordRow>
             <Col>
               <TextField
                 id="password"
@@ -117,86 +115,23 @@ const Login = (props: any) => {
                 type="password"
                 value={form.password}
                 onChange={handleNameChange}
-                style={{width: "92%"}}
+                fullWidth={true}
               />
             </Col>
-          </Row>
+          </PasswordRow>
+
           <Row>
             <Col style={{ marginTop: "2%" }}>
               <Button
                 onClick={handleLogin}
-                style={{ height: "120%", width: "92%" }}
+                style={{width: "100%"}}
               >
                 Login
               </Button>
             </Col>
           </Row>
-        </>
-      </Col>
-    </MediaQuery>
-
-     {/* Registration Form */}
-     <MediaQuery maxWidth={768}>
-      <Col xs={12} sm={6} style={{marginTop:"2em",marginLeft: "1.5em", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-        <Row>
-          <img src={Logo} style={{ width: "45%", height: "auto" }} />
-        </Row>
-        <h3 style={{fontSize: "25px", marginTop: "10%"}}>
-          <b>Log In</b>
-        </h3>
-        <h5>
-          <p style={{ color: "#ACB5BD", fontSize: "%", marginTop: "3%" }}>
-            Don't have an account?<br />
-            <Link to="/register" style={{ color: "#6494FF" }} replace>
-              <p style={{marginTop: "2%"}}>
-              Create an Account
-              </p>
-            </Link>
-          </p>
-        </h5>
-
-        <>
-          <Row style={{ marginTop: "7%", marginBottom: "3%" }}>
-            <Col>
-              <TextField
-                id="username"
-                label="Username"
-                variant="outlined"
-                value={form.username}
-                onChange={handleNameChange}
-                style={{width: "92%"}}
-
-              />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "3%", marginBottom: "3%" }}>
-            <Col>
-              <TextField
-                id="password"
-                label="Password"
-                variant="outlined"
-                type="password"
-                value={form.password}
-                onChange={handleNameChange}
-                style={{width: "92%"}}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ marginTop: "2%" }}>
-              <Button
-                onClick={handleLogin}
-                style={{ height: "120%", width: "92%" }}
-              >
-                Login
-              </Button>
-            </Col>
-          </Row>
-        </>
-      </Col>
-    </MediaQuery>
-    
-    </Container>
+      </RegArea>
+    </Wrapper>
   );
 };
 

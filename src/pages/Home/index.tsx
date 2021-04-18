@@ -13,6 +13,7 @@ import socketIOClient from "socket.io-client";
 import { FiBookmark } from "react-icons/fi"
 import NavBar from "../../components/NavBar"
 import MediaQuery from 'react-responsive';
+import {MainContent, Wrapper, DesktopButton, MobileButton, FeedContent, SearchBarWrapper} from "./styles"
 
 
 
@@ -182,45 +183,33 @@ const Home = (props: any) => {
     }
   };
   return (
-    <Container style={window.visualViewport.width <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0, display: "flex", flexDirection: "column", marginBottom: "2rem"} : {display: "flex", flexDirection: "row",}}>
+    <Wrapper>
       <NavBar />
       <Col>
-        <Col sm={12} style={{marginTop: "7%", marginLeft: "-5%"}}>
+        <MainContent sm={12}>
               <Row>
                 <h3 style={window.visualViewport.width <= 768 ? {marginLeft: '2.5rem'}: {}}>
                   <b>Swap Feed</b>
                 </h3>
                 <MediaQuery query="(min-device-width: 768px)">
-                  <Button
-                    style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginLeft: "45em"}}
-                    onClick={() => {
-                      props.history.push("/postad");
-                    }}
-                  >
-                    
+                  <DesktopButton onClick={() => {props.history.push("/postad");}}>
                     Post Swap
-                  </Button>
+                  </DesktopButton>
                 </MediaQuery>
               </Row>
               <MediaQuery query="(max-device-width: 768px)">
-                  <Button
-                    style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginTop: "5%", marginBottom: "10%", marginLeft: "1.6rem"}}
-                    onClick={() => {
-                      props.history.push("/postad");
-                    }}
-                  >
-                    
+                  <MobileButton onClick={() => {props.history.push("/postad");}}>
                     Post Swap
-                  </Button>
-                </MediaQuery>
-              <Row style={window.visualViewport.width <= 768 ? {} : {marginTop: "10vh"}}>
+                  </MobileButton>
+              </MediaQuery>
+              <FeedContent>
                 
                 <Col>
                   
-                  <Row style={window.visualViewport.width <= 768 ? {display:'none'}:{width: "20em", marginLeft: "45rem", marginBottom: "2rem"}}>
+                  <SearchBarWrapper>
                     <InputGroup className="mb-3">
                       <InputGroup.Prepend>
-                        <InputGroup.Text id="basic-addon1"><FiBookmark size={20} style={{color: "#43494f"}} /></InputGroup.Text>
+                        <InputGroup.Text id="basic-addon1"><FiBookmark size={20} color={"#43494f"}/></InputGroup.Text>
                       </InputGroup.Prepend>
                       <FormControl
                         placeholder="Search Offers"
@@ -228,7 +217,7 @@ const Home = (props: any) => {
                         aria-describedby="basic-addon1"
                       />
                     </InputGroup>
-                  </Row>
+                  </SearchBarWrapper>
 
                   <div className="scrollNoBar" style={{background: "transparent"}}>
                   <Row style={{marginBottom: "-1.2em", marginLeft: "1em"}}>
@@ -251,9 +240,9 @@ const Home = (props: any) => {
                       ))}
                   </div>
                 </Col>
-              </Row>
+              </FeedContent>
           
-        </Col>
+        </MainContent>
         <Col
           sm={3}
           style={{
@@ -291,7 +280,7 @@ const Home = (props: any) => {
           </>
         </Col>
       </Col>
-    </Container>
+    </Wrapper>
   );
 };
 

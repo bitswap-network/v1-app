@@ -4,13 +4,11 @@ import { RiUser3Line } from "react-icons/ri";
 import { ListingSchema } from "../interfaces";
 import { useAppSelector } from "../../components/hooks";
 import styled from "styled-components";
-import { RootState } from "../../store";
+import { RootState } from "../../reduxStore";
 import { connect } from "react-redux";
 import StyledContentLoader from "styled-content-loader";
 import MD5 from "crypto-js/md5";
-import MediaQuery from 'react-responsive';
-
-
+import MediaQuery from "react-responsive";
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
 const Wrapper = styled.section`
@@ -64,9 +62,9 @@ const Listing: React.FC<FeedListing> = (
   { listing, index, price, loading, history },
   props: any
 ) => {
-  const state = {modalOpen: false};
-  
-  const { user: currentUser } = useAppSelector((state) => state.auth);
+  const state = { modalOpen: false };
+
+  const { user: currentUser } = useAppSelector(state => state.auth);
   console.log(listing);
   const viewCheck = () => {
     if (listing.processing) {
@@ -84,22 +82,34 @@ const Listing: React.FC<FeedListing> = (
   };
   return (
     <>
-      <StyledContentLoader isLoading={false} >
+      <StyledContentLoader isLoading={false}>
         <hr></hr>
         <MediaQuery query="(max-device-width: 768px)">
-        <Row key={index} className="align-items-center" >
-            <Col style={{ marginRight: "0.3rem", marginLeft: "-0.3rem"}} xs={2}>
-                <img
+          <Row key={index} className="align-items-center">
+            <Col
+              style={{ marginRight: "0.3rem", marginLeft: "-0.3rem" }}
+              xs={2}
+            >
+              <img
                 src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
-                style={{ borderRadius: "60px", height: "auto", width:"5vh", marginLeft: "1.2em", marginRight: "1.3rem" }}
+                style={{
+                  borderRadius: "60px",
+                  height: "auto",
+                  width: "5vh",
+                  marginLeft: "1.2em",
+                  marginRight: "1.3rem"
+                }}
               />
             </Col>
-            <Col  xs={4}>
-              <p style={{fontSize: "0.8rem"}} className="userNameSellFeed">{"@"}{'Sigil Wen'}</p>
+            <Col xs={4}>
+              <p style={{ fontSize: "0.8rem" }} className="userNameSellFeed">
+                {"@"}
+                {"Sigil Wen"}
+              </p>
             </Col>
-            
+
             <Col xs={6}>
-              <p style={{fontSize: "0.8rem"}} className="detailsSellFeed">
+              <p style={{ fontSize: "0.8rem" }} className="detailsSellFeed">
                 {listing.bitcloutamount} @{" "}
                 {((listing.ethAmount * price) / listing.bitcloutamount).toFixed(
                   2
@@ -107,10 +117,14 @@ const Listing: React.FC<FeedListing> = (
                 $USD
               </p>
             </Col>
-          
-            <Col style={{marginLeft: "5rem", marginTop: "3%"}}>
+
+            <Col style={{ marginLeft: "5rem", marginTop: "3%" }}>
               <Button
-                style={{width: "10em", height: "2.5rem",backgroundColor: "#4263EB",}}
+                style={{
+                  width: "10em",
+                  height: "2.5rem",
+                  backgroundColor: "#4263EB"
+                }}
                 onClick={() => {
                   // history.push(`/buy/${listing._id}`);
                   state.modalOpen = true;
@@ -122,56 +136,67 @@ const Listing: React.FC<FeedListing> = (
             </Col>
           </Row>
         </MediaQuery>
-       
+
         <MediaQuery query="(min-device-width: 768px)">
-        <Wrapper key={index} style={{backgroundColor: "transparent", width: "100em"}}>
-          <Row key={index} className="align-items-center" >
-            <Col sm={0.2}>
+          <Wrapper
+            key={index}
+            style={{ backgroundColor: "transparent", width: "100em" }}
+          >
+            <Row key={index} className="align-items-center">
+              <Col sm={0.2}>
                 <img
-                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
-                style={{ borderRadius: "60px", height: "auto", width:"5vh", marginLeft: "1.2em", marginRight: "1.3rem" }}
-              />
-            </Col>
-            <Col style={{ textAlign: "left" }} sm={2}>
-              <p className="userNameSellFeed">{"@"}{'Sigil Wen'}</p>
-            </Col>
-            
-            <Col style={{ textAlign: "left",  }} sm={2} >
-              <p className="detailsSellFeed">
-                {listing.bitcloutamount} @{" "}
-                {((listing.ethAmount * price) / listing.bitcloutamount).toFixed(
-                  2
-                )}{" "}
-                $USD
-              </p>
-            </Col>
-            <Col style={{ textAlign: "center", marginRight: "5em"}} sm={2}>
-              <p className="detailsSellFeed">
-                {"<1 minute ago"}
-              </p>
-            </Col>
-            <Col sm={0} style={{marginLeft: "-4em"}}>
-              <Button
-                style={{width: "7em", backgroundColor: "#4263EB"}}
-                onClick={() => {
-                  // history.push(`/buy/${listing._id}`);
-                  state.modalOpen = true;
-                }}
-                disabled={viewCheck()}
-              >
-                Buy
-              </Button>
-            </Col>
-          </Row>
-          {listing.processing && (
-            <h5>Swap Ongoing w/ {listing.buyer.username}</h5>
-          )}
-        </Wrapper>
-        <ModaltoBuy
-        show={state.modalOpen}
-        onHide={() => console.log("hehy")}
-      />
-      </MediaQuery>
+                  src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                  style={{
+                    borderRadius: "60px",
+                    height: "auto",
+                    width: "5vh",
+                    marginLeft: "1.2em",
+                    marginRight: "1.3rem"
+                  }}
+                />
+              </Col>
+              <Col style={{ textAlign: "left" }} sm={2}>
+                <p className="userNameSellFeed">
+                  {"@"}
+                  {"Sigil Wen"}
+                </p>
+              </Col>
+
+              <Col style={{ textAlign: "left" }} sm={2}>
+                <p className="detailsSellFeed">
+                  {listing.bitcloutamount} @{" "}
+                  {(
+                    (listing.ethAmount * price) /
+                    listing.bitcloutamount
+                  ).toFixed(2)}{" "}
+                  $USD
+                </p>
+              </Col>
+              <Col style={{ textAlign: "center", marginRight: "5em" }} sm={2}>
+                <p className="detailsSellFeed">{"<1 minute ago"}</p>
+              </Col>
+              <Col sm={0} style={{ marginLeft: "-4em" }}>
+                <Button
+                  style={{ width: "7em", backgroundColor: "#4263EB" }}
+                  onClick={() => {
+                    // history.push(`/buy/${listing._id}`);
+                    state.modalOpen = true;
+                  }}
+                  disabled={viewCheck()}
+                >
+                  Buy
+                </Button>
+              </Col>
+            </Row>
+            {listing.processing && (
+              <h5>Swap Ongoing w/ {listing.buyer.username}</h5>
+            )}
+          </Wrapper>
+          <ModaltoBuy
+            show={state.modalOpen}
+            onHide={() => console.log("hehy")}
+          />
+        </MediaQuery>
       </StyledContentLoader>
     </>
   );

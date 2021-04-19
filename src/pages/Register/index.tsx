@@ -1,48 +1,54 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../App.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import env from "../../components/data/env.json";
-import { register } from "../../actions/auth";
-import { useAppSelector, useAppDispatch } from "../../components/hooks";
 import PasswordStrengthBar from "react-password-strength-bar";
-import Checkbox from "@material-ui/core/Checkbox";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
-import {Wrapper, LeftDisplay, RegArea, LogoRow, ImageRow, HaveAnAccountText, UserField, RegisterButton, MobileLogo} from "./styles"
-
+import {
+  Wrapper,
+  LeftDisplay,
+  RegArea,
+  LogoRow,
+  ImageRow,
+  HaveAnAccountText,
+  UserField,
+  RegisterButton,
+  MobileLogo
+} from "./styles";
 
 const Register = (props: any) => {
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [checked, setChecked] = useState(false);
+
   const [error, setError] = useState({
     username: false,
     email: false,
     bitcloutpubkey: false,
     ethereumaddress: false,
     password: false,
-    confirmPassword: false,
+    confirmPassword: false
   });
+
   const [creationerror, setCreationerror] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
   const [form, setForm] = useState({
     username: "" as string,
     email: "" as string,
     bitcloutpubkey: "" as string,
     ethereumaddress: "" as string,
     password: "" as string,
-    confirmPassword: "" as string,
+    confirmPassword: "" as string
   });
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
+
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
     setError({
       username: false,
@@ -50,10 +56,11 @@ const Register = (props: any) => {
       bitcloutpubkey: false,
       ethereumaddress: false,
       password: false,
-      confirmPassword: false,
+      confirmPassword: false
     });
     setCreationerror(false);
   };
+
   const valerrorHandler = () => {
     let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -63,7 +70,7 @@ const Register = (props: any) => {
       email: !regEmail.test(form.email) ? true : false,
       bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
       ethereumaddress: form.ethereumaddress.length !== 42 ? true : false,
-      password: form.password !== form.confirmPassword,
+      password: form.password !== form.confirmPassword
     });
 
     if (
@@ -78,6 +85,7 @@ const Register = (props: any) => {
       return true;
     }
   };
+
   const handleSubmit = () => {
     if (valerrorHandler()) {
       setLoading(true);
@@ -88,13 +96,13 @@ const Register = (props: any) => {
           email: form.email,
           password: form.password,
           bitcloutpubkey: form.bitcloutpubkey,
-          ethereumaddress: form.ethereumaddress,
+          ethereumaddress: form.ethereumaddress
         })
         .then(() => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch((err) => {
+        .catch(err => {
           //console.log("err", err.response);
           if (err.response.status === 403) {
             setErrorMsg(err.response.data.message);
@@ -116,22 +124,19 @@ const Register = (props: any) => {
   return (
     <Wrapper>
       {/* Image */}
-      <LeftDisplay sm={8} xl={window.innerWidth > 1600 ?  11 : 8}>
-
+      <LeftDisplay sm={8} xl={window.innerWidth > 1600 ? 11 : 8}>
         <LogoRow>
-          <img src={Logo} width={'18%'} height={'auto'} />
+          <img src={Logo} width={"18%"} height={"auto"} />
         </LogoRow>
         <ImageRow>
-          <img
-            src={RegImage} width={'100%'} height={'auto'}
-          />
+          <img src={RegImage} width={"100%"} height={"auto"} />
         </ImageRow>
       </LeftDisplay>
 
       {/* Registration Form */}
-      <RegArea  xs={12} sm={7} xxl={8} >
-         <MobileLogo>
-          <img src={Logo} width={"55%"} height={'auto'}/>
+      <RegArea xs={12} sm={7} xxl={8}>
+        <MobileLogo>
+          <img src={Logo} width={"55%"} height={"auto"} />
         </MobileLogo>
         {creationerror && <h5 className="error">{errorMsg}</h5>}
         {!successful && (
@@ -161,7 +166,7 @@ const Register = (props: any) => {
                   value={form.username}
                   onChange={handleNameChange}
                   error={error.username}
-                  style={{width: '90%'}}
+                  style={{ width: "90%" }}
                 />
               </Col>
             </Row>
@@ -175,8 +180,7 @@ const Register = (props: any) => {
                   value={form.email}
                   onChange={handleNameChange}
                   error={error.email}
-                  style={{width: '90%'}}
-
+                  style={{ width: "90%" }}
                 />
               </Col>
             </UserField>
@@ -189,7 +193,7 @@ const Register = (props: any) => {
                   value={form.bitcloutpubkey}
                   onChange={handleNameChange}
                   error={error.bitcloutpubkey}
-                  style={{width: '90%'}}
+                  style={{ width: "90%" }}
                 />
               </Col>
             </UserField>
@@ -202,7 +206,7 @@ const Register = (props: any) => {
                   value={form.ethereumaddress}
                   onChange={handleNameChange}
                   error={error.ethereumaddress}
-                  style={{width: '90%'}}
+                  style={{ width: "90%" }}
                 />
               </Col>
             </UserField>
@@ -216,7 +220,7 @@ const Register = (props: any) => {
                   value={form.password}
                   onChange={handleNameChange}
                   error={error.password}
-                  style={{width: '90%'}}
+                  style={{ width: "90%" }}
                 />
               </Col>
             </UserField>
@@ -230,7 +234,7 @@ const Register = (props: any) => {
                   value={form.confirmPassword}
                   onChange={handleNameChange}
                   error={error.confirmPassword}
-                  style={{width: '90%'}}
+                  style={{ width: "90%" }}
                 />
                 <PasswordStrengthBar
                   style={{ width: "90%", paddingTop: "20px" }}
@@ -239,7 +243,7 @@ const Register = (props: any) => {
               </Col>
             </UserField>
             {error.password ? (
-              <Row style={{color: "red"}}>
+              <Row style={{ color: "red" }}>
                 <Col>
                   <p>Passwords don't match!</p>
                 </Col>
@@ -248,9 +252,7 @@ const Register = (props: any) => {
 
             <Row>
               <Col>
-                <RegisterButton onClick={handleSubmit}>
-                  Register
-                </RegisterButton>
+                <RegisterButton onClick={handleSubmit}>Register</RegisterButton>
               </Col>
             </Row>
             <Row style={{ marginTop: "15px", textAlign: "center" }}>

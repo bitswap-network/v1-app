@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useAppSelector, useAppDispatch } from "../../components/hooks";
-import { Container, Row, Col, Button, InputGroup, FormControl } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  InputGroup,
+  FormControl
+} from "react-bootstrap";
 import { logout } from "../../actions/auth";
 import FeedListing from "../../components/FeedListing";
-import { RootState } from "../../store";
+import { RootState } from "../../reduxStore";
 import { ListingSchema } from "../../components/interfaces";
 import env from "../../components/data/env.json";
 import Ongoing from "../../components/Ongoing";
 import socketIOClient from "socket.io-client";
-import { FiBookmark } from "react-icons/fi"
-import NavBar from "../../components/NavBar"
-import MediaQuery from 'react-responsive';
-
-
+import { FiBookmark } from "react-icons/fi";
+import NavBar from "../../components/NavBar";
+import MediaQuery from "react-responsive";
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
-
-
 
 const Home = (props: any) => {
   // const state = store.getState();
@@ -67,21 +70,9 @@ const Home = (props: any) => {
 
   useEffect(() => {
     console.log();
-    setListings([  {bitCloutSent: false,
-      bitcloutTransactionId: "yessir",
-      bitcloutamount: 10,
-      buyer: null,
-      created: "yesterday",
-      escrowFull: false,
-      ethAmount: 10,
-      lister: null,
-      name: 'ues',
-      processing: false,
-      sold: false,
-      _id: 'yes',
-      escrowBalance: 10,
-      finalTransactionId: undefined},
-      {bitCloutSent: false,
+    setListings([
+      {
+        bitCloutSent: false,
         bitcloutTransactionId: "yessir",
         bitcloutamount: 10,
         buyer: null,
@@ -89,41 +80,62 @@ const Home = (props: any) => {
         escrowFull: false,
         ethAmount: 10,
         lister: null,
-        name: 'ues',
+        name: "ues",
         processing: false,
         sold: false,
-        _id: 'yes',
+        _id: "yes",
         escrowBalance: 10,
-        finalTransactionId: undefined},
-        {bitCloutSent: false,
-          bitcloutTransactionId: "yessir",
-          bitcloutamount: 10,
-          buyer: null,
-          created: "yesterday",
-          escrowFull: false,
-          ethAmount: 10,
-          lister: null,
-          name: 'ues',
-          processing: false,
-          sold: false,
-          _id: 'yes',
-          escrowBalance: 10,
-          finalTransactionId: undefined},
-          {bitCloutSent: false,
-            bitcloutTransactionId: "yessir",
-            bitcloutamount: 10,
-            buyer: null,
-            created: "yesterday",
-            escrowFull: false,
-            ethAmount: 10,
-            lister: null,
-            name: 'ues',
-            processing: false,
-            sold: false,
-            _id: 'yes',
-            escrowBalance: 10,
-            finalTransactionId: undefined}
-          ])
+        finalTransactionId: undefined
+      },
+      {
+        bitCloutSent: false,
+        bitcloutTransactionId: "yessir",
+        bitcloutamount: 10,
+        buyer: null,
+        created: "yesterday",
+        escrowFull: false,
+        ethAmount: 10,
+        lister: null,
+        name: "ues",
+        processing: false,
+        sold: false,
+        _id: "yes",
+        escrowBalance: 10,
+        finalTransactionId: undefined
+      },
+      {
+        bitCloutSent: false,
+        bitcloutTransactionId: "yessir",
+        bitcloutamount: 10,
+        buyer: null,
+        created: "yesterday",
+        escrowFull: false,
+        ethAmount: 10,
+        lister: null,
+        name: "ues",
+        processing: false,
+        sold: false,
+        _id: "yes",
+        escrowBalance: 10,
+        finalTransactionId: undefined
+      },
+      {
+        bitCloutSent: false,
+        bitcloutTransactionId: "yessir",
+        bitcloutamount: 10,
+        buyer: null,
+        created: "yesterday",
+        escrowFull: false,
+        ethAmount: 10,
+        lister: null,
+        name: "ues",
+        processing: false,
+        sold: false,
+        _id: "yes",
+        escrowBalance: 10,
+        finalTransactionId: undefined
+      }
+    ]);
 
     if (isLoggedIn) {
       if (!socketOn) {
@@ -141,7 +153,7 @@ const Home = (props: any) => {
       axios
         .get(`${env.url}/listings`, config)
         .then(response => {
-          console.log(response.data)
+          console.log(response.data);
           setListings(response.data);
           setLoading(false);
         })
@@ -182,77 +194,161 @@ const Home = (props: any) => {
     }
   };
   return (
-    <Container style={window.visualViewport.width <= 768 ? {marginLeft: 0, marginRight:0,paddingLeft: 0, paddingRight:0, display: "flex", flexDirection: "column", marginBottom: "2rem"} : {display: "flex", flexDirection: "row",}}>
+    <Container
+      style={
+        window.visualViewport.width <= 768
+          ? {
+              marginLeft: 0,
+              marginRight: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "2rem"
+            }
+          : { display: "flex", flexDirection: "row" }
+      }
+    >
       <NavBar />
       <Col>
-        <Col sm={12} style={{marginTop: "7%", marginLeft: "-5%"}}>
-              <Row>
-                <h3 style={window.visualViewport.width <= 768 ? {marginLeft: '2.5rem'}: {}}>
-                  <b>Swap Feed</b>
-                </h3>
-                <MediaQuery query="(min-device-width: 768px)">
-                  <Button
-                    style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginLeft: "45em"}}
-                    onClick={() => {
-                      props.history.push("/postad");
-                    }}
-                  >
-                    
-                    Post Swap
-                  </Button>
-                </MediaQuery>
+        <Col sm={12} style={{ marginTop: "7%", marginLeft: "-5%" }}>
+          <Row>
+            <h3
+              style={
+                window.visualViewport.width <= 768
+                  ? { marginLeft: "2.5rem" }
+                  : {}
+              }
+            >
+              <b>Swap Feed</b>
+            </h3>
+            <MediaQuery query="(min-device-width: 768px)">
+              <Button
+                style={{
+                  width: "10em",
+                  backgroundColor: "white",
+                  borderColor: "#4263EB",
+                  color: "#4263EB",
+                  marginLeft: "45em"
+                }}
+                onClick={() => {
+                  props.history.push("/postad");
+                }}
+              >
+                Post Swap
+              </Button>
+            </MediaQuery>
+          </Row>
+          <MediaQuery query="(max-device-width: 768px)">
+            <Button
+              style={{
+                width: "10em",
+                backgroundColor: "white",
+                borderColor: "#4263EB",
+                color: "#4263EB",
+                marginTop: "5%",
+                marginBottom: "10%",
+                marginLeft: "1.6rem"
+              }}
+              onClick={() => {
+                props.history.push("/postad");
+              }}
+            >
+              Post Swap
+            </Button>
+          </MediaQuery>
+          <Row
+            style={
+              window.visualViewport.width <= 768 ? {} : { marginTop: "10vh" }
+            }
+          >
+            <Col>
+              <Row
+                style={
+                  window.visualViewport.width <= 768
+                    ? { display: "none" }
+                    : {
+                        width: "20em",
+                        marginLeft: "45rem",
+                        marginBottom: "2rem"
+                      }
+                }
+              >
+                <InputGroup className="mb-3">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="basic-addon1">
+                      <FiBookmark size={20} style={{ color: "#43494f" }} />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    placeholder="Search Offers"
+                    aria-label="Search Offers"
+                    aria-describedby="basic-addon1"
+                  />
+                </InputGroup>
               </Row>
-              <MediaQuery query="(max-device-width: 768px)">
-                  <Button
-                    style={{width: "10em", backgroundColor: "white", borderColor: "#4263EB", color: "#4263EB", marginTop: "5%", marginBottom: "10%", marginLeft: "1.6rem"}}
-                    onClick={() => {
-                      props.history.push("/postad");
-                    }}
-                  >
-                    
-                    Post Swap
-                  </Button>
-                </MediaQuery>
-              <Row style={window.visualViewport.width <= 768 ? {} : {marginTop: "10vh"}}>
-                
-                <Col>
-                  
-                  <Row style={window.visualViewport.width <= 768 ? {display:'none'}:{width: "20em", marginLeft: "45rem", marginBottom: "2rem"}}>
-                    <InputGroup className="mb-3">
-                      <InputGroup.Prepend>
-                        <InputGroup.Text id="basic-addon1"><FiBookmark size={20} style={{color: "#43494f"}} /></InputGroup.Text>
-                      </InputGroup.Prepend>
-                      <FormControl
-                        placeholder="Search Offers"
-                        aria-label="Search Offers"
-                        aria-describedby="basic-addon1"
-                      />
-                    </InputGroup>
-                  </Row>
 
-                  <div className="scrollNoBar" style={{background: "transparent"}}>
-                  <Row style={{marginBottom: "-1.2em", marginLeft: "1em"}}>
-                    <p style={window.visualViewport.width <= 768 ? {marginRight: "6rem", color: "#C4C4C4", fontSize: "0.8em"}:{color: "#C4C4C4", marginRight: "22em", fontSize: "0.8em"}}>Username</p>
-                    <p style={window.visualViewport.width <= 768 ? { color: "#C4C4C4", fontSize: "0.8em"}:{color: "#C4C4C4", marginRight: "23em", fontSize: "0.8em"}}>Offer</p>
-                    <p style={window.visualViewport.width <= 768 ? {display:'none'}:{color: "#C4C4C4", fontSize: "0.8em"}}>Posted Time</p>
-                  </Row>
-                    {listings
-                      .slice(0)
-                      .reverse()
-                      .map((listing: any, i: number) => (
-                        <FeedListing
-                          listing={listing}
-                          price={price}
-                          index={i}
-                          key={i}
-                          loading={loading}
-                          history={props.history}
-                        />
-                      ))}
-                  </div>
-                </Col>
-              </Row>
-          
+              <div
+                className="scrollNoBar"
+                style={{ background: "transparent" }}
+              >
+                <Row style={{ marginBottom: "-1.2em", marginLeft: "1em" }}>
+                  <p
+                    style={
+                      window.visualViewport.width <= 768
+                        ? {
+                            marginRight: "6rem",
+                            color: "#C4C4C4",
+                            fontSize: "0.8em"
+                          }
+                        : {
+                            color: "#C4C4C4",
+                            marginRight: "22em",
+                            fontSize: "0.8em"
+                          }
+                    }
+                  >
+                    Username
+                  </p>
+                  <p
+                    style={
+                      window.visualViewport.width <= 768
+                        ? { color: "#C4C4C4", fontSize: "0.8em" }
+                        : {
+                            color: "#C4C4C4",
+                            marginRight: "23em",
+                            fontSize: "0.8em"
+                          }
+                    }
+                  >
+                    Offer
+                  </p>
+                  <p
+                    style={
+                      window.visualViewport.width <= 768
+                        ? { display: "none" }
+                        : { color: "#C4C4C4", fontSize: "0.8em" }
+                    }
+                  >
+                    Posted Time
+                  </p>
+                </Row>
+                {listings
+                  .slice(0)
+                  .reverse()
+                  .map((listing: any, i: number) => (
+                    <FeedListing
+                      listing={listing}
+                      price={price}
+                      index={i}
+                      key={i}
+                      loading={loading}
+                      history={props.history}
+                    />
+                  ))}
+              </div>
+            </Col>
+          </Row>
         </Col>
         <Col
           sm={3}

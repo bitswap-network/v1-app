@@ -1,17 +1,15 @@
-import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAppSelector } from "../../components/hooks";
-import env from "../data/env.json";
-import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { loggedInState, userState } from "../../store";
 
 const PrivateRoute = ({ component: Component, ...rest }: any) => {
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const user = useRecoilValue(userState);
 
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
+      render={props =>
+        user ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );

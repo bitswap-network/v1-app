@@ -3,15 +3,19 @@ import App from "./App";
 import ReactDOM from "react-dom";
 import React from "react";
 import "./index.css";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./reduxStore";
+import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <RecoilRoot>
+      <React.Suspense fallback={<></>}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </React.Suspense>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")
 );

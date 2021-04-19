@@ -1,6 +1,6 @@
 import env from "./data/env.json";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import type { RootState, AppDispatch } from "../store";
+import type { RootState, AppDispatch } from "../reduxStore";
 import { useRef, useEffect } from "react";
 
 const axios = require("axios");

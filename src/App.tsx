@@ -15,6 +15,11 @@ import { Router, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 
 import "./App.css";
+import { useEffect } from "react";
+import { getData, removeData } from "helpers/local";
+import { useSetRecoilState } from "recoil";
+import { userState } from "store";
+import { validateToken } from "services/requests";
 
 function App() {
   return (

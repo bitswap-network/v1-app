@@ -124,11 +124,7 @@ const EditProfile = (props: any) => {
   const handlePost = () => {
     if (valerrorHandler()) {
       setLoading(true);
-      // console.log({
-      //   name: form.name,
-      //   username: form.username,
-      //   bitcloutid: form.bitcloutid
-      // });
+
       let config = {
         headers: { Authorization: `Bearer ${currentUser.token}` },
       };

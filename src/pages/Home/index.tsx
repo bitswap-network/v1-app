@@ -16,10 +16,17 @@ import { RootState } from "../../reduxStore";
 import { ListingSchema } from "../../components/interfaces";
 import env from "../../components/data/env.json";
 import Ongoing from "../../components/Ongoing";
-import socketIOClient from "socket.io-client";
 import { FiBookmark } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import MediaQuery from "react-responsive";
+import {
+  MainContent,
+  Wrapper,
+  DesktopButton,
+  MobileButton,
+  FeedContent,
+  SearchBarWrapper
+} from "./styles";
 
 const mapStateToProps = (state: RootState) => ({ auth: state.auth });
 
@@ -36,37 +43,6 @@ const Home = (props: any) => {
   const [loading, setLoading] = useState(true);
   const [ongoingListings, setOngoingListings] = useState<ListingSchema[]>([]);
   const price = props.auth.priceFeed || 1;
-  const [socketOn, setSocketOn] = useState(false);
-  const socket = socketIOClient(`${env.url}`, {
-    autoConnect: false,
-    path: "/socket.io",
-    transports: ["websocket"],
-    secure: true
-  });
-  socket.on("connect", () => {
-    setSocketOn(true);
-    console.log("socket connected");
-  });
-
-  socket.on("disconnect", () => {
-    setSocketOn(false);
-    console.log("socket disconnected");
-  });
-  socket.on("usertoken", arg => {
-    console.log("socket usertoken", arg); // world
-  });
-  socket.on("listings", arg => {
-    console.log("socket listings", arg); // world
-    setListings(arg);
-  });
-  socket.on("ongoing", arg => {
-    console.log("ongoing listings", arg); // world
-    setOngoingListings(arg);
-  });
-  console.log(listings, price);
-  // if (currentUser && Object.keys(currentUser).length === 0) {
-  //   dispatch(logout() as any);
-  // }
 
   useEffect(() => {
     console.log();
@@ -138,18 +114,9 @@ const Home = (props: any) => {
     ]);
 
     if (isLoggedIn) {
-      if (!socketOn) {
-        let usertoken = currentUser.token;
-        socket.auth = { usertoken };
-        socket.connect();
-        setSocketOn(true);
-      }
       let config = {
         headers: { Authorization: `Bearer ${currentUser.token}` }
       };
-      axios.get(`${env.url}/verifytoken`, config).catch(err => {
-        dispatch(logout() as any);
-      });
       axios
         .get(`${env.url}/listings`, config)
         .then(response => {
@@ -178,10 +145,6 @@ const Home = (props: any) => {
           console.log(response.data);
         })
         .catch(error => console.log(error));
-    } else {
-      if (socketOn) {
-        socket.disconnect();
-      }
     }
   }, []);
   const scaler = () => {
@@ -194,24 +157,10 @@ const Home = (props: any) => {
     }
   };
   return (
-    <Container
-      style={
-        window.visualViewport.width <= 768
-          ? {
-              marginLeft: 0,
-              marginRight: 0,
-              paddingLeft: 0,
-              paddingRight: 0,
-              display: "flex",
-              flexDirection: "column",
-              marginBottom: "2rem"
-            }
-          : { display: "flex", flexDirection: "row" }
-      }
-    >
+    <Wrapper>
       <NavBar />
       <Col>
-        <Col sm={12} style={{ marginTop: "7%", marginLeft: "-5%" }}>
+        <MainContent sm={12}>
           <Row>
             <h3
               style={
@@ -223,61 +172,31 @@ const Home = (props: any) => {
               <b>Swap Feed</b>
             </h3>
             <MediaQuery query="(min-device-width: 768px)">
-              <Button
-                style={{
-                  width: "10em",
-                  backgroundColor: "white",
-                  borderColor: "#4263EB",
-                  color: "#4263EB",
-                  marginLeft: "45em"
-                }}
+              <DesktopButton
                 onClick={() => {
                   props.history.push("/postad");
                 }}
               >
                 Post Swap
-              </Button>
+              </DesktopButton>
             </MediaQuery>
           </Row>
           <MediaQuery query="(max-device-width: 768px)">
-            <Button
-              style={{
-                width: "10em",
-                backgroundColor: "white",
-                borderColor: "#4263EB",
-                color: "#4263EB",
-                marginTop: "5%",
-                marginBottom: "10%",
-                marginLeft: "1.6rem"
-              }}
+            <MobileButton
               onClick={() => {
                 props.history.push("/postad");
               }}
             >
               Post Swap
-            </Button>
+            </MobileButton>
           </MediaQuery>
-          <Row
-            style={
-              window.visualViewport.width <= 768 ? {} : { marginTop: "10vh" }
-            }
-          >
+          <FeedContent>
             <Col>
-              <Row
-                style={
-                  window.visualViewport.width <= 768
-                    ? { display: "none" }
-                    : {
-                        width: "20em",
-                        marginLeft: "45rem",
-                        marginBottom: "2rem"
-                      }
-                }
-              >
+              <SearchBarWrapper>
                 <InputGroup className="mb-3">
                   <InputGroup.Prepend>
                     <InputGroup.Text id="basic-addon1">
-                      <FiBookmark size={20} style={{ color: "#43494f" }} />
+                      <FiBookmark size={20} color={"#43494f"} />
                     </InputGroup.Text>
                   </InputGroup.Prepend>
                   <FormControl
@@ -286,7 +205,7 @@ const Home = (props: any) => {
                     aria-describedby="basic-addon1"
                   />
                 </InputGroup>
-              </Row>
+              </SearchBarWrapper>
 
               <div
                 className="scrollNoBar"
@@ -348,8 +267,8 @@ const Home = (props: any) => {
                   ))}
               </div>
             </Col>
-          </Row>
-        </Col>
+          </FeedContent>
+        </MainContent>
         <Col
           sm={3}
           style={{
@@ -359,7 +278,7 @@ const Home = (props: any) => {
           }}
         >
           <>
-            {isLoggedIn && currentUser.buying.state && (
+            {false && isLoggedIn && currentUser.buying.state && (
               <>
                 <h5>
                   <b>Ongoing Buy</b>
@@ -387,7 +306,7 @@ const Home = (props: any) => {
           </>
         </Col>
       </Col>
-    </Container>
+    </Wrapper>
   );
 };
 

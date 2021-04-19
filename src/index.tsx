@@ -10,9 +10,11 @@ import { RecoilRoot } from "recoil";
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <React.Suspense fallback={<></>}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </React.Suspense>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")

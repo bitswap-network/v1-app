@@ -19,6 +19,8 @@ import {
   RegisterButton,
   MobileLogo
 } from "./styles";
+import { register } from "services/auth";
+import { RiContactsBookLine } from "react-icons/ri";
 
 const Register = (props: any) => {
   const [successful, setSuccessful] = useState(false);
@@ -34,7 +36,7 @@ const Register = (props: any) => {
   });
 
   const [creationerror, setCreationerror] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const [form, setForm] = useState({
     username: "" as string,
@@ -90,34 +92,60 @@ const Register = (props: any) => {
     if (valerrorHandler()) {
       setLoading(true);
 
-      axios
-        .post(`${env.url}/auth/register`, {
-          username: form.username,
-          email: form.email,
-          password: form.password,
-          bitcloutpubkey: form.bitcloutpubkey,
-          ethereumaddress: form.ethereumaddress
-        })
+      register(
+        form.username,
+        form.email,
+        form.password,
+        form.bitcloutpubkey,
+        form.ethereumaddress
+      )
         .then(() => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(err => {
-          //console.log("err", err.response);
-          if (err.response.status === 403) {
-            setErrorMsg(err.response.data.message);
-          } else {
-            console.log(err.response);
-            setErrorMsg(
-              err.response.data.name === "MongoError"
-                ? `Field error: ${Object.keys(err.response.data.keyPattern)}`
-                : "Error while registering"
-            );
-          }
-          setCreationerror(true);
-          setSuccessful(false);
+        .catch(error => {
           setLoading(false);
+          if (error.response) {
+            if (error.response.status === 429) {
+              setErrorMsg(error.response.data.error.text);
+            } else {
+              setErrorMsg(error.response.data.message);
+            }
+          } else if (error.message) {
+            setErrorMsg(error.message);
+          } else {
+            setErrorMsg("An error occurred");
+          }
         });
+
+      // axios
+      //   .post(`${env.url}/auth/register`, {
+      //     username: form.username,
+      //     email: form.email,
+      //     password: form.password,
+      //     bitcloutpubkey: form.bitcloutpubkey,
+      //     ethereumaddress: form.ethereumaddress
+      //   })
+      //   .then(() => {
+      //     setSuccessful(true);
+      //     setLoading(false);
+      //   })
+      //   .catch(err => {
+      //     //console.log("err", err.response);
+      //     if (err.response.status === 403) {
+      //       setErrorMsg(err.response.data.message);
+      //     } else {
+      //       console.log(err.response);
+      //       setErrorMsg(
+      //         err.response.data.name === "MongoError"
+      //           ? `Field error: ${Object.keys(err.response.data.keyPattern)}`
+      //           : "Error while registering"
+      //       );
+      //     }
+      //     setCreationerror(true);
+      //     setSuccessful(false);
+      //     setLoading(false);
+      //   });
     }
   };
 
@@ -155,7 +183,7 @@ const Register = (props: any) => {
           </>
         )}
         {loading && <div className="loader"></div>}
-        {!successful && !loading && (
+        {!successful && (
           <>
             <Row style={{ marginTop: "5%", marginBottom: "3%" }}>
               <Col>
@@ -262,13 +290,23 @@ const Register = (props: any) => {
                 </a>
               </Col>
             </Row>
+            {errorMsg ? (
+              <Row style={{ marginTop: "15px", textAlign: "center" }}>
+                <Col>
+                  <p style={{ color: "red" }}>{errorMsg}</p>
+                </Col>
+              </Row>
+            ) : null}
           </>
         )}
         {successful && !loading && (
           <>
             <Row>
               <Col>
-                <h3>Account Created!</h3>
+                <h3 style={{ marginBottom: "30px" }}>
+                  Your account has been created! Please check your email for a
+                  verification link.
+                </h3>
               </Col>
             </Row>
             <Row>
@@ -278,7 +316,7 @@ const Register = (props: any) => {
                     props.history.push("/login");
                     window.location.reload();
                   }}
-                  style={{ height: "100%", width: "50%" }}
+                  style={{ height: "100%", width: "50%", padding: "10px" }}
                 >
                   Login
                 </Button>

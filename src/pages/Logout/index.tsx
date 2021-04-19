@@ -1,27 +1,19 @@
-import React, { useState, useEffect } from "react";
-import "../../App.css";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import env from "../../components/data/env.json";
-import { login, logout } from "../../actions/auth";
-import { useAppSelector, useAppDispatch } from "../../components/hooks";
-import { Redirect } from "react-router-dom";
+import { removeData } from "helpers/local";
+import { useEffect } from "react";
+import { Container } from "react-bootstrap";
+import { useSetRecoilState } from "recoil";
+import { userState } from "store";
 
 const Logout = (props: any) => {
-  const { isLoggedIn } = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch();
+  const setUser = useSetRecoilState(userState);
+
   useEffect(() => {
-    console.log(isLoggedIn);
-    if (isLoggedIn) {
-      dispatch(logout() as any);
-      props.history.push("/login");
-      window.location.reload();
-    } else {
-      props.history.push("/login");
-      window.location.reload();
-    }
-  }, []);
+    setUser(null);
+    removeData("user");
+    props.history.push("/");
+    window.location.reload();
+  }, [setUser]);
+
   return (
     <div className="App">
       <Container className="p-3">Logging out...</Container>

@@ -1,15 +1,15 @@
 import { Route, Redirect } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { loggedInState } from "../../store";
+import { loggedInState, userState } from "../../store";
 
 const PrivateRoute = ({ component: Component, ...rest }: any) => {
-  const isLoggedIn = useRecoilValue(loggedInState);
+  const user = useRecoilValue(userState);
 
   return (
     <Route
       {...rest}
       render={props =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
+        user ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );

@@ -1,123 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { useAppSelector } from "../../components/hooks";
 import {
   Container,
   Row,
   Col,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
 import env from "../../components/data/env.json";
 import UserListing from "../../components/UserListing";
 import { ListingSchema } from "../../components/interfaces";
-import { RootState } from "../../reduxStore";
+import { myListings } from "../../services/listings";
 import { FiBookmark } from "react-icons/fi";
 import NavBar from "components/NavBar";
+import { loggedInState, userState } from "store";
+import { useRecoilValue } from "recoil";
 
-const mapStateToProps = (state: RootState) => ({ auth: state.auth });
 const UserListings = (props: any) => {
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
-  const { isLoggedIn } = useAppSelector(state => state.auth);
-  const { user: currentUser } = useAppSelector(state => state.auth);
+
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [buylistings, setBuyListings] = useState<ListingSchema[]>([]);
   useEffect(() => {
-    //   let config = {
-    //     headers: {
-    //       Authorization: `Bearer ${currentUser.token}`,
-    //     },
-    //   };
-    //   axios
-    //     .post(
-    //       `${env.url}/listings/${currentUser.username}`,
-    //       { ongoing: "none" },
-    //       config
-    //     )
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       setListings(response.data);
-    //       setLoading(false);
-    //     });
-    //   axios
-    //     .post(
-    //       `${env.url}/buylistings/${currentUser.username}`,
-    //       { ongoing: "none" },
-    //       config
-    //     )
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       setBuyListings(response.data);
-    //       setLoading(false);
-    //     });
-    setListings([
-      {
-        bitCloutSent: true,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 5,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: true,
-        ethAmount: 10,
-        lister: null,
-        name: "vanish",
-        processing: true,
-        sold: false,
-        _id: "yessir",
-        escrowBalance: 10,
-        finalTransactionId: "yes"
-      },
-      {
-        bitCloutSent: true,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 5,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: true,
-        ethAmount: 10,
-        lister: null,
-        name: "vanish",
-        processing: true,
-        sold: false,
-        _id: "yessir",
-        escrowBalance: 10,
-        finalTransactionId: "yes"
-      },
-      {
-        bitCloutSent: true,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 5,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: true,
-        ethAmount: 10,
-        lister: null,
-        name: "vanish",
-        processing: true,
-        sold: false,
-        _id: "yessir",
-        escrowBalance: 10,
-        finalTransactionId: "yes"
-      },
-      {
-        bitCloutSent: true,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 5,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: true,
-        ethAmount: 10,
-        lister: null,
-        name: "vanish",
-        processing: true,
-        sold: false,
-        _id: "yessir",
-        escrowBalance: 10,
-        finalTransactionId: "yes"
-      }
-    ]);
+    myListings(user._id, user.token)
+      .then((resp) => {
+        setListings(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const Rows: Function = (groups: any[]): JSX.Element[] =>
@@ -136,22 +51,22 @@ const UserListings = (props: any) => {
         </>
       );
     });
-  const BuyRows: Function = (groups: any[]): JSX.Element[] =>
-    buylistings.map((buylistings: any, i: number) => {
-      return (
-        <>
-          {buylistings && (
-            <UserListing
-              listing={buylistings}
-              index={i}
-              history={props.history}
-              loading={loading}
-              buy={true}
-            />
-          )}
-        </>
-      );
-    });
+  // const BuyRows: Function = (groups: any[]): JSX.Element[] =>
+  //   buylistings.map((buylistings: any, i: number) => {
+  //     return (
+  //       <>
+  //         {buylistings && (
+  //           <UserListing
+  //             listing={buylistings}
+  //             index={i}
+  //             history={props.history}
+  //             loading={loading}
+  //             buy={true}
+  //           />
+  //         )}
+  //       </>
+  //     );
+  //   });
 
   return (
     <Container
@@ -163,9 +78,14 @@ const UserListings = (props: any) => {
               paddingLeft: 0,
               paddingRight: 0,
               display: "flex",
-              flexDirection: "column"
+              flexDirection: "column",
             }
-          : { display: "flex", flexDirection: "row" }
+          : {
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: 0,
+              marginRight: "1.3rem",
+            }
       }
     >
       <NavBar />
@@ -205,7 +125,7 @@ const UserListings = (props: any) => {
                         borderColor: "#4263EB",
                         color: "#4263EB",
                         marginTop: "2%",
-                        marginLeft: "2rem"
+                        marginLeft: "2rem",
                       }
                     : {
                         width: "10em",
@@ -213,7 +133,7 @@ const UserListings = (props: any) => {
                         borderColor: "#4263EB",
                         color: "#4263EB",
                         marginTop: "2%",
-                        marginLeft: "55rem"
+                        marginLeft: "55rem",
                       }
                 }
                 onClick={() => {
@@ -252,12 +172,12 @@ const UserListings = (props: any) => {
                         ? {
                             color: "#C4C4C4",
                             fontSize: "0.8em",
-                            marginRight: "4.5em"
+                            marginRight: "4.5em",
                           }
                         : {
                             color: "#C4C4C4",
                             marginRight: "14em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -270,7 +190,7 @@ const UserListings = (props: any) => {
                         : {
                             color: "#C4C4C4",
                             marginRight: "23em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -292,7 +212,7 @@ const UserListings = (props: any) => {
           )}
         </Col>
       </Row>
-      <Row className="align-items-center">
+      {/* <Row className="align-items-center">
         <Col>
           {isLoggedIn && buylistings.length > 0 && (
             <>
@@ -305,7 +225,7 @@ const UserListings = (props: any) => {
             </>
           )}
         </Col>
-      </Row>
+      </Row> */}
       <Row className="align-items-center">
         <Col>
           {isLoggedIn && (
@@ -316,7 +236,7 @@ const UserListings = (props: any) => {
                 backgroundColor: "white",
                 borderColor: "#4263EB",
                 color: "#4263EB",
-                marginTop: "2em"
+                marginTop: "2em",
               }}
               onClick={() => {
                 props.history.push("/postad");
@@ -332,4 +252,4 @@ const UserListings = (props: any) => {
   );
 };
 
-export default connect(mapStateToProps)(UserListings);
+export default UserListings;

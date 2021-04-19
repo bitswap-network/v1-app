@@ -1,21 +1,21 @@
-import { getData, removeData } from 'helpers/local';
-import { atom, selector } from 'recoil';
-import { validateToken } from 'services/requests';
+import { getData, removeData } from "helpers/local";
+import { atom, selector } from "recoil";
+import { validateToken } from "services/auth";
 
 export const userState = atom({
-  key: 'userState',
-  default: JSON.parse(getData("user"))
-})
+  key: "userState",
+  default: JSON.parse(getData("user")),
+});
 
 export const loggedInState = selector({
-  key: 'isLoggedIn',
-  get: async ({get}) => {
+  key: "isLoggedIn",
+  get: async ({ get }) => {
     const user = get(userState);
-    if (user && await validateToken(user.token)) {
+    if (user && (await validateToken(user.token))) {
       return true;
     } else {
       removeData("user");
       return false;
     }
-  }
+  },
 });

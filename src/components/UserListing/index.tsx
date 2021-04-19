@@ -2,15 +2,14 @@ import React from "react";
 import { Row, Col, Button, Container } from "react-bootstrap";
 import axios from "axios";
 import { ListingSchema } from "../interfaces";
-import { useAppSelector } from "../../components/hooks";
 import styled from "styled-components";
-import { RootState } from "../../reduxStore";
+
 import { connect } from "react-redux";
 import env from "../data/env.json";
 import StyledContentLoader from "styled-content-loader";
 import MediaQuery from "react-responsive";
-
-const mapStateToProps = (state: RootState) => ({ auth: state.auth });
+import { loggedInState, userState } from "store";
+import { useRecoilValue } from "recoil";
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -36,7 +35,8 @@ const Listing: React.FC<UserListing> = (
   { listing, index, history, loading, buy },
   props: any
 ) => {
-  const { user: currentUser } = useAppSelector(state => state.auth);
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
   console.log(props, listing);
 
   return (
@@ -49,18 +49,18 @@ const Listing: React.FC<UserListing> = (
           >
             <hr></hr>
             <Row key={index} className="align-items-center">
-              <Col style={{ textAlign: "left" }} xs={5}>
+              {/* <Col style={{ textAlign: "left" }} xs={5}>
                 <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
                   {listing.name}
                   <br></br>
                   {"listing"}
                 </p>
-              </Col>
+              </Col> */}
 
               <Col style={{ textAlign: "left" }} xs={6}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutamount} $Bitclout for {listing.ethAmount}{" "}
-                  $ETH
+                  {listing.bitcloutnanos / 1e9} $Bitclout for{" "}
+                  {listing.usdamount} $ETH
                 </p>
               </Col>
             </Row>
@@ -70,7 +70,7 @@ const Listing: React.FC<UserListing> = (
                   style={{
                     width: "12em",
                     backgroundColor: "#4263EB",
-                    marginTop: "1.3em"
+                    marginTop: "1.3em",
                   }}
                   onClick={() => {
                     // history.push(`/buy/${listing._id}`);
@@ -91,15 +91,15 @@ const Listing: React.FC<UserListing> = (
             <hr></hr>
             <Row key={index} className="align-items-center">
               <Col style={{ textAlign: "left" }} sm={2}>
-                <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
+                {/* <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
                   {listing.name}
-                </p>
+                </p> */}
               </Col>
 
               <Col style={{ textAlign: "left" }} sm={2}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutamount} $Bitclout for {listing.ethAmount}{" "}
-                  $ETH
+                  {listing.bitcloutnanos / 1e9} $Bitclout for{" "}
+                  {listing.usdamount} $ETH
                 </p>
               </Col>
               <Col style={{ textAlign: "center" }} sm={2}>
@@ -124,4 +124,4 @@ const Listing: React.FC<UserListing> = (
     </>
   );
 };
-export default connect(mapStateToProps)(Listing);
+export default Listing;

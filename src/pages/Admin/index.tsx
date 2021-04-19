@@ -11,26 +11,20 @@ import {
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import env from "../../components/data/env.json";
-import { logout } from "../../actions/auth";
-import { useAppSelector, useAppDispatch } from "../../components/hooks";
 import { Redirect } from "react-router-dom";
 import MD5 from "crypto-js/md5";
 import StyledContentLoader from "styled-content-loader";
-
+import { loggedInState, userState } from "store";
+import { useRecoilValue } from "recoil";
 const Web3 = require("web3");
 
 const Admin = (props: any) => {
-  const dispatch = useAppDispatch();
-
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
   const [email, setEmail] = useState("  ");
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
-
-  if (currentUser && Object.keys(currentUser).length === 0) {
-    dispatch(logout() as any);
-  }
 
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);

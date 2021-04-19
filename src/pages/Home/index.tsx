@@ -1,161 +1,54 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { useAppSelector, useAppDispatch } from "../../components/hooks";
 import {
   Container,
   Row,
   Col,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
-import { logout } from "../../actions/auth";
+import TextField from "@material-ui/core/TextField";
 import FeedListing from "../../components/FeedListing";
-import { RootState } from "../../reduxStore";
 import { ListingSchema } from "../../components/interfaces";
 import env from "../../components/data/env.json";
-import Ongoing from "../../components/Ongoing";
-import { FiBookmark } from "react-icons/fi";
+import { FiBookmark, FiX } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import MediaQuery from "react-responsive";
+import { getListings } from "../../services/listings";
+import { loggedInState, userState } from "store";
+import { useRecoilValue } from "recoil";
 import {
   MainContent,
   Wrapper,
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper
+  SearchBarWrapper,
 } from "./styles";
 
-const mapStateToProps = (state: RootState) => ({ auth: state.auth });
-
 const Home = (props: any) => {
-  // const state = store.getState();
-  const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector(state => state.auth);
-  // const { user: currentUserT } = useAppSelector(state => state.auth);
-  // const [currentUser, setCurrentUser] = useState(currentUserT);
-  const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
+
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [loading, setLoading] = useState(true);
-  const [ongoingListings, setOngoingListings] = useState<ListingSchema[]>([]);
-  const price = props.auth.priceFeed || 1;
+  const [showPostAd, setPostAdPart] = useState(false);
 
   useEffect(() => {
     console.log();
-    setListings([
-      {
-        bitCloutSent: false,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 10,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: false,
-        ethAmount: 10,
-        lister: null,
-        name: "ues",
-        processing: false,
-        sold: false,
-        _id: "yes",
-        escrowBalance: 10,
-        finalTransactionId: undefined
-      },
-      {
-        bitCloutSent: false,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 10,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: false,
-        ethAmount: 10,
-        lister: null,
-        name: "ues",
-        processing: false,
-        sold: false,
-        _id: "yes",
-        escrowBalance: 10,
-        finalTransactionId: undefined
-      },
-      {
-        bitCloutSent: false,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 10,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: false,
-        ethAmount: 10,
-        lister: null,
-        name: "ues",
-        processing: false,
-        sold: false,
-        _id: "yes",
-        escrowBalance: 10,
-        finalTransactionId: undefined
-      },
-      {
-        bitCloutSent: false,
-        bitcloutTransactionId: "yessir",
-        bitcloutamount: 10,
-        buyer: null,
-        created: "yesterday",
-        escrowFull: false,
-        ethAmount: 10,
-        lister: null,
-        name: "ues",
-        processing: false,
-        sold: false,
-        _id: "yes",
-        escrowBalance: 10,
-        finalTransactionId: undefined
-      }
-    ]);
-
-    if (isLoggedIn) {
-      let config = {
-        headers: { Authorization: `Bearer ${currentUser.token}` }
-      };
-      axios
-        .get(`${env.url}/listings`, config)
-        .then(response => {
-          console.log(response.data);
-          setListings(response.data);
-          setLoading(false);
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-      axios
-        .post(
-          `${env.url}/listings/${currentUser.username}`,
-          { ongoing: true },
-          config
-        )
-        .then(response => {
-          setOngoingListings(response.data);
-          console.log(response.data);
-        })
-        .catch(error => console.log(error));
-      axios
-        .post(`${env.url}/uid/`, { id: currentUser._id })
-        .then(response => {
-          setCurrentUser(response.data);
-          console.log(response.data);
-        })
-        .catch(error => console.log(error));
-    }
+    getListings()
+      .then((res) => {
+        setListings(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }, []);
-  const scaler = () => {
-    if (isLoggedIn && currentUser.buying) {
-      if (currentUser.buying.state) {
-        return 3;
-      }
-    } else {
-      return 0;
-    }
-  };
+
   return (
     <Wrapper>
       <NavBar />
@@ -174,7 +67,7 @@ const Home = (props: any) => {
             <MediaQuery query="(min-device-width: 768px)">
               <DesktopButton
                 onClick={() => {
-                  props.history.push("/postad");
+                  setPostAdPart(true);
                 }}
               >
                 Post Swap
@@ -218,12 +111,12 @@ const Home = (props: any) => {
                         ? {
                             marginRight: "6rem",
                             color: "#C4C4C4",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                         : {
                             color: "#C4C4C4",
                             marginRight: "22em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -236,7 +129,7 @@ const Home = (props: any) => {
                         : {
                             color: "#C4C4C4",
                             marginRight: "23em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -258,7 +151,7 @@ const Home = (props: any) => {
                   .map((listing: any, i: number) => (
                     <FeedListing
                       listing={listing}
-                      price={price}
+                      price={1}
                       index={i}
                       key={i}
                       loading={loading}
@@ -269,45 +162,121 @@ const Home = (props: any) => {
             </Col>
           </FeedContent>
         </MainContent>
-        <Col
-          sm={3}
+      </Col>
+      <Col
+        style={
+          showPostAd
+            ? {
+                flexDirection: "row",
+                transition: "margin-left 10s 1s",
+                display: "flex",
+                marginLeft: "-10%",
+                overflowX: "hidden",
+              }
+            : { display: "none" }
+        }
+        sm={3}
+      >
+        <div
           style={{
-            alignItems: "left",
-            textAlign: "center",
-            marginRight: "-100px"
+            borderLeft: "1px solid #DDE2E5",
+            height: "100vh",
+            width: "1rem",
+          }}
+        />
+
+        <Col
+          style={{
+            marginLeft: "2%",
+            marginTop: "15%",
           }}
         >
-          <>
-            {false && isLoggedIn && currentUser.buying.state && (
-              <>
-                <h5>
-                  <b>Ongoing Buy</b>
-                </h5>
-                <div style={{ marginBottom: "40%" }}>
-                  <Button
-                    onClick={() => {
-                      props.history.push(`/buy/${currentUser.buying.id}`);
-                    }}
-                  >
-                    View
-                  </Button>
-                </div>
-              </>
-            )}
+          <FiX
+            size={30}
+            color={"gray"}
+            style={{ marginLeft: "100%" }}
+            onClick={() => {
+              setPostAdPart(false);
+            }}
+          />
 
-            {ongoingListings && ongoingListings.length > 0 && (
-              <>
-                <h5>
-                  <b>Ongoing Sell</b>
-                </h5>
-                <Ongoing listings={ongoingListings} history={props.history} />
-              </>
-            )}
-          </>
+          <p style={{ fontSize: "2.5vh", marginTop: "15%" }}>
+            <b>Post Swap</b>
+          </p>
+          <TextField
+            id="username"
+            label="Bitclout Id"
+            variant="outlined"
+            fullWidth={true}
+            // onChange={handleNameChange}
+            size={"small"}
+            style={{ marginTop: "5%" }}
+            inputProps={{
+              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
+            }}
+          />
+          <TextField
+            id="username"
+            label="ETH Wallet Address"
+            variant="outlined"
+            fullWidth={true}
+            // onChange={handleNameChange}
+            size={"small"}
+            style={{ marginTop: "15%" }}
+            inputProps={{
+              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
+            }}
+          />
+          <TextField
+            id="username"
+            label="Amount of Bitclout"
+            variant="outlined"
+            fullWidth={true}
+            // onChange={handleNameChange}
+            size={"small"}
+            style={{ marginTop: "15%" }}
+            inputProps={{
+              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
+            }}
+          />
+          <TextField
+            id="username"
+            label="$USD per Bitclout"
+            variant="outlined"
+            fullWidth={true}
+            // onChange={handleNameChange}
+            size={"small"}
+            style={{ marginTop: "15%" }}
+            inputProps={{
+              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
+            }}
+          />
+          <TextField
+            id="username"
+            label="Amount of ETH"
+            variant="outlined"
+            fullWidth={true}
+            // onChange={handleNameChange}
+            size={"small"}
+            style={{ marginTop: "15%" }}
+            inputProps={{
+              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
+            }}
+          />
+          <Button
+            style={{
+              width: "10em",
+              height: "2.5rem",
+              backgroundColor: "#4263EB",
+              marginTop: "15%",
+            }}
+          >
+            Post Swap
+          </Button>
         </Col>
       </Col>
     </Wrapper>
   );
 };
 
-export default connect(mapStateToProps)(Home);
+export default Home;

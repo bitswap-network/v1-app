@@ -2,15 +2,13 @@ import React from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import { RiUser3Line } from "react-icons/ri";
 import { ListingSchema } from "../interfaces";
-import { useAppSelector } from "../../components/hooks";
 import styled from "styled-components";
-import { RootState } from "../../reduxStore";
 import { connect } from "react-redux";
 import StyledContentLoader from "styled-content-loader";
 import MD5 from "crypto-js/md5";
 import MediaQuery from "react-responsive";
-
-const mapStateToProps = (state: RootState) => ({ auth: state.auth });
+import { loggedInState, userState } from "store";
+import { useRecoilValue } from "recoil";
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -63,12 +61,13 @@ const Listing: React.FC<FeedListing> = (
   props: any
 ) => {
   const state = { modalOpen: false };
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
 
-  const { user: currentUser } = useAppSelector(state => state.auth);
   console.log(listing);
   const viewCheck = () => {
-    if (listing.processing) {
-      if (currentUser.username === listing.buyer.username) {
+    if (listing.ongoing) {
+      if (user.username === listing.buyer.username) {
         return false;
       } else {
         return true;
@@ -78,6 +77,19 @@ const Listing: React.FC<FeedListing> = (
       return true;
     } else {
       return false;
+    }
+  };
+  const dateRender = (date: Date) => {
+    let diffTime =
+      Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000;
+    if (diffTime < 60) {
+      return "<1 minute ago";
+    } else if (diffTime > 60 && diffTime < 3600) {
+      return `${diffTime / 60} minutes ago`;
+    } else if (diffTime > 3600 && diffTime < 86400) {
+      return `${(diffTime / 3600).toFixed(0)} hours ago`;
+    } else if (diffTime > 86400) {
+      return `${(diffTime / 86400).toFixed(0)} days ago`;
     }
   };
   return (
@@ -92,28 +104,27 @@ const Listing: React.FC<FeedListing> = (
             >
               <img
                 src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                alt="profile"
                 style={{
                   borderRadius: "60px",
                   height: "auto",
                   width: "5vh",
                   marginLeft: "1.2em",
-                  marginRight: "1.3rem"
+                  marginRight: "1.3rem",
                 }}
               />
             </Col>
             <Col xs={4}>
               <p style={{ fontSize: "0.8rem" }} className="userNameSellFeed">
                 {"@"}
-                {"Sigil Wen"}
+                {listing.seller.username}
               </p>
             </Col>
 
             <Col xs={6}>
               <p style={{ fontSize: "0.8rem" }} className="detailsSellFeed">
-                {listing.bitcloutamount} @{" "}
-                {((listing.ethAmount * price) / listing.bitcloutamount).toFixed(
-                  2
-                )}{" "}
+                {listing.bitcloutnanos / 1e9} @{" "}
+                {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
                 $USD
               </p>
             </Col>
@@ -123,7 +134,7 @@ const Listing: React.FC<FeedListing> = (
                 style={{
                   width: "10em",
                   height: "2.5rem",
-                  backgroundColor: "#4263EB"
+                  backgroundColor: "#4263EB",
                 }}
                 onClick={() => {
                   // history.push(`/buy/${listing._id}`);
@@ -151,29 +162,28 @@ const Listing: React.FC<FeedListing> = (
                     height: "auto",
                     width: "5vh",
                     marginLeft: "1.2em",
-                    marginRight: "1.3rem"
+                    marginRight: "1.3rem",
                   }}
                 />
               </Col>
               <Col style={{ textAlign: "left" }} sm={2}>
                 <p className="userNameSellFeed">
                   {"@"}
-                  {"Sigil Wen"}
+                  {listing.seller.username}
                 </p>
               </Col>
 
               <Col style={{ textAlign: "left" }} sm={2}>
                 <p className="detailsSellFeed">
-                  {listing.bitcloutamount} @{" "}
-                  {(
-                    (listing.ethAmount * price) /
-                    listing.bitcloutamount
-                  ).toFixed(2)}{" "}
+                  {listing.bitcloutnanos / 1e9} @{" "}
+                  {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(
+                    2
+                  )}{" "}
                   $USD
                 </p>
               </Col>
               <Col style={{ textAlign: "center", marginRight: "5em" }} sm={2}>
-                <p className="detailsSellFeed">{"<1 minute ago"}</p>
+                <p className="detailsSellFeed">{dateRender(listing.created)}</p>
               </Col>
               <Col sm={0} style={{ marginLeft: "-4em" }}>
                 <Button
@@ -188,9 +198,6 @@ const Listing: React.FC<FeedListing> = (
                 </Button>
               </Col>
             </Row>
-            {listing.processing && (
-              <h5>Swap Ongoing w/ {listing.buyer.username}</h5>
-            )}
           </Wrapper>
           <ModaltoBuy
             show={state.modalOpen}
@@ -201,4 +208,4 @@ const Listing: React.FC<FeedListing> = (
     </>
   );
 };
-export default connect(mapStateToProps)(Listing);
+export default Listing;

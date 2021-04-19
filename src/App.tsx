@@ -4,8 +4,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import PostAd from "./pages/PostAd";
-import Buy from "./pages/Buy";
-import Manage from "./pages/Manage";
+// import Buy from "./pages/Buy";
+// import Manage from "./pages/Manage";
 import UserListings from "./pages/UserListings";
 import EditProfile from "./pages/EditProfile";
 import Admin from "./pages/Admin";
@@ -15,11 +15,6 @@ import { Router, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 
 import "./App.css";
-import { useEffect } from "react";
-import { getData, removeData } from "helpers/local";
-import { useSetRecoilState } from "recoil";
-import { userState } from "store";
-import { validateToken } from "services/requests";
 
 function App() {
   return (
@@ -29,11 +24,11 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
       <PrivateRoute path="/postad" component={PostAd} />
-      <PrivateRoute path="/buy/:id" component={Buy} />
+      {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
       <PrivateRoute path="/userlistings" component={UserListings} />
       <PrivateRoute path="/profile" component={EditProfile} />
       <PrivateRoute path="/admin" component={Admin} />
-      <PrivateRoute path="/manage/:id" component={Manage} />
+      {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}
     </Router>
   );
 }

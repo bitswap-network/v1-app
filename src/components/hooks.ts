@@ -1,16 +1,9 @@
 import env from "./data/env.json";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import type { RootState, AppDispatch } from "../reduxStore";
 import { useRef, useEffect } from "react";
 
 const axios = require("axios");
 const url = require("url");
 
-export async function getContract(id: string) {
-  return await axios.get(`${env.url}/contracts/${id}`);
-}
-export const useAppDispatch = () => useDispatch<AppDispatch>();
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useInterval = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef(callback);
 

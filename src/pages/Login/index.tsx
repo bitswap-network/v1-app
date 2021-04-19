@@ -15,7 +15,7 @@ import {
   RegAccountText,
   UsernameRow,
   PasswordRow,
-  MobileLogo
+  MobileLogo,
 } from "./styles";
 import { login } from "services/auth";
 import { saveData } from "helpers/local";
@@ -28,7 +28,7 @@ const Login = (props: any) => {
 
   const [form, setForm] = useState({
     username: "" as string,
-    password: "" as string
+    password: "" as string,
   });
 
   const [error, setError] = useState(null);
@@ -36,13 +36,13 @@ const Login = (props: any) => {
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
   const handleLogin = () => {
     login(form.username, form.password)
-      .then(response => {
+      .then((response) => {
         if (response.status === 200) {
           saveData("user", JSON.stringify(response.data));
           setUser(response.data);

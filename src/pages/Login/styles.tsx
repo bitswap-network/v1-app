@@ -49,6 +49,7 @@ const MobileLogo = styled(Row)`
 
 const ImageRow = styled(Row)`
   margin-top: -5%;
+  overflow-y: hidden;
 `;
 
 const LoginText = styled.h3`
@@ -84,5 +85,5 @@ export {
   RegAccountText,
   UsernameRow,
   PasswordRow,
-  MobileLogo
+  MobileLogo,
 };

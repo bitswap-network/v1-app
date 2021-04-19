@@ -107,31 +107,34 @@ const Wallet = (props: any) => {
             </Row>
           </Col>
 
-          <Col sm={0}>
+          <Col>
             <Row>
               <div
                   style={{
-                    borderLeft: "1px solid #DDE2E5",
+                    borderRight: "1px solid #DDE2E5",
                     height: "100vh",
-                    width: "1rem",
+                    marginRight: 0,
+                    paddingRight: 0,
+                    width: "2rem"
                   }}
                 />
             </Row>
           </Col>
 
-          <Col sm={3} style={{marginTop: "6%"}}>
+          <Col sm={4} style={{marginTop: "6%"}}>
               <Row>
-                <h5 style={{fontWeight: 600,  marginLeft: "4%"}}>Transactions</h5>
+                <h5 style={{fontWeight: 600,  marginLeft: "10%"}}>Transactions</h5>
               </Row>
               <Row>
-                <p style={{color: "#ACB5BD", fontSize: "0.75rem", marginTop: "12%",  marginLeft: "4%"}}>Amount (BCL)</p>
+                <p style={{color: "#ACB5BD", fontSize: "0.75rem", marginTop: "12%",  marginLeft: "10%"}}>Amount (BCL)</p>
               </Row>
 
               {/* One Transaction */}
+              <div className="scrollNoBar">
               <Row>
                 <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
               </Row>
-              <Row style={{marginTop: "5%"}}>
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
                 <Col ><p style={{color: "#495057"}}>40</p></Col>
                 <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
               </Row>
@@ -140,7 +143,7 @@ const Wallet = (props: any) => {
               </Row>
 
 
-              <Row style={{marginTop: "5%"}}>
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
                 <Col ><p style={{color: "#495057"}}>40</p></Col>
                 <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
               </Row>
@@ -149,13 +152,61 @@ const Wallet = (props: any) => {
               </Row>
 
 
-              <Row style={{marginTop: "5%"}}>
-                <Col ><p style={{color: "#495057"}}>40</p></Col>
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>4000</p></Col>
                 <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
               </Row>
               <Row>
                 <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
               </Row>
+
+              
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>400000</p></Col>
+                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              </Row>
+              <Row>
+                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+              </Row>
+
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>400</p></Col>
+                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              </Row>
+              <Row>
+                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+              </Row>
+
+
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>120</p></Col>
+                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              </Row>
+              <Row>
+                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+              </Row>
+
+
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>420</p></Col>
+                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              </Row>
+              <Row>
+                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+              </Row>
+
+              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
+                <Col ><p style={{color: "#495057"}}>69</p></Col>
+                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              </Row>
+              <Row>
+                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+              </Row>
+
+              
+              </div>
+              
+            
 
           </Col>
         </>

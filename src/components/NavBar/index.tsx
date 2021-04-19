@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Container, Col, Navbar, Nav } from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
-import { FiHome, FiUploadCloud, FiInbox } from "react-icons/fi";
+import { FiHome, FiUploadCloud, FiInbox, FiMonitor } from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -51,6 +51,13 @@ const NavElement = (props: any) => {
       {props.label == " Listings" ? (
         <>
           <FiInbox size={18} style={{ color: "#43494f" }} />
+        </>
+      ) : (
+        <> </>
+      )}
+      {props.label == "  Wallet" ? (
+        <>
+          <FiMonitor size={18} style={{ color: "#43494f" }} />
         </>
       ) : (
         <> </>
@@ -107,7 +114,7 @@ export const NavBar: React.FC = (props: any) => {
 
       <MediaQuery query="(min-device-width: 768px)">
         <Col
-          style={{ flexDirection: "row", display: "flex", marginLeft: 0 }}
+          style={{ flexDirection: "row", display: "flex", marginLeft: 0}}
           sm={window.visualViewport.width > 1600 ? 6 : 4}
         >
           <Container
@@ -156,7 +163,16 @@ export const NavBar: React.FC = (props: any) => {
                       setCurrentPage={setCurrentPage}
                     />
                   </Row>
+                  <Row className="navRow" style={{ paddingTop: "6vh" }}>
+                    <NavElement
+                      label="  Wallet"
+                      linkto="/wallet"
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  </Row>
                 </>
+                
               ) : (
                 <>
                   <Row className="navRow">
@@ -179,7 +195,7 @@ export const NavBar: React.FC = (props: any) => {
               )}
 
               {user ? (
-                <Row style={{ paddingTop: "35vh", width: "150%" }}>
+                <Row style={{ paddingTop: "30vh", width: "150%" }}>
                   <img
                     src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
                     style={{

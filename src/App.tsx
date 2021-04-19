@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import PostAd from "./pages/PostAd";
+import Wallet from "./pages/Wallet"
 // import Buy from "./pages/Buy";
 // import Manage from "./pages/Manage";
 import UserListings from "./pages/UserListings";
@@ -23,8 +24,10 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
-      <PrivateRoute path="/postad" component={PostAd} />
+      <Route path="/wallet" component={Wallet} />
+
       {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
+      <PrivateRoute path="/postad" component={PostAd} />
       <PrivateRoute path="/userlistings" component={UserListings} />
       <PrivateRoute path="/profile" component={EditProfile} />
       <PrivateRoute path="/admin" component={Admin} />

@@ -13,7 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
 import env from "../../components/data/env.json";
-import { FiBookmark, FiX } from "react-icons/fi";
+import { FiBookmark, FiX, FiChevronUp, FiChevronDown } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import MediaQuery from "react-responsive";
 import { getListings, createListing } from "../../services/listings";
@@ -41,8 +41,10 @@ const Home = (props: any) => {
   const [showPostAd, setPostAdPart] = useState(false);
   const [bitcloutprice, setBitcloutprice] = useState(0);
   const [etherPrice, setetherPrice] = useState(0);
+  const [volumeSort, setVolumeSort] = useState("desc");
+  const [dateSort, setDateSort] = useState("desc");
   useEffect(() => {
-    getListings()
+    getListings(volumeSort, dateSort)
       .then((res) => {
         setListings(res.data);
         setLoading(false);
@@ -97,6 +99,33 @@ const Home = (props: any) => {
       });
     }
   };
+  const handleSort = (type: string) => {
+    if (type == "date") {
+      if (dateSort == "desc") {
+        setDateSort("asc");
+      } else {
+        setDateSort("desc");
+      }
+    }
+    if (type == "volume") {
+      if (volumeSort == "desc") {
+        setVolumeSort("asc");
+      } else {
+        setVolumeSort("desc");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getListings(volumeSort, dateSort)
+      .then((res) => {
+        console.log(res);
+        setListings(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [dateSort, volumeSort]);
 
   return (
     <Wrapper>
@@ -180,6 +209,7 @@ const Home = (props: any) => {
                   >
                     Username
                   </p>
+
                   <p
                     style={
                       window.visualViewport.width <= 768
@@ -192,7 +222,21 @@ const Home = (props: any) => {
                     }
                   >
                     Offer
+                    {/* {volumeSort === "desc" ? (
+                      <FiChevronDown
+                        size={20}
+                        color={"black"}
+                        onClick={() => handleSort("volume")}
+                      />
+                    ) : (
+                      <FiChevronUp
+                        size={20}
+                        color={"black"}
+                        onClick={() => handleSort("volume")}
+                      />
+                    )} */}
                   </p>
+
                   <p
                     style={
                       window.visualViewport.width <= 768
@@ -201,21 +245,31 @@ const Home = (props: any) => {
                     }
                   >
                     Posted Time
+                    {dateSort === "desc" ? (
+                      <FiChevronDown
+                        size={20}
+                        color={"black"}
+                        onClick={() => handleSort("date")}
+                      />
+                    ) : (
+                      <FiChevronUp
+                        size={20}
+                        color={"black"}
+                        onClick={() => handleSort("date")}
+                      />
+                    )}
                   </p>
                 </Row>
-                {listings
-                  .slice(0)
-                  .reverse()
-                  .map((listing: any, i: number) => (
-                    <FeedListing
-                      listing={listing}
-                      price={1}
-                      index={i}
-                      key={i}
-                      loading={loading}
-                      history={props.history}
-                    />
-                  ))}
+                {listings.map((listing: any, i: number) => (
+                  <FeedListing
+                    listing={listing}
+                    price={1}
+                    index={i}
+                    key={i}
+                    loading={loading}
+                    history={props.history}
+                  />
+                ))}
               </div>
             </Col>
           </FeedContent>

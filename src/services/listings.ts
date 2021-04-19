@@ -1,8 +1,10 @@
 import axios from "axios";
 const { url } = require("../helpers/config.json");
 
-async function getListings() {
-  return await axios.get(`${url}/listing/listings`);
+async function getListings(volumeSort: string, dateSort: string) {
+  return await axios.get(
+    `${url}/listing/listings?date=${dateSort}&volume=${volumeSort}`
+  );
 }
 
 // Get User Listings

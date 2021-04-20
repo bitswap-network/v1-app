@@ -28,7 +28,8 @@ const DesktopButton = styled(Button)`
   background-color: white;
   border-color: #4263eb;
   color: #4263eb;
-  margin-left: 45em;
+  margin-left: 40em;
+  margin-top: -2.5rem;
 `;
 
 const MobileButton = styled(Button)`

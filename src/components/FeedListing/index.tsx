@@ -167,14 +167,14 @@ const Listing: React.FC<FeedListing> = (
                   }}
                 />
               </Col>
-              <Col style={{ textAlign: "left" }} sm={2}>
+              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
                 <p className="userNameSellFeed">
                   {"@"}
                   {listing.seller.username}
                 </p>
               </Col>
 
-              <Col style={{ textAlign: "left" }} sm={2}>
+              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
                 <p className="detailsSellFeed">
                   {listing.bitcloutnanos / 1e9} @{" "}
                   {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(

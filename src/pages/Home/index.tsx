@@ -158,14 +158,14 @@ const Home = (props: any) => {
       </Modal>
       <Wrapper>
         <NavBar />
-        <Col>
-          <MainContent sm={12}>
+        <Col sm={window.visualViewport.width <= 1800 ? 9 : 0}>
+          <MainContent sm={window.visualViewport.width <= 1800 ? 12 : 12} >
             <Row>
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "2.5rem" }
-                    : {}
+                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
+                    : {marginLeft: "0.5rem"}
                 }
               >
                 <b>Swap Feed</b>
@@ -179,6 +179,8 @@ const Home = (props: any) => {
               >
                 {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
               </h5>
+              </Row>
+              <Row>
               <MediaQuery query="(min-device-width: 768px)">
                 <DesktopButton
                   onClick={() => {
@@ -188,7 +190,7 @@ const Home = (props: any) => {
                   Post Swap
                 </DesktopButton>
               </MediaQuery>
-            </Row>
+              </Row>
             <MediaQuery query="(max-device-width: 768px)">
               <MobileButton
                 onClick={() => {
@@ -200,26 +202,12 @@ const Home = (props: any) => {
             </MediaQuery>
             <FeedContent>
               <Col>
-                <SearchBarWrapper>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Prepend>
-                      <InputGroup.Text id="basic-addon1">
-                        <FiBookmark size={20} color={"#43494f"} />
-                      </InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl
-                      placeholder="Search Offers"
-                      aria-label="Search Offers"
-                      aria-describedby="basic-addon1"
-                    />
-                  </InputGroup>
-                </SearchBarWrapper>
 
                 <div
                   className="scrollNoBar"
                   style={{ background: "transparent" }}
                 >
-                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1em" }}>
+                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
                     <p
                       style={
                         window.visualViewport.width <= 768
@@ -230,7 +218,7 @@ const Home = (props: any) => {
                             }
                           : {
                               color: "#C4C4C4",
-                              marginRight: "22em",
+                              marginRight: window.visualViewport.width <= 1800 ? "10em" : "22em",
                               fontSize: "0.8em",
                             }
                       }
@@ -244,7 +232,7 @@ const Home = (props: any) => {
                           ? { color: "#C4C4C4", fontSize: "0.8em" }
                           : {
                               color: "#C4C4C4",
-                              marginRight: "23em",
+                              marginRight: window.visualViewport.width <= 1800 ? "14em" : "22em",
                               fontSize: "0.8em",
                             }
                       }
@@ -263,7 +251,7 @@ const Home = (props: any) => {
                       {dateSort === "desc" ? (
                         <FiChevronDown
                           size={20}
-                          color={"black"}
+                          color={"#C4C4C4"}
                           onClick={() => handleSort("date")}
                         />
                       ) : (
@@ -290,10 +278,16 @@ const Home = (props: any) => {
             </FeedContent>
           </MainContent>
         </Col>
-        <Col style={{ marginLeft: "-10%" }}>
+        <Col style={{ marginLeft: "-10%"  }} >
           <Row>
             <div
-              style={{
+              style={
+                window.visualViewport.width <= 1800 ? {                borderRight: "1px solid #DDE2E5",
+                height: "100vh",
+                paddingRight: 0,
+                width: "2rem",
+              marginLeft: "0.25rem"}:
+                {
                 borderRight: "1px solid #DDE2E5",
                 height: "100vh",
                 paddingRight: 0,

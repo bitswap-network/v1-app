@@ -8,244 +8,501 @@ import { Redirect } from "react-router-dom";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
-import { FiChevronsRight, FiCheck} from "react-icons/fi";
+import { FiChevronsRight, FiCheck, FiChevronLeft } from "react-icons/fi";
+import { RouteComponentProps } from "react-router-dom";
+import { ListingSchema } from "../../components/interfaces";
+import { getListing } from "../../services/listings";
+import LoadingIcons from "react-loading-icons";
 
-
-const SpecificListing = (props: any) => {
+const SpecificListing = (
+  { match }: RouteComponentProps<{ id: string }>,
+  props: any
+) => {
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-
- 
+  const [listing, setListing] = useState<ListingSchema>();
+  const [back, setBack] = useState(false);
+  console.log(listing);
   useEffect(() => {
-   
-  },);
+    if (isLoggedIn && match.params.id) {
+      getListing(user.token, match.params.id)
+        .then((response) => {
+          console.log(response.data);
+          setListing(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [isLoggedIn, match.params.id]);
 
-
-  return (
-    <Container
-      style={
-        window.innerWidth <= 768
-          ? { marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0 }
-          : {
-              display: "flex",
-              flexDirection: "row",
-              marginLeft: 0,
-              marginRight: "1.3rem",
-              
-            }
-      }
-    >
-      <NavBar />
+  if (!isLoggedIn) {
+    return <Redirect to="/logout" />;
+  }
+  if (!match.params.id) {
+    return <Redirect to="/logout" />;
+  }
+  if (back) {
+    return <Redirect to="/userlistings" />;
+  }
+  if (listing && isLoggedIn) {
+    return (
+      <Container
+        style={
+          window.innerWidth <= 768
+            ? {
+                marginLeft: 0,
+                marginRight: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+              }
+            : {
+                display: "flex",
+                flexDirection: "row",
+                marginLeft: "1.3rem",
+                marginRight: 0,
+              }
+        }
+      >
+        <NavBar />
         <>
           <Col
             style={
               window.innerWidth > 768
-                ? {marginTop: "5%"}
+                ? { marginTop: "8%" }
                 : { marginLeft: "8%" }
             }
             xs={window.innerWidth <= 768 ? 10 : 10}
-            xl={window.innerWidth >= 1600 ? 12 : 8}
+            xl={window.innerWidth >= 1600 ? 11 : 8}
           >
             <Row>
               <Col>
-                <h3 style={window.innerWidth <= 768 ? { marginTop: "5%" } : {}}>
-                  <b>My Listings</b>
-                </h3>
-                <h4 style={window.innerWidth <= 768 ? { marginTop: "2%", color: "#495057", fontSize: "1.35rem" } : {marginTop: "2.5%",color: "#9b9c9d", fontSize: "1.35rem"}}>
-                  Listing Number: 1023
+                <Row>
+                  <FiChevronLeft
+                    size={"1.5rem"}
+                    color="#cccee2"
+                    style={{
+                      marginRight: "1.5%",
+                      marginTop: "0.5%",
+                      textAlign: "center",
+                      justifyContent: "center",
+                      alignContent: "center",
+                    }}
+                    onClick={() => {
+                      setBack(true);
+                    }}
+                  />
+                  <h3
+                    style={window.innerWidth <= 768 ? { marginTop: "5%" } : {}}
+                  >
+                    <b>Listing Status</b>
+                  </h3>
+                </Row>
+                <h4
+                  style={
+                    window.innerWidth <= 768
+                      ? {
+                          marginTop: "2%",
+                          color: "#495057",
+                          fontSize: "1.35rem",
+                        }
+                      : {
+                          marginTop: "2.5%",
+                          color: "#9b9c9d",
+                          fontSize: "1.35rem",
+                        }
+                  }
+                >
+                  Listing Number: {listing._id}
                 </h4>
               </Col>
             </Row>
-            <Row style={{marginTop: "5%"}}>
+            <Row style={{ marginTop: "5%" }}>
               <Col sm={1}>
-                <FiCheck size={'2rem'} style={{ color: "white", backgroundColor: "#4263EB", borderRadius: 50/2, padding: "6px"}} />
-                <div
-                  style={{
-                    height: "17.5vh",
-                    backgroundColor: "#6494FF",
-                    marginRight: 0,
-                    paddingRight: 0,
-                    width: "0.2rem", 
-                    marginLeft: "45%",
-                    justifySelf: "center"
-                  }}
-                />
+                <div style={{ textAlign: "center" }}>
+                  {listing.buyer ? (
+                    <FiChevronsRight
+                      size={"2rem"}
+                      style={{
+                        color: "white",
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "6px",
+                      }}
+                    />
+                  ) : (
+                    <LoadingIcons.Rings
+                      stroke="#FFF"
+                      strokeOpacity="5"
+                      strokeWidth="1000"
+                      style={{
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "1px",
+                        width: "2em",
+                        height: "2rem",
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="listingLineDiv" />
               </Col>
-              <Col sm={6}>
-                  <p style={{color: "#4263EB", fontSize: "1.1rem", fontWeight: 600}}>$ETH Transfer to escrow</p>
-                  <p style={{color: "#6494FF", fontSize: "0.85rem"}}>Transfer from @john.smith complete</p>
+              {listing.buyer ? (
+                <>
+                  <Col sm={6}>
+                    <p
+                      style={{
+                        color: "#4263EB",
+                        fontSize: "1.1rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Buyer started transaction
+                    </p>
+                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      Transaction started by: ${listing.buyer.username}
+                    </p>
+                  </Col>
+                </>
+              ) : (
+                <>
+                  <Col sm={6}>
+                    <p
+                      style={{
+                        color: "#4263EB",
+                        fontSize: "1.1rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      No Buyer Yet
+                    </p>
+                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      Waiting for a buyer to start transaction
+                    </p>
+                  </Col>
+                </>
+              )}
+            </Row>
+
+            <Row>
+              <Col sm={1}>
+                <div style={{ textAlign: "center" }}>
+                  {listing.escrow.full ? (
+                    <FiChevronsRight
+                      size={"2rem"}
+                      style={{
+                        color: "white",
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "6px",
+                      }}
+                    />
+                  ) : (
+                    <LoadingIcons.Rings
+                      stroke="#FFF"
+                      strokeOpacity="5"
+                      strokeWidth="1000"
+                      style={{
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "1px",
+                        width: "2em",
+                        height: "2rem",
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="listingLineDiv" />
               </Col>
+              {listing.ongoing && !listing.escrow.full && (
+                <Col sm={8}>
+                  <p
+                    style={{
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Escrow Wallet Empty
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    Awaiting transfer to escrow wallet
+                  </p>
+                </Col>
+              )}
+              {listing.escrow.full && (
+                <Col sm={8}>
+                  <p
+                    style={{
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Escrow Full
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    ${listing.buyer.username} has transferred{" "}
+                    {listing.etheramount.toFixed(8)} $ETH to escrow
+                  </p>
+                </Col>
+              )}
             </Row>
             <Row>
               <Col sm={1}>
-                <FiChevronsRight size={'2rem'} style={{ color: "white", backgroundColor: "#6494FF", borderRadius: 50/2, padding: "6px"}} />
-                <div
+                <div style={{ textAlign: "center" }}>
+                  {listing.completed.status ? (
+                    <FiChevronsRight
+                      size={"2rem"}
+                      style={{
+                        color: "white",
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "6px",
+                      }}
+                    />
+                  ) : (
+                    <LoadingIcons.Rings
+                      stroke="#FFF"
+                      strokeOpacity="5"
+                      strokeWidth="1000"
+                      style={{
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "1px",
+                        width: "2em",
+                        height: "2rem",
+                      }}
+                    />
+                  )}
+                </div>
+                <div className="listingLineDivEnd" />
+              </Col>
+              {listing.completed.status ? (
+                <Col sm={8}>
+                  <p
                     style={{
-                      height: "49vh",
-                      backgroundColor: "#6494FF",
-                      marginRight: 0,
-                      paddingRight: 0,
-                      width: "0.2rem", 
-                      marginLeft: "45%",
-                      justifySelf: "center",
-                      overflow: 'hidden',
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
                     }}
-                  />
-              </Col>
-              <Col sm={8}>
-                <p style={{color: "#6494FF", fontSize: "1.1rem", fontWeight: 600}}>$BCL Transfer to escrow</p>
-                <p style={{color: "#6494FF", fontSize: "0.85rem"}}>Awaiting transfer to BitSwap Address ...</p>
-                <p style={{color: "#ACB5BD", fontSize: "0.8rem", marginTop: "1rem"}}>1. Copy Bitclout Public ID into <a style={{color: "#A8C2FF", fontStyle: "italic"}} href="https://bitclout.com/browse">Bitclout Explorer</a></p>
-                <p style={{color: "#ACB5BD", fontSize: "0.8rem", marginTop: "0rem"}}>2. Copy Transaction ID from Explorer</p>
-                <p style={{color: "#ACB5BD", fontSize: "0.8rem", marginTop: "0rem"}}>3. Paste into input field below to verify transaction</p>
-                <p style={{marginTop: "5%", color: "#ACB5BD"}}>BitClout Public ID: BC1YLiUNMPD6SS1dCzV7wocHtBr1RZ9k2DNwjRDQruBmdm4wL85e6KR</p>
-                <Button
-                      style={{
-                        width: "40%",
-                        backgroundColor: "#4263EB",
-                        borderColor: 'white',
-                        color: "white",
-                        fontSize: "0.85rem",
-                        padding: "1.2%",
-                        marginTop: "2.5%"
-                      }}
-                    >
-                      Copy Public ID
-                </Button>
-                <br />
-                <TextField
-                    id="transactiionID"
-                    label="Enter Transaction ID here"
-                    size={"small"}
-                    fullWidth={false}
-                    variant="outlined"
-                    style={{marginTop: "2rem"}}
-                  />
-                  <Button
-                      style={{
-                        width: "40%",
-                        backgroundColor: "#4263EB",
-                        borderColor: 'white',
-                        color: "white",
-                        fontSize: "0.85rem",
-                        padding: "1.2%",
-                        marginTop: "2.1rem",
-                        marginLeft: "5%"
-                      }}
-                    >
-                      Confirm Transaction
-                </Button>
-
-              </Col>
-              
+                  >
+                    Fulfillment complete!
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    {(listing.bitcloutnanos / 1e9).toFixed(3)} $BTCLT has been
+                    sent to {listing.buyer.username}
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    {listing.etheramount.toFixed(8)} $ETH has been sent to your
+                    Ethereum Wallet{" "}
+                    <i>
+                      <u>{user.ethereumaddress}</u>
+                    </i>
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    <b>Ethereum Txn ID:</b> <br></br>
+                    {listing.finalTransactionId}
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    <b>Bitclout Txn ID:</b> <br></br>
+                    {listing.bitcloutTransactionId}
+                  </p>
+                </Col>
+              ) : (
+                <Col sm={8}>
+                  <p
+                    style={{
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Escrow Full
+                  </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                    ${listing.buyer.username} has transferred $ETH to escrow
+                  </p>
+                </Col>
+              )}
             </Row>
           </Col>
 
           <Col>
             <Row>
               <div
-                  style={{
-                    borderRight: "1px solid #DDE2E5",
-                    height: "100vh",
-                    marginRight: 0,
-                    paddingRight: 0,
-                    width: "2rem"
-                  }}
-                />
+                style={{
+                  borderRight: "1px solid #DDE2E5",
+                  height: "1vh",
+                  marginRight: 0,
+                  paddingRight: 0,
+                  width: "2rem",
+                }}
+              />
             </Row>
           </Col>
 
-          <Col sm={4} style={{marginTop: "6%"}}>
-              <Row>
-                <h5 style={{fontWeight: 600,  marginLeft: "10%"}}>Seller Found</h5>
-              </Row>
-              <Row>
-                <p style={{color: "#ACB5BD", fontSize: "0.75rem", marginTop: "12%",  marginLeft: "10%"}}>Amount (BCL)</p>
-              </Row>
+          <Col sm={4} style={{ marginTop: "6%" }}>
+            <Row>
+              <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                Seller Found
+              </h5>
+            </Row>
+            <Row>
+              <p
+                style={{
+                  color: "#ACB5BD",
+                  fontSize: "0.75rem",
+                  marginTop: "12%",
+                  marginLeft: "10%",
+                }}
+              >
+                Amount (BCL)
+              </p>
+            </Row>
 
-              {/* One Transaction */}
-              <div className="scrollNoBar">
+            {/* One Transaction */}
+            <div className="scrollNoBar">
               <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
               </Row>
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>40</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
-              </Row>
-              <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
-              </Row>
-
-
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>40</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
-              </Row>
-              <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
-              </Row>
-
-
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>4000</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
-              </Row>
-              <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
-              </Row>
-
-              
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>400000</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>40</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
               </Row>
               <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
               </Row>
 
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>400</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>40</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
               </Row>
               <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
               </Row>
 
-
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>120</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
-              </Row>
-              <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
-              </Row>
-
-
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>420</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>4000</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
               </Row>
               <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
               </Row>
 
-              <Row style={{marginTop: "5%", marginLeft: "4%"}}>
-                <Col ><p style={{color: "#495057"}}>69</p></Col>
-                <Col><p style={{color: "#4263EB", fontSize: '1rem'}}>Details →</p></Col>
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>400000</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
               </Row>
               <Row>
-                <hr style={{borderTop: "1px solid #DDE2E5", width: "100rem"}} />
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
               </Row>
 
-              
-              </div>
-              
-            
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>400</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
 
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>120</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
+
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>420</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
+
+              <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>69</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                    Details →
+                  </p>
+                </Col>
+              </Row>
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
+            </div>
           </Col>
         </>
-    </Container>
-  );
+      </Container>
+    );
+  } else {
+    return null;
+  }
 };
 export default SpecificListing;
 export {};

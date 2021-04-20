@@ -94,13 +94,13 @@ const UserListings = (props: any) => {
     listings.map((listing: any, i: number) => {
       return (
         <>
-          {true && (
+          {isLoggedIn && (
             <UserListing
               listing={listing}
               index={i}
               history={props.history}
               loading={loading}
-              buy={false}
+              buy={true}
             />
           )}
         </>
@@ -145,12 +145,12 @@ const UserListings = (props: any) => {
       <NavBar />
       <Row style={{ width: "70em", marginTop: "8%", marginLeft: "-5rem" }}>
         <Col>
-          {listings.length == 0 && (
+          {listings.length === 0 && (
             <h3>
               <b>No Listings</b>
             </h3>
           )}
-          {true && listings.length > 0 && (
+          {isLoggedIn && (
             <>
               <h3
                 style={
@@ -214,7 +214,7 @@ const UserListings = (props: any) => {
                           }
                     }
                   >
-                    Listing Name
+                    Transactor Name
                   </p>
                   <p
                     style={
@@ -239,7 +239,7 @@ const UserListings = (props: any) => {
                     Posted Time
                   </p>
                 </Row>
-                <Rows />
+                {listings.length > 0 && <Rows />}
               </div>
             </>
           )}
@@ -308,31 +308,7 @@ const UserListings = (props: any) => {
         <p style={{ fontSize: "2.5vh" }}>
           <b>Post Swap</b>
         </p>
-        {/* <TextField
-            id="username"
-            label="Bitclout Id"
-            variant="outlined"
-            fullWidth={true}
-            value={user.bitcloutpubkey}
-            // onChange={handleNameChange}
-            size={"small"}
-            style={{ marginTop: "5%" }}
-            inputProps={{
-              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
-            }}
-          /> */}
-        {/* <TextField
-            id="username"
-            label="ETH Wallet Address"
-            variant="outlined"
-            fullWidth={true}
-            // onChange={handleNameChange}
-            size={"small"}
-            style={{ marginTop: "15%" }}
-            inputProps={{
-              style: { fontSize: "1vh", height: "2vh", fontStyle: "lato" },
-            }}
-          /> */}
+
         <TextField
           id="username"
           label="Amount of Bitclout"

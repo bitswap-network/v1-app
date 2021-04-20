@@ -78,3 +78,23 @@ h3 {
 .error {
   color: tomato;
 }
+.listingLineDiv {
+  height: 12.5vh;
+  background-color: #6494ff;
+  margin-right: 0;
+  padding-right: 0;
+  width: 0.2rem;
+  margin-left: 45%;
+  justify-self: center;
+}
+.listingLineDivEnd {
+  height: 100%;
+  background-color: #6494ff;
+  margin-right: 0;
+  padding-right: 0;
+  width: 0.2rem;
+  margin-left: 45%;
+  justify-self: center;
+  overflow: hidden;
+  bottom: 0%;
+}

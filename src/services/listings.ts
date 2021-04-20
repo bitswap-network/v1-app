@@ -7,9 +7,15 @@ async function getListings(volumeSort: string, dateSort: string) {
   );
 }
 
+async function getListing(token: string, id: string) {
+  return await axios.get(`${url}/listing/listing/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 // Get User Listings
 async function myListings(userId: string, token: string) {
-  return await axios.get(`${url}/listing/listings/${userId}`, {
+  return await axios.get(`${url}/listing/mylistings`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
@@ -42,4 +48,4 @@ async function buyListing(token: string, id: string) {
   );
 }
 
-export { getListings, myListings, createListing };
+export { getListings, getListing, myListings, createListing };

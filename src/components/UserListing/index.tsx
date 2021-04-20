@@ -38,7 +38,19 @@ const Listing: React.FC<UserListing> = (
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   console.log(props, listing);
-
+  const dateRender = (date: Date) => {
+    let diffTime =
+      Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000;
+    if (diffTime < 60) {
+      return "<1 minute ago";
+    } else if (diffTime > 60 && diffTime < 3600) {
+      return `${diffTime / 60} minutes ago`;
+    } else if (diffTime > 3600 && diffTime < 86400) {
+      return `${(diffTime / 3600).toFixed(0)} hours ago`;
+    } else if (diffTime > 86400) {
+      return `${(diffTime / 86400).toFixed(0)} days ago`;
+    }
+  };
   return (
     <>
       <Container>
@@ -49,18 +61,21 @@ const Listing: React.FC<UserListing> = (
           >
             <hr></hr>
             <Row key={index} className="align-items-center">
-              {/* <Col style={{ textAlign: "left" }} xs={5}>
+              <Col style={{ textAlign: "left" }} xs={5}>
                 <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.name}
+                  {listing.buyer
+                    ? `${listing.buyer.username}`
+                    : "No Transactor"}
                   <br></br>
-                  {"listing"}
                 </p>
-              </Col> */}
+              </Col>
 
               <Col style={{ textAlign: "left" }} xs={6}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutnanos / 1e9} $Bitclout for{" "}
-                  {listing.usdamount} $ETH
+                  {listing.bitcloutnanos / 1e9} $BTCLT @
+                </p>
+                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+                  {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
                 </p>
               </Col>
             </Row>
@@ -68,15 +83,15 @@ const Listing: React.FC<UserListing> = (
               <Col sm={0}>
                 <Button
                   style={{
-                    width: "12em",
+                    width: "10em",
                     backgroundColor: "#4263EB",
                     marginTop: "1.3em",
                   }}
                   onClick={() => {
-                    // history.push(`/buy/${listing._id}`);
+                    history.push(`/listing/${listing._id}`);
                   }}
                 >
-                  Delete Offer
+                  View
                 </Button>
               </Col>
             </Col>
@@ -91,30 +106,34 @@ const Listing: React.FC<UserListing> = (
             <hr></hr>
             <Row key={index} className="align-items-center">
               <Col style={{ textAlign: "left" }} sm={2}>
-                {/* <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.name}
-                </p> */}
+                <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
+                  {listing.buyer
+                    ? `${listing.buyer.username}`
+                    : "No Transactor"}
+                </p>
               </Col>
 
               <Col style={{ textAlign: "left" }} sm={2}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutnanos / 1e9} $Bitclout for{" "}
-                  {listing.usdamount} $ETH
+                  {listing.bitcloutnanos / 1e9} $BTCLT @
+                </p>
+                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+                  {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
                 </p>
               </Col>
               <Col style={{ textAlign: "center" }} sm={2}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {"<1 minute ago"}
+                  {dateRender(listing.created)}
                 </p>
               </Col>
               <Col sm={1}>
                 <Button
-                  style={{ width: "12em", backgroundColor: "#4263EB" }}
+                  style={{ width: "10em", backgroundColor: "#4263EB" }}
                   onClick={() => {
-                    // history.push(`/buy/${listing._id}`);
+                    history.push(`/listing/${listing._id}`);
                   }}
                 >
-                  Delete Offer
+                  View
                 </Button>
               </Col>
             </Row>

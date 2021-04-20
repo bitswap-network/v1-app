@@ -38,6 +38,7 @@ export const validateToken = async (token: string) => {
       }
     })
     .catch((error) => {
+      console.log(error);
       return false;
     });
 };

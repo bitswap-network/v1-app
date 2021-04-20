@@ -44,4 +44,9 @@ const forgotPassword = async (email: string) => {
   return await axios.post(`${url}/user/forgotpassword`, { email: email });
 };
 
-export { updatePassword, updateProfile, forgotPassword };
+const getTransactions = async (token: string) => {
+  return await axios.get(`${url}/user/transactions`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+export { updatePassword, updateProfile, forgotPassword, getTransactions };

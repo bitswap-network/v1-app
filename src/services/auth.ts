@@ -26,12 +26,18 @@ export const register = async (
 
 // Validate Token
 export const validateToken = async (token: string) => {
-  const response = await axios.get(`${url}/auth/verifytoken`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-  if (response.status === 204) {
-    return true;
-  } else {
-    return false;
-  }
+  return await axios
+    .get(`${url}/auth/verifytoken`, {
+      headers: { authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      if (response.status === 204) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((error) => {
+      return false;
+    });
 };

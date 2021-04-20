@@ -4,8 +4,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import PostAd from "./pages/PostAd";
-import Wallet from "./pages/Wallet"
-import SpecificListing from "./pages/SpecificListing"
+import Wallet from "./pages/Wallet";
+import SpecificListing from "./pages/SpecificListing";
 // import Buy from "./pages/Buy";
 // import Manage from "./pages/Manage";
 import UserListings from "./pages/UserListings";
@@ -26,7 +26,6 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
       <Route path="/specificlisting" component={SpecificListing} />
-
 
       {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
       <Route path="/wallet" component={Wallet} />

@@ -23,6 +23,7 @@ async function myListings(userId: string, token: string) {
 async function createListing(
   bitcloutamount: number,
   usdamount: number,
+  etheramount: number,
   token: string
 ) {
   return await axios.post(
@@ -30,6 +31,7 @@ async function createListing(
     {
       saletype: "USD",
       bitcloutnanos: bitcloutamount * 1e9,
+      etheramount: etheramount,
       usdamount: usdamount,
     },
     {

@@ -84,6 +84,7 @@ const UserListings = (props: any) => {
       createListing(
         parseFloat(amountBitclout),
         parseFloat(usdPerBitclout),
+        (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) / etherPrice,
         user.token
       ).then((response) => {
         console.log(response);
@@ -159,7 +160,7 @@ const UserListings = (props: any) => {
                     : {}
                 }
               >
-                <b>My Listings</b>
+                <b>My Swaps</b>
               </h3>
               {/* <h4
                 style={

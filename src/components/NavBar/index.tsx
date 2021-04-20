@@ -192,9 +192,20 @@ export const NavBar: React.FC = (props: any) => {
                   </Row>
                 </>
               )}
+              <Row
+                style={{
+                  marginTop: "30vh",
+                  textAlign: "left",
+                  width: "150%",
+                }}
+              >
+                <p>
+                  <b>Balance: {user.bitswapbalance / 1e9} $BTCLT</b>
+                </p>
+              </Row>
 
               {user ? (
-                <Row style={{ paddingTop: "30vh", width: "150%" }}>
+                <Row style={{ width: "150%" }}>
                   <img
                     src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
                     style={{

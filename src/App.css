@@ -36,6 +36,17 @@ h3 {
   display: none;
 }
 
+.scrollNoBarSplit {
+  overflow-y: scroll;
+  max-height: 50vh;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollNoBarSplit::-webkit-scrollbar {
+  display: none;
+}
+
 .userNameSellFeed {
   font-weight: 400;
   font-size: 0.9em;
@@ -46,6 +57,10 @@ h3 {
   font-weight: 400;
   font-size: 0.9em;
   margin: auto;
+}
+
+.hoverCursor:hover {
+  cursor: pointer;
 }
 
 .loader {

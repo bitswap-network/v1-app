@@ -152,8 +152,7 @@ const Wallet = (props: any) => {
             : {
                 display: "flex",
                 flexDirection: "row",
-                marginLeft: 0,
-                marginRight: "1.3rem",
+                marginLeft: "1.3rem",
               }
         }
       >

@@ -37,6 +37,7 @@ const UserListings = (props: any) => {
   const [etherPrice, setetherPrice] = useState(0);
   const [showPostAd, setPostAdPart] = useState(false);
   useEffect(() => {
+    console.log(user);
     myListings(user._id, user.token)
       .then((resp) => {
         setListings(resp.data);
@@ -137,13 +138,12 @@ const UserListings = (props: any) => {
           : {
               display: "flex",
               flexDirection: "row",
-              marginLeft: 0,
-              marginRight: "1.3rem",
+              marginLeft: "1.3rem",
             }
       }
     >
       <NavBar />
-      <Row style={{ width: "70em", marginTop: "8%" }}>
+      <Row style={{ width: "70em", marginTop: "8%", marginLeft: "-5rem" }}>
         <Col>
           {listings.length == 0 && (
             <h3>
@@ -161,7 +161,7 @@ const UserListings = (props: any) => {
               >
                 <b>My Listings</b>
               </h3>
-              <h4
+              {/* <h4
                 style={
                   window.visualViewport.width <= 768
                     ? { marginTop: "1em", marginLeft: "2rem" }
@@ -169,7 +169,7 @@ const UserListings = (props: any) => {
                 }
               >
                 Listing Feed
-              </h4>
+              </h4> */}
               <Button
                 style={
                   window.visualViewport.width <= 768
@@ -196,27 +196,6 @@ const UserListings = (props: any) => {
               >
                 Post Swap
               </Button>
-              <Row
-                style={
-                  window.visualViewport.width <= 768
-                    ? { width: "16em", marginTop: "2em", marginLeft: "2rem" }
-                    : { width: "20em", marginLeft: "45rem", marginTop: "2em" }
-                }
-              >
-                <InputGroup className="mb-3">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text id="basic-addon1">
-                      <FiBookmark size={20} style={{ color: "#43494f" }} />
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    placeholder="Search Listings"
-                    aria-label="Search Listings"
-                    aria-describedby="basic-addon1"
-                  />
-                </InputGroup>
-                <p></p>
-              </Row>
 
               <div className="scrollNoBar" style={{ marginTop: "2em" }}>
                 <Row style={{ marginBottom: "-1.2em", marginLeft: "2em" }}>
@@ -282,7 +261,7 @@ const UserListings = (props: any) => {
       </Row> */}
       <Row className="align-items-center">
         <Col>
-          {isLoggedIn && (
+          {isLoggedIn && listings.length === 0 && (
             <Button
               style={{
                 height: "100%",
@@ -312,9 +291,10 @@ const UserListings = (props: any) => {
 
       <Col
         style={{
-          marginLeft: "2%",
-          marginTop: "15%",
+          marginLeft: "5%",
+          marginTop: "5%",
         }}
+        sm={3}
       >
         <FiX
           size={30}
@@ -325,7 +305,7 @@ const UserListings = (props: any) => {
           }}
         />
 
-        <p style={{ fontSize: "2.5vh", marginTop: "15%" }}>
+        <p style={{ fontSize: "2.5vh" }}>
           <b>Post Swap</b>
         </p>
         {/* <TextField
@@ -381,7 +361,7 @@ const UserListings = (props: any) => {
             style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
           }}
         />
-        <h5>
+        <h5 style={{ marginTop: "10%", fontSize: "1rem" }}>
           Total $USD:{" "}
           {parseFloat(amountBitclout) > 0 && parseFloat(usdPerBitclout) > 0
             ? (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)).toFixed(
@@ -389,7 +369,7 @@ const UserListings = (props: any) => {
               )
             : `0`}
         </h5>
-        <h5>
+        <h5 style={{ marginTop: "7.5%", fontSize: "1rem" }}>
           Total $ETH: ~
           {parseFloat(amountBitclout) > 0 &&
           parseFloat(usdPerBitclout) > 0 &&
@@ -405,7 +385,7 @@ const UserListings = (props: any) => {
             width: "10em",
             height: "2.5rem",
             backgroundColor: "#4263EB",
-            marginTop: "15%",
+            marginTop: "12%",
           }}
           disabled={usdPerError || amountError}
           onClick={submitPost}

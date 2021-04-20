@@ -91,7 +91,7 @@ export const NavBar: React.FC = (props: any) => {
           <Navbar expand="lg">
             <img
               src={Logo}
-              width={"40%"}
+              width={"30%"}
               height={"auto"}
               style={{ paddingTop: "2%", paddingLeft: "2%" }}
             />
@@ -100,7 +100,7 @@ export const NavBar: React.FC = (props: any) => {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/">Swap Feed</Nav.Link>
-                <Nav.Link href="/PostAd">Post Ad</Nav.Link>
+                {/* <Nav.Link href="/PostAd">Post Ad</Nav.Link> */}
                 <Nav.Link href="/userlistings">My Listings</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/logout" style={{ color: "red" }}>
@@ -114,8 +114,8 @@ export const NavBar: React.FC = (props: any) => {
 
       <MediaQuery query="(min-device-width: 768px)">
         <Col
-          style={{ flexDirection: "row", display: "flex", marginLeft: 0}}
-          sm={window.visualViewport.width > 1600 ? 6 : 4}
+          style={{ flexDirection: "row", display: "flex", marginLeft: 0 }}
+          sm={window.visualViewport.width > 1600 ? 5 : 4}
         >
           <Container
             style={{
@@ -129,7 +129,7 @@ export const NavBar: React.FC = (props: any) => {
             <Row style={{ marginTop: "5px", height: "10%" }}>
               <img
                 src={Logo}
-                width={"110%"}
+                width={"80%"}
                 height={"auto"}
                 style={{ marginTop: "20%" }}
               />
@@ -172,7 +172,6 @@ export const NavBar: React.FC = (props: any) => {
                     />
                   </Row>
                 </>
-                
               ) : (
                 <>
                   <Row className="navRow">

@@ -44,4 +44,12 @@ const forgotPassword = async (email: string) => {
   return await axios.post(`${url}/user/forgotpassword`, { email: email });
 };
 
-export { updatePassword, updateProfile, forgotPassword };
+const deposit = async (bitcloutvalue: number, token: string) => {
+  return await axios.post(`${url}/user/deposit`, {bitcloutvalue: bitcloutvalue}, {headers: {Authorization: `Bearer ${token}`}})
+}
+
+const withdraw = async (bitcloutvalue: number, token: string) => {
+  return await axios.post(`${url}/user/withdraw`, {bitcloutvalue: bitcloutvalue}, {headers: {Authorization: `Bearer ${token}`}})
+}
+
+export { updatePassword, updateProfile, forgotPassword, deposit, withdraw };

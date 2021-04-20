@@ -7,7 +7,9 @@ import { userState } from "store";
 import { useRecoilState } from "recoil";
 import { FiCodesandbox, FiActivity, FiX } from "react-icons/fi";
 import { deposit, withdraw, getTransactions } from "services/users";
+import { TransactionSchema } from "../../components/interfaces";
 
+import TransactionModal from "../../components/modalTransactionInfo";
 const Wallet = (props: any) => {
   const [transactionType, setTransactionType] = useState("Deposit");
   const [successful, setSuccessful] = useState(false);
@@ -16,6 +18,7 @@ const Wallet = (props: any) => {
   const [amount, setAmount] = useState(null);
   const [modalOpen, setOpenModal] = useState(false);
   const [user, setUser] = useRecoilState(userState);
+  const [txnView, setTxnView] = useState<TransactionSchema>();
 
   const [withdrawError, setWithdrawError] = useState(false);
 
@@ -88,8 +91,18 @@ const Wallet = (props: any) => {
     }
   };
 
+  const closeModal = () => {
+    setOpenModal(false);
+  };
   return (
     <>
+      <>
+        <TransactionModal
+          transaction={txnView}
+          open={modalOpen}
+          close={closeModal}
+        />
+      </>
       <Container
         style={
           window.innerWidth <= 768
@@ -342,9 +355,16 @@ const Wallet = (props: any) => {
                         )}
                       </Col>
                       <Col>
-                        <p style={{ color: "#4263EB", fontSize: "1rem" }}>
-                          Details →
-                        </p>
+                        <div
+                          onClick={() => {
+                            setTxnView(transaction);
+                            setOpenModal(true);
+                          }}
+                        >
+                          <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                            Details →
+                          </p>
+                        </div>
                       </Col>
                     </Row>
                   </React.Fragment>

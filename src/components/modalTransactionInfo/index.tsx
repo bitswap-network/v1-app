@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import { RiUser3Line } from "react-icons/ri";
 import { ListingSchema } from "../interfaces";
@@ -15,21 +15,23 @@ import { FiCodesandbox, FiActivity, FiX } from "react-icons/fi";
 interface TxnModal {
   transaction: TransactionSchema;
   open: boolean;
+  close(): any;
 }
 
 const TransactionModal: React.FC<TxnModal> = (
-  { transaction, open },
+  { transaction, open, close },
   props: any
 ) => {
-  const [openModal, setOpenModal] = useState(open);
+  // const [openModal, setOpenModal] = useState(open);
+  // console.log(open, openModal);
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
   return (
-    <Modal show={open} onHide={true}>
+    <Modal show={open} onHide={close}>
       <Modal.Body>
         <FiX
           size={"1rem"}
-          onClick={() => {
-            setOpenModal(false);
-          }}
+          onClick={close}
           style={{
             float: "right",
             marginRight: "0.75rem",

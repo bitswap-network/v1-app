@@ -57,7 +57,7 @@ const Wallet = (props: any) => {
   const handleSubmit = () => {
     setLoading(true);
     if (transactionType === "Deposit") {
-      deposit(amount, user.token)
+      deposit(user.token, amount)
         .then(() => {
           setSuccessful(true);
           setLoading(false);
@@ -73,7 +73,7 @@ const Wallet = (props: any) => {
           }
         });
     } else {
-      withdraw(amount, user.token)
+      withdraw(user.token, amount)
         .then(() => {
           setSuccessful(true);
           setLoading(false);
@@ -228,11 +228,13 @@ const Wallet = (props: any) => {
                   onChange={handleChange}
                   error={withdrawError}
                 />
-                {transactionType === "Withdraw" && (
+              </Col>
+
+              {transactionType === "Withdraw" && (
+                <Col>
                   <Button
                     style={{
-                      maxWidth: "10%",
-                      marginLeft: "3%",
+                      maxWidth: "15%",
                       backgroundColor: "#4263EB",
                       borderColor: "white",
                       color: "white",
@@ -244,8 +246,8 @@ const Wallet = (props: any) => {
                   >
                     Max
                   </Button>
-                )}
-              </Col>
+                </Col>
+              )}
             </Row>
             {transactionType === "Deposit" && (
               <Row style={{ marginBottom: "-3%", marginTop: "1%" }}>

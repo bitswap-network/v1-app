@@ -193,10 +193,26 @@ const Wallet = (props: any) => {
                     />
                   </Row>
                   <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-                    <Col>
+                    <Col sm={3}>
                       <p style={{ color: "#495057" }}>
-                        {(transaction.bitcloutnanos / 1e9).toFixed(2)}
+                        {transaction.transactiontype === "withdraw" &&
+                          (transaction.bitcloutnanos / -1e9).toFixed(2)}
+                        {transaction.transactiontype === "deposit" &&
+                          (transaction.bitcloutnanos / 1e9).toFixed(2)}
                       </p>
+                    </Col>
+                    <Col sm={4}>
+                      {transaction.status === "pending" && (
+                        <div
+                          style={{
+                            borderRadius: "3px",
+                            backgroundColor: "red",
+                            textAlign: "center",
+                          }}
+                        >
+                          Pending
+                        </div>
+                      )}
                     </Col>
                     <Col>
                       <p style={{ color: "#4263EB", fontSize: "1rem" }}>

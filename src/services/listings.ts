@@ -14,7 +14,7 @@ async function getListing(token: string, id: string) {
 }
 
 // Get User Listings
-async function myListings(userId: string, token: string) {
+async function myListings(token: string) {
   return await axios.get(`${url}/listing/mylistings`, {
     headers: { Authorization: `Bearer ${token}` },
   });

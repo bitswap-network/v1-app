@@ -12,7 +12,7 @@ const Logout = (props: any) => {
     removeData("user");
     props.history.push("/");
     window.location.reload();
-  }, [setUser]);
+  }, []);
 
   return (
     <div className="App">

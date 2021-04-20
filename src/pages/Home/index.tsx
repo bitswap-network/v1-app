@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
 import {
   Container,
   Row,
@@ -8,52 +6,52 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal,
+  Modal
 } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
-import env from "../../components/data/env.json";
 import {
   FiBookmark,
   FiX,
   FiChevronUp,
   FiChevronDown,
-  FiDollarSign,
+  FiDollarSign
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
+import { Redirect } from "react-router-dom";
 import MediaQuery from "react-responsive";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import {
   MainContent,
   Wrapper,
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper,
+  SearchBarWrapper
 } from "./styles";
 
 const Home = (props: any) => {
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-  const [listings, setListings] = useState<ListingSchema[]>([]);
   const [loading, setLoading] = useState(true);
 
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
+
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then((res) => {
-        setListings(res.data);
+      .then(res => {
+        console.log(res);
+        setUser({ ...user, listings: res.data });
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setLoading(false);
       });
-  }, []);
+  }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
     if (type === "date") {
@@ -72,16 +70,10 @@ const Home = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    getListings(volumeSort, dateSort)
-      .then((res) => {
-        console.log(res);
-        setListings(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [dateSort, volumeSort]);
+  if (user && !isLoggedIn) {
+    console.log("hello");
+    return <Redirect to="/logout" />;
+  }
 
   return (
     <>
@@ -93,7 +85,7 @@ const Home = (props: any) => {
               float: "right",
               marginRight: "0.75rem",
               marginTop: "0.5rem",
-              color: "#ACB5BD",
+              color: "#ACB5BD"
             }}
           />
           <h3 style={{ marginTop: "1.7rem", marginLeft: "2rem" }}>
@@ -104,7 +96,7 @@ const Home = (props: any) => {
               color: "#212429",
               fontSize: "0.7rem",
               marginLeft: "2rem",
-              marginTop: "0.75rem",
+              marginTop: "0.75rem"
             }}
           >
             By clicking confirm, you will agree to purchase the following
@@ -117,7 +109,7 @@ const Home = (props: any) => {
               color: "#ACB5BD",
               fontSize: "0.7rem",
               marginTop: "1.5rem",
-              marginLeft: "0.5rem",
+              marginLeft: "0.5rem"
             }}
           >
             <Col sm={4}>
@@ -132,7 +124,7 @@ const Home = (props: any) => {
                     color: "#212429",
                     fontSize: "0.9rem",
                     marginLeft: "0.4rem",
-                    marginTop: "0.7rem",
+                    marginTop: "0.7rem"
                   }}
                 >
                   USD
@@ -159,13 +151,13 @@ const Home = (props: any) => {
       <Wrapper>
         <NavBar />
         <Col sm={window.visualViewport.width <= 1800 ? 9 : 0}>
-          <MainContent sm={window.visualViewport.width <= 1800 ? 12 : 12} >
+          <MainContent sm={window.visualViewport.width <= 1800 ? 12 : 12}>
             <Row>
               <h3
                 style={
                   window.visualViewport.width <= 768
                     ? { marginLeft: "3rem", fontSize: "1.5rem" }
-                    : {marginLeft: "0.5rem"}
+                    : { marginLeft: "0.5rem" }
                 }
               >
                 <b>Swap Feed</b>
@@ -179,8 +171,8 @@ const Home = (props: any) => {
               >
                 {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
               </h5>
-              </Row>
-              <Row>
+            </Row>
+            <Row>
               <MediaQuery query="(min-device-width: 768px)">
                 <DesktopButton
                   onClick={() => {
@@ -190,7 +182,7 @@ const Home = (props: any) => {
                   Post Swap
                 </DesktopButton>
               </MediaQuery>
-              </Row>
+            </Row>
             <MediaQuery query="(max-device-width: 768px)">
               <MobileButton
                 onClick={() => {
@@ -202,7 +194,6 @@ const Home = (props: any) => {
             </MediaQuery>
             <FeedContent>
               <Col>
-
                 <div
                   className="scrollNoBar"
                   style={{ background: "transparent" }}
@@ -214,12 +205,15 @@ const Home = (props: any) => {
                           ? {
                               marginRight: "6rem",
                               color: "#C4C4C4",
-                              fontSize: "0.8em",
+                              fontSize: "0.8em"
                             }
                           : {
                               color: "#C4C4C4",
-                              marginRight: window.visualViewport.width <= 1800 ? "10em" : "22em",
-                              fontSize: "0.8em",
+                              marginRight:
+                                window.visualViewport.width <= 1800
+                                  ? "10em"
+                                  : "22em",
+                              fontSize: "0.8em"
                             }
                       }
                     >
@@ -232,8 +226,11 @@ const Home = (props: any) => {
                           ? { color: "#C4C4C4", fontSize: "0.8em" }
                           : {
                               color: "#C4C4C4",
-                              marginRight: window.visualViewport.width <= 1800 ? "14em" : "22em",
-                              fontSize: "0.8em",
+                              marginRight:
+                                window.visualViewport.width <= 1800
+                                  ? "14em"
+                                  : "22em",
+                              fontSize: "0.8em"
                             }
                       }
                     >
@@ -263,7 +260,7 @@ const Home = (props: any) => {
                       )}
                     </p>
                   </Row>
-                  {listings.map((listing: any, i: number) => (
+                  {user.listings.map((listing: any, i: number) => (
                     <FeedListing
                       listing={listing}
                       price={1}
@@ -278,21 +275,25 @@ const Home = (props: any) => {
             </FeedContent>
           </MainContent>
         </Col>
-        <Col style={{ marginLeft: "-10%"  }} >
+        <Col style={{ marginLeft: "-10%" }}>
           <Row>
             <div
               style={
-                window.visualViewport.width <= 1800 ? {                borderRight: "1px solid #DDE2E5",
-                height: "100vh",
-                paddingRight: 0,
-                width: "2rem",
-              marginLeft: "0.25rem"}:
-                {
-                borderRight: "1px solid #DDE2E5",
-                height: "100vh",
-                paddingRight: 0,
-                width: "2rem",
-              }}
+                window.visualViewport.width <= 1800
+                  ? {
+                      borderRight: "1px solid #DDE2E5",
+                      height: "100vh",
+                      paddingRight: 0,
+                      width: "2rem",
+                      marginLeft: "0.25rem"
+                    }
+                  : {
+                      borderRight: "1px solid #DDE2E5",
+                      height: "100vh",
+                      paddingRight: 0,
+                      width: "2rem"
+                    }
+              }
             />
           </Row>
         </Col>
@@ -308,7 +309,7 @@ const Home = (props: any) => {
                 color: "#ACB5BD",
                 fontSize: "0.75rem",
                 marginTop: "12%",
-                marginLeft: "10%",
+                marginLeft: "10%"
               }}
             >
               Amount (BCL)

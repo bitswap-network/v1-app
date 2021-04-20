@@ -245,20 +245,7 @@ const UserListings = (props: any) => {
           )}
         </Col>
       </Row>
-      {/* <Row className="align-items-center">
-        <Col>
-          {isLoggedIn && buylistings.length > 0 && (
-            <>
-              <h3>
-                <b>Your Past Buys</b>
-              </h3>
-              <div className="scrollNoBar">
-                <BuyRows />
-              </div>
-            </>
-          )}
-        </Col>
-      </Row> */}
+
       <Row className="align-items-center">
         <Col>
           {isLoggedIn && listings.length === 0 && (

@@ -78,43 +78,109 @@ const SpecificListing = (
             <Row>
               <Col>
                 <Row>
-                  <FiChevronLeft
-                    size={"1.5rem"}
-                    color="#cccee2"
-                    style={{
-                      marginRight: "1.5%",
-                      marginTop: "0.5%",
-                      textAlign: "center",
-                      justifyContent: "center",
-                      alignContent: "center",
-                    }}
-                    onClick={() => {
-                      setBack(true);
-                    }}
-                  />
-                  <h3
-                    style={window.innerWidth <= 768 ? { marginTop: "5%" } : {}}
-                  >
-                    <b>Listing Status</b>
-                  </h3>
+                  <Col sm={1}>
+                    <FiChevronLeft
+                      size={"2rem"}
+                      color="white"
+                      style={{
+                        // marginRight: "1.5%",
+                        marginTop: "0.5%",
+                        textAlign: "center",
+                        justifyContent: "center",
+                        alignContent: "center",
+                        backgroundColor: "6494FF",
+                        borderRadius: "5px",
+                        // marginLeft: "-5%",
+                      }}
+                      onClick={() => {
+                        setBack(true);
+                      }}
+                    />
+                  </Col>
+                  <Col>
+                    <h3
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "5%" } : {}
+                      }
+                    >
+                      <b>Listing Status</b>
+                    </h3>
+                  </Col>
                 </Row>
-                <h4
-                  style={
-                    window.innerWidth <= 768
-                      ? {
-                          marginTop: "2%",
-                          color: "#495057",
-                          fontSize: "1.35rem",
-                        }
-                      : {
-                          marginTop: "2.5%",
-                          color: "#9b9c9d",
-                          fontSize: "1.35rem",
-                        }
-                  }
-                >
-                  Listing Number: {listing._id}
-                </h4>
+                <Row>
+                  <Col>
+                    <h4
+                      style={
+                        window.innerWidth <= 768
+                          ? {
+                              marginTop: "2%",
+                              color: "#495057",
+                              fontSize: "1.1rem",
+                            }
+                          : {
+                              marginTop: "2.5%",
+                              color: "#9b9c9d",
+                              fontSize: "1.1rem",
+                            }
+                      }
+                    >
+                      <b>Listing Number:</b> {listing._id}
+                    </h4>
+                    <h4
+                      style={
+                        window.innerWidth <= 768
+                          ? {
+                              color: "#495057",
+                              fontSize: "1.1rem",
+                            }
+                          : {
+                              color: "#9b9c9d",
+                              fontSize: "1.1rem",
+                            }
+                      }
+                    >
+                      <b>Bitclout Amount: </b>
+                      {listing.bitcloutnanos / 1e9}
+                    </h4>
+                  </Col>
+                  <Col>
+                    <h4
+                      style={
+                        window.innerWidth <= 768
+                          ? {
+                              marginTop: "2%",
+                              color: "#495057",
+                              fontSize: "1.1rem",
+                            }
+                          : {
+                              marginTop: "2.5%",
+                              color: "#9b9c9d",
+                              fontSize: "1.1rem",
+                            }
+                      }
+                    >
+                      <b>Rate: </b>$
+                      {listing.usdamount / (listing.bitcloutnanos / 1e9)}
+                      /$BTCLT
+                    </h4>
+                    <h4
+                      style={
+                        window.innerWidth <= 768
+                          ? {
+                              color: "#495057",
+                              fontSize: "1.1rem",
+                            }
+                          : {
+                              color: "#9b9c9d",
+                              fontSize: "1.1rem",
+                            }
+                      }
+                    >
+                      <b>Total Amounts: </b>${listing.usdamount} USD | ~
+                      {listing.etheramount.toFixed(6)} $ETH
+                    </h4>
+                  </Col>
+                </Row>
               </Col>
             </Row>
             <Row style={{ marginTop: "5%" }}>
@@ -136,7 +202,7 @@ const SpecificListing = (
                       strokeOpacity="5"
                       strokeWidth="1000"
                       style={{
-                        backgroundColor: "#6494FF",
+                        backgroundColor: "#C4C4C4",
                         borderRadius: 50 / 2,
                         padding: "1px",
                         width: "2em",
@@ -145,19 +211,26 @@ const SpecificListing = (
                     />
                   )}
                 </div>
-                <div className="listingLineDiv" />
+                <div
+                  className="listingLineDiv"
+                  style={{
+                    backgroundColor: listing.completed.status
+                      ? "#6494ff"
+                      : "#C4C4C4",
+                  }}
+                />
               </Col>
               {listing.buyer ? (
                 <>
                   <Col sm={6}>
                     <p
                       style={{
-                        color: "#4263EB",
+                        color: "#6494FF",
                         fontSize: "1.1rem",
                         fontWeight: 600,
                       }}
                     >
-                      Buyer started transaction
+                      Transaction Started
                     </p>
                     <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                       Transaction started by: ${listing.buyer.username}
@@ -169,7 +242,7 @@ const SpecificListing = (
                   <Col sm={6}>
                     <p
                       style={{
-                        color: "#4263EB",
+                        color: "#6494FF",
                         fontSize: "1.1rem",
                         fontWeight: 600,
                       }}
@@ -177,7 +250,7 @@ const SpecificListing = (
                       No Buyer Yet
                     </p>
                     <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                      Waiting for a buyer to start transaction
+                      Transaction Uninitiated
                     </p>
                   </Col>
                 </>
@@ -203,7 +276,7 @@ const SpecificListing = (
                       strokeOpacity="5"
                       strokeWidth="1000"
                       style={{
-                        backgroundColor: "#6494FF",
+                        backgroundColor: "#C4C4C4",
                         borderRadius: 50 / 2,
                         padding: "1px",
                         width: "2em",
@@ -212,7 +285,14 @@ const SpecificListing = (
                     />
                   )}
                 </div>
-                <div className="listingLineDiv" />
+                <div
+                  className="listingLineDiv"
+                  style={{
+                    backgroundColor: listing.completed.status
+                      ? "#6494ff"
+                      : "#C4C4C4",
+                  }}
+                />
               </Col>
               {listing.ongoing && !listing.escrow.full && (
                 <Col sm={8}>
@@ -223,7 +303,7 @@ const SpecificListing = (
                       fontWeight: 600,
                     }}
                   >
-                    Escrow Wallet Empty
+                    Escrow Empty
                   </p>
                   <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                     Awaiting transfer to escrow wallet
@@ -267,7 +347,7 @@ const SpecificListing = (
                       strokeOpacity="5"
                       strokeWidth="1000"
                       style={{
-                        backgroundColor: "#6494FF",
+                        backgroundColor: "#C4C4C4",
                         borderRadius: 50 / 2,
                         padding: "1px",
                         width: "2em",
@@ -276,7 +356,14 @@ const SpecificListing = (
                     />
                   )}
                 </div>
-                <div className="listingLineDivEnd" />
+                <div
+                  className="listingLineDivEnd"
+                  style={{
+                    backgroundColor: listing.completed.status
+                      ? "#6494ff"
+                      : "#C4C4C4",
+                  }}
+                />
               </Col>
               {listing.completed.status ? (
                 <Col sm={8}>
@@ -287,7 +374,7 @@ const SpecificListing = (
                       fontWeight: 600,
                     }}
                   >
-                    Fulfillment complete!
+                    Fulfillment Complete
                   </p>
                   <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                     {(listing.bitcloutnanos / 1e9).toFixed(3)} $BTCLT has been
@@ -318,10 +405,81 @@ const SpecificListing = (
                       fontWeight: 600,
                     }}
                   >
-                    Escrow Full
+                    Fulfillment In Progress
                   </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                    ${listing.buyer.username} has transferred $ETH to escrow
+                  {!listing.ongoing && listing.escrow.full ? (
+                    <>
+                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        {listing.bitcloutsent
+                          ? `Bitclout sent to ${listing.buyer.username}`
+                          : `Waiting to send bitclout to ${listing.buyer.username}`}
+                      </p>
+                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        {listing.escrowsent
+                          ? `Ethereum sent to your wallet`
+                          : `Waiting to send Ethereum to your wallet`}
+                      </p>
+                    </>
+                  ) : (
+                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      Listing will be automatically fulfilled once a buyer sends
+                      money to escrow
+                    </p>
+                  )}
+                </Col>
+              )}
+            </Row>
+            <Row>
+              <Col sm={1}>
+                <div style={{ textAlign: "center" }}>
+                  {listing.completed.status ? (
+                    <FiChevronsRight
+                      size={"2rem"}
+                      style={{
+                        color: "white",
+                        backgroundColor: "#6494FF",
+                        borderRadius: 50 / 2,
+                        padding: "6px",
+                      }}
+                    />
+                  ) : (
+                    <LoadingIcons.Rings
+                      stroke="#FFF"
+                      strokeOpacity="5"
+                      strokeWidth="1000"
+                      style={{
+                        backgroundColor: "#C4C4C4",
+                        borderRadius: 50 / 2,
+                        padding: "1px",
+                        width: "2em",
+                        height: "2rem",
+                      }}
+                    />
+                  )}
+                </div>
+              </Col>
+              {listing.completed.status ? (
+                <Col sm={8}>
+                  <p
+                    style={{
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Transaction Finished
+                  </p>
+                </Col>
+              ) : (
+                <Col sm={8}>
+                  <p
+                    style={{
+                      color: "#6494FF",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Transaction Open
                   </p>
                 </Col>
               )}

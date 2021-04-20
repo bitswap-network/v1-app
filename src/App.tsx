@@ -28,7 +28,7 @@ function App() {
       <PrivateRoute exact path="/listing/:id" component={SpecificListing} />
 
       {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
-      <Route path="/wallet" component={Wallet} />
+      <PrivateRoute path="/wallet" component={Wallet} />
 
       <PrivateRoute path="/postad" component={PostAd} />
       <PrivateRoute path="/userlistings" component={UserListings} />

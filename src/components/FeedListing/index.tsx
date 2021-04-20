@@ -156,6 +156,7 @@ const Listing: React.FC<FeedListing> = (
             <Row key={index} className="align-items-center">
               <Col sm={0.2}>
                 <img
+                  alt="profile"
                   src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
                   style={{
                     borderRadius: "60px",

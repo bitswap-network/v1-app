@@ -31,7 +31,7 @@ function App() {
       <Route path="/wallet" component={Wallet} />
 
       <PrivateRoute path="/postad" component={PostAd} />
-      <PrivateRoute path="/userlistings" component={UserListings} />
+      <Route path="/userlistings" component={UserListings} />
       <PrivateRoute path="/profile" component={EditProfile} />
       <PrivateRoute path="/admin" component={Admin} />
       {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}

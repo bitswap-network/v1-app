@@ -4,9 +4,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import NavBar from "components/NavBar";
 import { userState } from "store";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { FiCodesandbox, FiActivity } from "react-icons/fi";
-import { deposit, withdraw } from "services/users";
+import { deposit, withdraw, getTransactions } from "services/users";
 
 const Wallet = (props: any) => {
   const [transactionType, setTransactionType] = useState("Deposit");
@@ -14,15 +14,21 @@ const Wallet = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [amount, setAmount] = useState(null);
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   // useEffect hook update user transactions on successful request
-
-  // useEffect(() => {
-  //   if (successful) {
-  //     // fetch transactions again
-  //   }
-  // }, [successful]);
+  useEffect(() => {
+    getTransactions(user.token)
+      .then(response => {
+        setUser({
+          ...user,
+          transactions: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [successful]);
 
   const handleChange = e => {
     setAmount(e.target.value);
@@ -87,7 +93,7 @@ const Wallet = (props: any) => {
               : { marginLeft: "8%" }
           }
           xs={window.innerWidth <= 768 ? 10 : 10}
-          xl={window.innerWidth >= 1600 ? 12 : 8}
+          xl={window.innerWidth >= 1600 ? 10 : 8}
         >
           <Row style={{ marginTop: "0%" }}>
             <Col>
@@ -122,7 +128,9 @@ const Wallet = (props: any) => {
                 BITSWAP BALANCE
               </p>
               <p style={{ color: "#495057", fontSize: "1.3rem" }}>
-                <b style={{ fontSize: "1.8rem" }}>{user.bitswapbalance}</b>{" "}
+                <b style={{ fontSize: "1.8rem" }}>
+                  {(user.bitswapbalance / 1e9).toFixed(4)}
+                </b>{" "}
                 BTCLT
               </p>
             </Col>
@@ -232,104 +240,32 @@ const Wallet = (props: any) => {
 
           {/* One Transaction */}
           <div className="scrollNoBar">
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>40</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>40</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>4000</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>400000</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>400</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>120</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>420</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>69</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>Details →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
+            {user &&
+              user.transactions &&
+              user.transactions.map((transaction, index) => (
+                <React.Fragment key={index}>
+                  <Row>
+                    <hr
+                      style={{
+                        borderTop: "1px solid #DDE2E5",
+                        width: "100rem"
+                      }}
+                    />
+                  </Row>
+                  <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                    <Col>
+                      <p style={{ color: "#495057" }}>
+                        {(transaction.bitcloutnanos / 1e9).toFixed(2)}
+                      </p>
+                    </Col>
+                    <Col>
+                      <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                        Details →
+                      </p>
+                    </Col>
+                  </Row>
+                </React.Fragment>
+              ))}
           </div>
         </Col>
       </>

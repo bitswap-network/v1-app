@@ -11,9 +11,16 @@ export const loggedInState = selector({
   key: "isLoggedIn",
   get: async ({ get }) => {
     const user = get(userState);
-    if (user && (await validateToken(user.token))) {
-      return true;
+    console.log(user);
+
+    if (user) {
+      if (await validateToken(user.token)) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
+      console.log("remove");
       removeData("user");
       return false;
     }

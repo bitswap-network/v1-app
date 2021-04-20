@@ -52,4 +52,10 @@ const withdraw = async (bitcloutvalue: number, token: string) => {
   return await axios.post(`${url}/user/withdraw`, {bitcloutvalue: bitcloutvalue}, {headers: {Authorization: `Bearer ${token}`}})
 }
 
-export { updatePassword, updateProfile, forgotPassword, deposit, withdraw };
+const getTransactions = async (token: string) => {
+  return await axios.get(`${url}/user/transactions`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export { updatePassword, updateProfile, forgotPassword, deposit, withdraw, getTransactions };

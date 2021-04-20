@@ -32,4 +32,14 @@ async function createListing(
   );
 }
 
+async function buyListing(token: string, id: string) {
+  return axios.post(
+    `${url}/listing/buy`,
+    {
+      id: id,
+    },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+}
+
 export { getListings, myListings, createListing };

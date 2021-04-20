@@ -31,7 +31,6 @@ import {
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [loading, setLoading] = useState(true);
   const [bitcloutprice, setBitcloutprice] = useState(0);

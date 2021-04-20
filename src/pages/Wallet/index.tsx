@@ -3,8 +3,8 @@ import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import NavBar from "components/NavBar";
-import { userState } from "store";
-import { useRecoilState } from "recoil";
+import { loggedInState, userState } from "store";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { FiCodesandbox, FiActivity } from "react-icons/fi";
 import { deposit, withdraw, getTransactions } from "services/users";
 
@@ -16,22 +16,38 @@ const Wallet = (props: any) => {
   const [amount, setAmount] = useState(null);
   const [user, setUser] = useRecoilState(userState);
 
+  const [withdrawError, setWithdrawError] = useState(false);
+
   // useEffect hook update user transactions on successful request
   useEffect(() => {
     getTransactions(user.token)
-      .then(response => {
+      .then((response) => {
         setUser({
           ...user,
-          transactions: response.data
+          transactions: response.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, [successful]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setAmount(e.target.value);
+    console.log(
+      parseFloat(e.target.value),
+      user.bitswapbalance / 1e9,
+      transactionType
+    );
+    if (
+      transactionType === "Withdraw" &&
+      parseFloat(e.target.value) > user.bitswapbalance / 1e9
+    ) {
+      console.log("oo");
+      setWithdrawError(true);
+    } else {
+      setWithdrawError(false);
+    }
   };
 
   const handleSubmit = () => {
@@ -42,7 +58,7 @@ const Wallet = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -58,7 +74,7 @@ const Wallet = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -80,7 +96,7 @@ const Wallet = (props: any) => {
               display: "flex",
               flexDirection: "row",
               marginLeft: 0,
-              marginRight: "1.3rem"
+              marginRight: "1.3rem",
             }
       }
     >
@@ -107,7 +123,7 @@ const Wallet = (props: any) => {
                     : {
                         marginTop: "10%",
                         color: "#495057",
-                        fontSize: "1.35rem"
+                        fontSize: "1.35rem",
                       }
                 }
               >
@@ -122,7 +138,7 @@ const Wallet = (props: any) => {
                 style={{
                   color: "#ACB5BD",
                   fontSize: "0.75rem",
-                  marginTop: "8%"
+                  marginTop: "8%",
                 }}
               >
                 BITSWAP BALANCE
@@ -140,7 +156,7 @@ const Wallet = (props: any) => {
                 style={{
                   color: "#ACB5BD",
                   fontSize: "0.75rem",
-                  marginTop: "8%"
+                  marginTop: "8%",
                 }}
               >
                 TOTAL TRANSACTIONS
@@ -155,7 +171,7 @@ const Wallet = (props: any) => {
               <p
                 style={{
                   color: transactionType === "Deposit" ? "#6494FF" : "#D7DFFF",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
                 onClick={() => setTransactionType("Deposit")}
               >
@@ -166,7 +182,7 @@ const Wallet = (props: any) => {
               <p
                 style={{
                   color: transactionType === "Withdraw" ? "#6494FF" : "#D7DFFF",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
                 onClick={() => setTransactionType("Withdraw")}
               >
@@ -177,17 +193,35 @@ const Wallet = (props: any) => {
           <Row sm={2} style={{ marginLeft: "0%", marginTop: "3%" }}>
             <TextField
               id="amount"
-              label={`${transactionType} amount`}
+              label={`${transactionType} amount ($BTCLT)`}
               variant="outlined"
               fullWidth={true}
               size={"small"}
               type="number"
               value={amount}
               inputProps={{
-                style: { fontStyle: "initial" }
+                style: { fontStyle: "initial" },
               }}
               onChange={handleChange}
+              error={withdrawError}
             />
+            {transactionType === "Withdraw" && (
+              <Button
+                style={{
+                  maxWidth: "10%",
+                  marginLeft: "3%",
+                  backgroundColor: "#4263EB",
+                  borderColor: "white",
+                  color: "white",
+                  fontSize: "0.85rem",
+                }}
+                onClick={() => {
+                  setAmount(user.bitswapbalance / 1e9);
+                }}
+              >
+                Max
+              </Button>
+            )}
           </Row>
           <Row style={{ marginLeft: "0%", marginTop: "5%" }}>
             <Button
@@ -198,9 +232,10 @@ const Wallet = (props: any) => {
                 borderColor: "white",
                 color: "white",
                 fontSize: "0.85rem",
-                padding: "1.2%"
+                padding: "1.2%",
               }}
               onClick={handleSubmit}
+              disabled={withdrawError}
             >
               Confirm {transactionType}
             </Button>
@@ -215,7 +250,7 @@ const Wallet = (props: any) => {
                 height: "100vh",
                 marginRight: 0,
                 paddingRight: 0,
-                width: "2rem"
+                width: "2rem",
               }}
             />
           </Row>
@@ -231,7 +266,7 @@ const Wallet = (props: any) => {
                 color: "#ACB5BD",
                 fontSize: "0.75rem",
                 marginTop: "12%",
-                marginLeft: "10%"
+                marginLeft: "10%",
               }}
             >
               Amount (BTCLT)
@@ -248,7 +283,7 @@ const Wallet = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem"
+                        width: "100rem",
                       }}
                     />
                   </Row>
@@ -266,7 +301,7 @@ const Wallet = (props: any) => {
                         <div
                           style={{
                             borderRadius: "3px",
-                            backgroundColor: "red",
+                            backgroundColor: "#DDE2E5",
                             textAlign: "center",
                           }}
                         >

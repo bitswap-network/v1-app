@@ -80,7 +80,7 @@ const Home = (props: any) => {
 
   return (
     <>
-    <Modal show={false} onHide={true} size={'md'}>
+    <Modal show={false} onHide={true}>
         <Modal.Body>
           <FiX size={'1rem'} style={{float:'right', marginRight: "0.75rem", marginTop: "0.5rem", color: "#ACB5BD"}} />
           <h3 style={{marginTop: "1.7rem", marginLeft: "2rem"}}><b>Confirm Payment</b></h3>

@@ -213,39 +213,57 @@ const Wallet = (props: any) => {
               </Col>
             </Row>
             <Row sm={2} style={{ marginLeft: "0%", marginTop: "3%" }}>
-              <TextField
-                id="amount"
-                label={`${transactionType} amount ($BTCLT)`}
-                variant="outlined"
-                fullWidth={true}
-                size={"small"}
-                type="number"
-                value={amount}
-                inputProps={{
-                  style: { fontStyle: "initial" },
-                }}
-                onChange={handleChange}
-                error={withdrawError}
-              />
-              {transactionType === "Withdraw" && (
-                <Button
-                  style={{
-                    maxWidth: "10%",
-                    marginLeft: "3%",
-                    backgroundColor: "#4263EB",
-                    borderColor: "white",
-                    color: "white",
-                    fontSize: "0.85rem",
+              <Col style={{ padding: "0" }}>
+                <TextField
+                  id="amount"
+                  label={`${transactionType} amount ($BTCLT)`}
+                  variant="outlined"
+                  fullWidth={true}
+                  size={"small"}
+                  type="number"
+                  value={amount}
+                  inputProps={{
+                    style: { fontStyle: "initial" },
                   }}
-                  onClick={() => {
-                    setAmount(user.bitswapbalance / 1e9);
-                  }}
-                >
-                  Max
-                </Button>
-              )}
+                  onChange={handleChange}
+                  error={withdrawError}
+                />
+                {transactionType === "Withdraw" && (
+                  <Button
+                    style={{
+                      maxWidth: "10%",
+                      marginLeft: "3%",
+                      backgroundColor: "#4263EB",
+                      borderColor: "white",
+                      color: "white",
+                      fontSize: "0.85rem",
+                    }}
+                    onClick={() => {
+                      setAmount(user.bitswapbalance / 1e9);
+                    }}
+                  >
+                    Max
+                  </Button>
+                )}
+              </Col>
             </Row>
-            <Row style={{ marginLeft: "0%", marginTop: "5%" }}>
+            {transactionType === "Deposit" && (
+              <Row style={{ marginBottom: "-3%", marginTop: "1%" }}>
+                <Col>
+                  <>
+                    <div style={{ width: "50%", wordBreak: "break-all" }}>
+                      <p style={{ color: "#495057", fontSize: "0.9rem" }}>
+                        <b>Send exact amount to: </b>
+                        <p style={{ color: "#495057", fontSize: "0.8rem" }}>
+                          BC1YLgDkS56PRvHnmeW14u8i7PRxGnb8DGvcJYNqeuyqHe7PtmBq68r
+                        </p>
+                      </p>
+                    </div>
+                  </>
+                </Col>
+              </Row>
+            )}
+            <Row style={{ marginLeft: "0%", marginTop: "4%" }}>
               <Button
                 style={{
                   height: "100%",

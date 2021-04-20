@@ -20,6 +20,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
+  FiBox
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import MediaQuery from "react-responsive";
@@ -88,6 +89,7 @@ const Home = (props: any) => {
       <Modal show={false} onHide={true}>
         <Modal.Body>
           <FiX
+            className="hoverCursor"
             size={"1rem"}
             style={{
               float: "right",
@@ -117,7 +119,7 @@ const Home = (props: any) => {
               color: "#ACB5BD",
               fontSize: "0.7rem",
               marginTop: "1.5rem",
-              marginLeft: "0.5rem",
+              justifyContent: "center"
             }}
           >
             <Col sm={4}>
@@ -131,28 +133,52 @@ const Home = (props: any) => {
                   style={{
                     color: "#212429",
                     fontSize: "0.9rem",
-                    marginLeft: "0.4rem",
                     marginTop: "0.7rem",
+                    marginLeft: "0.5rem"
                   }}
                 >
                   USD
                 </p>
               </Row>
 
-              <Row>
-                <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                  @john.smith
-                </p>
-              </Row>
             </Col>
+            <Col sm={1}>
+            <p
+                  style={{
+                    color: "#212429",
+                    fontSize: "0.9rem",
+                    marginTop: "0.7rem",
+                  }}
+                >
+                  
+                  <b>FOR</b>
+                </p>            </Col>
             <Col sm={5}>
-              <Row>OFFER</Row>
-              <Row>
-                <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                  40 @ $135.00 USD
+            <Row style={{ justifyContent: "center" }}>
+                <FiBox
+                  size={"1.5rem"}
+                  style={{ color: "#212429", marginTop: "0.4rem", marginLeft: "1rem" }}
+                />
+                <p style={{ color: "#212429", fontSize: "1.5rem" }}>100</p>
+                <p
+                  style={{
+                    color: "#212429",
+                    fontSize: "0.9rem",
+                    marginTop: "0.7rem",
+                    marginLeft: "0.5rem"
+
+                  }}
+                >
+                  BTCLT
                 </p>
               </Row>
+
+
             </Col>
+          </Col>
+          <Col style={{justifyContent: "center",  display: "flex",
+              flexDirection: "row",}}>
+                  <Button style={{width: "20rem", marginTop: "3%", marginBottom: "4%"}}>Confirm Swap</Button>
           </Col>
         </Modal.Body>
       </Modal>

@@ -4,7 +4,7 @@ import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
 import { FiHome, FiUploadCloud, FiInbox, FiMonitor } from "react-icons/fi";
 import MediaQuery from "react-responsive";
-import { userState } from "store";
+import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 
 const NavElement = (props: any) => {
@@ -75,6 +75,7 @@ const NavElement = (props: any) => {
 
 export const NavBar: React.FC = (props: any) => {
   const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
   return (
     <>
@@ -200,7 +201,9 @@ export const NavBar: React.FC = (props: any) => {
                 }}
               >
                 <p>
-                  <b>Balance: {user.bitswapbalance / 1e9} $BTCLT</b>
+                  {isLoggedIn && (
+                    <b>Balance: {user.bitswapbalance / 1e9} $BTCLT</b>
+                  )}
                 </p>
               </Row>
 
@@ -251,14 +254,14 @@ export const NavBar: React.FC = (props: any) => {
                   </Row>
                 </Row>
               ) : (
-                <Col style={{ paddingTop: "35vh", width: "100%" }}>
+                <Col style={{ width: "100%" }}>
                   <Row>
                     <Link
                       to={"/login"}
                       style={{
                         color: "#43494f",
                         fontFamily: "inherit",
-                        fontSize: "1.8vh",
+                        fontSize: "2vh",
                         height: "50%",
                       }}
                       replace
@@ -278,7 +281,8 @@ export const NavBar: React.FC = (props: any) => {
                       style={{
                         color: "#43494f",
                         fontFamily: "inherit",
-                        fontSize: "1.8vh",
+                        fontSize: "2vh",
+                        marginTop: "0.5rem",
                         height: "50%",
                       }}
                       replace

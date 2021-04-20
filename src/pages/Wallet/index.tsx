@@ -361,7 +361,10 @@ const Wallet = (props: any) => {
                             setOpenModal(true);
                           }}
                         >
-                          <p style={{ color: "#4263EB", fontSize: "1rem" }}>
+                          <p
+                            className="hoverCursor"
+                            style={{ color: "#4263EB", fontSize: "1rem" }}
+                          >
                             Details →
                           </p>
                         </div>

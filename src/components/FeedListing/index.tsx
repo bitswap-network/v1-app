@@ -61,7 +61,7 @@ const Listing: React.FC<FeedListing> = (
     if (diffTime < 60) {
       return "<1 minute ago";
     } else if (diffTime > 60 && diffTime < 3600) {
-      return `${diffTime / 60} minutes ago`;
+      return `${(diffTime / 60).toFixed(0)} minutes ago`;
     } else if (diffTime > 3600 && diffTime < 86400) {
       return `${(diffTime / 3600).toFixed(0)} hours ago`;
     } else if (diffTime > 86400) {
@@ -87,7 +87,7 @@ const Listing: React.FC<FeedListing> = (
                   height: "auto",
                   width: "5vh",
                   marginLeft: "1.2em",
-                  marginRight: "1.3rem"
+                  marginRight: "1.3rem",
                 }}
               />
             </Col>
@@ -111,7 +111,7 @@ const Listing: React.FC<FeedListing> = (
                 style={{
                   width: "10em",
                   height: "2.5rem",
-                  backgroundColor: "#4263EB"
+                  backgroundColor: "#4263EB",
                 }}
                 onClick={() => {
                   // history.push(`/buy/${listing._id}`);
@@ -140,7 +140,7 @@ const Listing: React.FC<FeedListing> = (
                     height: "auto",
                     width: "5vh",
                     marginLeft: "1.2em",
-                    marginRight: "1.3rem"
+                    marginRight: "1.3rem",
                   }}
                 />
               </Col>

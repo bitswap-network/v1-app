@@ -87,7 +87,7 @@ const Home = (props: any) => {
                 style={
                   window.visualViewport.width <= 768
                     ? { marginLeft: "3rem", fontSize: "1.5rem" }
-                    : { marginLeft: "0.5rem" }
+                    : { marginLeft: "1rem" }
                 }
               >
                 <b>Swap Feed</b>
@@ -102,12 +102,11 @@ const Home = (props: any) => {
                 {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
               </h5>
             </Row>
-            <Row>
+            {/* <Row>
               <MediaQuery query="(min-device-width: 768px)">
                 <DesktopButton
                   onClick={() => {
                     setShowModal(true);
-                    // setPostAdPart(true);
                   }}
                 >
                   Post Swap
@@ -122,7 +121,7 @@ const Home = (props: any) => {
               >
                 Post Swap
               </MobileButton>
-            </MediaQuery>
+            </MediaQuery> */}
             <FeedContent>
               <Col>
                 <div
@@ -256,7 +255,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -268,7 +267,7 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -279,19 +278,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -303,7 +290,7 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -315,7 +302,19 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
+              </Col>
+              <Col>
+                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
+              </Col>
+            </Row>
+            <Row>
+              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
+            </Row>
+
+            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+              <Col>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -335,7 +334,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 @ $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>

@@ -32,9 +32,12 @@ import {
   FeedContent,
   SearchBarWrapper
 } from "./styles";
+import { useUser } from "components/hooks";
+import OngoingItem from "components/OngoingItem";
 
 const Home = (props: any) => {
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
+  const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -73,7 +76,7 @@ const Home = (props: any) => {
   };
 
   if (user && !isLoggedIn) {
-    return <Redirect to="/logout" />;
+    window.location.assign("/login");
   }
 
   return (
@@ -231,28 +234,66 @@ const Home = (props: any) => {
             />
           </Row>
         </Col>
-        <Col sm={4} style={{ marginTop: "6%" }}>
-          <Row>
-            <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
-              Ongoing Swaps
-            </h5>
-          </Row>
-          <Row>
-            <p
-              style={{
-                color: "#ACB5BD",
-                fontSize: "0.75rem",
-                marginTop: "12%",
-                marginLeft: "10%"
-              }}
-            >
-              Amount (BTCLT)
-            </p>
-          </Row>
-          <div className="scrollNoBarSplit">
+        {isLoggedIn ? (
+          <Col sm={4} style={{ marginTop: "6%" }}>
+            <Row>
+              <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                Ongoing Swaps
+              </h5>
+            </Row>
+            <Row>
+              <p
+                style={{
+                  color: "#ACB5BD",
+                  fontSize: "0.75rem",
+                  marginTop: "12%",
+                  marginLeft: "10%"
+                }}
+              >
+                Amount (BTCLT)
+              </p>
+            </Row>
+            <div className="scrollNoBarSplit">
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
+              {userData?.listings.map(listing => {
+                if (listing.ongoing) {
+                  return (
+                    <OngoingItem
+                      bitcloutnanos={listing.bitcloutamount}
+                      usdamount={listing.usdamount}
+                      listingid={listing._id}
+                    />
+                  );
+                }
+              })}
+              {!userData?.listings.some(listing => listing.ongoing === true) ? (
+                <p>You don't have any ongoing swaps</p>
+              ) : null}
+              {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+              <Col>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
+              </Col>
+              <Col>
+                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
+              </Col>
+            </Row>
             <Row>
               <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
             </Row>
+
+            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+              <Col>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
+              </Col>
+              <Col>
+                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
+              </Col>
+            </Row>
+            
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
                 <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
@@ -276,17 +317,6 @@ const Home = (props: any) => {
             <Row>
               <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
             </Row>
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
@@ -310,41 +340,56 @@ const Home = (props: any) => {
             </Row>
             <Row>
               <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
+            </Row> */}
+            </div>
 
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
-              </Col>
+            <Row style={{ marginTop: "7.5%" }}>
+              <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                Ongoing Buy
+              </h5>
             </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-          </div>
-
-          <Row style={{ marginTop: "7.5%" }}>
-            <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>Ongoing Buy</h5>
-          </Row>
-          <div className="scrollNoBarSplit">
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-          </div>
-        </Col>
+            <div className="scrollNoBarSplit">
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row>
+              {listings.map(listing => {
+                if (
+                  listing.buyer._id === userData._id &&
+                  listing.ongoing === true
+                ) {
+                  return (
+                    <OngoingItem
+                      bitcloutnanos={listing.bitcloutnanos}
+                      usdamount={listing.usdamount}
+                      listingid={listing._id}
+                    />
+                  );
+                }
+              })}
+              {!listings.some(
+                listing =>
+                  listing.buyer._id === userData._id && listing.ongoing === true
+              ) ? (
+                <p>You don't have any ongoing buys</p>
+              ) : null}
+              {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                <Col>
+                  <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
+                </Col>
+                <Col>
+                  <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
+                </Col>
+              </Row>
+              <Row>
+                <hr
+                  style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }}
+                />
+              </Row> */}
+            </div>
+          </Col>
+        ) : null}
       </Wrapper>
     </>
   );

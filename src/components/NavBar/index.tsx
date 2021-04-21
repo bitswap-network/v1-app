@@ -19,7 +19,7 @@ const NavElement = (props: any) => {
       }}
       onClick={() => {
         props.setCurrentPage(props.linkto);
-        window.location.replace(props.linkto);
+        window.location.assign(props.linkto);
       }}
     >
       {/* {window.location.pathname == props.linkto ? (
@@ -265,18 +265,17 @@ export const NavBar: React.FC = (props: any) => {
               ) : (
                 <Col style={{ width: "100%" }}>
                   <Row>
-                    <Link
-                      to={"/login"}
+                    <a
                       style={{
                         color: "#43494f",
                         fontFamily: "inherit",
                         fontSize: "2vh",
                         height: "50%"
                       }}
-                      replace
+                      href="/login"
                     >
                       Login
-                    </Link>
+                    </a>
                   </Row>
                   <Row
                     style={{
@@ -285,8 +284,7 @@ export const NavBar: React.FC = (props: any) => {
                       alignItems: "flex-start"
                     }}
                   >
-                    <Link
-                      to={"/register"}
+                    <a
                       style={{
                         color: "#43494f",
                         fontFamily: "inherit",
@@ -294,10 +292,10 @@ export const NavBar: React.FC = (props: any) => {
                         marginTop: "0.5rem",
                         height: "50%"
                       }}
-                      replace
+                      href="/register"
                     >
                       Register
-                    </Link>
+                    </a>
                   </Row>
                 </Col>
               )}

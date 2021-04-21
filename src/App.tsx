@@ -25,15 +25,15 @@ function App() {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
-      <PrivateRoute exact path="/listing/:id" component={SpecificListing} />
+      <Route exact path="/listing/:id" component={SpecificListing} />
 
       {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
-      <PrivateRoute path="/wallet" component={Wallet} />
+      <Route path="/wallet" component={Wallet} />
 
-      <PrivateRoute path="/postad" component={PostAd} />
-      <PrivateRoute path="/userlistings" component={UserListings} />
-      <PrivateRoute path="/profile" component={EditProfile} />
-      <PrivateRoute path="/admin" component={Admin} />
+      <Route path="/postad" component={PostAd} />
+      <Route path="/userlistings" component={UserListings} />
+      <Route path="/profile" component={EditProfile} />
+      <Route path="/admin" component={Admin} />
       {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}
     </Router>
   );

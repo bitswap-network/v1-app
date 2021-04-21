@@ -3,16 +3,13 @@ import App from "./App";
 import ReactDOM from "react-dom";
 import React from "react";
 import "./index.css";
-import { Provider } from "react-redux";
 import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <React.Suspense fallback={<></>}>
-        {/* <Provider store={store}> */}
         <App />
-        {/* </Provider> */}
       </React.Suspense>
     </RecoilRoot>
   </React.StrictMode>,

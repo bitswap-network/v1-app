@@ -4,12 +4,11 @@ import { Container } from "react-bootstrap";
 import { useSetRecoilState } from "recoil";
 import { userState } from "store";
 
-const Logout = (props: any) => {
+const Logout = () => {
   const setUser = useSetRecoilState(userState);
   removeData("user");
   setUser(null);
-  props.history.push("/");
-  window.location.reload();
+  window.location.assign("/");
 
   return (
     <div className="App">

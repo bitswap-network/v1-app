@@ -1,8 +1,8 @@
-import env from "./data/env.json";
 import { useRef, useEffect } from "react";
+import {url} from "../helpers/config.json";
+import useSWR from 'swr';
+import axios from "axios";
 
-const axios = require("axios");
-const url = require("url");
 
 export const useInterval = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef(callback);
@@ -24,3 +24,18 @@ export const useInterval = (callback: () => void, delay: number | null) => {
     return () => clearInterval(id);
   }, [delay]);
 };
+
+export function useUser(token) {
+  const {data, error} = useSWR(`${url}/user/data`, url => axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(res => res.data), {
+    refreshInterval: 5000
+  });
+  return {
+    userData: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}

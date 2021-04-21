@@ -6,6 +6,7 @@ import { FiHome, FiUploadCloud, FiInbox, FiMonitor } from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
+import { useUser } from "components/hooks";
 
 const NavElement = (props: any) => {
   return (
@@ -76,6 +77,7 @@ const NavElement = (props: any) => {
 
 export const NavBar: React.FC = (props: any) => {
   const user = useRecoilValue(userState);
+  const { userData, isLoading, isError } = useUser(user.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
   return (
@@ -203,7 +205,7 @@ export const NavBar: React.FC = (props: any) => {
               >
                 <p>
                   {isLoggedIn && (
-                    <b>Balance: {user.bitswapbalance / 1e9} $BTCLT</b>
+                    <b>Balance: {userData.bitswapbalance / 1e9} $BTCLT</b>
                   )}
                 </p>
               </Row>

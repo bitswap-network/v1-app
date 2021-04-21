@@ -82,20 +82,21 @@ const Listing: React.FC<UserListing> = (
             </Row>
             <Col>
               <Col sm={0}>
-                <Link to={`/listing/${listing._id}`}>
-                  <Button
-                    style={{
-                      width: "10em",
-                      backgroundColor: "#4263EB",
-                      marginTop: "1.3em",
-                    }}
-                    // onClick={() => {
-                    //   history.push(`/listing/${listing._id}`);
-                    // }}
-                  >
-                    View
-                  </Button>
-                </Link>
+                {/* <Link to={`/listing/${listing._id}`}> */}
+                <Button
+                  style={{
+                    width: "10em",
+                    backgroundColor: "#4263EB",
+                    marginTop: "1.3em",
+                  }}
+                  onClick={() => {
+                    // history.push(`/listing/${listing._id}`);
+                    window.location.replace(`/listing/${listing._id}`);
+                  }}
+                >
+                  View
+                </Button>
+                {/* </Link> */}
               </Col>
             </Col>
           </Wrapper>

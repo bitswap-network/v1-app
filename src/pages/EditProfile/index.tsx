@@ -174,7 +174,7 @@ const EditProfile = (props: any) => {
           <Row style={{ marginBottom: "40px" }}>
             <Col sm={window.visualViewport.width >= 1600 ? 3 : 2}>
               <img
-                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                 style={{ borderRadius: "60px", height: "auto", width: "6em" }}
               />
             </Col>

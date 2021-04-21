@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import { RiUser3Line } from "react-icons/ri";
 import { ListingSchema } from "../interfaces";
@@ -9,6 +9,7 @@ import MD5 from "crypto-js/md5";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
+import BuyModal from "../modalBuy";
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -28,34 +29,6 @@ interface FeedListing {
   history: any;
 }
 
-function ModaltoBuy(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
 const Listing: React.FC<FeedListing> = (
   { listing, index, price, loading, history },
   props: any
@@ -63,7 +36,7 @@ const Listing: React.FC<FeedListing> = (
   const state = { modalOpen: false };
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-
+  const [modalOpen, setOpenModal] = useState(false);
   console.log(listing);
   const viewCheck = () => {
     if (listing.ongoing) {
@@ -78,6 +51,9 @@ const Listing: React.FC<FeedListing> = (
     } else {
       return false;
     }
+  };
+  const closeModal = () => {
+    setOpenModal(false);
   };
   const dateRender = (date: Date) => {
     let diffTime =
@@ -94,6 +70,7 @@ const Listing: React.FC<FeedListing> = (
   };
   return (
     <>
+      <BuyModal listing={listing} open={modalOpen} close={closeModal} />
       <StyledContentLoader isLoading={false}>
         <hr></hr>
         <MediaQuery query="(max-device-width: 768px)">
@@ -103,14 +80,14 @@ const Listing: React.FC<FeedListing> = (
               xs={2}
             >
               <img
-                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                 alt="profile"
                 style={{
                   borderRadius: "60px",
                   height: "auto",
                   width: "5vh",
                   marginLeft: "1.2em",
-                  marginRight: "1.3rem",
+                  marginRight: "1.3rem"
                 }}
               />
             </Col>
@@ -134,7 +111,7 @@ const Listing: React.FC<FeedListing> = (
                 style={{
                   width: "10em",
                   height: "2.5rem",
-                  backgroundColor: "#4263EB",
+                  backgroundColor: "#4263EB"
                 }}
                 onClick={() => {
                   // history.push(`/buy/${listing._id}`);
@@ -157,24 +134,30 @@ const Listing: React.FC<FeedListing> = (
               <Col sm={0.2}>
                 <img
                   alt="profile"
-                  src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                  src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                   style={{
                     borderRadius: "60px",
                     height: "auto",
                     width: "5vh",
                     marginLeft: "1.2em",
-                    marginRight: "1.3rem",
+                    marginRight: "1.3rem"
                   }}
                 />
               </Col>
-              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
+              <Col
+                style={{ textAlign: "left" }}
+                sm={window.visualViewport.width <= 1800 ? 1 : 2}
+              >
                 <p className="userNameSellFeed">
                   {"@"}
                   {listing.seller.username}
                 </p>
               </Col>
 
-              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
+              <Col
+                style={{ textAlign: "left" }}
+                sm={window.visualViewport.width <= 1800 ? 1 : 2}
+              >
                 <p className="detailsSellFeed">
                   {listing.bitcloutnanos / 1e9} @{" "}
                   {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(
@@ -191,7 +174,7 @@ const Listing: React.FC<FeedListing> = (
                   style={{ width: "7em", backgroundColor: "#4263EB" }}
                   onClick={() => {
                     // history.push(`/buy/${listing._id}`);
-                    state.modalOpen = true;
+                    setOpenModal(true);
                   }}
                   disabled={viewCheck()}
                 >
@@ -200,10 +183,10 @@ const Listing: React.FC<FeedListing> = (
               </Col>
             </Row>
           </Wrapper>
-          <ModaltoBuy
+          {/* <ModaltoBuy
             show={state.modalOpen}
             onHide={() => console.log("hehy")}
-          />
+          /> */}
         </MediaQuery>
       </StyledContentLoader>
     </>

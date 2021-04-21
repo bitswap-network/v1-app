@@ -50,4 +50,4 @@ async function buyListing(token: string, id: string) {
   );
 }
 
-export { getListings, getListing, myListings, createListing };
+export { getListings, getListing, myListings, createListing, buyListing };

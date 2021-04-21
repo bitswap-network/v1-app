@@ -38,7 +38,7 @@ const Home = (props: any) => {
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-
+  const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
 
@@ -47,6 +47,7 @@ const Home = (props: any) => {
       .then(res => {
         console.log(res);
         setUser({ ...user, listings: res.data });
+        setListings(res.data);
         setLoading(false);
       })
       .catch(err => {
@@ -79,111 +80,6 @@ const Home = (props: any) => {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Body>
-          <FiX
-            className="hoverCursor"
-            size={"1rem"}
-            style={{
-              float: "right",
-              marginRight: "0.75rem",
-              marginTop: "0.5rem",
-              color: "#ACB5BD"
-            }}
-          />
-          <h3 style={{ marginTop: "1.7rem", marginLeft: "2rem" }}>
-            <b>Confirm Payment</b>
-          </h3>
-          <p
-            style={{
-              color: "#212429",
-              fontSize: "0.7rem",
-              marginLeft: "2rem",
-              marginTop: "0.75rem"
-            }}
-          >
-            By clicking confirm, you will agree to purchase the following
-            BitClout.
-          </p>
-          <Col
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              color: "#ACB5BD",
-              fontSize: "0.7rem",
-              marginTop: "1.5rem",
-              justifyContent: "center"
-            }}
-          >
-            <Col sm={4}>
-              <Row style={{ justifyContent: "center" }}>
-                <FiDollarSign
-                  size={"1.5rem"}
-                  style={{ color: "#212429", marginTop: "0.4rem" }}
-                />
-                <p style={{ color: "#212429", fontSize: "1.5rem" }}>135</p>
-                <p
-                  style={{
-                    color: "#212429",
-                    fontSize: "0.9rem",
-                    marginTop: "0.7rem",
-                    marginLeft: "0.5rem"
-                  }}
-                >
-                  USD
-                </p>
-              </Row>
-            </Col>
-            <Col sm={1}>
-              <p
-                style={{
-                  color: "#212429",
-                  fontSize: "0.9rem",
-                  marginTop: "0.7rem"
-                }}
-              >
-                <b>FOR</b>
-              </p>{" "}
-            </Col>
-            <Col sm={5}>
-              <Row style={{ justifyContent: "center" }}>
-                <FiBox
-                  size={"1.5rem"}
-                  style={{
-                    color: "#212429",
-                    marginTop: "0.4rem",
-                    marginLeft: "1rem"
-                  }}
-                />
-                <p style={{ color: "#212429", fontSize: "1.5rem" }}>100</p>
-                <p
-                  style={{
-                    color: "#212429",
-                    fontSize: "0.9rem",
-                    marginTop: "0.7rem",
-                    marginLeft: "0.5rem"
-                  }}
-                >
-                  BTCLT
-                </p>
-              </Row>
-            </Col>
-          </Col>
-          <Col
-            style={{
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "row"
-            }}
-          >
-            <Button
-              style={{ width: "20rem", marginTop: "3%", marginBottom: "4%" }}
-            >
-              Confirm Swap
-            </Button>
-          </Col>
-        </Modal.Body>
-      </Modal>
       <Wrapper>
         <NavBar />
         <Col sm={window.visualViewport.width <= 1800 ? 9 : 0}>
@@ -297,7 +193,7 @@ const Home = (props: any) => {
                       )}
                     </p>
                   </Row>
-                  {user.listings.map((listing: any, i: number) => (
+                  {listings.map((listing: any, i: number) => (
                     <FeedListing
                       listing={listing}
                       price={1}
@@ -349,7 +245,7 @@ const Home = (props: any) => {
                 marginLeft: "10%"
               }}
             >
-              Amount (BCL)
+              Amount (BTCLT)
             </p>
           </Row>
           <div className="scrollNoBarSplit">

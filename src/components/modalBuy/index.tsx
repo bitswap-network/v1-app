@@ -140,6 +140,7 @@ const BuyModal: React.FC<ListingModal> = (
         >
           <Button
             style={{ width: "20rem", marginTop: "3%", marginBottom: "4%" }}
+            onClick={() => {}}
           >
             Confirm Swap
           </Button>

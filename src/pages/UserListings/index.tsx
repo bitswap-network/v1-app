@@ -67,9 +67,8 @@ const UserListings = (props: any) => {
   const handleAmountChange = (e) => {
     setAmountBitclout(e.target.value);
     setamountError(false);
-    console.log(parseFloat(e.target.value) * 1e9, user.bitswapbalance);
     if (isLoggedIn) {
-      if (parseFloat(e.target.value) * 1e9 > user.bitswapbalance) {
+      if (parseFloat(e.target.value) > user.bitswapbalance) {
         setamountError(true);
       }
       if (parseFloat(amountBitclout) <= 0) {
@@ -162,41 +161,6 @@ const UserListings = (props: any) => {
               >
                 <b>My Swaps</b>
               </h3>
-              {/* <h4
-                style={
-                  window.visualViewport.width <= 768
-                    ? { marginTop: "1em", marginLeft: "2rem" }
-                    : { marginTop: "1em" }
-                }
-              >
-                Listing Feed
-              </h4> */}
-              {/* <Button
-                style={
-                  window.visualViewport.width <= 768
-                    ? {
-                        width: "10em",
-                        backgroundColor: "white",
-                        borderColor: "#4263EB",
-                        color: "#4263EB",
-                        marginTop: "2%",
-                        marginLeft: "2rem"
-                      }
-                    : {
-                        width: "10em",
-                        backgroundColor: "white",
-                        borderColor: "#4263EB",
-                        color: "#4263EB",
-                        marginTop: "2%",
-                        marginLeft: "55rem"
-                      }
-                }
-                onClick={() => {
-                  props.history.push("/postad");
-                }}
-              >
-                Post Swap
-              </Button> */}
 
               <div className="scrollNoBar" style={{ marginTop: "2em" }}>
                 <Row style={{ marginBottom: "-1.2em", marginLeft: "2em" }}>
@@ -284,14 +248,14 @@ const UserListings = (props: any) => {
         }}
         sm={3}
       >
-        <FiX
+        {/* <FiX
           size={30}
           color={"gray"}
           style={{ marginLeft: "100%" }}
           onClick={() => {
             setPostAdPart(false);
           }}
-        />
+        /> */}
 
         <p style={{ fontSize: "2.5vh" }}>
           <b>Post Swap</b>

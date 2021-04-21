@@ -4,12 +4,15 @@ import { RiUser3Line } from "react-icons/ri";
 import { ListingSchema } from "../interfaces";
 import { loggedInState, userState } from "../../store";
 import { useRecoilValue } from "recoil";
+import { buyListing } from "../../services/listings";
+import { useUser } from "../hooks";
+
 import {
   FiCodesandbox,
   FiActivity,
   FiX,
   FiDollarSign,
-  FiBox
+  FiBox,
 } from "react-icons/fi";
 
 interface ListingModal {
@@ -22,17 +25,18 @@ const BuyModal: React.FC<ListingModal> = (
   { listing, open, close },
   props: any
 ) => {
-  const dateRender = (date: Date) => {
-    let diffTime =
-      Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000;
-    if (diffTime < 60) {
-      return "<1 minute ago";
-    } else if (diffTime > 60 && diffTime < 3600) {
-      return `${diffTime / 60} minutes ago`;
-    } else if (diffTime > 3600 && diffTime < 86400) {
-      return `${(diffTime / 3600).toFixed(0)} hours ago`;
-    } else if (diffTime > 86400) {
-      return `${(diffTime / 86400).toFixed(0)} days ago`;
+  const user = useRecoilValue(userState);
+  const isLoggedIn = useRecoilValue(loggedInState);
+
+  const buySubmit = () => {
+    if (listing) {
+      buyListing(user.token, listing._id)
+        .then((response) => {
+          window.location.replace(`/listing/${listing._id}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   return (
@@ -45,7 +49,7 @@ const BuyModal: React.FC<ListingModal> = (
             float: "right",
             marginRight: "0.75rem",
             marginTop: "0.5rem",
-            color: "#ACB5BD"
+            color: "#ACB5BD",
           }}
           onClick={close}
         />
@@ -57,7 +61,7 @@ const BuyModal: React.FC<ListingModal> = (
             color: "#212429",
             fontSize: "0.7rem",
             marginLeft: "2rem",
-            marginTop: "0.75rem"
+            marginTop: "0.75rem",
           }}
         >
           By clicking confirm, you will agree to purchase the following
@@ -70,7 +74,7 @@ const BuyModal: React.FC<ListingModal> = (
             color: "#ACB5BD",
             fontSize: "0.7rem",
             marginTop: "1.5rem",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           <Col sm={4}>
@@ -87,7 +91,7 @@ const BuyModal: React.FC<ListingModal> = (
                   color: "#212429",
                   fontSize: "0.9rem",
                   marginTop: "0.7rem",
-                  marginLeft: "0.5rem"
+                  marginLeft: "0.5rem",
                 }}
               >
                 USD
@@ -99,7 +103,7 @@ const BuyModal: React.FC<ListingModal> = (
               style={{
                 color: "#212429",
                 fontSize: "0.9rem",
-                marginTop: "0.7rem"
+                marginTop: "0.7rem",
               }}
             >
               <b>FOR</b>
@@ -112,7 +116,7 @@ const BuyModal: React.FC<ListingModal> = (
                 style={{
                   color: "#212429",
                   marginTop: "0.4rem",
-                  marginLeft: "1rem"
+                  marginLeft: "1rem",
                 }}
               />
               <p style={{ color: "#212429", fontSize: "1.5rem" }}>
@@ -123,7 +127,7 @@ const BuyModal: React.FC<ListingModal> = (
                   color: "#212429",
                   fontSize: "0.9rem",
                   marginTop: "0.7rem",
-                  marginLeft: "0.5rem"
+                  marginLeft: "0.5rem",
                 }}
               >
                 BTCLT
@@ -133,14 +137,38 @@ const BuyModal: React.FC<ListingModal> = (
         </Col>
         <Col
           style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Col>
+            <Row style={{ justifyContent: "center" }}>
+              <p style={{ color: "#212429", fontSize: "1.0rem" }}>
+                <b>~ {listing.etheramount.toFixed(8)}</b> $ETH
+              </p>
+              <p
+                style={{
+                  color: "#212429",
+                  fontSize: "0.7rem",
+                  marginTop: "-3%",
+                }}
+              >
+                Subject to change based on current exchange rates.
+              </p>
+            </Row>
+          </Col>
+        </Col>
+        <Col
+          style={{
             justifyContent: "center",
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
           }}
         >
           <Button
             style={{ width: "20rem", marginTop: "3%", marginBottom: "4%" }}
-            onClick={() => {}}
+            onClick={buySubmit}
           >
             Confirm Swap
           </Button>

@@ -30,18 +30,18 @@ const Wallet = (props: any) => {
   // useEffect hook update user transactions on successful request
   useEffect(() => {
     getTransactions(user.token)
-      .then(response => {
+      .then((response) => {
         setUser({
           ...user,
-          transactions: response.data
+          transactions: response.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, [successful]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setAmount(e.target.value);
     console.log(
       parseFloat(e.target.value),
@@ -50,7 +50,7 @@ const Wallet = (props: any) => {
     );
     if (
       transactionType === "Withdraw" &&
-      parseFloat(e.target.value) > user.bitswapbalance / 1e9
+      parseFloat(e.target.value) > user.bitswapbalance
     ) {
       console.log("oo");
       setWithdrawError(true);
@@ -67,7 +67,7 @@ const Wallet = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -83,7 +83,7 @@ const Wallet = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -115,7 +115,7 @@ const Wallet = (props: any) => {
             : {
                 display: "flex",
                 flexDirection: "row",
-                marginLeft: "1.3rem"
+                marginLeft: "1.3rem",
               }
         }
       >
@@ -141,12 +141,12 @@ const Wallet = (props: any) => {
                       ? {
                           marginTop: "2%",
                           color: "#495057",
-                          fontSize: "1.35rem"
+                          fontSize: "1.35rem",
                         }
                       : {
                           marginTop: "10%",
                           color: "#495057",
-                          fontSize: "1.35rem"
+                          fontSize: "1.35rem",
                         }
                   }
                 >
@@ -161,15 +161,13 @@ const Wallet = (props: any) => {
                   style={{
                     color: "#ACB5BD",
                     fontSize: "0.75rem",
-                    marginTop: "8%"
+                    marginTop: "8%",
                   }}
                 >
                   BITSWAP BALANCE
                 </p>
                 <p style={{ color: "#495057", fontSize: "1.3rem" }}>
-                  <b style={{ fontSize: "1.8rem" }}>
-                    {(user.bitswapbalance / 1e9).toFixed(4)}
-                  </b>{" "}
+                  <b style={{ fontSize: "1.8rem" }}>{user.bitswapbalance}</b>{" "}
                   BTCLT
                 </p>
               </Col>
@@ -179,7 +177,7 @@ const Wallet = (props: any) => {
                   style={{
                     color: "#ACB5BD",
                     fontSize: "0.75rem",
-                    marginTop: "8%"
+                    marginTop: "8%",
                   }}
                 >
                   TOTAL TRANSACTIONS
@@ -197,7 +195,7 @@ const Wallet = (props: any) => {
                   style={{
                     color:
                       transactionType === "Deposit" ? "#6494FF" : "#D7DFFF",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => setTransactionType("Deposit")}
                 >
@@ -209,7 +207,7 @@ const Wallet = (props: any) => {
                   style={{
                     color:
                       transactionType === "Withdraw" ? "#6494FF" : "#D7DFFF",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => setTransactionType("Withdraw")}
                 >
@@ -228,7 +226,7 @@ const Wallet = (props: any) => {
                   type="number"
                   value={amount}
                   inputProps={{
-                    style: { fontStyle: "initial" }
+                    style: { fontStyle: "initial" },
                   }}
                   onChange={handleChange}
                   error={withdrawError}
@@ -243,10 +241,10 @@ const Wallet = (props: any) => {
                       backgroundColor: "#4263EB",
                       borderColor: "white",
                       color: "white",
-                      fontSize: "0.85rem"
+                      fontSize: "0.85rem",
                     }}
                     onClick={() => {
-                      setAmount(user.bitswapbalance / 1e9);
+                      setAmount(user.bitswapbalance);
                     }}
                   >
                     Max
@@ -279,7 +277,7 @@ const Wallet = (props: any) => {
                   borderColor: "white",
                   color: "white",
                   fontSize: "0.85rem",
-                  padding: "1.2%"
+                  padding: "1.2%",
                 }}
                 onClick={handleSubmit}
                 disabled={withdrawError}
@@ -297,7 +295,7 @@ const Wallet = (props: any) => {
                   height: "100vh",
                   marginRight: 0,
                   paddingRight: 0,
-                  width: "2rem"
+                  width: "2rem",
                 }}
               />
             </Row>
@@ -315,7 +313,7 @@ const Wallet = (props: any) => {
                   color: "#ACB5BD",
                   fontSize: "0.75rem",
                   marginTop: "12%",
-                  marginLeft: "10%"
+                  marginLeft: "10%",
                 }}
               >
                 Amount (BTCLT)
@@ -332,7 +330,7 @@ const Wallet = (props: any) => {
                       <hr
                         style={{
                           borderTop: "1px solid #DDE2E5",
-                          width: "100rem"
+                          width: "100rem",
                         }}
                       />
                     </Row>
@@ -351,7 +349,7 @@ const Wallet = (props: any) => {
                             style={{
                               borderRadius: "3px",
                               backgroundColor: "#DDE2E5",
-                              textAlign: "center"
+                              textAlign: "center",
                             }}
                           >
                             <p style={{ fontSize: "0.8em", padding: "1px" }}>
@@ -364,14 +362,14 @@ const Wallet = (props: any) => {
                             style={{
                               borderRadius: "3px",
                               backgroundColor: "#6494FF",
-                              textAlign: "center"
+                              textAlign: "center",
                             }}
                           >
                             <p
                               style={{
                                 fontSize: "0.8rem",
                                 padding: "3px",
-                                color: "white"
+                                color: "white",
                               }}
                             >
                               Completed

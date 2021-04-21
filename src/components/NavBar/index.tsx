@@ -208,8 +208,8 @@ export const NavBar: React.FC = (props: any) => {
                     <b>
                       Balance:{" "}
                       {isLoading || isError
-                        ? user.bitswapbalance / 1e9
-                        : userData.bitswapbalance / 1e9}{" "}
+                        ? user.bitswapbalance
+                        : userData.bitswapbalance}{" "}
                       $BTCLT
                     </b>
                   )}

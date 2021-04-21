@@ -50,4 +50,32 @@ async function buyListing(token: string, id: string) {
   );
 }
 
-export { getListings, getListing, myListings, createListing, buyListing };
+async function cancelListing(token: string, id: string) {
+  return axios.post(
+    `${url}/listing/cancel`,
+    {
+      id: id,
+    },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+}
+
+async function deleteListing(token: string, id: string) {
+  return axios.post(
+    `${url}/listing/delete`,
+    {
+      id: id,
+    },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+}
+
+export {
+  getListings,
+  getListing,
+  myListings,
+  createListing,
+  buyListing,
+  cancelListing,
+  deleteListing,
+};

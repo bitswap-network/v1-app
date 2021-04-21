@@ -89,7 +89,7 @@ const Home = (props: any) => {
                 style={
                   window.visualViewport.width <= 768
                     ? { marginLeft: "3rem", fontSize: "1.5rem" }
-                    : { marginLeft: "0.5rem" }
+                    : { marginLeft: "1rem" }
                 }
               >
                 <b>Swap Feed</b>
@@ -104,12 +104,11 @@ const Home = (props: any) => {
                 {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
               </h5>
             </Row>
-            <Row>
+            {/* <Row>
               <MediaQuery query="(min-device-width: 768px)">
                 <DesktopButton
                   onClick={() => {
                     setShowModal(true);
-                    // setPostAdPart(true);
                   }}
                 >
                   Post Swap
@@ -124,7 +123,7 @@ const Home = (props: any) => {
               >
                 Post Swap
               </MobileButton>
-            </MediaQuery>
+            </MediaQuery> */}
             <FeedContent>
               <Col>
                 <div

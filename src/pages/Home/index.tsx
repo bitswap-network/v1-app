@@ -257,7 +257,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -269,7 +269,7 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -280,19 +280,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
-              </Col>
-              <Col>
-                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
-              </Col>
-            </Row>
-            <Row>
-              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
-            </Row>
-
-            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-              <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -304,7 +292,7 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -316,7 +304,19 @@ const Home = (props: any) => {
 
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 BCL & $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
+              </Col>
+              <Col>
+                <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
+              </Col>
+            </Row>
+            <Row>
+              <hr style={{ borderTop: "1px solid #DDE2E5", width: "100rem" }} />
+            </Row>
+
+            <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+              <Col>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>
@@ -336,7 +336,7 @@ const Home = (props: any) => {
             </Row>
             <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
-                <p style={{ color: "#495057" }}>5 @ $10</p>
+                <p style={{ color: "#495057" }}>5 BTCLT @ $150</p>
               </Col>
               <Col>
                 <p style={{ color: "#4263EB", fontSize: "1rem" }}>View →</p>

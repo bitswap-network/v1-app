@@ -3,6 +3,7 @@ import { Row, Col, Button, Container } from "react-bootstrap";
 import axios from "axios";
 import { ListingSchema } from "../interfaces";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import env from "../data/env.json";
@@ -44,7 +45,7 @@ const Listing: React.FC<UserListing> = (
     if (diffTime < 60) {
       return "<1 minute ago";
     } else if (diffTime > 60 && diffTime < 3600) {
-      return `${diffTime / 60} minutes ago`;
+      return `${(diffTime / 60).toFixed(0)} minutes ago`;
     } else if (diffTime > 3600 && diffTime < 86400) {
       return `${(diffTime / 3600).toFixed(0)} hours ago`;
     } else if (diffTime > 86400) {
@@ -81,18 +82,20 @@ const Listing: React.FC<UserListing> = (
             </Row>
             <Col>
               <Col sm={0}>
-                <Button
-                  style={{
-                    width: "10em",
-                    backgroundColor: "#4263EB",
-                    marginTop: "1.3em",
-                  }}
-                  onClick={() => {
-                    history.push(`/listing/${listing._id}`);
-                  }}
-                >
-                  View
-                </Button>
+                <Link to={`/listing/${listing._id}`}>
+                  <Button
+                    style={{
+                      width: "10em",
+                      backgroundColor: "#4263EB",
+                      marginTop: "1.3em",
+                    }}
+                    // onClick={() => {
+                    //   history.push(`/listing/${listing._id}`);
+                    // }}
+                  >
+                    View
+                  </Button>
+                </Link>
               </Col>
             </Col>
           </Wrapper>

@@ -6,13 +6,10 @@ import { userState } from "store";
 
 const Logout = (props: any) => {
   const setUser = useSetRecoilState(userState);
-
-  useEffect(() => {
-    setUser(null);
-    removeData("user");
-    props.history.push("/");
-    window.location.reload();
-  }, []);
+  removeData("user");
+  setUser(null);
+  props.history.push("/");
+  window.location.reload();
 
   return (
     <div className="App">

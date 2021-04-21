@@ -37,6 +37,7 @@ const Home = (props: any) => {
   const [user, setUser] = useRecoilState(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
@@ -78,7 +79,7 @@ const Home = (props: any) => {
 
   return (
     <>
-      <Modal show={false} onHide={true}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Body>
           <FiX
             className="hoverCursor"
@@ -211,6 +212,7 @@ const Home = (props: any) => {
               <MediaQuery query="(min-device-width: 768px)">
                 <DesktopButton
                   onClick={() => {
+                    setShowModal(true);
                     // setPostAdPart(true);
                   }}
                 >

@@ -103,7 +103,7 @@ const Listing: React.FC<FeedListing> = (
               xs={2}
             >
               <img
-                src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                 alt="profile"
                 style={{
                   borderRadius: "60px",
@@ -157,7 +157,7 @@ const Listing: React.FC<FeedListing> = (
               <Col sm={0.2}>
                 <img
                   alt="profile"
-                  src={`https://pbs.twimg.com/profile_images/1368690205784498177/5PkA1F5-_400x400.jpg`}
+                  src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                   style={{
                     borderRadius: "60px",
                     height: "auto",
@@ -167,14 +167,20 @@ const Listing: React.FC<FeedListing> = (
                   }}
                 />
               </Col>
-              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
+              <Col
+                style={{ textAlign: "left" }}
+                sm={window.visualViewport.width <= 1800 ? 1 : 2}
+              >
                 <p className="userNameSellFeed">
                   {"@"}
                   {listing.seller.username}
                 </p>
               </Col>
 
-              <Col style={{ textAlign: "left" }} sm={window.visualViewport.width <= 1800 ? 1 : 2}>
+              <Col
+                style={{ textAlign: "left" }}
+                sm={window.visualViewport.width <= 1800 ? 1 : 2}
+              >
                 <p className="detailsSellFeed">
                   {listing.bitcloutnanos / 1e9} @{" "}
                   {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(

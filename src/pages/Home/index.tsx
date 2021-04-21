@@ -6,7 +6,7 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal,
+  Modal
 } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
@@ -16,7 +16,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
-  FiBox,
+  FiBox
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -30,7 +30,7 @@ import {
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper,
+  SearchBarWrapper
 } from "./styles";
 
 const Home = (props: any) => {
@@ -44,13 +44,12 @@ const Home = (props: any) => {
 
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then((res) => {
+      .then(res => {
         console.log(res);
-        setUser({ ...user, listings: res.data });
         setListings(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setLoading(false);
       });
@@ -74,7 +73,6 @@ const Home = (props: any) => {
   };
 
   if (user && !isLoggedIn) {
-    console.log("hello");
     return <Redirect to="/logout" />;
   }
 
@@ -138,7 +136,7 @@ const Home = (props: any) => {
                           ? {
                               marginRight: "6rem",
                               color: "#C4C4C4",
-                              fontSize: "0.8em",
+                              fontSize: "0.8em"
                             }
                           : {
                               color: "#C4C4C4",
@@ -146,7 +144,7 @@ const Home = (props: any) => {
                                 window.visualViewport.width <= 1800
                                   ? "10em"
                                   : "22em",
-                              fontSize: "0.8em",
+                              fontSize: "0.8em"
                             }
                       }
                     >
@@ -163,7 +161,7 @@ const Home = (props: any) => {
                                 window.visualViewport.width <= 1800
                                   ? "14em"
                                   : "22em",
-                              fontSize: "0.8em",
+                              fontSize: "0.8em"
                             }
                       }
                     >
@@ -222,13 +220,13 @@ const Home = (props: any) => {
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
-                      marginLeft: "0.25rem",
+                      marginLeft: "0.25rem"
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem",
+                      width: "2rem"
                     }
               }
             />
@@ -246,7 +244,7 @@ const Home = (props: any) => {
                 color: "#ACB5BD",
                 fontSize: "0.75rem",
                 marginTop: "12%",
-                marginLeft: "10%",
+                marginLeft: "10%"
               }}
             >
               Amount (BTCLT)

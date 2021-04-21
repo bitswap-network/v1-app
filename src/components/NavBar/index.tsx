@@ -77,7 +77,7 @@ const NavElement = (props: any) => {
 
 export const NavBar: React.FC = (props: any) => {
   const user = useRecoilValue(userState);
-  const { userData, isLoading, isError } = useUser(user.token);
+  const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [currentPage, setCurrentPage] = useState(window.location.pathname);
   return (
@@ -205,7 +205,13 @@ export const NavBar: React.FC = (props: any) => {
               >
                 <p>
                   {isLoggedIn && (
-                    <b>Balance: {userData.bitswapbalance / 1e9} $BTCLT</b>
+                    <b>
+                      Balance:{" "}
+                      {isLoading || isError
+                        ? user.bitswapbalance
+                        : userData.bitswapbalance / 1e9}{" "}
+                      $BTCLT
+                    </b>
                   )}
                 </p>
               </Row>

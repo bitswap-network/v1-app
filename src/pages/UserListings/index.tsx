@@ -7,7 +7,7 @@ import {
   Col,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
 import env from "../../components/data/env.json";
 import UserListing from "../../components/UserListing";
@@ -39,32 +39,32 @@ const UserListings = (props: any) => {
   useEffect(() => {
     console.log(user);
     myListings(user.token)
-      .then(resp => {
+      .then((resp) => {
         setListings(resp.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
     getBTCLT()
-      .then(price => {
+      .then((price) => {
         console.log(price);
         setBitcloutprice(price);
         setusdPerBitclout(price.toFixed(2));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-    getETHUSD().then(response => {
+    getETHUSD().then((response) => {
       setetherPrice(parseFloat(response.data.USD));
     });
   }, []);
-  const handleBitcloutChange = e => {
+  const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
     if (parseFloat(e.target.value) <= 0) {
       setusdPerError(true);
     }
   };
-  const handleAmountChange = e => {
+  const handleAmountChange = (e) => {
     setAmountBitclout(e.target.value);
     setamountError(false);
     console.log(parseFloat(e.target.value) * 1e9, user.bitswapbalance);
@@ -86,7 +86,7 @@ const UserListings = (props: any) => {
         parseFloat(usdPerBitclout),
         (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) / etherPrice,
         user.token
-      ).then(response => {
+      ).then((response) => {
         console.log(response);
       });
     }
@@ -134,12 +134,12 @@ const UserListings = (props: any) => {
               paddingLeft: 0,
               paddingRight: 0,
               display: "flex",
-              flexDirection: "column"
+              flexDirection: "column",
             }
           : {
               display: "flex",
               flexDirection: "row",
-              marginLeft: "1.3rem"
+              marginLeft: "1.3rem",
             }
       }
     >
@@ -171,7 +171,7 @@ const UserListings = (props: any) => {
               >
                 Listing Feed
               </h4> */}
-              <Button
+              {/* <Button
                 style={
                   window.visualViewport.width <= 768
                     ? {
@@ -196,7 +196,7 @@ const UserListings = (props: any) => {
                 }}
               >
                 Post Swap
-              </Button>
+              </Button> */}
 
               <div className="scrollNoBar" style={{ marginTop: "2em" }}>
                 <Row style={{ marginBottom: "-1.2em", marginLeft: "2em" }}>
@@ -206,12 +206,12 @@ const UserListings = (props: any) => {
                         ? {
                             color: "#C4C4C4",
                             fontSize: "0.8em",
-                            marginRight: "4.5em"
+                            marginRight: "4.5em",
                           }
                         : {
                             color: "#C4C4C4",
                             marginRight: "14em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -224,7 +224,7 @@ const UserListings = (props: any) => {
                         : {
                             color: "#C4C4C4",
                             marginRight: "23em",
-                            fontSize: "0.8em"
+                            fontSize: "0.8em",
                           }
                     }
                   >
@@ -257,7 +257,7 @@ const UserListings = (props: any) => {
                 backgroundColor: "white",
                 borderColor: "#4263EB",
                 color: "#4263EB",
-                marginTop: "2em"
+                marginTop: "2em",
               }}
               onClick={() => {
                 props.history.push("/postad");
@@ -273,14 +273,14 @@ const UserListings = (props: any) => {
         style={{
           borderLeft: "1px solid #DDE2E5",
           height: "100vh",
-          width: "1rem"
+          width: "1rem",
         }}
       />
 
       <Col
         style={{
           marginLeft: "5%",
-          marginTop: "5%"
+          marginTop: "5%",
         }}
         sm={3}
       >
@@ -308,7 +308,7 @@ const UserListings = (props: any) => {
           error={amountError}
           style={{ marginTop: "15%" }}
           inputProps={{
-            style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" }
+            style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
           }}
         />
         <TextField
@@ -322,7 +322,7 @@ const UserListings = (props: any) => {
           size={"medium"}
           style={{ marginTop: "15%" }}
           inputProps={{
-            style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" }
+            style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
           }}
         />
         <h5 style={{ marginTop: "10%", fontSize: "1rem" }}>
@@ -349,7 +349,7 @@ const UserListings = (props: any) => {
             width: "10em",
             height: "2.5rem",
             backgroundColor: "#4263EB",
-            marginTop: "12%"
+            marginTop: "12%",
           }}
           disabled={usdPerError || amountError}
           onClick={submitPost}

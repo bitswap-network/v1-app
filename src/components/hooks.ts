@@ -26,7 +26,7 @@ export const useInterval = (callback: () => void, delay: number | null) => {
 };
 
 export function useUser(token) {
-  const {data, error} = useSWR(`${url}/user/data`, url => axios.get(url, {
+  const {data, error} = useSWR(token ? `${url}/user/data` : null, url => axios.get(url, {
     headers: {
       Authorization: `Bearer ${token}`
     }

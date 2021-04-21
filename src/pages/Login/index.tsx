@@ -73,7 +73,7 @@ const Login = (props: any) => {
       <LeftDisplay
         className="col-xxl-10"
         sm={8}
-        xl={window.innerWidth > 1600 ? 11 : 8}
+        xl={window.innerWidth > 1800 ? 10 : 7}
       >
         <LogoRow>
           <img src={Logo} width={"18%"} height={"auto"} />

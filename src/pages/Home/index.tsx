@@ -359,7 +359,7 @@ const Home = (props: any) => {
               {listings.map((listing) => {
                 // {listing.buyer&&
                 if (listing.ongoing === true) {
-                  listing.buyer._id === userData._id && (
+                  listing.buyer?._id === userData._id && (
                     <OngoingItem
                       bitcloutnanos={listing.bitcloutnanos}
                       usdamount={listing.usdamount}
@@ -371,7 +371,8 @@ const Home = (props: any) => {
               })}
               {!listings.some(
                 (listing) =>
-                  listing.buyer._id === userData._id && listing.ongoing === true
+                  listing.buyer?._id === userData._id &&
+                  listing.ongoing === true
               ) ? (
                 <p>You don't have any ongoing buys</p>
               ) : null}

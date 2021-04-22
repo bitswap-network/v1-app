@@ -40,7 +40,7 @@ const BuyModal: React.FC<ListingModal> = (
     }
   };
   return (
-    <Modal show={open} onHide={close}>
+    <Modal show={open} onHide={close} aria-labelledby="contained-modal-title-vcenter">
       <Modal.Body>
         <FiX
           className="hoverCursor"

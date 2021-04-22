@@ -39,7 +39,7 @@ const TransactionModal: React.FC<TxnModal> = (
   const isLoggedIn = useRecoilValue(loggedInState);
   console.log(transaction);
   return (
-    <Modal show={open} onHide={close}>
+    <Modal show={open} onHide={close} aria-labelledby="contained-modal-title-vcenter">
       <Modal.Body>
         <FiX
           size={"1rem"}

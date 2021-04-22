@@ -22,7 +22,7 @@ const ModalError: React.FC<ErrorModal> = ({ open, close }, props: any) => {
 
 
   return (
-    <Modal show={open} onHide={close}>
+    <Modal show={open} onHide={close} style={{  display:'flex', margin: 'auto' }}  aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Body>
         <Col style={{textAlign: "right"}}>
         <FiX
@@ -36,7 +36,7 @@ const ModalError: React.FC<ErrorModal> = ({ open, close }, props: any) => {
         />
         </Col>
         <Col style={{textAlign: "center"}}>
-          <FiXCircle color={"#F03D3E"} size={'4rem'} />
+          <FiXCircle color={"#F03D3E"} size={'3rem'} />
         </Col>
         <Col style={{textAlign: "center", marginTop: "3%"}}>
           <p style={{fontSize: "1rem", color: "#ACB5BD"}}>Looks like something went wrong. Please refresh the page or contact us at admin@bitswap.ca</p>

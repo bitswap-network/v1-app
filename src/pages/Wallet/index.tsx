@@ -20,6 +20,7 @@ const Wallet = (props: any) => {
   const [modalOpen, setOpenModal] = useState(false);
   const [user, setUser] = useRecoilState(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
+  const [confirmModal, confirmModalOpen] = useState(false);
   const [txnView, setTxnView] = useState<TransactionSchema>();
   const { userData, isLoading, isError } = useUser(user?.token);
   const [withdrawError, setWithdrawError] = useState(false);
@@ -108,6 +109,52 @@ const Wallet = (props: any) => {
           open={modalOpen}
           close={closeModal}
         />
+         <Modal show={confirmModal} onHide={false} style={{  display:'flex', margin: 'auto' }}  aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Body style={{padding: "2em"}}>
+
+            <Col style={{textAlign: "center"}}>
+              <p style={{fontSize: "2rem", color: "black"}}>Confirm</p>
+            </Col>
+            <Col style={{textAlign: "center", marginTop: "2%"}}>
+              <p style={{fontSize: "1rem", color: "#ACB5BD"}}>Are you sure you'd like to {transactionType}?</p>
+            </Col>
+            <Col style={{textAlign: "center", marginTop: "8%"}}>
+              <Button
+                  style={{
+                    height: "100%",
+                    backgroundColor: "#4263EB",
+                    borderColor: "white",
+                    color: "white",
+                    fontSize: "0.85rem",
+                    padding: "2.5%",
+                    paddingLeft: "4%",
+                    paddingRight: "4%",
+                    marginRight: "5%"
+                  }}
+                  onClick={handleSubmit}
+                  disabled={withdrawError}
+                >
+                  Confirm {transactionType}
+                </Button>
+                <Button
+                  style={{
+                    height: "100%",
+                    backgroundColor: "white",
+                    borderColor: "#4263EB",
+                    color: "#4263EB",
+                    fontSize: "0.85rem",
+                    padding: "2.5%",
+                    paddingLeft: "4%",
+                    paddingRight: "4%"
+                  }}
+                  onClick={() => confirmModalOpen(false)}
+                  disabled={withdrawError}
+                >
+                  Cancel {transactionType}
+                </Button>
+            </Col>
+          </Modal.Body>
+        </Modal>
       </>
       <Container
         style={
@@ -284,7 +331,7 @@ const Wallet = (props: any) => {
                   fontSize: "0.85rem",
                   padding: "1.2%",
                 }}
-                onClick={handleSubmit}
+                onClick={() => confirmModalOpen(true)}
                 disabled={withdrawError}
               >
                 Confirm {transactionType}

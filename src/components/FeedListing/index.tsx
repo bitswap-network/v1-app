@@ -116,12 +116,12 @@ const Listing: React.FC<FeedListing> = (
                   width: "10em",
                   height: "2.5rem",
                   backgroundColor: "#4263EB",
+                  borderColor: "white",
                 }}
                 onClick={() => {
-                  // history.push(`/buy/${listing._id}`);
                   state.modalOpen = true;
                 }}
-                disabled={viewCheck()}
+                disabled={listing.seller._id === user._id}
               >
                 Buy
               </Button>
@@ -175,12 +175,16 @@ const Listing: React.FC<FeedListing> = (
               </Col>
               <Col sm={0} style={{ marginLeft: "-4em" }}>
                 <Button
-                  style={{ width: "7em", backgroundColor: "#4263EB" }}
+                  style={{
+                    width: "7em",
+                    backgroundColor: "#4263EB",
+                    borderColor: "white",
+                  }}
                   onClick={() => {
                     // history.push(`/buy/${listing._id}`);
                     setOpenModal(true);
                   }}
-                  disabled={viewCheck()}
+                  disabled={listing.seller._id === user._id}
                 >
                   Buy
                 </Button>

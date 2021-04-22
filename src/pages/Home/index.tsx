@@ -273,7 +273,7 @@ const Home = (props: any) => {
               {!userData?.listings.some(
                 (listing) => listing.ongoing === true
               ) ? (
-                <p>You don't have any ongoing swaps</p>
+                <p style={{marginLeft: "5%", fontSize:"0.9rem"}}>You don't have any ongoing swaps</p>
               ) : null}
               {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
@@ -373,7 +373,7 @@ const Home = (props: any) => {
                     listing.ongoing === true
                   : false
               ) ? (
-                <p>You don't have any ongoing buys</p>
+                <p style={{marginLeft: "5%", fontSize:"0.9rem"}}>You don't have any ongoing buys</p>
               ) : null}
               {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
                 <Col>

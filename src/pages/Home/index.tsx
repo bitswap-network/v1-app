@@ -34,16 +34,18 @@ import {
 } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
+import ModalError from "components/modalError/index"
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
   const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
+  const [modalOpen, setOpenModal] = useState(false);
+
 
   useEffect(() => {
     getListings(volumeSort, dateSort)
@@ -78,6 +80,10 @@ const Home = (props: any) => {
   if (user && !isLoggedIn) {
     window.location.assign("/login");
   }
+  
+  const closeModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>

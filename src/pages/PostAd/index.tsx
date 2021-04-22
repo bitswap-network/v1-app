@@ -173,7 +173,6 @@ const PostAd = (props: any) => {
                   value={form.username}
                   error={error.username}
                   fullWidth={true}
-                  // onChange={handleNameChange}
                   disabled
                 />
               </Col>
@@ -191,7 +190,6 @@ const PostAd = (props: any) => {
                   value={form.bitcloutid}
                   error={error.bitcloutid}
                   fullWidth={true}
-                  // onChange={handleNameChange}
                   disabled
                 />
               </Col>

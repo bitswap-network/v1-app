@@ -247,6 +247,7 @@ const Home = (props: any) => {
                     Ongoing Swaps
                   </h5>
                 </Row>
+
                 <Row>
                   <p
                     style={{
@@ -292,6 +293,18 @@ const Home = (props: any) => {
                   <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
                     Ongoing Buy
                   </h5>
+                </Row>
+                <Row>
+                  <p
+                    style={{
+                      color: "#ACB5BD",
+                      fontSize: "0.75rem",
+                      marginTop: "12%",
+                      marginLeft: "10%",
+                    }}
+                  >
+                    Amount (BTCLT)
+                  </p>
                 </Row>
                 <div className="scrollNoBarSplit">
                   <Row>

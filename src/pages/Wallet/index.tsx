@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { FiCodesandbox, FiActivity, FiX } from "react-icons/fi";
 import { deposit, withdraw, getTransactions } from "services/users";
 import { TransactionSchema } from "../../components/interfaces";
+import { useUser } from "../../components/hooks";
 
 import TransactionModal from "../../components/modalTransactionInfo";
 const Wallet = (props: any) => {
@@ -20,7 +21,7 @@ const Wallet = (props: any) => {
   const [user, setUser] = useRecoilState(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [txnView, setTxnView] = useState<TransactionSchema>();
-
+  const { userData, isLoading, isError } = useUser(user?.token);
   const [withdrawError, setWithdrawError] = useState(false);
 
   if (!isLoggedIn) {
@@ -167,7 +168,9 @@ const Wallet = (props: any) => {
                   BITSWAP BALANCE
                 </p>
                 <p style={{ color: "#495057", fontSize: "1.3rem" }}>
-                  <b style={{ fontSize: "1.8rem" }}>{user.bitswapbalance}</b>{" "}
+                  <b style={{ fontSize: "1.8rem" }}>
+                    {userData ? userData.bitswapbalance : user.bitswapbalance}
+                  </b>{" "}
                   BTCLT
                 </p>
               </Col>
@@ -184,7 +187,9 @@ const Wallet = (props: any) => {
                 </p>
                 <p style={{ color: "#495057", fontSize: "1.3rem" }}>
                   <b style={{ fontSize: "1.8rem" }}>
-                    {user.transactions.length}
+                    {userData
+                      ? userData.transactions.length
+                      : user.transactions.length}
                   </b>
                 </p>
               </Col>

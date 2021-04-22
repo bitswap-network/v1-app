@@ -58,14 +58,18 @@ const Listing: React.FC<FeedListing> = (
   const dateRender = (date: Date) => {
     let diffTime =
       Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000;
-    if (diffTime < 60) {
+    if (diffTime < 120) {
       return "<1 minute ago";
-    } else if (diffTime > 60 && diffTime < 3600) {
+    } else if (diffTime > 120 && diffTime < 3600) {
       return `${(diffTime / 60).toFixed(0)} minutes ago`;
     } else if (diffTime > 3600 && diffTime < 86400) {
-      return `${(diffTime / 3600).toFixed(0)} hours ago`;
+      return `${(diffTime / 3600).toFixed(0)} hour${
+        (diffTime / 3600).toFixed(0) === "1" ? "" : "s"
+      } ago`;
     } else if (diffTime > 86400) {
-      return `${(diffTime / 86400).toFixed(0)} days ago`;
+      return `${(diffTime / 86400).toFixed(0)} day${
+        (diffTime / 86400).toFixed(0) === "1" ? "" : "s"
+      } ago`;
     }
   };
   return (

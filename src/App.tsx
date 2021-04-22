@@ -30,7 +30,7 @@ function App() {
       {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
       <Route path="/wallet" component={Wallet} />
 
-      <Route path="/postad" component={PostAd} />
+      {/* <Route path="/postad" component={PostAd} /> */}
       <Route path="/userlistings" component={UserListings} />
       <Route path="/profile" component={EditProfile} />
       <Route path="/admin" component={Admin} />

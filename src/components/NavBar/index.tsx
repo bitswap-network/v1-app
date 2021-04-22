@@ -151,15 +151,15 @@ export const NavBar: React.FC = (props: any) => {
 
               {true ? (
                 <>
-                  <Row className="navRow" style={{ paddingTop: "2vh" }}>
+                  {/* <Row className="navRow" style={{ paddingTop: "2vh" }}>
                     <NavElement
                       label="Post"
                       linkto="/postad"
                       currentPage={currentPage}
                       setCurrentPage={setCurrentPage}
                     />
-                  </Row>
-                  <Row className="navRow" style={{ paddingTop: "4vh" }}>
+                  </Row> */}
+                  <Row className="navRow" style={{ paddingTop: "2vh" }}>
                     <NavElement
                       label=" Listings"
                       linkto="/userlistings"
@@ -167,7 +167,7 @@ export const NavBar: React.FC = (props: any) => {
                       setCurrentPage={setCurrentPage}
                     />
                   </Row>
-                  <Row className="navRow" style={{ paddingTop: "6vh" }}>
+                  <Row className="navRow" style={{ paddingTop: "4vh" }}>
                     <NavElement
                       label="  Wallet"
                       linkto="/wallet"

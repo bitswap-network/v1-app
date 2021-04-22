@@ -103,7 +103,7 @@ h3 {
   justify-self: center;
 }
 .listingLineDivEnd {
-  height: 12.5vh;
+  height: 100%;
   /* background-color: #6494ff; */
   margin-right: 0;
   padding-right: 0;

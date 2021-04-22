@@ -19,12 +19,15 @@ import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import TextField from "@material-ui/core/TextField";
 import { FiX } from "react-icons/fi";
-import { getBTCLT, getETHUSD } from "../../services/price";
 import { getListings, createListing } from "../../services/listings";
+import { useUser, useEthPrice, useGasPrice } from "../../components/hooks";
 
 const UserListings = (props: any) => {
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
+  const { userData, isLoading, isError } = useUser(user?.token);
+  const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
+  const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [loading, setLoading] = useState(true);
 
   const [listings, setListings] = useState<ListingSchema[]>([]);
@@ -34,29 +37,32 @@ const UserListings = (props: any) => {
   const [usdPerError, setusdPerError] = useState(false);
   const [usdPerBitclout, setusdPerBitclout] = useState("");
   const [bitcloutprice, setBitcloutprice] = useState(0);
-  const [etherPrice, setetherPrice] = useState(0);
+
   const [showPostAd, setPostAdPart] = useState(false);
+  const [gas, setGas] = useState(0);
+
+  console.log(etherPrice);
   useEffect(() => {
-    console.log(user);
-    myListings(user.token)
-      .then((resp) => {
-        setListings(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    getBTCLT()
-      .then((price) => {
-        console.log(price);
-        setBitcloutprice(price);
-        setusdPerBitclout(price.toFixed(2));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    getETHUSD().then((response) => {
-      setetherPrice(parseFloat(response.data.USD));
-    });
+    // console.log(user);
+    // myListings(user.token)
+    //   .then((resp) => {
+    //     setListings(resp.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // getBTCLT()
+    //   .then((price) => {
+    //     console.log(price);
+    //     setBitcloutprice(price);
+    //     setusdPerBitclout(price.toFixed(2));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // useEthPrice().then((response) => {
+    //   setetherPrice(parseFloat(response.data.USD));
+    // });
   }, []);
   const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
@@ -77,13 +83,24 @@ const UserListings = (props: any) => {
     }
   };
 
+  if (!isLoading) {
+    console.log("userData", userData);
+  }
+
   const submitPost = () => {
-    if (!amountError && !usdPerError && isLoggedIn) {
+    if (
+      !amountError &&
+      !usdPerError &&
+      isLoggedIn &&
+      !ethIsLoading &&
+      !ethIsError
+    ) {
       //add loading animation
       createListing(
         parseFloat(amountBitclout),
         parseFloat(usdPerBitclout),
-        (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) / etherPrice,
+        (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
+          etherPrice.USD,
         user.token
       ).then((response) => {
         console.log(response);
@@ -91,18 +108,16 @@ const UserListings = (props: any) => {
     }
   };
   const Rows: Function = (groups: any[]): JSX.Element[] =>
-    listings.map((listing: any, i: number) => {
+    userData.listings.map((listing: any, i: number) => {
       return (
         <>
-          {isLoggedIn && (
-            <UserListing
-              listing={listing}
-              index={i}
-              history={props.history}
-              loading={loading}
-              buy={true}
-            />
-          )}
+          <UserListing
+            listing={listing}
+            index={i}
+            history={props.history}
+            loading={loading}
+            buy={true}
+          />
         </>
       );
     });
@@ -145,7 +160,7 @@ const UserListings = (props: any) => {
       <NavBar />
       <Row style={{ width: "70em", marginTop: "8%", marginLeft: "-5rem" }}>
         <Col>
-          {listings.length === 0 && (
+          {userData?.listings.length === 0 && (
             <h3>
               <b>No Listings</b>
             </h3>
@@ -163,7 +178,7 @@ const UserListings = (props: any) => {
               </h3>
 
               <div className="scrollNoBar" style={{ marginTop: "2em" }}>
-                <Row style={{ marginBottom: "-1.2em", marginLeft: "2em" }}>
+                <Row style={{ marginBottom: "-1.2em", marginLeft: "1.5em" }}>
                   <p
                     style={
                       window.visualViewport.width <= 768
@@ -174,7 +189,7 @@ const UserListings = (props: any) => {
                           }
                         : {
                             color: "#C4C4C4",
-                            marginRight: "14em",
+                            marginRight: "10em",
                             fontSize: "0.8em",
                           }
                     }
@@ -187,7 +202,7 @@ const UserListings = (props: any) => {
                         ? { color: "#C4C4C4", fontSize: "0.8em" }
                         : {
                             color: "#C4C4C4",
-                            marginRight: "23em",
+                            marginRight: "14em",
                             fontSize: "0.8em",
                           }
                     }
@@ -203,15 +218,30 @@ const UserListings = (props: any) => {
                   >
                     Posted Time
                   </p>
+                  <p
+                    style={
+                      window.visualViewport.width <= 768
+                        ? { color: "#C4C4C4", fontSize: "0.8em" }
+                        : {
+                            color: "#C4C4C4",
+                            marginLeft: "12em",
+                            fontSize: "0.8em",
+                          }
+                    }
+                  >
+                    Status
+                  </p>
                 </Row>
-                {listings.length > 0 && <Rows />}
+                {!isLoading && !isError && userData.listings.length > 0 && (
+                  <Rows />
+                )}
               </div>
             </>
           )}
         </Col>
       </Row>
 
-      <Row className="align-items-center">
+      {/* <Row className="align-items-center">
         <Col>
           {isLoggedIn && listings.length === 0 && (
             <Button
@@ -224,15 +254,14 @@ const UserListings = (props: any) => {
                 marginTop: "2em",
               }}
               onClick={() => {
-                props.history.push("/postad");
-                window.location.reload();
+                window.location.assign("/postad");
               }}
             >
               Post a New Listing
             </Button>
           )}
         </Col>
-      </Row>
+      </Row> */}
       <div
         style={{
           borderLeft: "1px solid #DDE2E5",
@@ -289,6 +318,7 @@ const UserListings = (props: any) => {
             style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
           }}
         />
+
         <h5 style={{ marginTop: "10%", fontSize: "1rem" }}>
           Total $USD:{" "}
           {parseFloat(amountBitclout) > 0 && parseFloat(usdPerBitclout) > 0
@@ -300,11 +330,12 @@ const UserListings = (props: any) => {
         <h5 style={{ marginTop: "7.5%", fontSize: "1rem" }}>
           Total $ETH: ~
           {parseFloat(amountBitclout) > 0 &&
-          parseFloat(usdPerBitclout) > 0 &&
-          etherPrice > 0
+          !ethIsLoading &&
+          !ethIsError &&
+          parseFloat(usdPerBitclout) > 0
             ? (
                 (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
-                etherPrice
+                etherPrice.USD
               ).toFixed(2)
             : `0`}
         </h5>

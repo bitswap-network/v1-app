@@ -11,7 +11,11 @@ import { useRecoilValue } from "recoil";
 import { FiChevronsRight, FiCheck, FiChevronLeft } from "react-icons/fi";
 import { RouteComponentProps } from "react-router-dom";
 import { ListingSchema } from "../../components/interfaces";
-import { getListing, cancelListing } from "../../services/listings";
+import {
+  getListing,
+  cancelListing,
+  deleteListing,
+} from "../../services/listings";
 import LoadingIcons from "react-loading-icons";
 
 const SpecificListing = (
@@ -25,6 +29,17 @@ const SpecificListing = (
   const cancelBuy = () => {
     if (listing.ongoing && !listing.escrow.full) {
       cancelListing(user.token, listing._id)
+        .then((response) => {
+          window.location.replace(`/userlistings`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+  const submitDelete = () => {
+    if (listing.ongoing && !listing.escrow.full) {
+      deleteListing(user.token, listing._id)
         .then((response) => {
           window.location.replace(`/userlistings`);
         })
@@ -225,11 +240,11 @@ const SpecificListing = (
                 <div
                   className="listingLineDiv"
                   style={{
-                    backgroundColor: listing.ongoing ? "#6494ff" : "#C4C4C4",
+                    backgroundColor: listing.buyer ? "#6494ff" : "#C4C4C4",
                   }}
                 />
               </Col>
-              {listing.ongoing ? (
+              {listing.buyer ? (
                 <>
                   <Col sm={6}>
                     <p
@@ -241,12 +256,12 @@ const SpecificListing = (
                     >
                       Transaction Started
                     </p>
-                    {listing.seller.username == user.username && (
+                    {listing.seller.username === user.username && (
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         Transaction started by: ${listing.buyer.username}
                       </p>
                     )}
-                    {listing.buyer.username == user.username && (
+                    {listing.buyer.username === user.username && (
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         Transaction started with: ${listing.seller.username}
                       </p>
@@ -556,8 +571,8 @@ const SpecificListing = (
               )}
             </Row>
             {listing.ongoing && !listing.escrow.full && (
-              <Row>
-                <Col>
+              <Row style={{ marginTop: "1rem" }}>
+                <Col sm={1}>
                   <Button
                     style={{
                       backgroundColor: "#6494FF",
@@ -568,6 +583,20 @@ const SpecificListing = (
                     Cancel
                   </Button>
                 </Col>
+                {listing.seller._id === user._id && (
+                  <Col sm={1}>
+                    <Button
+                      style={{
+                        backgroundColor: "#F03D3E",
+                        borderColor: "#F03D3E",
+                        marginLeft: "2rem",
+                      }}
+                      onClick={submitDelete}
+                    >
+                      Delete
+                    </Button>
+                  </Col>
+                )}
               </Row>
             )}
           </Col>

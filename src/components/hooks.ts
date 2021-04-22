@@ -1,8 +1,7 @@
 import { useRef, useEffect } from "react";
-import {url} from "../helpers/config.json";
-import useSWR from 'swr';
+import { url } from "../helpers/config.json";
+import useSWR from "swr";
 import axios from "axios";
-
 
 export const useInterval = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef(callback);
@@ -26,16 +25,55 @@ export const useInterval = (callback: () => void, delay: number | null) => {
 };
 
 export function useUser(token) {
-  const {data, error} = useSWR(token ? `${url}/user/data` : null, url => axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`
+  const { data, error } = useSWR(
+    token ? `${url}/user/data` : null,
+    (url) =>
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => res.data),
+    {
+      refreshInterval: 5000,
     }
-  }).then(res => res.data), {
-    refreshInterval: 5000
-  });
+  );
   return {
     userData: data,
     isLoading: !error && !data,
-    isError: error
-  }
+    isError: error,
+  };
+}
+
+export function useEthPrice() {
+  const { data, error } = useSWR(
+    "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD",
+    (url) => axios.get(url).then((res) => res.data),
+    {
+      refreshInterval: 10000,
+    }
+  );
+
+  return {
+    etherPrice: data,
+    ethIsLoading: !error && !data,
+    ethIsError: error,
+  };
+}
+
+export function useGasPrice() {
+  const { data, error } = useSWR(
+    "https://ethgasstation.info/json/ethgasAPI.json",
+    (url) => axios.get(url).then((res) => res.data),
+    {
+      refreshInterval: 10000,
+    }
+  );
+
+  return {
+    gasPrice: data,
+    gasIsLoading: !error && !data,
+    gasIsError: error,
+  };
 }

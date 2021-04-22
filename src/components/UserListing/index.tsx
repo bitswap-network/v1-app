@@ -19,7 +19,7 @@ const Wrapper = styled.section`
   margin-top: 10px;
   padding: 10px;
   margin-right: 5px;
-  margin-left: 5px;
+  margin-left: 0px;
   align-items: center;
   text-align: center;
 `;
@@ -38,7 +38,6 @@ const Listing: React.FC<UserListing> = (
 ) => {
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-  console.log(props, listing);
   const dateRender = (date: Date) => {
     let diffTime =
       Math.abs(new Date().getTime() - new Date(date).getTime()) / 1000;
@@ -125,9 +124,19 @@ const Listing: React.FC<UserListing> = (
                   {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
                 </p>
               </Col>
-              <Col style={{ textAlign: "center" }} sm={2}>
+              <Col style={{ textAlign: "center" }} sm={1}>
                 <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
                   {dateRender(listing.created)}
+                </p>
+              </Col>
+              <Col style={{ textAlign: "center" }} sm={1}>
+                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+                  {listing.ongoing ? "In progress" : ""}
+                  {listing.completed.status ? "Completed" : ""}
+                  {!listing.ongoing && !listing.completed.status
+                    ? "Available"
+                    : ""}
+                  {}
                 </p>
               </Col>
               <Col sm={1}>

@@ -37,7 +37,7 @@ const SpecificListing = (
     }
   };
   const submitDelete = () => {
-    if (listing.ongoing && !listing.escrow.full) {
+    if (!listing.ongoing && !listing.completed.status && !listing.escrow.full) {
       deleteListing(user.token, listing._id)
         .then(response => {
           window.location.replace(`/userlistings`);

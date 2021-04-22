@@ -40,7 +40,11 @@ const BuyModal: React.FC<ListingModal> = (
     }
   };
   return (
-    <Modal show={open} onHide={close} aria-labelledby="contained-modal-title-vcenter">
+    <Modal
+      show={open}
+      onHide={close}
+      aria-labelledby="contained-modal-title-vcenter"
+    >
       <Modal.Body>
         <FiX
           className="hoverCursor"
@@ -77,38 +81,6 @@ const BuyModal: React.FC<ListingModal> = (
             justifyContent: "center",
           }}
         >
-          <Col sm={4}>
-            <Row style={{ justifyContent: "center" }}>
-              <FiDollarSign
-                size={"1.5rem"}
-                style={{ color: "#212429", marginTop: "0.4rem" }}
-              />
-              <p style={{ color: "#212429", fontSize: "1.5rem" }}>
-                {listing.usdamount}
-              </p>
-              <p
-                style={{
-                  color: "#212429",
-                  fontSize: "0.9rem",
-                  marginTop: "0.7rem",
-                  marginLeft: "0.5rem",
-                }}
-              >
-                USD
-              </p>
-            </Row>
-          </Col>
-          <Col sm={1}>
-            <p
-              style={{
-                color: "#212429",
-                fontSize: "0.9rem",
-                marginTop: "0.7rem",
-              }}
-            >
-              <b>FOR</b>
-            </p>{" "}
-          </Col>
           <Col sm={5}>
             <Row style={{ justifyContent: "center" }}>
               <FiBox
@@ -131,6 +103,38 @@ const BuyModal: React.FC<ListingModal> = (
                 }}
               >
                 BTCLT
+              </p>
+            </Row>
+          </Col>
+          <Col sm={1}>
+            <p
+              style={{
+                color: "#212429",
+                fontSize: "0.9rem",
+                marginTop: "0.7rem",
+              }}
+            >
+              <b>FOR</b>
+            </p>{" "}
+          </Col>
+          <Col sm={4}>
+            <Row style={{ justifyContent: "center" }}>
+              <FiDollarSign
+                size={"1.5rem"}
+                style={{ color: "#212429", marginTop: "0.4rem" }}
+              />
+              <p style={{ color: "#212429", fontSize: "1.5rem" }}>
+                {listing.usdamount}
+              </p>
+              <p
+                style={{
+                  color: "#212429",
+                  fontSize: "0.9rem",
+                  marginTop: "0.7rem",
+                  marginLeft: "0.5rem",
+                }}
+              >
+                USD
               </p>
             </Row>
           </Col>

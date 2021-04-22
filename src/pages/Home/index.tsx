@@ -34,7 +34,7 @@ import {
 } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
-import ModalError from "components/modalError/index"
+import ModalError from "components/modalError/index";
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
@@ -44,9 +44,7 @@ const Home = (props: any) => {
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
-  const [modalOpen, setOpenModal] = useState(false);
-
-
+  console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
       .then((res) => {
@@ -80,10 +78,10 @@ const Home = (props: any) => {
   if (user && !isLoggedIn) {
     window.location.assign("/login");
   }
-  
-  const closeModal = () => {
-    setOpenModal(false);
-  };
+
+  // const closeModal = () => {
+  //   setOpenModal(false);
+  // };
 
   return (
     <>
@@ -279,7 +277,9 @@ const Home = (props: any) => {
               {!userData?.listings.some(
                 (listing) => listing.ongoing === true
               ) ? (
-                <p style={{marginLeft: "5%", fontSize:"0.9rem"}}>You don't have any ongoing swaps</p>
+                <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
+                  You don't have any ongoing swaps
+                </p>
               ) : null}
               {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
               <Col>
@@ -363,15 +363,15 @@ const Home = (props: any) => {
                 />
               </Row>
               {listings.map((listing) => {
-                if (listing.ongoing === true) {
-                  listing.buyer!._id! === userData._id && (
+                if (listing.ongoing)
+                  return listing.buyer._id === userData._id ? (
                     <OngoingItem
                       bitcloutnanos={listing.bitcloutnanos}
                       usdamount={listing.usdamount}
                       listingid={listing._id}
                     />
-                  );
-                }
+                  ) : null;
+                return <p>hi</p>;
               })}
               {!listings.some((listing) =>
                 listing.buyer
@@ -379,7 +379,9 @@ const Home = (props: any) => {
                     listing.ongoing === true
                   : false
               ) ? (
-                <p style={{marginLeft: "5%", fontSize:"0.9rem"}}>You don't have any ongoing buys</p>
+                <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
+                  You don't have any ongoing buys
+                </p>
               ) : null}
               {/* <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
                 <Col>

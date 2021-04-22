@@ -570,8 +570,8 @@ const SpecificListing = (
                 </Col>
               )}
             </Row>
-            {listing.ongoing && !listing.escrow.full && (
-              <Row style={{ marginTop: "1rem" }}>
+            <Row style={{ marginTop: "1rem" }}>
+              {listing.ongoing && !listing.escrow.full && (
                 <Col sm={1}>
                   <Button
                     style={{
@@ -583,22 +583,22 @@ const SpecificListing = (
                     Cancel
                   </Button>
                 </Col>
-                {listing.seller._id === user._id && (
-                  <Col sm={1}>
-                    <Button
-                      style={{
-                        backgroundColor: "#F03D3E",
-                        borderColor: "#F03D3E",
-                        marginLeft: "2rem",
-                      }}
-                      onClick={submitDelete}
-                    >
-                      Delete
-                    </Button>
-                  </Col>
-                )}
-              </Row>
-            )}
+              )}
+              {listing.seller._id === user._id && (
+                <Col sm={1}>
+                  <Button
+                    style={{
+                      backgroundColor: "#F03D3E",
+                      borderColor: "#F03D3E",
+                      marginLeft: !listing.ongoing ? "0" : "2rem",
+                    }}
+                    onClick={submitDelete}
+                  >
+                    Delete
+                  </Button>
+                </Col>
+              )}{" "}
+            </Row>
           </Col>
         </>
       </Container>

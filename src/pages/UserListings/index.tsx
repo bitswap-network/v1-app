@@ -98,7 +98,7 @@ const UserListings = (props: any) => {
       //add loading animation
       createListing(
         parseFloat(amountBitclout),
-        parseFloat(usdPerBitclout),
+        parseFloat(usdPerBitclout) * parseFloat(amountBitclout),
         (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
           etherPrice.USD,
         user.token
@@ -336,7 +336,7 @@ const UserListings = (props: any) => {
             ? (
                 (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
                 etherPrice.USD
-              ).toFixed(2)
+              ).toFixed(5)
             : `0`}
         </h5>
         <Button

@@ -95,7 +95,7 @@ export const NavBar: React.FC = (props: any) => {
           <Navbar expand="lg">
             <img
               src={Logo}
-              width={"30%"}
+              width={window.visualViewport.width > 1800 ? "60%" : "30%"}
               height={"auto"}
               style={{ paddingTop: "2%", paddingLeft: "2%" }}
             />

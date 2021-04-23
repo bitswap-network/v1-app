@@ -17,14 +17,17 @@ import {
   HaveAnAccountText,
   UserField,
   RegisterButton,
-  MobileLogo
+  MobileLogo,
 } from "./styles";
-import { register } from "services/auth";
-import { RiContactsBookLine } from "react-icons/ri";
+import { register, getProfile } from "services/auth";
+import { FaCheckCircle } from "react-icons/fa";
+import { ImKey } from "react-icons/im";
+import { profile } from "node:console";
 
 const Register = (props: any) => {
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageState, setPageState] = useState(0);
 
   const [error, setError] = useState({
     username: false,
@@ -32,25 +35,25 @@ const Register = (props: any) => {
     bitcloutpubkey: false,
     ethereumaddress: false,
     password: false,
-    confirmPassword: false
+    confirmPassword: false,
   });
 
   const [creationerror, setCreationerror] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-
+  const [profileObj, setProfileObj] = useState(null);
   const [form, setForm] = useState({
     username: "" as string,
     email: "" as string,
     bitcloutpubkey: "" as string,
     ethereumaddress: "" as string,
     password: "" as string,
-    confirmPassword: "" as string
+    confirmPassword: "" as string,
   });
 
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
     setError({
       username: false,
@@ -58,9 +61,34 @@ const Register = (props: any) => {
       bitcloutpubkey: false,
       ethereumaddress: false,
       password: false,
-      confirmPassword: false
+      confirmPassword: false,
     });
     setCreationerror(false);
+  };
+  const handleImport = () => {
+    setLoading(true);
+    setErrorMsg("");
+    if (form.username.length === 0) {
+      setError({
+        ...error,
+        username: true,
+      });
+      setLoading(false);
+    } else if (form.username.length !== 0) {
+      getProfile(form.username)
+        .then((response) => {
+          console.log(response);
+          setProfileObj(response);
+          setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
+          setPageState(1);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          setErrorMsg("Unable to find profile");
+        });
+    }
   };
 
   const valerrorHandler = () => {
@@ -72,7 +100,7 @@ const Register = (props: any) => {
       email: !regEmail.test(form.email) ? true : false,
       bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
       ethereumaddress: form.ethereumaddress.length !== 42 ? true : false,
-      password: form.password !== form.confirmPassword
+      password: form.password !== form.confirmPassword,
     });
 
     if (
@@ -89,7 +117,7 @@ const Register = (props: any) => {
   };
 
   const handleSubmit = () => {
-    if (valerrorHandler()) {
+    if (valerrorHandler() && profileObj) {
       setLoading(true);
 
       register(
@@ -97,13 +125,16 @@ const Register = (props: any) => {
         form.email,
         form.password,
         form.bitcloutpubkey,
-        form.ethereumaddress
+        form.ethereumaddress,
+        profileObj.IsVerified,
+        profileObj.ProfilePic,
+        profileObj.Description
       )
         .then(() => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             if (error.response.status === 429) {
@@ -117,35 +148,6 @@ const Register = (props: any) => {
             setErrorMsg("An error occurred");
           }
         });
-
-      // axios
-      //   .post(`${env.url}/auth/register`, {
-      //     username: form.username,
-      //     email: form.email,
-      //     password: form.password,
-      //     bitcloutpubkey: form.bitcloutpubkey,
-      //     ethereumaddress: form.ethereumaddress
-      //   })
-      //   .then(() => {
-      //     setSuccessful(true);
-      //     setLoading(false);
-      //   })
-      //   .catch(err => {
-      //     //console.log("err", err.response);
-      //     if (err.response.status === 403) {
-      //       setErrorMsg(err.response.data.message);
-      //     } else {
-      //       console.log(err.response);
-      //       setErrorMsg(
-      //         err.response.data.name === "MongoError"
-      //           ? `Field error: ${Object.keys(err.response.data.keyPattern)}`
-      //           : "Error while registering"
-      //       );
-      //     }
-      //     setCreationerror(true);
-      //     setSuccessful(false);
-      //     setLoading(false);
-      //   });
     }
   };
 
@@ -167,7 +169,7 @@ const Register = (props: any) => {
           <img src={Logo} width={"55%"} height={"auto"} />
         </MobileLogo>
         {creationerror && <h5 className="error">{errorMsg}</h5>}
-        {!successful && (
+        {!successful && pageState === 0 && (
           <>
             <h3>
               <b>Get Started</b>
@@ -182,22 +184,144 @@ const Register = (props: any) => {
             </h5>
           </>
         )}
-        {loading && <div className="loader"></div>}
-        {!successful && (
+        {!successful && pageState === 1 && (
           <>
-            <Row style={{ marginTop: "5%", marginBottom: "3%" }}>
+            <h3>
+              <b>Profile Import</b>
+            </h3>
+            <h5>
+              <HaveAnAccountText>
+                Is this your BitClout Profile?
+              </HaveAnAccountText>
+            </h5>
+          </>
+        )}
+        {!successful && pageState === 2 && (
+          <>
+            <h3>
+              <b>Complete Profile</b>
+            </h3>
+            <h5>
+              <HaveAnAccountText>
+                Great! We've imported your BitClout profile. Let's finish
+                signing up.
+              </HaveAnAccountText>
+            </h5>
+          </>
+        )}
+        {loading && <div className="loader"></div>}
+        {!successful && pageState === 0 && (
+          <>
+            <div style={{ marginTop: "1rem" }}>
+              <p>Let's start off by importing your BitClout profile.</p>
+              <UserField>
+                <Col>
+                  <TextField
+                    id="username"
+                    label="BitClout Username"
+                    variant="outlined"
+                    value={form.username}
+                    onChange={handleNameChange}
+                    error={error.username}
+                    style={{ width: "90%" }}
+                  />
+                </Col>
+              </UserField>
+              <Row>
+                <Col>
+                  <RegisterButton onClick={handleImport}>Next</RegisterButton>
+                </Col>
+              </Row>
+              <Row style={{ marginTop: "15px", textAlign: "center" }}>
+                <Col>
+                  <a href="https://bitswap.network/terms-and-conditions">
+                    Bitswap Terms and Conditions
+                  </a>
+                </Col>
+              </Row>
+            </div>
+            {errorMsg ? (
+              <Row style={{ marginTop: "15px", textAlign: "center" }}>
+                <Col>
+                  <p style={{ color: "red" }}>{errorMsg}</p>
+                </Col>
+              </Row>
+            ) : null}
+          </>
+        )}
+        {!successful && pageState === 1 && profileObj && (
+          <>
+            <Row>
+              <div
+                style={{
+                  marginTop: "1rem",
+                  backgroundColor: "white",
+                  padding: "2%",
+                  borderRadius: "5px",
+                  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                  width: "100%",
+                }}
+              >
+                <Row style={{ textAlign: "left" }}>
+                  <Col sm={3}>
+                    <img
+                      src={profileObj.ProfilePic}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                  <Col style={{ paddingLeft: "0" }}>
+                    <p style={{ fontSize: "1.2rem", marginBottom: "0.1rem" }}>
+                      <a
+                        href={`https://bitclout.com/u/${profileObj.Username}`}
+                        target="_blank"
+                      >
+                        <b>@{profileObj.Username} </b>
+                        {profileObj.IsVerified && (
+                          <FaCheckCircle color="#0059f7" fontSize="1rem" />
+                        )}
+                      </a>
+                    </p>
+                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                      {profileObj.Description}
+                    </p>
+                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                      <ImKey /> {profileObj.PublicKeyBase58Check}
+                    </p>
+                  </Col>
+                </Row>
+              </div>
+            </Row>
+            <Row style={{ marginTop: "1rem" }}>
               <Col>
-                <TextField
-                  id="username"
-                  label="Username"
-                  variant="outlined"
-                  value={form.username}
-                  onChange={handleNameChange}
-                  error={error.username}
-                  style={{ width: "90%" }}
-                />
+                <RegisterButton
+                  onClick={() => {
+                    setPageState(pageState - 1);
+                  }}
+                >
+                  Back
+                </RegisterButton>
+              </Col>
+              <Col>
+                <RegisterButton
+                  onClick={() => {
+                    setPageState(pageState + 1);
+                  }}
+                >
+                  Next
+                </RegisterButton>
               </Col>
             </Row>
+            {errorMsg ? (
+              <Row style={{ marginTop: "15px", textAlign: "center" }}>
+                <Col>
+                  <p style={{ color: "red" }}>{errorMsg}</p>
+                </Col>
+              </Row>
+            ) : null}
+          </>
+        )}
+        {!successful && pageState === 2 && (
+          <>
             <UserField>
               <Col>
                 <TextField
@@ -208,19 +332,6 @@ const Register = (props: any) => {
                   value={form.email}
                   onChange={handleNameChange}
                   error={error.email}
-                  style={{ width: "90%" }}
-                />
-              </Col>
-            </UserField>
-            <UserField>
-              <Col>
-                <TextField
-                  id="bitcloutpubkey"
-                  label="BitClout Public Key"
-                  variant="outlined"
-                  value={form.bitcloutpubkey}
-                  onChange={handleNameChange}
-                  error={error.bitcloutpubkey}
                   style={{ width: "90%" }}
                 />
               </Col>
@@ -270,30 +381,24 @@ const Register = (props: any) => {
                 />
               </Col>
             </UserField>
+            <Row style={{ marginTop: "0.8rem", width: "100%" }}>
+              <Col>
+                <RegisterButton
+                  onClick={() => {
+                    setPageState(pageState - 1);
+                  }}
+                >
+                  Back
+                </RegisterButton>
+              </Col>
+              <Col>
+                <RegisterButton onClick={handleSubmit}>Finish</RegisterButton>
+              </Col>
+            </Row>
             {error.password ? (
               <Row style={{ color: "red" }}>
                 <Col>
                   <p>Passwords don't match!</p>
-                </Col>
-              </Row>
-            ) : null}
-
-            <Row>
-              <Col>
-                <RegisterButton onClick={handleSubmit}>Register</RegisterButton>
-              </Col>
-            </Row>
-            <Row style={{ marginTop: "15px", textAlign: "center" }}>
-              <Col>
-                <a href="https://bitswap.network/terms-and-conditions">
-                  Bitswap Terms and Conditions
-                </a>
-              </Col>
-            </Row>
-            {errorMsg ? (
-              <Row style={{ marginTop: "15px", textAlign: "center" }}>
-                <Col>
-                  <p style={{ color: "red" }}>{errorMsg}</p>
                 </Col>
               </Row>
             ) : null}

@@ -5,7 +5,6 @@ const { url } = require("../helpers/config.json");
 const updateProfile = async (
   name: string,
   email: string,
-  bitcloutpubkey: string,
   ethereumaddress: string,
   token: string
 ) => {
@@ -14,7 +13,6 @@ const updateProfile = async (
     {
       name: name,
       email: email,
-      bitcloutpubkey: bitcloutpubkey,
       ethereumaddress: ethereumaddress,
     },
     {

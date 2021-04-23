@@ -13,7 +13,10 @@ export const register = async (
   email: string,
   password: string,
   bitcloutpubkey: string,
-  ethereumaddress: string
+  ethereumaddress: string,
+  bitcloutverified: boolean,
+  profilepicture: string,
+  description: string
 ) => {
   return await axios.post(`${url}/auth/register`, {
     username: username,
@@ -21,6 +24,9 @@ export const register = async (
     password: password,
     bitcloutpubkey: bitcloutpubkey,
     ethereumaddress: ethereumaddress,
+    bitcloutverified: bitcloutverified,
+    profilepicture: profilepicture,
+    description: description,
   });
 };
 
@@ -40,5 +46,19 @@ export const validateToken = async (token: string) => {
     .catch((error) => {
       console.log(error);
       return false;
+    });
+};
+export const getProfile = async (username: string) => {
+  return await axios
+    .post(`${url}/auth/getbitcloutprofile`, {
+      PublicKeyBase58Check: "",
+      Username: username,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
     });
 };

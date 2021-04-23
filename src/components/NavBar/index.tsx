@@ -15,7 +15,7 @@ const NavElement = (props: any) => {
         margin: "0%",
         marginRight: "0%",
         marginLeft: "0%",
-        textAlign: "left"
+        textAlign: "left",
       }}
       onClick={() => {
         props.setCurrentPage(props.linkto);
@@ -89,7 +89,7 @@ export const NavBar: React.FC = (props: any) => {
             display: "flex",
             marginLeft: 0,
             marginRight: 0,
-            paddingLeft: 0
+            paddingLeft: 0,
           }}
         >
           <Navbar expand="lg">
@@ -127,7 +127,7 @@ export const NavBar: React.FC = (props: any) => {
               marginTop: "5px",
               textAlign: "right",
               height: "90vh",
-              display: "flex"
+              display: "flex",
             }}
           >
             <Row style={{ marginTop: "5px", height: "10%" }}>
@@ -200,7 +200,7 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "30vh",
                   textAlign: "left",
-                  width: "150%"
+                  width: "150%",
                 }}
               >
                 <p>
@@ -208,8 +208,8 @@ export const NavBar: React.FC = (props: any) => {
                     <b>
                       Balance:{" "}
                       {isLoading || isError
-                        ? user.bitswapbalance
-                        : userData.bitswapbalance}{" "}
+                        ? user.bitswapbalance.toFixed(2)
+                        : userData.bitswapbalance.toFixed(2)}{" "}
                       $BTCLT
                     </b>
                   )}
@@ -219,18 +219,22 @@ export const NavBar: React.FC = (props: any) => {
               {user ? (
                 <Row style={{ width: "150%" }}>
                   <img
-                    src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
+                    src={
+                      user.profilepicture
+                        ? user.profilepicture
+                        : `https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`
+                    }
                     style={{
                       borderRadius: "60px",
                       height: "auto",
-                      width: "5vh"
+                      width: "5vh",
                     }}
                   />
                   <Row
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start"
+                      alignItems: "flex-start",
                     }}
                   >
                     <a
@@ -239,7 +243,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         marginLeft: "4vh",
                         fontSize: "1.8vh",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/profile"
                     >
@@ -253,7 +257,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         marginLeft: "4vh",
                         fontSize: "1.5vh",
-                        height: "50%"
+                        height: "50%",
                       }}
                       replace
                     >
@@ -269,7 +273,7 @@ export const NavBar: React.FC = (props: any) => {
                         color: "#43494f",
                         fontFamily: "inherit",
                         fontSize: "2vh",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/login"
                     >
@@ -280,7 +284,7 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start"
+                      alignItems: "flex-start",
                     }}
                   >
                     <a
@@ -289,7 +293,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         fontSize: "2vh",
                         marginTop: "0.5rem",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/register"
                     >
@@ -306,7 +310,7 @@ export const NavBar: React.FC = (props: any) => {
                 borderLeft: "1px solid #DDE2E5",
                 height: "100vh",
                 marginLeft: "7vh",
-                width: "1rem"
+                width: "1rem",
               }}
             />
           </Container>

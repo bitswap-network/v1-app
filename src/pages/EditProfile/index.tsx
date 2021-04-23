@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import env from "../../components/data/env.json";
@@ -17,17 +10,20 @@ import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import { updateProfile, updatePassword } from "../../services/users";
+import Cropper from "react-easy-crop";
+import { useUser } from "components/hooks";
+import { FaCheckCircle } from "react-icons/fa";
+import { ImKey } from "react-icons/im";
 
 const EditProfile = (props: any) => {
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [formUpdated, setFormUpdated] = useState(false);
   const [passwordUpdated, setPasswordUpdated] = useState(false);
-
+  const { userData, isLoading, isError } = useUser(user?.token);
   const [error, setError] = useState({
     name: false,
     email: false,
-    bitcloutpubkey: false,
     ethereumaddress: false,
     password: false,
     newPassword: false,
@@ -39,7 +35,6 @@ const EditProfile = (props: any) => {
     name: user.name || "",
     username: user.username,
     email: user.email,
-    bitcloutpubkey: user.bitcloutpubkey,
     ethereumaddress: user.ethereumaddress,
     password: "",
     newPassword: "",
@@ -50,15 +45,10 @@ const EditProfile = (props: any) => {
       ...error,
       name: form.name.length < 1 ? true : false,
       email: !regEmail.test(form.email) ? true : false,
-      bitcloutpubkey: form.bitcloutpubkey.length < 1 ? true : false,
       ethereumaddress: form.ethereumaddress.length < 1 ? true : false,
     });
 
-    if (
-      form.email.length < 1 ||
-      form.bitcloutpubkey.length < 1 ||
-      form.ethereumaddress.length < 1
-    ) {
+    if (form.email.length < 1 || form.ethereumaddress.length < 1) {
       return false;
     } else {
       return true;
@@ -91,7 +81,6 @@ const EditProfile = (props: any) => {
     setError({
       ...error,
       email: false,
-      bitcloutpubkey: false,
       ethereumaddress: false,
     });
   };
@@ -111,13 +100,7 @@ const EditProfile = (props: any) => {
   const handlePost = () => {
     if (valerrorHandler()) {
       setLoading(true);
-      updateProfile(
-        form.username,
-        form.email,
-        form.bitcloutpubkey,
-        form.ethereumaddress,
-        user.token
-      )
+      updateProfile(form.username, form.email, form.ethereumaddress, user.token)
         .then((response) => {
           setLoading(false);
           setSuccessful(true);
@@ -171,28 +154,73 @@ const EditProfile = (props: any) => {
                 }
           }
         >
-          <Row style={{ marginBottom: "40px" }}>
-            <Col sm={window.visualViewport.width >= 1600 ? 3 : 2}>
-              <img
-                src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
-                style={{ borderRadius: "60px", height: "auto", width: "6em" }}
-              />
-            </Col>
-            <Col>
-              <h3 style={window.innerWidth <= 768 ? { marginTop: "1em" } : {}}>
-                <b>@{user.username}</b>
-              </h3>
-              <h6 style={{ marginTop: "1em" }}>
-                <a href={"https://bitclout.com/u/" + user.username}>
-                  https://bitclout.com/u/{user.username}
-                </a>
-              </h6>
-            </Col>
-          </Row>
+          <div
+            style={{
+              marginTop: "1rem",
+              backgroundColor: "white",
+              padding: "2%",
+              borderRadius: "5px",
+              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            }}
+          >
+            <Row style={{ marginBottom: "10px" }}>
+              <Col>
+                <h3
+                  style={window.innerWidth <= 768 ? { marginTop: "1em" } : {}}
+                >
+                  <a href={"https://bitclout.com/u/" + user.username}>
+                    <b>@{user.username}</b>{" "}
+                    {user.bitcloutverified && (
+                      <FaCheckCircle color="#0059f7" fontSize="1.5rem" />
+                    )}
+                  </a>
+                </h3>
+                <p
+                  style={{
+                    fontSize: "0.9rem",
+                    marginTop: "0",
+                    marginBottom: "0.5rem",
+                  }}
+                >
+                  {user.description}
+                </p>
+                <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                  <ImKey /> {user.bitcloutpubkey}
+                </p>
+                <Row>
+                  <Col>
+                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                      <b>BitClout account verification: {userData.verified}</b>
+                    </p>
+                  </Col>
+                  <Col>
+                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                      <b>
+                        {userData.emailverified
+                          ? "Email Verified"
+                          : "Email Pending Verification"}
+                      </b>
+                    </p>
+                  </Col>
+                </Row>
+              </Col>
+              <Col sm={window.visualViewport.width >= 1600 ? 3 : 2}>
+                <img
+                  src={
+                    user.profilepicture
+                      ? user.profilepicture
+                      : `https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`
+                  }
+                  style={{ width: "100%" }}
+                />
+              </Col>
+            </Row>
+          </div>
+
           <Row
             style={{ flexDirection: "row", display: "flex", marginTop: "5%" }}
           >
-            <Col sm={5}>
+            <Col>
               <Row style={{ marginBottom: "30px" }}>
                 <Col>
                   <TextField
@@ -206,7 +234,7 @@ const EditProfile = (props: any) => {
                   />
                 </Col>
               </Row>
-              <Row
+              {/* <Row
                 className="align-items-center"
                 style={{ marginTop: "30px", marginBottom: "30px" }}
               >
@@ -221,7 +249,7 @@ const EditProfile = (props: any) => {
                     fullWidth={true}
                   />
                 </Col>
-              </Row>
+              </Row> */}
               <Row
                 className="align-items-center"
                 style={{ marginTop: "30px", marginBottom: "30px" }}
@@ -254,7 +282,7 @@ const EditProfile = (props: any) => {
                 </Col>
               </Row>
             </Col>
-            <Col sm={5} style={{ marginLeft: "10px" }}>
+            <Col style={{ marginLeft: "10px" }}>
               <Row>
                 <Col>
                   <TextField

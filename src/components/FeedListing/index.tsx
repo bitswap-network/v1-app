@@ -10,6 +10,7 @@ import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import BuyModal from "../modalBuy";
+import ErrorModal from "../modalError";
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -37,21 +38,13 @@ const Listing: React.FC<FeedListing> = (
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [modalOpen, setOpenModal] = useState(false);
-  console.log(listing);
-  const viewCheck = () => {
-    if (listing.ongoing) {
-      if (user.username === listing.buyer.username) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-    if (false) {
-      return true;
-    } else {
-      return false;
-    }
+  const [errorOpen, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const closeError = () => {
+    setError(false);
   };
+  console.log(listing);
+
   const closeModal = () => {
     setOpenModal(false);
   };
@@ -74,6 +67,7 @@ const Listing: React.FC<FeedListing> = (
   };
   return (
     <>
+      <ErrorModal open={errorOpen} close={closeError} error={errorMessage} />
       <BuyModal listing={listing} open={modalOpen} close={closeModal} />
       <StyledContentLoader isLoading={false}>
         <hr></hr>
@@ -119,9 +113,14 @@ const Listing: React.FC<FeedListing> = (
                   borderColor: "white",
                 }}
                 onClick={() => {
-                  state.modalOpen = true;
+                  if (isLoggedIn) {
+                    state.modalOpen = true;
+                  } else {
+                    setErrorMessage("You must be logged in to buy listings.");
+                    setError(true);
+                  }
                 }}
-                disabled={listing.seller._id === user._id}
+                disabled={isLoggedIn ? listing.seller._id === user._id : false}
               >
                 Buy
               </Button>
@@ -138,7 +137,11 @@ const Listing: React.FC<FeedListing> = (
               <Col sm={0.2}>
                 <img
                   alt="profile"
-                  src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
+                  src={
+                    listing.seller.profilepicture
+                      ? listing.seller.profilepicture
+                      : `https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`
+                  }
                   style={{
                     borderRadius: "60px",
                     height: "auto",
@@ -181,10 +184,16 @@ const Listing: React.FC<FeedListing> = (
                     borderColor: "white",
                   }}
                   onClick={() => {
-                    // history.push(`/buy/${listing._id}`);
-                    setOpenModal(true);
+                    if (isLoggedIn) {
+                      state.modalOpen = true;
+                    } else {
+                      setErrorMessage("You must be logged in to buy listings.");
+                      setError(true);
+                    }
                   }}
-                  disabled={listing.seller._id === user._id}
+                  disabled={
+                    isLoggedIn ? listing.seller._id === user._id : false
+                  }
                 >
                   Buy
                 </Button>

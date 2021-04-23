@@ -23,6 +23,9 @@ export interface UserSchema {
   bitswapbalance: number;
   transactions: [string];
   buystate: boolean;
+  bitcloutverified: boolean;
+  profilepicture: string;
+  description: string;
 }
 
 export interface ListingSchema {

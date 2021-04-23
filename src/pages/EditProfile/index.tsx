@@ -188,20 +188,26 @@ const EditProfile = (props: any) => {
                   <ImKey /> {user.bitcloutpubkey}
                 </p>
                 <Row>
-                  <Col>
-                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
-                      <b>BitClout account verification: {userData.verified}</b>
-                    </p>
-                  </Col>
-                  <Col>
-                    <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
-                      <b>
-                        {userData.emailverified
-                          ? "Email Verified"
-                          : "Email Pending Verification"}
-                      </b>
-                    </p>
-                  </Col>
+                  {userData && !isLoading && !isError && (
+                    <>
+                      <Col>
+                        <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                          <b>
+                            BitClout account verification: {userData.verified}
+                          </b>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
+                          <b>
+                            {userData.emailverified
+                              ? "Email Verified"
+                              : "Email Pending Verification"}
+                          </b>
+                        </p>
+                      </Col>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col sm={window.visualViewport.width >= 1600 ? 3 : 2}>

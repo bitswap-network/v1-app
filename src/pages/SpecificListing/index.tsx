@@ -70,7 +70,7 @@ const SpecificListing = (
   // if (back) {
   //   window.location.assign("/userlistings");
   // }
-  if (listing && isLoggedIn && user) {
+  if (listing && user) {
     return (
       <Container
         style={
@@ -325,93 +325,81 @@ const SpecificListing = (
                   }}
                 />
               </Col>
-              {/* {listing.ongoing &&
-                !listing.escrow.full &&
-                listing.seller.username === user.username && (
-                  <Col sm={8}>
-                    <p
-                      style={{
-                        color: "#6494FF",
-                        fontSize: "1.1rem",
-                        fontWeight: 600
-                      }}
-                    >
-                      Escrow Empty
-                    </p>
-                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                      Awaiting transfer to escrow wallet
-                    </p>
-                  </Col>
-                )} */}
-              {listing.ongoing &&
-                !listing.escrow.full &&
-                listing.buyer.username === user.username && (
-                  <Col sm={8}>
-                    <p
-                      style={{
-                        color: "#6494FF",
-                        fontSize: "1.1rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      Escrow Empty
-                    </p>
-                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                      Transfer {listing.etheramount.toFixed(8)} $ETH to
-                      0xB959315e7E2F44e5F926aF9ae8e95f71A78333E5
-                    </p>
-                  </Col>
-                )}
-              {!listing.ongoing && !listing.escrow.full && (
-                <Col sm={8}>
-                  <p
-                    style={{
-                      color: "#6494FF",
-                      fontSize: "1.1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Escrow Empty
-                  </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                    Awaiting transfer to escrow wallet
-                  </p>
-                </Col>
-              )}
-              {listing.escrow.full &&
-                listing.seller.username === user.username && (
-                  <Col sm={8}>
-                    <p
-                      style={{
-                        color: "#6494FF",
-                        fontSize: "1.1rem",
-                        fontWeight: 600,
-                      }}
-                    >
-                      Escrow Full
-                    </p>
-                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                      ${listing.buyer?.username} has transferred{" "}
-                      {listing.etheramount.toFixed(8)} $ETH to escrow
-                    </p>
-                  </Col>
-                )}
-              {listing.escrow.full && listing.buyer.username === user.username && (
-                <Col sm={8}>
-                  <p
-                    style={{
-                      color: "#6494FF",
-                      fontSize: "1.1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Escrow Full
-                  </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                    Escrow has recieved your transfer of
-                    {listing.etheramount.toFixed(8)} $ETH
-                  </p>
-                </Col>
+              {listing.seller && user && (
+                <>
+                  {listing.ongoing &&
+                    !listing.escrow.full &&
+                    listing.buyer.username === user.username && (
+                      <Col sm={8}>
+                        <p
+                          style={{
+                            color: "#6494FF",
+                            fontSize: "1.1rem",
+                            fontWeight: 600,
+                          }}
+                        >
+                          Escrow Empty
+                        </p>
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          Transfer {listing.etheramount.toFixed(8)} $ETH to
+                          0xB959315e7E2F44e5F926aF9ae8e95f71A78333E5
+                        </p>
+                      </Col>
+                    )}
+                  {!listing.ongoing && !listing.escrow.full && (
+                    <Col sm={8}>
+                      <p
+                        style={{
+                          color: "#6494FF",
+                          fontSize: "1.1rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        Escrow Empty
+                      </p>
+                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        Awaiting transfer to escrow wallet
+                      </p>
+                    </Col>
+                  )}
+
+                  {listing.escrow.full &&
+                    listing.seller.username === user.username && (
+                      <Col sm={8}>
+                        <p
+                          style={{
+                            color: "#6494FF",
+                            fontSize: "1.1rem",
+                            fontWeight: 600,
+                          }}
+                        >
+                          Escrow Full
+                        </p>
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          ${listing.buyer?.username} has transferred{" "}
+                          {listing.etheramount.toFixed(8)} $ETH to escrow
+                        </p>
+                      </Col>
+                    )}
+                  {listing.escrow.full &&
+                    listing.buyer.username === user.username && (
+                      <Col sm={8}>
+                        <p
+                          style={{
+                            color: "#6494FF",
+                            fontSize: "1.1rem",
+                            fontWeight: 600,
+                          }}
+                        >
+                          Escrow Full
+                        </p>
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          Escrow has recieved your transfer of
+                          {listing.etheramount.toFixed(8)} $ETH
+                        </p>
+                      </Col>
+                    )}
+                </>
               )}
             </Row>
             <Row>

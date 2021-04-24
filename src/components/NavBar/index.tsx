@@ -107,9 +107,11 @@ export const NavBar: React.FC = (props: any) => {
                 {/* <Nav.Link href="/PostAd">Post Ad</Nav.Link> */}
                 <Nav.Link href="/userlistings">My Listings</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
-                <Nav.Link href="/logout" style={{ color: "red" }}>
-                  Logout
-                </Nav.Link>
+                <div onClick={() => window.location.replace(`/logout`)}>
+                  <Nav.Link href="/logout" style={{ color: "red" }}>
+                    Logout
+                  </Nav.Link>
+                </div>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -250,19 +252,21 @@ export const NavBar: React.FC = (props: any) => {
                       {"@"}
                       {user.username}
                     </a>
-                    <Link
-                      to={"/logout"}
-                      style={{
-                        color: "red",
-                        fontFamily: "inherit",
-                        marginLeft: "4vh",
-                        fontSize: "1.5vh",
-                        height: "50%",
-                      }}
-                      replace
-                    >
-                      {"Logout"}
-                    </Link>
+                    <div onClick={() => window.location.replace(`/logout`)}>
+                      <Link
+                        to={"/logout"}
+                        style={{
+                          color: "red",
+                          fontFamily: "inherit",
+                          marginLeft: "4vh",
+                          fontSize: "1.5vh",
+                          height: "50%",
+                        }}
+                        replace
+                      >
+                        {"Logout"}
+                      </Link>
+                    </div>
                   </Row>
                 </Row>
               ) : (

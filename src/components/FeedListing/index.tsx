@@ -34,7 +34,6 @@ const Listing: React.FC<FeedListing> = (
   { listing, index, price, loading, history },
   props: any
 ) => {
-  const state = { modalOpen: false };
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [modalOpen, setOpenModal] = useState(false);
@@ -114,7 +113,7 @@ const Listing: React.FC<FeedListing> = (
                 }}
                 onClick={() => {
                   if (isLoggedIn) {
-                    state.modalOpen = true;
+                    setOpenModal(true);
                   } else {
                     setErrorMessage("You must be logged in to buy listings.");
                     setError(true);
@@ -185,7 +184,7 @@ const Listing: React.FC<FeedListing> = (
                   }}
                   onClick={() => {
                     if (isLoggedIn) {
-                      state.modalOpen = true;
+                      setOpenModal(true);
                     } else {
                       setErrorMessage("You must be logged in to buy listings.");
                       setError(true);

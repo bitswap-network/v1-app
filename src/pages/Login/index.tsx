@@ -21,6 +21,11 @@ import { login } from "services/auth";
 import { saveData } from "helpers/local";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, userState } from "store";
+import Web3 from 'web3';
+
+declare let window: any;
+
+
 
 const Login = (props: any) => {
   const isLoggedIn = useRecoilValue(loggedInState);
@@ -30,6 +35,17 @@ const Login = (props: any) => {
     username: "" as string,
     password: "" as string
   });
+
+
+
+  useEffect(() => {
+    async function Load() {
+      const web3 = new Web3(Web3.givenProvider)
+      await window.ethereum.enable();
+      const accounts = await web3.eth.getAccounts()
+    }
+    Load()
+  }, []);
 
   const [error, setError] = useState(null);
 

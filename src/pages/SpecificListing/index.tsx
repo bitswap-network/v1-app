@@ -70,7 +70,7 @@ const SpecificListing = (
   // if (back) {
   //   window.location.assign("/userlistings");
   // }
-  if (listing && isLoggedIn) {
+  if (listing && isLoggedIn && user) {
     return (
       <Container
         style={
@@ -378,24 +378,25 @@ const SpecificListing = (
                   </p>
                 </Col>
               )}
-              {listing.escrow.full && listing.seller.username == user.username && (
-                <Col sm={8}>
-                  <p
-                    style={{
-                      color: "#6494FF",
-                      fontSize: "1.1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    Escrow Full
-                  </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                    ${listing.buyer?.username} has transferred{" "}
-                    {listing.etheramount.toFixed(8)} $ETH to escrow
-                  </p>
-                </Col>
-              )}
-              {listing.escrow.full && listing.buyer.username == user.username && (
+              {listing.escrow.full &&
+                listing.seller.username === user.username && (
+                  <Col sm={8}>
+                    <p
+                      style={{
+                        color: "#6494FF",
+                        fontSize: "1.1rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Escrow Full
+                    </p>
+                    <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      ${listing.buyer?.username} has transferred{" "}
+                      {listing.etheramount.toFixed(8)} $ETH to escrow
+                    </p>
+                  </Col>
+                )}
+              {listing.escrow.full && listing.buyer.username === user.username && (
                 <Col sm={8}>
                   <p
                     style={{

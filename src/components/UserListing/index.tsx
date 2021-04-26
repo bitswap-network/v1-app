@@ -86,11 +86,11 @@ const Listing: React.FC<UserListing> = (
                   style={{
                     width: "10em",
                     backgroundColor: "#4263EB",
-                    marginTop: "1.3em",
+                    marginTop: "1.3em"
                   }}
                   onClick={() => {
                     // history.push(`/listing/${listing._id}`);
-                    window.location.replace(`/listing/${listing._id}`);
+                    window.location.assign(`/listing/${listing._id}`);
                   }}
                 >
                   View
@@ -143,7 +143,7 @@ const Listing: React.FC<UserListing> = (
                 <Button
                   style={{ width: "10em", backgroundColor: "#4263EB" }}
                   onClick={() => {
-                    window.location.replace(`/listing/${listing._id}`);
+                    window.location.assign(`/listing/${listing._id}`);
                   }}
                 >
                   View

@@ -70,6 +70,11 @@ const withdraw = async (token: string, bitcloutvalue: number) => {
     }
   );
 };
+
+const getProfile = async (username: string) => {
+  return await axios.get(`${url}/user/profile/${username}`)
+}
+
 export {
   updatePassword,
   updateProfile,
@@ -77,4 +82,5 @@ export {
   getTransactions,
   deposit,
   withdraw,
+  getProfile,
 };

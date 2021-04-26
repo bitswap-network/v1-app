@@ -20,7 +20,6 @@ const Wrapper = styled(Container)`
 
 const MainContent = styled(Col)`
   margin-top: 7%;
-  margin-left: -10%;
 `;
 
 const DesktopButton = styled(Button)`

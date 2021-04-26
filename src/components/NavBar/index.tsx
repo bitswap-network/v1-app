@@ -121,7 +121,7 @@ export const NavBar: React.FC = (props: any) => {
       <MediaQuery query="(min-device-width: 768px)">
         <Col
           style={{ flexDirection: "row", display: "flex", marginLeft: 0 }}
-          sm={window.visualViewport.width > 1600 ? 5 : 4}
+          sm={3}
         >
           <Container
             style={{
@@ -250,24 +250,25 @@ export const NavBar: React.FC = (props: any) => {
                       href="/profile"
                     >
                       {"@"}
-                      {user.username}<br />
+                      {user.username}
                     </a>
-                    <div onClick={() => window.location.replace(`/logout`)}>
-                      <Link
+
+      
+                  </Row>
+                  <Link
                         to={"/logout"}
                         style={{
                           color: "red",
                           fontFamily: "inherit",
                           fontSize: "1.5vh",
-                          marginLeft: "1rem",
-                          height: "50%",
+                          marginLeft: "-4.5vh",
+                          marginTop: "3vh"
+
                         }}
-                        replace
+                        
                       >
                         {"Logout"}
                       </Link>
-                    </div>
-                  </Row>
                 </Row>
               ) : (
                 <Col style={{ width: "100%" }}>
@@ -308,12 +309,11 @@ export const NavBar: React.FC = (props: any) => {
               )}
             </Col>
           </Container>
-          <Container>
+          <Container style={{marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0, width: 10}}>
             <div
               style={{
                 borderLeft: "1px solid #DDE2E5",
                 height: "100vh",
-                marginLeft: "7vh",
                 width: "1rem",
               }}
             />

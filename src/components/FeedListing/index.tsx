@@ -74,12 +74,12 @@ const Listing: React.FC<FeedListing> = (
             style={{ backgroundColor: "transparent"}}
           >
        
-            <table style={{width: "120%", marginTop: "-3%", overflowX: "hidden"}}>
+            <table style={{width: "100%", marginTop: "-3%", overflowX: "hidden"}}>
             
 
 
             <tr>
-              <td> 
+              <td style={{width: "10%"}}> 
                   <img
                   src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                   alt="profile"
@@ -91,14 +91,16 @@ const Listing: React.FC<FeedListing> = (
                 />
               </td>
               <td style={{fontSize: "0.8rem", width: "15%"}}>@{listing.seller.username}</td>
-              <td style={{fontSize: "0.8rem"}}>{listing.bitcloutnanos / 1e9} @{" "}{(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "} $USD</td>
-              <td style={{fontSize: "0.8rem"}}>{dateRender(listing.created)}</td>
+              <td style={{fontSize: "0.8rem", width: "25%"}}>{listing.bitcloutnanos / 1e9} @{" "}{(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "} $USD</td>
+              <td style={{fontSize: "0.8rem", width: "25%"}}>{dateRender(listing.created)}</td>
               <Button
                 style={{
                   width: "10em",
                   height: "2.5rem",
                   backgroundColor: "#4263EB",
                   borderColor: "white",
+                  marginTop: "3%",
+
                 }}
                 onClick={() => {
                   if (isLoggedIn) {

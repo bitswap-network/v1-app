@@ -56,6 +56,7 @@ const Home = (props: any) => {
         console.log(err);
         setLoading(false);
       });
+      console.log(window.visualViewport.width )
   }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
@@ -87,7 +88,7 @@ const Home = (props: any) => {
     <>
       <Wrapper>
         <NavBar />
-        <Col sm={window.visualViewport.width <= 1800 ? 9 : 12}>
+        <Col sm={9} xl={window.visualViewport.width > 1600 ? 11: 9}>
           <MainContent>
             <Row>
               <h3
@@ -133,14 +134,14 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{ background: "transparent", minHeight: "75vh", overflowX: 'hidden'}}
+                  style={{ background: "transparent", minHeight: "77vh", overflowX: 'hidden'}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                  <table style={{width: "120%"}}>
+                  <table style={{width: "100%"}}>
                         <tr>
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "26.5%"}}>Username</td>
+                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "23%"}}>Username</td>
 
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "32%"}}>Offer</td>
+                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "24%"}}>Offer</td>
 
 
 
@@ -176,7 +177,7 @@ const Home = (props: any) => {
             </FeedContent>
           </MainContent>
         </Col>
-        <Col style={{ marginLeft: "-10%" }}>
+        <Col style={{marginLeft: 0, paddingLeft: 0}}>
           <Row>
             <div
               style={
@@ -186,7 +187,6 @@ const Home = (props: any) => {
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
-                      marginLeft: "0.25rem",
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",

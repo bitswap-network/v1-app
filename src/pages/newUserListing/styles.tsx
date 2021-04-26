@@ -5,7 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 const Wrapper = styled(Container)`
   display: flex;
   flex-direction: row;
-  margin-left: 1.3rem;
+  margin-left: 0.4rem;
 
   @media only screen and (max-width: 768px) {
     margin-left: 0;
@@ -20,7 +20,6 @@ const Wrapper = styled(Container)`
 
 const MainContent = styled(Col)`
   margin-top: 7%;
-  margin-left: -10%;
 `;
 
 const DesktopButton = styled(Button)`

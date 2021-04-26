@@ -155,7 +155,7 @@ const Listing: React.FC<UserListing> = (
     //   </Container>
     // </>
     <>
-     <table style={{width: "120%", marginTop: "-2%", overflowX: "hidden"}}>
+     <table style={{width: "100%", marginTop: "-2%", overflowX: "hidden"}}>
             
             <tr>
               <td style={{width: "3%"}}></td>

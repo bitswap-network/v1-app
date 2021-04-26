@@ -380,8 +380,8 @@ const NewListing = (props: any) => {
       </>
       <Wrapper>
         <NavBar />
-        <Col sm={window.visualViewport.width <= 1800 ? 9 : 12}>
-          <MainContent>
+        <Col sm={window.visualViewport.width <= 1800 ? 9 : 9}>
+          <MainContent md={11}>
             <Row>
               <h3
                 style={
@@ -401,37 +401,10 @@ const NewListing = (props: any) => {
               >
                 <b className="hoverCursor" onClick={() => {setPageView("buys"); setTable(userData.buys)}} style={{color: pageView === "buys" ? "black" : "grey", }}>My Buys</b>
               </h3>
-              <h5
-                style={
-                  window.visualViewport.width <= 768
-                    ? { marginLeft: "2.5rem" }
-                    : {}
-                }
-              >
-                {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
-              </h5>
+
             </Row>
             
-            {/* <Row>
-              <MediaQuery query="(min-device-width: 768px)">
-                <DesktopButton
-                  onClick={() => {
-                    setShowModal(true);
-                  }}
-                >
-                  Post Swap
-                </DesktopButton>
-              </MediaQuery>
-            </Row>
-            <MediaQuery query="(max-device-width: 768px)">
-              <MobileButton
-                onClick={() => {
-                  props.history.push("/postad");
-                }}
-              >
-                Post Swap
-              </MobileButton>
-            </MediaQuery> */}
+         
             <FeedContent>
               <Col>
                 <div
@@ -439,7 +412,7 @@ const NewListing = (props: any) => {
                   style={{ background: "transparent", minHeight: "75vh", overflowX: 'hidden'}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                  <table style={{width: "120%"}}>
+                  <table style={{width: "100%"}}>
                         <tr>
                           <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "25%"}}>Transactor Name</td>
 
@@ -476,7 +449,7 @@ const NewListing = (props: any) => {
             </FeedContent>
           </MainContent>
         </Col>
-        <Col style={{ marginLeft: "-10%" }}>
+        <Col>
           <Row>
             <div
               style={
@@ -500,7 +473,7 @@ const NewListing = (props: any) => {
         </Col>
         {isLoggedIn ? (
           <Col sm={4} style={{ marginTop: "6%" }}>
-            {userData && (
+            {true && (
               <>
                 <Row>
                   <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>

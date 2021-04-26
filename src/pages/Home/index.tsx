@@ -133,7 +133,7 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{ background: "transparent" }}
+                  style={{ background: "transparent", minHeight: "75vh", overflowX: 'hidden'}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
                   <table style={{width: "120%"}}>

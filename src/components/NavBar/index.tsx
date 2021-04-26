@@ -202,10 +202,10 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "30vh",
                   textAlign: "left",
-                  width: "150%",
+                  width: "200%",
                 }}
               >
-                <p>
+                <p style={{fontSize: "0.85rem"}}>
                   {isLoggedIn && (
                     <b>
                       Balance:{" "}
@@ -219,7 +219,7 @@ export const NavBar: React.FC = (props: any) => {
               </Row>
 
               {user ? (
-                <Row style={{ width: "150%" }}>
+                <Row style={{ width: "120%" }}>
                   <img
                     src={
                       user.profilepicture
@@ -229,7 +229,7 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       borderRadius: "60px",
                       height: "auto",
-                      width: "5vh",
+                      width: "6vh",
                     }}
                   />
                   <Row
@@ -250,7 +250,7 @@ export const NavBar: React.FC = (props: any) => {
                       href="/profile"
                     >
                       {"@"}
-                      {user.username}
+                      {user.username}<br />
                     </a>
                     <div onClick={() => window.location.replace(`/logout`)}>
                       <Link
@@ -258,8 +258,8 @@ export const NavBar: React.FC = (props: any) => {
                         style={{
                           color: "red",
                           fontFamily: "inherit",
-                          marginLeft: "4vh",
                           fontSize: "1.5vh",
+                          marginLeft: "1rem",
                           height: "50%",
                         }}
                         replace

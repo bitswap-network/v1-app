@@ -90,9 +90,9 @@ const Listing: React.FC<FeedListing> = (
                   }}
                 />
               </td>
-              <td style={{fontSize: "0.8rem", width: "15%"}}>@vansh</td>
-              <td style={{fontSize: "0.8rem"}}>123 @ 312.00 $USD</td>
-              <td style={{fontSize: "0.8rem"}}>4 days ago</td>
+              <td style={{fontSize: "0.8rem", width: "15%"}}>@{listing.seller.username}</td>
+              <td style={{fontSize: "0.8rem"}}>{listing.bitcloutnanos / 1e9} @{" "}{(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "} $USD</td>
+              <td style={{fontSize: "0.8rem"}}>{dateRender(listing.created)}</td>
               <Button
                 style={{
                   width: "10em",

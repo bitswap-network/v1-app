@@ -11,6 +11,8 @@ import SpecificListing from "./pages/SpecificListing";
 import UserListings from "./pages/UserListings";
 import EditProfile from "./pages/EditProfile";
 import Admin from "./pages/Admin";
+import NewListing from "./pages/newUserListing";
+
 
 import { history } from "./helpers/history";
 import { Router, Route } from "react-router-dom";
@@ -34,6 +36,7 @@ function App() {
       <Route path="/userlistings" component={UserListings} />
       <Route path="/profile" component={EditProfile} />
       <Route path="/admin" component={Admin} />
+      <Route path="/new" component={NewListing} />
       {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}
     </Router>
   );

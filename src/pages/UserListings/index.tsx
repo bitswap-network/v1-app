@@ -368,11 +368,15 @@ const UserListings = (props: any) => {
                 display: "flex",
                 flexDirection: "row",
                 marginLeft: "1.3rem",
+                marginRight: 0,
+                paddingRight: 0,
+                flex: 1,
               }
         }
+      
       >
         <NavBar />
-        <Row style={{ width: "70em", marginTop: "8%", marginLeft: "-5rem" }}>
+        <Row style={{marginTop: "8%", width: "1500%"}}>
           <Col>
             {userData?.listings.length === 0 && (
               <h3>
@@ -382,7 +386,7 @@ const UserListings = (props: any) => {
             {isLoggedIn && userData?.listings.length !== 0 && (
               <>
                 <Row>
-                  <Col sm={2}>
+                  <Col sm={3}>
                     <h3
                       style={
                         window.visualViewport.width <= 768

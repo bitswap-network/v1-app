@@ -201,6 +201,8 @@ const EditProfile = (props: any) => {
           <Button style={{backgroundColor: "white", color: "blue"}} onClick={() => {
             navigator.clipboard.writeText(userData?.bitcloutverification)
             setCopy(true);
+            setTimeout(() => {setCopy(false)},2500);
+
             }}>
               {copied ? "Copied!" : "Copy to Clipboard"}
             </Button>

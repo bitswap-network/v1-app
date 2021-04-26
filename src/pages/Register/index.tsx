@@ -17,7 +17,7 @@ import {
   HaveAnAccountText,
   UserField,
   RegisterButton,
-  MobileLogo,
+  MobileLogo
 } from "./styles";
 import { register, getProfile } from "services/auth";
 import { FaCheckCircle } from "react-icons/fa";
@@ -35,7 +35,7 @@ const Register = (props: any) => {
     bitcloutpubkey: false,
     ethereumaddress: false,
     password: false,
-    confirmPassword: false,
+    confirmPassword: false
   });
 
   const [creationerror, setCreationerror] = useState(false);
@@ -47,13 +47,13 @@ const Register = (props: any) => {
     bitcloutpubkey: "" as string,
     ethereumaddress: "" as string,
     password: "" as string,
-    confirmPassword: "" as string,
+    confirmPassword: "" as string
   });
 
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
     setError({
       username: false,
@@ -61,7 +61,7 @@ const Register = (props: any) => {
       bitcloutpubkey: false,
       ethereumaddress: false,
       password: false,
-      confirmPassword: false,
+      confirmPassword: false
     });
     setCreationerror(false);
   };
@@ -71,19 +71,19 @@ const Register = (props: any) => {
     if (form.username.length === 0) {
       setError({
         ...error,
-        username: true,
+        username: true
       });
       setLoading(false);
     } else if (form.username.length !== 0) {
       getProfile(form.username)
-        .then((response) => {
+        .then(response => {
           console.log(response);
           setProfileObj(response);
           setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
           setPageState(1);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           setLoading(false);
           setErrorMsg("Unable to find profile");
@@ -100,7 +100,7 @@ const Register = (props: any) => {
       email: !regEmail.test(form.email) ? true : false,
       bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
       ethereumaddress: form.ethereumaddress.length !== 42 ? true : false,
-      password: form.password !== form.confirmPassword,
+      password: form.password !== form.confirmPassword
     });
 
     if (
@@ -134,7 +134,7 @@ const Register = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           setLoading(false);
           if (error.response) {
             if (error.response.status === 429) {
@@ -177,7 +177,7 @@ const Register = (props: any) => {
             <h5>
               <HaveAnAccountText>
                 Already have an account?{" "}
-                <div onClick={() => window.location.replace("/login")}>
+                <div onClick={() => window.location.assign("/login")}>
                   <Link to="/login" style={{ color: "#6494FF" }} replace>
                     Log In
                   </Link>
@@ -261,7 +261,7 @@ const Register = (props: any) => {
                   padding: "2%",
                   borderRadius: "5px",
                   boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                  width: "100%",
+                  width: "100%"
                 }}
               >
                 <Row style={{ textAlign: "left" }}>

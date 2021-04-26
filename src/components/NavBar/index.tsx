@@ -15,7 +15,7 @@ const NavElement = (props: any) => {
         margin: "0%",
         marginRight: "0%",
         marginLeft: "0%",
-        textAlign: "left",
+        textAlign: "left"
       }}
       onClick={() => {
         props.setCurrentPage(props.linkto);
@@ -67,7 +67,6 @@ const NavElement = (props: any) => {
       <Link
         to={props.linkto}
         style={{ color: "#43494f", fontFamily: "inherit" }}
-        replace
       >
         {props.label}
       </Link>
@@ -89,7 +88,7 @@ export const NavBar: React.FC = (props: any) => {
             display: "flex",
             marginLeft: 0,
             marginRight: 0,
-            paddingLeft: 0,
+            paddingLeft: 0
           }}
         >
           <Navbar expand="lg">
@@ -129,7 +128,7 @@ export const NavBar: React.FC = (props: any) => {
               marginTop: "5px",
               textAlign: "right",
               height: "90vh",
-              display: "flex",
+              display: "flex"
             }}
           >
             <Row style={{ marginTop: "5px", height: "10%" }}>
@@ -202,10 +201,10 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "30vh",
                   textAlign: "left",
-                  width: "200%",
+                  width: "200%"
                 }}
               >
-                <p style={{fontSize: "0.85rem"}}>
+                <p style={{ fontSize: "0.85rem" }}>
                   {isLoggedIn && (
                     <b>
                       Balance:{" "}
@@ -229,14 +228,14 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       borderRadius: "60px",
                       height: "auto",
-                      width: "6vh",
+                      width: "6vh"
                     }}
                   />
                   <Row
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start",
+                      alignItems: "flex-start"
                     }}
                   >
                     <a
@@ -245,7 +244,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         marginLeft: "4vh",
                         fontSize: "1.8vh",
-                        height: "50%",
+                        height: "50%"
                       }}
                       href="/profile"
                     >
@@ -278,7 +277,7 @@ export const NavBar: React.FC = (props: any) => {
                         color: "#43494f",
                         fontFamily: "inherit",
                         fontSize: "2vh",
-                        height: "50%",
+                        height: "50%"
                       }}
                       href="/login"
                     >
@@ -289,7 +288,7 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start",
+                      alignItems: "flex-start"
                     }}
                   >
                     <a
@@ -298,7 +297,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         fontSize: "2vh",
                         marginTop: "0.5rem",
-                        height: "50%",
+                        height: "50%"
                       }}
                       href="/register"
                     >

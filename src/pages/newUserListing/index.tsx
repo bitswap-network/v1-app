@@ -33,11 +33,10 @@ import {
   FeedContent,
   SearchBarWrapper,
 } from "./styles";
-import { useUser, useEthPrice, useGasPrice} from "components/hooks";
+import { useUser, useEthPrice, useGasPrice } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
 import UserListing from "../../components/UserListing";
-
 
 const NewListing = (props: any) => {
   const user = useRecoilValue(userState);
@@ -58,10 +57,7 @@ const NewListing = (props: any) => {
   const [gas, setGas] = useState(0);
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
-  const [tableRender, setTable] = useState("")
-
-
-
+  const [tableRender, setTable] = useState("");
 
   const submitPost = () => {
     if (
@@ -92,16 +88,12 @@ const NewListing = (props: any) => {
     }
   };
 
-  
-  if (!isLoading) {
-    console.log("userData", userData);
-    
-  }
-
-
+  // if (!isLoading) {
+  //   console.log("userData", userData);
+  // }
 
   const [dateSort, setDateSort] = useState("desc");
-  console.log("user data", userData, user);
+  // console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
       .then((res) => {
@@ -125,11 +117,13 @@ const NewListing = (props: any) => {
   const handleAmountChange = (e) => {
     setAmountBitclout(e.target.value);
     setamountError(false);
+    console.log(parseFloat(e.target.value), userData.bitswapbalance);
     if (isLoggedIn) {
-      if (parseFloat(e.target.value) > user.bitswapbalance) {
+      if (parseFloat(e.target.value) > userData.bitswapbalance) {
+        console.log("setting amt error as true");
         setamountError(true);
       }
-      if (parseFloat(amountBitclout) <= 0) {
+      if (parseFloat(amountBitclout) < 0) {
         setamountError(true);
       }
     }
@@ -162,7 +156,7 @@ const NewListing = (props: any) => {
 
   return (
     <>
-       <>
+      <>
         <Modal
           show={confirmModal}
           onHide={false}
@@ -390,16 +384,34 @@ const NewListing = (props: any) => {
                     : { marginLeft: "1rem" }
                 }
               >
-                <b className="hoverCursor" onClick={() => {setPageView("swaps"); setTable(userData.listings)}}  style={{color: pageView === "swaps" ? "black" : "grey"}}>My Swaps</b>
+                <b
+                  className="hoverCursor"
+                  onClick={() => {
+                    setPageView("swaps");
+                    setTable(userData.listings);
+                  }}
+                  style={{ color: pageView === "swaps" ? "black" : "grey" }}
+                >
+                  My Swaps
+                </b>
               </h3>
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "3rem", fontSize: "1.5rem",  }
+                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
                     : { marginLeft: "3rem" }
                 }
               >
-                <b className="hoverCursor" onClick={() => {setPageView("buys"); setTable(userData.buys)}} style={{color: pageView === "buys" ? "black" : "grey", }}>My Buys</b>
+                <b
+                  className="hoverCursor"
+                  onClick={() => {
+                    setPageView("buys");
+                    setTable(userData.buys);
+                  }}
+                  style={{ color: pageView === "buys" ? "black" : "grey" }}
+                >
+                  My Buys
+                </b>
               </h3>
 
             </Row>
@@ -409,7 +421,11 @@ const NewListing = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{ background: "transparent", minHeight: "75vh", overflowX: 'hidden'}}
+                  style={{
+                    background: "transparent",
+                    minHeight: "75vh",
+                    overflowX: "hidden",
+                  }}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
                   <table style={{width: "100%"}}>
@@ -418,32 +434,46 @@ const NewListing = (props: any) => {
 
                           <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "27%"}}>Offer</td>
 
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4",
+                            width: "27%",
+                          }}
+                        >
+                          Offer
+                        </td>
 
-
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4"}}>Posted Time</td>
-                        </tr>
-                        <tr>
-                      
-    
-                        </tr>
-                  </table>
-
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Posted Time
+                        </td>
+                      </tr>
+                      <tr></tr>
+                    </table>
                   </Row>
-                  <hr style={{marginBottom: "5%"}}></hr>
+                  <hr style={{ marginBottom: "5%" }}></hr>
 
-                  {!isLoading && userData.listings.map((listing: any, i: number) => {
-                  return (
-                    <>
-                      <UserListing
-                        listing={listing}
-                        index={i}
-                        history={props.history}
-                        loading={loading}
-                        buy={true}
-                      />
-                    </>
-                  );
-                })}
+                  {!isLoading &&
+                    userData.listings.map((listing: any, i: number) => {
+                      return (
+                        <>
+                          <UserListing
+                            listing={listing}
+                            index={i}
+                            history={props.history}
+                            loading={loading}
+                            buy={true}
+                          />
+                        </>
+                      );
+                    })}
                 </div>
               </Col>
             </FeedContent>
@@ -481,7 +511,7 @@ const NewListing = (props: any) => {
                   </h5>
                 </Row>
 
-                <Row style={{marginLeft: "6%", marginTop: "5%"}}>
+                <Row style={{ marginLeft: "6%", marginTop: "5%" }}>
                   <TextField
                     id="username"
                     label="Amount of Bitclout"
@@ -491,11 +521,16 @@ const NewListing = (props: any) => {
                     size={"medium"}
                     error={amountError}
                     inputProps={{
-                      style: { fontSize: "2vh", height: "2vh", fontStyle: "lato", width: "30vh" },
+                      style: {
+                        fontSize: "2vh",
+                        height: "2vh",
+                        fontStyle: "lato",
+                        width: "30vh",
+                      },
                     }}
                   />
                 </Row>
-                <Row style={{marginLeft: "6%", marginTop: "5%"}}>
+                <Row style={{ marginLeft: "6%", marginTop: "5%" }}>
                   <TextField
                     id="username"
                     label="$USD per Bitclout"
@@ -505,38 +540,46 @@ const NewListing = (props: any) => {
                     error={usdPerError}
                     size={"medium"}
                     inputProps={{
-                      style: { fontSize: "2vh", height: "2vh", fontStyle: "lato",  width: "30vh"  },
+                      style: {
+                        fontSize: "2vh",
+                        height: "2vh",
+                        fontStyle: "lato",
+                        width: "30vh",
+                      },
                     }}
                   />
                 </Row>
 
-                <Row style={{marginTop: "8%", marginLeft: "6%"}}>
-                <h5 style={{ fontSize: "1rem" }}>
-                  Total $USD:{" "}
-                  {parseFloat(amountBitclout) > 0 && parseFloat(usdPerBitclout) > 0
-                    ? (
-                        parseFloat(amountBitclout) * parseFloat(usdPerBitclout)
-                      ).toFixed(2)
-                    : `0`}
-                </h5>
+                <Row style={{ marginTop: "8%", marginLeft: "6%" }}>
+                  <h5 style={{ fontSize: "1rem" }}>
+                    Total $USD:{" "}
+                    {parseFloat(amountBitclout) > 0 &&
+                    parseFloat(usdPerBitclout) > 0
+                      ? (
+                          parseFloat(amountBitclout) *
+                          parseFloat(usdPerBitclout)
+                        ).toFixed(2)
+                      : `0`}
+                  </h5>
                 </Row>
 
-                <Row style={{marginTop: "6%", marginLeft: "6%"}}>
-                <h5 style={{ fontSize: "1rem" }}>
-                  Total $ETH: ~
-                  {parseFloat(amountBitclout) > 0 &&
-                  !ethIsLoading &&
-                  !ethIsError &&
-                  parseFloat(usdPerBitclout) > 0
-                    ? (
-                        (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
-                        etherPrice.USD
-                      ).toFixed(5)
-                    : `0`}
-                </h5>
+                <Row style={{ marginTop: "6%", marginLeft: "6%" }}>
+                  <h5 style={{ fontSize: "1rem" }}>
+                    Total $ETH: ~
+                    {parseFloat(amountBitclout) > 0 &&
+                    !ethIsLoading &&
+                    !ethIsError &&
+                    parseFloat(usdPerBitclout) > 0
+                      ? (
+                          (parseFloat(amountBitclout) *
+                            parseFloat(usdPerBitclout)) /
+                          etherPrice.USD
+                        ).toFixed(5)
+                      : `0`}
+                  </h5>
                 </Row>
 
-                <Row style={{marginLeft: "6%", marginTop: "6%"}}>
+                <Row style={{ marginLeft: "6%", marginTop: "6%" }}>
                   <Button
                     style={{
                       width: "10em",
@@ -549,12 +592,6 @@ const NewListing = (props: any) => {
                     Submit
                   </Button>
                 </Row>
-                
-               
-
-               
-               
-                
               </>
             )}
           </Col>

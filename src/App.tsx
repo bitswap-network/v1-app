@@ -3,20 +3,19 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import PostAd from "./pages/PostAd";
 import Wallet from "./pages/Wallet";
 import SpecificListing from "./pages/SpecificListing";
 // import Buy from "./pages/Buy";
 // import Manage from "./pages/Manage";
 import UserListings from "./pages/UserListings";
 import EditProfile from "./pages/EditProfile";
+import Profile from "pages/UserProfile";
 import Admin from "./pages/Admin";
 import NewListing from "./pages/newUserListing";
 
 
 import { history } from "./helpers/history";
-import { Router, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
+import { Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 
@@ -34,7 +33,10 @@ function App() {
 
       {/* <Route path="/postad" component={PostAd} /> */}
       <Route path="/userlistings" component={UserListings} />
-      <Route path="/profile" component={EditProfile} />
+      <Route exact path="/profile" component={EditProfile} />
+      <Switch>
+        <Route path="/profile/:username" component={Profile} />
+      </Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/new" component={NewListing} />
       {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}

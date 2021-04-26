@@ -12,7 +12,7 @@ import {
   FiActivity,
   FiX,
   FiDollarSign,
-  FiBox,
+  FiBox
 } from "react-icons/fi";
 
 interface ListingModal {
@@ -31,10 +31,10 @@ const BuyModal: React.FC<ListingModal> = (
   const buySubmit = () => {
     if (listing) {
       buyListing(user.token, listing._id)
-        .then((response) => {
-          window.location.replace(`/listing/${listing._id}`);
+        .then(response => {
+          window.location.assign(`/listing/${listing._id}`);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
@@ -53,7 +53,7 @@ const BuyModal: React.FC<ListingModal> = (
             float: "right",
             marginRight: "0.75rem",
             marginTop: "0.5rem",
-            color: "#ACB5BD",
+            color: "#ACB5BD"
           }}
           onClick={close}
         />
@@ -65,7 +65,7 @@ const BuyModal: React.FC<ListingModal> = (
             color: "#212429",
             fontSize: "0.7rem",
             marginLeft: "2rem",
-            marginTop: "0.75rem",
+            marginTop: "0.75rem"
           }}
         >
           By clicking confirm, you will agree to purchase the following
@@ -78,7 +78,7 @@ const BuyModal: React.FC<ListingModal> = (
             color: "#ACB5BD",
             fontSize: "0.7rem",
             marginTop: "1.5rem",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Col sm={5}>
@@ -88,7 +88,7 @@ const BuyModal: React.FC<ListingModal> = (
                 style={{
                   color: "#212429",
                   marginTop: "0.4rem",
-                  marginLeft: "1rem",
+                  marginLeft: "1rem"
                 }}
               />
               <p style={{ color: "#212429", fontSize: "1.5rem" }}>
@@ -99,7 +99,7 @@ const BuyModal: React.FC<ListingModal> = (
                   color: "#212429",
                   fontSize: "0.9rem",
                   marginTop: "0.7rem",
-                  marginLeft: "0.5rem",
+                  marginLeft: "0.5rem"
                 }}
               >
                 BTCLT
@@ -111,7 +111,7 @@ const BuyModal: React.FC<ListingModal> = (
               style={{
                 color: "#212429",
                 fontSize: "0.9rem",
-                marginTop: "0.7rem",
+                marginTop: "0.7rem"
               }}
             >
               <b>FOR</b>
@@ -131,7 +131,7 @@ const BuyModal: React.FC<ListingModal> = (
                   color: "#212429",
                   fontSize: "0.9rem",
                   marginTop: "0.7rem",
-                  marginLeft: "0.5rem",
+                  marginLeft: "0.5rem"
                 }}
               >
                 USD
@@ -143,7 +143,7 @@ const BuyModal: React.FC<ListingModal> = (
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <Col>
@@ -155,7 +155,7 @@ const BuyModal: React.FC<ListingModal> = (
                 style={{
                   color: "#212429",
                   fontSize: "0.7rem",
-                  marginTop: "-3%",
+                  marginTop: "-3%"
                 }}
               >
                 Subject to change based on current exchange rates.
@@ -167,7 +167,7 @@ const BuyModal: React.FC<ListingModal> = (
           style={{
             justifyContent: "center",
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "row"
           }}
         >
           <Button

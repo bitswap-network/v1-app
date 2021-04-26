@@ -15,7 +15,7 @@ const OngoingItem = (props: any) => {
           <p
             style={{ color: "#4263EB", fontSize: "1rem" }}
             onClick={() =>
-              window.location.replace(`/listing/${props.listingid}`)
+              window.location.assign(`/listing/${props.listingid}`)
             }
           >
             View →

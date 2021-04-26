@@ -26,6 +26,7 @@ const EditProfile = (props: any) => {
   const [formUpdated, setFormUpdated] = useState(false);
   const [passwordUpdated, setPasswordUpdated] = useState(false);
   const [verifyModal, setVerifyModal] = useState(false);
+  const [copied, setCopy] = useState(false);
   const [verifyState, setVerifyState] = useState("primary");
   const { userData, isLoading, isError } = useUser(user?.token);
   const [error, setError] = useState({
@@ -193,9 +194,18 @@ const EditProfile = (props: any) => {
               }
               style={{ width: "100%" }}
             />
-            <p>Using your code: {userData?.bitcloutverification}</p>
+            <p style={{marginTop: "3%"}}>Using your code: {userData?.bitcloutverification}</p>
           </Col>
           <Col style={{ textAlign: "center" }}>
+          <Button style={{backgroundColor: "white", color: "blue"}} onClick={() => {
+            navigator.clipboard.writeText(userData?.bitcloutverification)
+            setCopy(true);
+            }}>
+              {copied ? "Copied!" : "Copy to Clipboard"}
+            </Button>
+          </Col>
+          <Col style={{ textAlign: "center", marginTop: "3%" }}>
+            
             <Button variant={verifyState} onClick={handleVerify}>
               {verifyState === "primary" && "Check Verification"}
               {verifyState === "secondary" && "Loading"}

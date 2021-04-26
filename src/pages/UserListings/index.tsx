@@ -394,6 +394,7 @@ const UserListings = (props: any) => {
                         onClick={() => {
                           setPageView("swaps");
                         }}
+                        style={{ cursor: "pointer" }}
                       >
                         <b
                           style={{
@@ -417,6 +418,7 @@ const UserListings = (props: any) => {
                         onClick={() => {
                           setPageView("buys");
                         }}
+                        style={{ cursor: "pointer" }}
                       >
                         <b
                           style={{

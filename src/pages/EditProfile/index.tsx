@@ -158,6 +158,7 @@ const EditProfile = (props: any) => {
         show={verifyModal}
         onHide={() => {
           setVerifyModal(false);
+          setVerifyState("primary");
         }}
         style={{ display: "flex", margin: "auto" }}
         // aria-labelledby="contained-modal-title-vcenter"

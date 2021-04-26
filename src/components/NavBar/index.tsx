@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Container, Col, Navbar, Nav } from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
-import { FiHome, FiUploadCloud, FiInbox, FiMonitor } from "react-icons/fi";
+import { FiHome, FiUploadCloud, FiInbox, FiDollarSign } from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -59,7 +59,7 @@ const NavElement = (props: any) => {
       )}
       {props.label == "  Wallet" ? (
         <>
-          <FiMonitor size={18} style={{ color: "#43494f" }} />
+          <FiDollarSign size={18} style={{ color: "#43494f" }} />
         </>
       ) : (
         <> </>
@@ -201,10 +201,10 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "30vh",
                   textAlign: "left",
-                  width: "150%"
+                  width: "200%"
                 }}
               >
-                <p>
+                <p style={{ fontSize: "0.85rem" }}>
                   {isLoggedIn && (
                     <b>
                       Balance:{" "}
@@ -218,7 +218,7 @@ export const NavBar: React.FC = (props: any) => {
               </Row>
 
               {user ? (
-                <Row style={{ width: "150%" }}>
+                <Row style={{ width: "120%" }}>
                   <img
                     src={
                       user.profilepicture
@@ -228,7 +228,7 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       borderRadius: "60px",
                       height: "auto",
-                      width: "5vh"
+                      width: "6vh"
                     }}
                   />
                   <Row
@@ -250,6 +250,7 @@ export const NavBar: React.FC = (props: any) => {
                     >
                       {"@"}
                       {user.username}
+                      <br />
                     </a>
                     <div onClick={() => window.location.replace(`/logout`)}>
                       <Link
@@ -257,8 +258,8 @@ export const NavBar: React.FC = (props: any) => {
                         style={{
                           color: "red",
                           fontFamily: "inherit",
-                          marginLeft: "4vh",
                           fontSize: "1.5vh",
+                          marginLeft: "1rem",
                           height: "50%"
                         }}
                         replace

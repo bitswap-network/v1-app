@@ -52,107 +52,139 @@ const Listing: React.FC<UserListing> = (
     }
   };
   return (
+    // <>
+    //   <Container>
+    //     <MediaQuery query="(max-device-width: 768px)">
+    //       <Wrapper
+    //         key={index}
+    //         style={{ backgroundColor: "transparent", width: "20em" }}
+    //       >
+    //         <hr></hr>
+    //         <Row key={index} className="align-items-center">
+    //           <Col style={{ textAlign: "left" }} xs={5}>
+    //             <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.buyer
+    //                 ? `${listing.buyer.username}`
+    //                 : "No Transactor"}
+    //               <br></br>
+    //             </p>
+    //           </Col>
+
+    //           <Col style={{ textAlign: "left" }} xs={6}>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.bitcloutnanos / 1e9} $BTCLT @
+    //             </p>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
+    //             </p>
+    //           </Col>
+    //         </Row>
+    //         <Col>
+    //           <Col sm={0}>
+    //             {/* <Link to={`/listing/${listing._id}`}> */}
+    //             <Button
+    //               style={{
+    //                 width: "10em",
+    //                 backgroundColor: "#4263EB",
+    //                 marginTop: "1.3em",
+    //               }}
+    //               onClick={() => {
+    //                 // history.push(`/listing/${listing._id}`);
+    //                 window.location.replace(`/listing/${listing._id}`);
+    //               }}
+    //             >
+    //               View
+    //             </Button>
+    //             {/* </Link> */}
+    //           </Col>
+    //         </Col>
+    //       </Wrapper>
+    //     </MediaQuery>
+
+    //     <MediaQuery query="(min-device-width: 768px)">
+    //       <Wrapper
+    //         key={index}
+    //         style={{ backgroundColor: "transparent", width: "100em" }}
+    //       >
+    //         <hr></hr>
+    //         <Row key={index} className="align-items-center">
+    //           <Col style={{ textAlign: "left" }} sm={2}>
+    //             <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.buyer
+    //                 ? `${listing.buyer.username}`
+    //                 : "No Transactor"}
+    //             </p>
+    //           </Col>
+
+    //           <Col style={{ textAlign: "left" }} sm={2}>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.bitcloutnanos / 1e9} $BTCLT @
+    //             </p>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
+    //             </p>
+    //           </Col>
+    //           <Col style={{ textAlign: "center" }} sm={1}>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {dateRender(listing.created)}
+    //             </p>
+    //           </Col>
+    //           <Col style={{ textAlign: "center" }} sm={1}>
+    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
+    //               {listing.ongoing ? "In progress" : ""}
+    //               {listing.completed.status ? "Completed" : ""}
+    //               {!listing.ongoing && !listing.completed.status
+    //                 ? "Available"
+    //                 : ""}
+    //               {}
+    //             </p>
+    //           </Col>
+    //           <Col sm={1}>
+    //             <Button
+    //               style={{ width: "10em", backgroundColor: "#4263EB" }}
+    //               onClick={() => {
+    //                 window.location.replace(`/listing/${listing._id}`);
+    //               }}
+    //             >
+    //               View
+    //             </Button>
+    //           </Col>
+    //         </Row>
+    //       </Wrapper>
+    //     </MediaQuery>
+    //   </Container>
+    // </>
     <>
-      <Container>
-        <MediaQuery query="(max-device-width: 768px)">
-          <Wrapper
-            key={index}
-            style={{ backgroundColor: "transparent", width: "20em" }}
-          >
-            <hr></hr>
-            <Row key={index} className="align-items-center">
-              <Col style={{ textAlign: "left" }} xs={5}>
-                <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.buyer
-                    ? `${listing.buyer.username}`
-                    : "No Transactor"}
-                  <br></br>
-                </p>
-              </Col>
-
-              <Col style={{ textAlign: "left" }} xs={6}>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutnanos / 1e9} $BTCLT @
-                </p>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
-                </p>
-              </Col>
-            </Row>
-            <Col>
-              <Col sm={0}>
-                {/* <Link to={`/listing/${listing._id}`}> */}
-                <Button
-                  style={{
-                    width: "10em",
-                    backgroundColor: "#4263EB",
-                    marginTop: "1.3em"
-                  }}
-                  onClick={() => {
-                    // history.push(`/listing/${listing._id}`);
-                    window.location.assign(`/listing/${listing._id}`);
-                  }}
-                >
-                  View
-                </Button>
-                {/* </Link> */}
-              </Col>
-            </Col>
-          </Wrapper>
-        </MediaQuery>
-
-        <MediaQuery query="(min-device-width: 768px)">
-          <Wrapper
-            key={index}
-            style={{ backgroundColor: "transparent", width: "100em" }}
-          >
-            <hr></hr>
-            <Row key={index} className="align-items-center">
-              <Col style={{ textAlign: "left" }} sm={2}>
-                <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.buyer
-                    ? `${listing.buyer.username}`
-                    : "No Transactor"}
-                </p>
-              </Col>
-
-              <Col style={{ textAlign: "left" }} sm={2}>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.bitcloutnanos / 1e9} $BTCLT @
-                </p>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
-                </p>
-              </Col>
-              <Col style={{ textAlign: "center" }} sm={1}>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {dateRender(listing.created)}
-                </p>
-              </Col>
-              <Col style={{ textAlign: "center" }} sm={1}>
-                <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-                  {listing.ongoing ? "In progress" : ""}
-                  {listing.completed.status ? "Completed" : ""}
-                  {!listing.ongoing && !listing.completed.status
-                    ? "Available"
-                    : ""}
-                  {}
-                </p>
-              </Col>
-              <Col sm={1}>
-                <Button
-                  style={{ width: "10em", backgroundColor: "#4263EB" }}
-                  onClick={() => {
-                    window.location.assign(`/listing/${listing._id}`);
-                  }}
-                >
-                  View
-                </Button>
-              </Col>
-            </Row>
-          </Wrapper>
-        </MediaQuery>
-      </Container>
+      <table style={{ width: "120%", marginTop: "-2%", overflowX: "hidden" }}>
+        <tr>
+          <td style={{ width: "3%" }}></td>
+          <td style={{ fontSize: "0.8rem", width: "20%" }}>
+            {listing.buyer ? `${listing.buyer.username}` : "No Transactor"}
+          </td>
+          <td style={{ fontSize: "0.8rem", width: "22%" }}>
+            {listing.bitcloutnanos / 1e9} @{" "}
+            {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
+          </td>
+          <td style={{ fontSize: "0.8rem", width: "20%" }}>
+            {dateRender(listing.created)}
+          </td>
+          <td>
+            <Button
+              style={{
+                width: "10em",
+                backgroundColor: "#4263EB"
+              }}
+              onClick={() => {
+                // history.push(`/listing/${listing._id}`);
+                window.location.assign(`/listing/${listing._id}`);
+              }}
+            >
+              View Buy
+            </Button>
+          </td>
+        </tr>
+      </table>
+      <hr style={{ marginTop: "3%", marginBottom: "4.5%" }}></hr>
     </>
   );
 };

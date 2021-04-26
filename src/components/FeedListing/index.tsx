@@ -69,8 +69,59 @@ const Listing: React.FC<FeedListing> = (
       <ErrorModal open={errorOpen} close={closeError} error={errorMessage} />
       <BuyModal listing={listing} open={modalOpen} close={closeModal} />
       <StyledContentLoader isLoading={false}>
-        <hr></hr>
-        <MediaQuery query="(max-device-width: 768px)">
+        <Wrapper
+            key={index}
+            style={{ backgroundColor: "transparent"}}
+          >
+       
+            <table style={{width: "120%", marginTop: "-3%", overflowX: "hidden"}}>
+            
+
+
+            <tr>
+              <td> 
+                  <img
+                  src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
+                  alt="profile"
+                  style={{
+                    borderRadius: "60px",
+                    height: "auto",
+                    width: "5vh",
+                  }}
+                />
+              </td>
+              <td style={{fontSize: "0.8rem", width: "15%"}}>@{listing.seller.username}</td>
+              <td style={{fontSize: "0.8rem"}}>{listing.bitcloutnanos / 1e9} @{" "}{(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "} $USD</td>
+              <td style={{fontSize: "0.8rem"}}>{dateRender(listing.created)}</td>
+              <Button
+                style={{
+                  width: "10em",
+                  height: "2.5rem",
+                  backgroundColor: "#4263EB",
+                  borderColor: "white",
+                }}
+                onClick={() => {
+                  if (isLoggedIn) {
+                    setOpenModal(true);
+                  } else {
+                    setErrorMessage("You must be logged in to buy listings.");
+                    setError(true);
+                  }
+                }}
+                disabled={isLoggedIn ? listing.seller._id === user._id : false}
+              >
+                Buy
+              </Button>
+
+            </tr>
+
+
+            </table>
+            <hr style={{marginTop: "3%"}}></hr>
+
+
+        </Wrapper>
+        {/* <MediaQuery query="(max-device-width: 768px)">
           <Row key={index} className="align-items-center">
             <Col
               style={{ marginRight: "0.3rem", marginLeft: "-0.3rem" }}
@@ -125,9 +176,9 @@ const Listing: React.FC<FeedListing> = (
               </Button>
             </Col>
           </Row>
-        </MediaQuery>
+        </MediaQuery> */}
 
-        <MediaQuery query="(min-device-width: 768px)">
+        {/* <MediaQuery query="(min-device-width: 768px)">
           <Wrapper
             key={index}
             style={{ backgroundColor: "transparent", width: "100em" }}
@@ -199,11 +250,8 @@ const Listing: React.FC<FeedListing> = (
               </Col>
             </Row>
           </Wrapper>
-          {/* <ModaltoBuy
-            show={state.modalOpen}
-            onHide={() => console.log("hehy")}
-          /> */}
-        </MediaQuery>
+
+        </MediaQuery> */}
       </StyledContentLoader>
     </>
   );

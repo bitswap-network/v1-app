@@ -87,8 +87,8 @@ const Home = (props: any) => {
     <>
       <Wrapper>
         <NavBar />
-        <Col sm={window.visualViewport.width <= 1800 ? 9 : 0}>
-          <MainContent sm={window.visualViewport.width <= 1800 ? 12 : 12}>
+        <Col sm={window.visualViewport.width <= 1800 ? 9 : 12}>
+          <MainContent>
             <Row>
               <h3
                 style={
@@ -133,71 +133,31 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{ background: "transparent" }}
+                  style={{ background: "transparent", minHeight: "75vh", overflowX: 'hidden'}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <p
-                      style={
-                        window.visualViewport.width <= 768
-                          ? {
-                              marginRight: "6rem",
-                              color: "#C4C4C4",
-                              fontSize: "0.8em",
-                            }
-                          : {
-                              color: "#C4C4C4",
-                              marginRight:
-                                window.visualViewport.width <= 1800
-                                  ? "10em"
-                                  : "22em",
-                              fontSize: "0.8em",
-                            }
-                      }
-                    >
-                      Username
-                    </p>
+                  <table style={{width: "120%"}}>
+                        <tr>
+                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "26.5%"}}>Username</td>
 
-                    <p
-                      style={
-                        window.visualViewport.width <= 768
-                          ? { color: "#C4C4C4", fontSize: "0.8em" }
-                          : {
-                              color: "#C4C4C4",
-                              marginRight:
-                                window.visualViewport.width <= 1800
-                                  ? "14em"
-                                  : "22em",
-                              fontSize: "0.8em",
-                            }
-                      }
-                    >
-                      Offer
-                    </p>
+                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "32%"}}>Offer</td>
 
-                    <p
-                      style={
-                        window.visualViewport.width <= 768
-                          ? { display: "none" }
-                          : { color: "#C4C4C4", fontSize: "0.8em" }
-                      }
-                    >
-                      Posted Time
-                      {dateSort === "desc" ? (
-                        <FiChevronDown
-                          size={20}
-                          color={"#C4C4C4"}
-                          onClick={() => handleSort("date")}
-                        />
-                      ) : (
-                        <FiChevronUp
-                          size={20}
-                          color={"black"}
-                          onClick={() => handleSort("date")}
-                        />
-                      )}
-                    </p>
+
+
+                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4"}}>Posted Time</td>
+                        </tr>
+                        <tr>
+                      
+    
+                        </tr>
+                  </table>
+
                   </Row>
+                  <hr style={{marginBottom: "5%"}}></hr>
+
+
                   {listings.map((listing: any, i: number) => (
+
                     <FeedListing
                       listing={listing}
                       price={1}

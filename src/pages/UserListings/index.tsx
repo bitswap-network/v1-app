@@ -40,8 +40,7 @@ const UserListings = (props: any) => {
   const [submitLoad, setSubmitLoad] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
   const [postError, setPostError] = useState(false);
-  const [listings, setListings] = useState<ListingSchema[]>([]);
-  const [buylistings, setBuyListings] = useState<ListingSchema[]>([]);
+  const [pageView, setPageView] = useState("swaps");
   const [amountBitclout, setAmountBitclout] = useState("");
   const [amountError, setamountError] = useState(false);
   const [usdPerError, setusdPerError] = useState(false);
@@ -109,6 +108,20 @@ const UserListings = (props: any) => {
   };
   const Rows: Function = (groups: any[]): JSX.Element[] =>
     userData.listings.map((listing: any, i: number) => {
+      return (
+        <>
+          <UserListing
+            listing={listing}
+            index={i}
+            history={props.history}
+            loading={loading}
+            buy={true}
+          />
+        </>
+      );
+    });
+  const BuyRows: Function = (groups: any[]): JSX.Element[] =>
+    userData.buys.map((listing: any, i: number) => {
       return (
         <>
           <UserListing
@@ -355,90 +368,209 @@ const UserListings = (props: any) => {
                 display: "flex",
                 flexDirection: "row",
                 marginLeft: "1.3rem",
+                marginRight: 0,
+                paddingRight: 0,
+                flex: 1,
               }
         }
+      
       >
         <NavBar />
-        <Row style={{ width: "70em", marginTop: "8%", marginLeft: "-5rem" }}>
+        <Row style={{marginTop: "8%", width: "1500%"}}>
           <Col>
             {userData?.listings.length === 0 && (
               <h3>
                 <b>No Listings</b>
               </h3>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && userData?.listings.length !== 0 && (
               <>
-                <h3
-                  style={
-                    window.visualViewport.width <= 768
-                      ? { marginLeft: "2rem" }
-                      : {}
-                  }
-                >
-                  <b>My Swaps</b>
-                </h3>
-
-                <div className="scrollNoBar" style={{ marginTop: "2em" }}>
-                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1.5em" }}>
-                    <p
+                <Row>
+                  <Col sm={3}>
+                    <h3
                       style={
                         window.visualViewport.width <= 768
-                          ? {
-                              color: "#C4C4C4",
-                              fontSize: "0.8em",
-                              marginRight: "4.5em",
-                            }
-                          : {
-                              color: "#C4C4C4",
-                              marginRight: "10em",
-                              fontSize: "0.8em",
-                            }
+                          ? { marginLeft: "2rem" }
+                          : {}
                       }
                     >
-                      Transactor Name
-                    </p>
-                    <p
+                      <div
+                        onClick={() => {
+                          setPageView("swaps");
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <b
+                          style={{
+                            color: pageView === "swaps" ? "black" : "grey",
+                          }}
+                        >
+                          My Swaps
+                        </b>
+                      </div>
+                    </h3>
+                  </Col>
+                  <Col sm={2}>
+                    <h3
                       style={
                         window.visualViewport.width <= 768
-                          ? { color: "#C4C4C4", fontSize: "0.8em" }
-                          : {
-                              color: "#C4C4C4",
-                              marginRight: "14em",
-                              fontSize: "0.8em",
-                            }
+                          ? { marginLeft: "2rem" }
+                          : {}
                       }
                     >
-                      Offer
-                    </p>
-                    <p
-                      style={
-                        window.visualViewport.width <= 768
-                          ? { display: "none" }
-                          : { color: "#C4C4C4", fontSize: "0.8em" }
-                      }
-                    >
-                      Posted Time
-                    </p>
-                    <p
-                      style={
-                        window.visualViewport.width <= 768
-                          ? { color: "#C4C4C4", fontSize: "0.8em" }
-                          : {
-                              color: "#C4C4C4",
-                              marginLeft: "12em",
-                              fontSize: "0.8em",
-                            }
-                      }
-                    >
-                      Status
-                    </p>
-                  </Row>
-                  {!isLoading && !isError && userData.listings.length > 0 && (
-                    <Rows />
-                  )}
-                </div>
+                      <div
+                        onClick={() => {
+                          setPageView("buys");
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <b
+                          style={{
+                            color: pageView === "buys" ? "black" : "grey",
+                          }}
+                        >
+                          My Buys
+                        </b>
+                      </div>
+                    </h3>
+                  </Col>
+                </Row>
               </>
             )}
+            {isLoggedIn &&
+              userData?.listings.length !== 0 &&
+              pageView === "swaps" && (
+                <>
+                  <div className="scrollNoBar" style={{ marginTop: "2em" }}>
+                    <Row
+                      style={{ marginBottom: "-1.2em", marginLeft: "1.5em" }}
+                    >
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? {
+                                color: "#C4C4C4",
+                                fontSize: "0.8em",
+                                marginRight: "4.5em",
+                              }
+                            : {
+                                color: "#C4C4C4",
+                                marginRight: "10em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Transactor Name
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { color: "#C4C4C4", fontSize: "0.8em" }
+                            : {
+                                color: "#C4C4C4",
+                                marginRight: "14em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Offer
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { display: "none" }
+                            : { color: "#C4C4C4", fontSize: "0.8em" }
+                        }
+                      >
+                        Posted Time
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { color: "#C4C4C4", fontSize: "0.8em" }
+                            : {
+                                color: "#C4C4C4",
+                                marginLeft: "12em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Status
+                      </p>
+                    </Row>
+                    {!isLoading && !isError && userData.listings.length > 0 && (
+                      <Rows />
+                    )}
+                  </div>
+                </>
+              )}
+            {isLoggedIn &&
+              userData?.listings.length !== 0 &&
+              pageView === "buys" && (
+                <>
+                  <div className="scrollNoBar" style={{ marginTop: "2em" }}>
+                    <Row
+                      style={{ marginBottom: "-1.2em", marginLeft: "1.5em" }}
+                    >
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? {
+                                color: "#C4C4C4",
+                                fontSize: "0.8em",
+                                marginRight: "4.5em",
+                              }
+                            : {
+                                color: "#C4C4C4",
+                                marginRight: "10em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Transactor Name
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { color: "#C4C4C4", fontSize: "0.8em" }
+                            : {
+                                color: "#C4C4C4",
+                                marginRight: "14em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Offer
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { display: "none" }
+                            : { color: "#C4C4C4", fontSize: "0.8em" }
+                        }
+                      >
+                        Posted Time
+                      </p>
+                      <p
+                        style={
+                          window.visualViewport.width <= 768
+                            ? { color: "#C4C4C4", fontSize: "0.8em" }
+                            : {
+                                color: "#C4C4C4",
+                                marginLeft: "12em",
+                                fontSize: "0.8em",
+                              }
+                        }
+                      >
+                        Status
+                      </p>
+                    </Row>
+                    {!isLoading && !isError && userData.listings.length > 0 && (
+                      <BuyRows />
+                    )}
+                  </div>
+                </>
+              )}
           </Col>
         </Row>
 

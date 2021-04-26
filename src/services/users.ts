@@ -75,6 +75,15 @@ const getProfile = async (username: string) => {
   return await axios.get(`${url}/user/profile/${username}`)
 }
 
+const verifyBitclout = async (token: string) => {
+  return await axios.post(
+    `${url}/user/verifyBitclout`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
 export {
   updatePassword,
   updateProfile,
@@ -83,4 +92,5 @@ export {
   deposit,
   withdraw,
   getProfile,
+  verifyBitclout,
 };

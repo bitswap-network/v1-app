@@ -16,7 +16,7 @@ const Wallet = (props: any) => {
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(0);
   const [modalOpen, setOpenModal] = useState(false);
   const [user, setUser] = useRecoilState(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
@@ -52,9 +52,9 @@ const Wallet = (props: any) => {
     );
     if (
       transactionType === "Withdraw" &&
-      parseFloat(e.target.value) > user.bitswapbalance
+      parseFloat(e.target.value) > userData?.bitswapbalance
     ) {
-      console.log("oo");
+      // console.log(parseFloat(e.target.value),u)
       setWithdrawError(true);
     } else {
       setWithdrawError(false);
@@ -341,7 +341,7 @@ const Wallet = (props: any) => {
                   padding: "1.2%",
                 }}
                 onClick={() => confirmModalOpen(true)}
-                disabled={withdrawError}
+                disabled={withdrawError || amount === 0}
               >
                 Confirm {transactionType}
               </Button>

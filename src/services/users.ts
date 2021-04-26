@@ -70,6 +70,16 @@ const withdraw = async (token: string, bitcloutvalue: number) => {
     }
   );
 };
+
+const verifyBitclout = async (token: string) => {
+  return await axios.post(
+    `${url}/user/verifyBitclout`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
 export {
   updatePassword,
   updateProfile,
@@ -77,4 +87,5 @@ export {
   getTransactions,
   deposit,
   withdraw,
+  verifyBitclout,
 };

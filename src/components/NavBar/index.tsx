@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Container, Col, Navbar, Nav } from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
-import { FiHome, FiUploadCloud, FiInbox, FiMonitor } from "react-icons/fi";
+import { FiHome, FiUploadCloud, FiInbox, FiDollarSign } from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -59,7 +59,7 @@ const NavElement = (props: any) => {
       )}
       {props.label == "  Wallet" ? (
         <>
-          <FiMonitor size={18} style={{ color: "#43494f" }} />
+          <FiDollarSign size={18} style={{ color: "#43494f" }} />
         </>
       ) : (
         <> </>

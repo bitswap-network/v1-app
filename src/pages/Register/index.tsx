@@ -177,9 +177,11 @@ const Register = (props: any) => {
             <h5>
               <HaveAnAccountText>
                 Already have an account?{" "}
-                <Link to="/login" style={{ color: "#6494FF" }} replace>
-                  Log In
-                </Link>
+                <div onClick={() => window.location.replace("/login")}>
+                  <Link to="/login" style={{ color: "#6494FF" }} replace>
+                    Log In
+                  </Link>
+                </div>
               </HaveAnAccountText>
             </h5>
           </>

@@ -52,9 +52,9 @@ const Wallet = (props: any) => {
     );
     if (
       transactionType === "Withdraw" &&
-      parseFloat(e.target.value) > user.bitswapbalance
+      parseFloat(e.target.value) > userData?.bitswapbalance
     ) {
-      console.log("oo");
+      // console.log(parseFloat(e.target.value),u)
       setWithdrawError(true);
     } else {
       setWithdrawError(false);

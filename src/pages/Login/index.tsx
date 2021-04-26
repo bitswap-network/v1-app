@@ -34,14 +34,14 @@ const Login = (props: any) => {
     password: "" as string,
   });
 
-  useEffect(() => {
-    async function Load() {
-      const web3 = new Web3(Web3.givenProvider);
-      await window.ethereum.enable();
-      const accounts = await web3.eth.getAccounts();
-    }
-    Load();
-  }, []);
+  // useEffect(() => {
+  //   async function Load() {
+  //     const web3 = new Web3(Web3.givenProvider);
+  //     await window.ethereum.enable();
+  //     const accounts = await web3.eth.getAccounts();
+  //   }
+  //   Load();
+  // }, []);
 
   const [error, setError] = useState(null);
 

@@ -348,11 +348,11 @@ const SpecificListing = (
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
                               Transfer {listing.etheramount.toFixed(8)} $ETH to
-                              0xB959315e7E2F44e5F926aF9ae8e95f71A78333E5
+                              0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707
                             </p>
                           </Col>
                         )}
-                      {!listing.ongoing && !listing.escrow.full && (
+                      {listing.ongoing && !listing.escrow.full && (
                         <Col sm={8}>
                           <p
                             style={{
@@ -507,8 +507,7 @@ const SpecificListing = (
                         </>
                       ) : (
                         <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                          Listing will be automatically fulfilled once a buyer
-                          sends money to escrow
+                          Listing will be automatically fulfilled soon.
                         </p>
                       )}
                     </Col>

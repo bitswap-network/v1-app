@@ -52,7 +52,7 @@ const TransactionModal: React.FC<TxnModal> = (
             float: "right",
             marginRight: "0.75rem",
             marginTop: "0.5rem",
-            color: "#ACB5BD"
+            color: "#ACB5BD",
           }}
           className="hoverCursor"
         />
@@ -64,7 +64,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 style={{
                   fontSize: "0.75rem",
                   color: "#495057",
-                  marginTop: "1rem"
+                  marginTop: "1rem",
                 }}
               >
                 ID:{" "}
@@ -88,7 +88,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 color: "#ACB5BD",
                 fontSize: "0.7rem",
                 marginTop: "1.5rem",
-                marginLeft: "0.5rem"
+                marginLeft: "0.5rem",
               }}
             >
               <Col sm={4}>
@@ -99,7 +99,7 @@ const TransactionModal: React.FC<TxnModal> = (
                   </p>
                 </Row>
               </Col>
-              <Col sm={5}>
+              <Col sm={4}>
                 <Row>AMOUNT</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
@@ -108,10 +108,10 @@ const TransactionModal: React.FC<TxnModal> = (
                 </Row>
               </Col>
               <Col sm={4}>
-                <Row>STATUS</Row>
+                <Row>FEES (nanos)</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.status}
+                    {transaction.fees ? transaction.fees : "N/A"}
                   </p>
                 </Row>
               </Col>
@@ -123,10 +123,18 @@ const TransactionModal: React.FC<TxnModal> = (
                 color: "#ACB5BD",
                 fontSize: "0.7rem",
                 marginTop: "1.5rem",
-                marginLeft: "0.5rem"
+                marginLeft: "0.5rem",
               }}
             >
-              <Col sm={0}>
+              <Col sm={4}>
+                <Row>STATUS</Row>
+                <Row>
+                  <p style={{ fontSize: "0.75rem", color: "#495057" }}>
+                    {transaction.status}
+                  </p>
+                </Row>
+              </Col>
+              <Col sm={4}>
                 <Row>START TIME</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
@@ -135,9 +143,9 @@ const TransactionModal: React.FC<TxnModal> = (
                   </p>
                 </Row>
               </Col>
-              <Col>
-                {transaction.status === "completed" && (
-                  <>
+              {transaction.status === "completed" && (
+                <>
+                  <Col sm={4}>
                     <Row> COMPLETED TIME</Row>
                     <Row>
                       <p style={{ fontSize: "0.75rem", color: "#495057" }}>
@@ -145,9 +153,9 @@ const TransactionModal: React.FC<TxnModal> = (
                         {new Date(transaction.completed).toLocaleTimeString()}
                       </p>
                     </Row>
-                  </>
-                )}
-              </Col>
+                  </Col>
+                </>
+              )}
             </Col>
           </>
         )}

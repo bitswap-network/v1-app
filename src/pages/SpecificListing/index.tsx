@@ -352,7 +352,7 @@ const SpecificListing = (
                             </p>
                           </Col>
                         )}
-                      {listing.ongoing && !listing.escrow.full && (
+                      {!listing.escrow.full && (
                         <Col sm={8}>
                           <p
                             style={{
@@ -404,7 +404,7 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Escrow has recieved your transfer of
+                              Escrow has recieved your transfer of 
                               {listing.etheramount.toFixed(8)} $ETH
                             </p>
                           </Col>
@@ -504,12 +504,28 @@ const SpecificListing = (
                               ? `Ethereum sent to ${listing.seller.username}'s wallet`
                               : `Waiting to send Ethereum to ${listing.seller.username}'s wallet`}
                           </p>
+                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        <b>Ethereum Txn ID:</b> <br></br>
+                        {listing.finalTransactionId}
+                      </p>
+                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        <b>Bitclout Txn ID:</b> <br></br>
+                        {listing.bitcloutTransactionId}
+                      </p>
                         </>
-                      ) : (
+                      ) : (<>
                         <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                           Listing will be automatically fulfilled soon.
                         </p>
-                      )}
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        <b>Ethereum Txn ID:</b> <br></br>
+                        {listing.finalTransactionId}
+                      </p>
+                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                        <b>Bitclout Txn ID:</b> <br></br>
+                        {listing.bitcloutTransactionId}
+                      </p>
+                      </>)}
                     </Col>
                   )}
                 </Row>
@@ -582,7 +598,7 @@ const SpecificListing = (
                       </Button>
                     </Col>
                   )}
-                  {listing.seller._id === user._id && (
+                  {listing.seller._id === user._id && !listing.completed.status && !listing.ongoing&&(
                     <Col sm={1}>
                       <Button
                         style={{
@@ -595,7 +611,7 @@ const SpecificListing = (
                         Delete
                       </Button>
                     </Col>
-                  )}{" "}
+                  )}
                 </Row>
               </Col>
             </>

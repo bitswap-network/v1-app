@@ -176,7 +176,7 @@ const Listing: React.FC<UserListing> = (
               }}
               onClick={() => {
                 // history.push(`/listing/${listing._id}`);
-                window.location.replace(`/listing/${listing._id}`);
+                window.location.assign(`/listing/${listing._id}`);
               }}
             >
               View Buy

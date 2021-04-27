@@ -57,7 +57,7 @@ const NewListing = (props: any) => {
   const [gas, setGas] = useState(0);
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
-  const [tableRender, setTable] = useState("");
+  const [tableData, setTable] = useState([]);
 
   const submitPost = () => {
     if (
@@ -95,17 +95,18 @@ const NewListing = (props: any) => {
   const [dateSort, setDateSort] = useState("desc");
   // console.log("user data", userData, user);
   useEffect(() => {
-    getListings(volumeSort, dateSort)
-      .then(res => {
-        console.log(res);
-        setListings(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [dateSort, volumeSort]);
+    // getListings(volumeSort, dateSort)
+    //   .then(res => {
+    //     console.log(res);
+    //     setListings(res.data);
+    //     setLoading(false);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     setLoading(false);
+    //   });
+    setTable(userData?.listings);
+  }, [userData]);
 
   const handleBitcloutChange = e => {
     setusdPerBitclout(e.target.value);
@@ -466,7 +467,7 @@ const NewListing = (props: any) => {
                   <hr style={{ marginBottom: "5%" }}></hr>
 
                   {!isLoading &&
-                    userData.listings.map((listing: any, i: number) => {
+                    tableData?.map((listing: any, i: number) => {
                       return (
                         <>
                           <UserListing

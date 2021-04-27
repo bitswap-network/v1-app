@@ -38,21 +38,42 @@ const NavElement = (props: any) => {
 
       {props.label == "Home" ? (
         <>
-          <FiHome size={18} style={{ color: "#43494f" }} />
+          <FiHome
+            size={18}
+            style={{
+              color: "#43494f",
+              textDecoration:
+                props.currentPage === props.linkto ? "underline" : "none"
+            }}
+          />
         </>
       ) : (
         <> </>
       )}
       {props.label == "Post" ? (
         <>
-          <FiUploadCloud size={18} style={{ color: "#43494f" }} />
+          <FiUploadCloud
+            size={18}
+            style={{
+              color: "#43494f",
+              textDecoration:
+                props.currentPage === "/post" ? "underline" : "none"
+            }}
+          />
         </>
       ) : (
         <> </>
       )}
       {props.label == " Listings" ? (
         <>
-          <FiInbox size={18} style={{ color: "#43494f" }} />
+          <FiInbox
+            size={18}
+            style={{
+              color: "#43494f",
+              textDecoration:
+                props.currentPage === props.linkto ? "underline" : "none"
+            }}
+          />
         </>
       ) : (
         <> </>
@@ -252,8 +273,8 @@ export const NavBar: React.FC = (props: any) => {
                       {user.username}
                     </a>
                   </Row>
-                  <Link
-                    to={"/logout"}
+                  <a
+                    href="/logout"
                     style={{
                       color: "red",
                       fontFamily: "inherit",
@@ -263,7 +284,7 @@ export const NavBar: React.FC = (props: any) => {
                     }}
                   >
                     {"Logout"}
-                  </Link>
+                  </a>
                 </Row>
               ) : (
                 <Col style={{ width: "100%" }}>

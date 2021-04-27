@@ -66,6 +66,7 @@ const Wallet = (props: any) => {
     if (transactionType === "Deposit") {
       deposit(user.token, amount)
         .then(() => {
+          closeModal();
           setSuccessful(true);
           setLoading(false);
         })
@@ -84,6 +85,7 @@ const Wallet = (props: any) => {
         .then(() => {
           setSuccessful(true);
           setLoading(false);
+          closeModal();
         })
         .catch((error) => {
           setLoading(false);
@@ -141,7 +143,7 @@ const Wallet = (props: any) => {
                 onClick={handleSubmit}
                 disabled={withdrawError}
               >
-                Confirm {transactionType}
+                {loading ? "Loading..." : `Confirm ${transactionType}`}
               </Button>
               <Button
                 style={{
@@ -179,7 +181,11 @@ const Wallet = (props: any) => {
           <Col
             style={
               window.innerWidth > 768
-                ? { alignSelf: "center", justifySelf: "center",  marginLeft: "5%" }
+                ? {
+                    alignSelf: "center",
+                    justifySelf: "center",
+                    marginLeft: "5%",
+                  }
                 : { marginLeft: "8%" }
             }
             xs={window.innerWidth <= 768 ? 10 : 10}
@@ -263,7 +269,7 @@ const Wallet = (props: any) => {
                   Deposit
                 </p>
               </Col>
-              <Col style={{marginLeft: "5%"}}>
+              <Col style={{ marginLeft: "5%" }}>
                 <p
                   style={{
                     color:
@@ -321,7 +327,7 @@ const Wallet = (props: any) => {
                       <p style={{ color: "#495057", fontSize: "0.9rem" }}>
                         <b>Send exact amount to: </b>
                         <p style={{ color: "#495057", fontSize: "0.8rem" }}>
-                          BC1YLgDkS56PRvHnmeW14u8i7PRxGnb8DGvcJYNqeuyqHe7PtmBq68r
+                          BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
                         </p>
                       </p>
                     </div>
@@ -383,9 +389,9 @@ const Wallet = (props: any) => {
 
             {/* One Transaction */}
             <div className="scrollNoBar">
-              {user &&
-                user.transactions &&
-                user.transactions.map((transaction, index) => (
+              {userData &&
+                userData.transactions &&
+                userData.transactions.map((transaction, index) => (
                   <React.Fragment key={index}>
                     <Row>
                       <hr

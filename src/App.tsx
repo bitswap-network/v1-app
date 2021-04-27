@@ -13,7 +13,6 @@ import Profile from "pages/UserProfile";
 import Admin from "./pages/Admin";
 import NewListing from "./pages/newUserListing";
 
-
 import { history } from "./helpers/history";
 import { Router, Route, Switch } from "react-router-dom";
 
@@ -32,13 +31,13 @@ function App() {
       <Route path="/wallet" component={Wallet} />
 
       {/* <Route path="/postad" component={PostAd} /> */}
-      <Route path="/userlistings" component={UserListings} />
+      <Route path="/userlistings" component={NewListing} />
       <Route exact path="/profile" component={EditProfile} />
       <Switch>
         <Route path="/profile/:username" component={Profile} />
       </Switch>
       <Route path="/admin" component={Admin} />
-      <Route path="/new" component={NewListing} />
+      <Route path="/old" component={UserListings} />
       {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}
     </Router>
   );

@@ -6,7 +6,7 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal,
+  Modal
 } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
@@ -16,7 +16,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
-  FiBox,
+  FiBox
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -30,7 +30,7 @@ import {
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper,
+  SearchBarWrapper
 } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
@@ -47,16 +47,16 @@ const Home = (props: any) => {
   console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setListings(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setLoading(false);
       });
-      console.log(window.visualViewport.width )
+    console.log(window.visualViewport.width);
   }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
@@ -88,7 +88,7 @@ const Home = (props: any) => {
     <>
       <Wrapper>
         <NavBar />
-        <Col sm={9} xl={window.visualViewport.width > 1600 ? 11: 9}>
+        <Col sm={9} xl={window.visualViewport.width > 1600 ? 11 : 9}>
           <MainContent>
             <Row>
               <h3
@@ -134,31 +134,53 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{ background: "transparent", minHeight: "77vh", overflowX: 'hidden'}}
+                  style={{
+                    background: "transparent",
+                    minHeight: "77vh",
+                    overflowX: "hidden"
+                  }}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                  <table style={{width: "100%"}}>
-                        <tr>
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "23%"}}>Username</td>
+                    <table style={{ width: "100%" }}>
+                      <tr>
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4",
+                            width: "23%"
+                          }}
+                        >
+                          Username
+                        </td>
 
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "24%"}}>Offer</td>
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4",
+                            width: "24%"
+                          }}
+                        >
+                          Offer
+                        </td>
 
-
-
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4"}}>Posted Time</td>
-                        </tr>
-                        <tr>
-                      
-    
-                        </tr>
-                  </table>
-
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4"
+                          }}
+                        >
+                          Posted Time
+                        </td>
+                      </tr>
+                      <tr></tr>
+                    </table>
                   </Row>
-                  <hr style={{marginBottom: "5%"}}></hr>
-
+                  <hr style={{ marginBottom: "5%" }}></hr>
 
                   {listings.map((listing: any, i: number) => (
-
                     <FeedListing
                       listing={listing}
                       price={1}
@@ -177,7 +199,7 @@ const Home = (props: any) => {
             </FeedContent>
           </MainContent>
         </Col>
-        <Col style={{marginLeft: 0, paddingLeft: 0}}>
+        <Col style={{ marginLeft: 0, paddingLeft: 0 }}>
           <Row>
             <div
               style={
@@ -186,13 +208,13 @@ const Home = (props: any) => {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem",
+                      width: "2rem"
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem",
+                      width: "2rem"
                     }
               }
             />
@@ -214,10 +236,10 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%",
+                      marginLeft: "10%"
                     }}
                   >
-                    Amount (BTCLT)
+                    Amount (BCLT)
                   </p>
                 </Row>
                 <div className="scrollNoBarSplit">
@@ -225,11 +247,11 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem",
+                        width: "100rem"
                       }}
                     />
                   </Row>
-                  {userData.listings.map((listing) => {
+                  {userData.listings.map(listing => {
                     if (listing.ongoing) {
                       return (
                         <OngoingItem
@@ -241,7 +263,7 @@ const Home = (props: any) => {
                     }
                   })}
                   {userData.listings.some(
-                    (listing) => listing.ongoing === true
+                    listing => listing.ongoing === true
                   ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing swaps
@@ -260,10 +282,10 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%",
+                      marginLeft: "10%"
                     }}
                   >
-                    Amount (BTCLT)
+                    Amount (BCLT)
                   </p>
                 </Row>
                 <div className="scrollNoBarSplit">
@@ -271,22 +293,26 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem",
+                        width: "100rem"
                       }}
                     />
                   </Row>
-                  {userData.buys.map((listing) => (
-                    <OngoingItem
-                      bitcloutnanos={listing.bitcloutnanos}
-                      usdamount={listing.usdamount}
-                      listingid={listing._id}
-                    />
-                  ))}
-                  {userData.buys.length === 0 ? (
+                  {userData.buys.map(listing =>
+                    listing.ongoing ? (
+                      <OngoingItem
+                        bitcloutnanos={listing.bitcloutnanos}
+                        usdamount={listing.usdamount}
+                        listingid={listing._id}
+                      />
+                    ) : null
+                  )}
+                  {userData.buys.some(
+                    listing => listing.ongoing === true
+                  ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing buys
                     </p>
-                  ) : null}
+                  )}
                 </div>
               </>
             )}

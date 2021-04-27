@@ -8,7 +8,7 @@ const OngoingItem = (props: any) => {
       <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
         <Col>
           <p style={{ color: "#495057" }}>
-            {props.bitcloutnanos / 1e9} BTCLT @ ${props.usdamount}
+            {props.bitcloutnanos / 1e9} BCLT @ ${props.usdamount}
           </p>
         </Col>
         <Col>

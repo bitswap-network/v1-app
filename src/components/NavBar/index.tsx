@@ -211,7 +211,7 @@ export const NavBar: React.FC = (props: any) => {
                       {isLoading || isError
                         ? user.bitswapbalance.toFixed(2)
                         : userData.bitswapbalance.toFixed(2)}{" "}
-                      $BTCLT
+                      $BCLT
                     </b>
                   )}
                 </p>
@@ -251,23 +251,19 @@ export const NavBar: React.FC = (props: any) => {
                       {"@"}
                       {user.username}
                     </a>
-
-      
                   </Row>
                   <Link
-                        to={"/logout"}
-                        style={{
-                          color: "red",
-                          fontFamily: "inherit",
-                          fontSize: "1.5vh",
-                          marginLeft: "-4.5vh",
-                          marginTop: "3vh"
-
-                        }}
-                        
-                      >
-                        {"Logout"}
-                      </Link>
+                    to={"/logout"}
+                    style={{
+                      color: "red",
+                      fontFamily: "inherit",
+                      fontSize: "1.5vh",
+                      marginLeft: "-4.5vh",
+                      marginTop: "3vh"
+                    }}
+                  >
+                    {"Logout"}
+                  </Link>
                 </Row>
               ) : (
                 <Col style={{ width: "100%" }}>
@@ -308,12 +304,20 @@ export const NavBar: React.FC = (props: any) => {
               )}
             </Col>
           </Container>
-          <Container style={{marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0, width: 10}}>
+          <Container
+            style={{
+              marginLeft: 0,
+              marginRight: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+              width: 10
+            }}
+          >
             <div
               style={{
                 borderLeft: "1px solid #DDE2E5",
                 height: "100vh",
-                width: "1rem",
+                width: "1rem"
               }}
             />
           </Container>

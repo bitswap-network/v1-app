@@ -102,7 +102,7 @@ const BuyModal: React.FC<ListingModal> = (
                   marginLeft: "0.5rem"
                 }}
               >
-                BTCLT
+                BCLT
               </p>
             </Row>
           </Col>

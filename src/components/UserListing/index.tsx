@@ -72,10 +72,10 @@ const Listing: React.FC<UserListing> = (
 
     //           <Col style={{ textAlign: "left" }} xs={6}>
     //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.bitcloutnanos / 1e9} $BTCLT @
+    //               {listing.bitcloutnanos / 1e9} $BCLT @
     //             </p>
     //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
+    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
     //             </p>
     //           </Col>
     //         </Row>
@@ -118,10 +118,10 @@ const Listing: React.FC<UserListing> = (
 
     //           <Col style={{ textAlign: "left" }} sm={2}>
     //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.bitcloutnanos / 1e9} $BTCLT @
+    //               {listing.bitcloutnanos / 1e9} $BCLT @
     //             </p>
     //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT
+    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
     //             </p>
     //           </Col>
     //           <Col style={{ textAlign: "center" }} sm={1}>
@@ -155,34 +155,36 @@ const Listing: React.FC<UserListing> = (
     //   </Container>
     // </>
     <>
-     <table style={{width: "100%", marginTop: "-2%", overflowX: "hidden"}}>
-            
-            <tr>
-              <td style={{width: "3%"}}></td>
-              <td  style={{fontSize: "0.8rem", width: "25%"}}>{listing.buyer ? `${listing.buyer.username}` : "No Transactor"}</td>
-              <td  style={{fontSize: "0.8rem",width: "30%"}}>{listing.bitcloutnanos / 1e9} @ {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT</td>
-              <td  style={{fontSize: "0.8rem", width: "25%"}}>{dateRender(listing.created)}</td>
-              <td>
-              <Button
-                  style={{
-                    width: "10em",
-                    backgroundColor: "#4263EB",
-                  }}
-                  onClick={() => {
-                    // history.push(`/listing/${listing._id}`);
-                    window.location.replace(`/listing/${listing._id}`);
-                  }}
-                >
-                  View
-                Buy
-              </Button>
-              </td>
-
-            </tr>
-
-
-            </table>
-            <hr style={{marginTop: "3%", marginBottom: "4.5%"}}></hr>
+      <table style={{ width: "100%", marginTop: "-2%", overflowX: "hidden" }}>
+        <tr>
+          <td style={{ width: "3%" }}></td>
+          <td style={{ fontSize: "0.8rem", width: "25%" }}>
+            {listing.buyer ? `${listing.buyer.username}` : "No Transactor"}
+          </td>
+          <td style={{ fontSize: "0.8rem", width: "30%" }}>
+            {listing.bitcloutnanos / 1e9} @{" "}
+            {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
+          </td>
+          <td style={{ fontSize: "0.8rem", width: "25%" }}>
+            {dateRender(listing.created)}
+          </td>
+          <td>
+            <Button
+              style={{
+                width: "10em",
+                backgroundColor: "#4263EB"
+              }}
+              onClick={() => {
+                // history.push(`/listing/${listing._id}`);
+                window.location.replace(`/listing/${listing._id}`);
+              }}
+            >
+              View Buy
+            </Button>
+          </td>
+        </tr>
+      </table>
+      <hr style={{ marginTop: "3%", marginBottom: "4.5%" }}></hr>
     </>
   );
 };

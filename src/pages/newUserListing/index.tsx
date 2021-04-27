@@ -6,7 +6,7 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal,
+  Modal
 } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import FeedListing from "../../components/FeedListing";
@@ -17,7 +17,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
-  FiBox,
+  FiBox
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -31,7 +31,7 @@ import {
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper,
+  SearchBarWrapper
 } from "./styles";
 import { useUser, useEthPrice, useGasPrice } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
@@ -76,12 +76,12 @@ const NewListing = (props: any) => {
           etherPrice.USD,
         user.token
       )
-        .then((response) => {
+        .then(response => {
           setSubmitLoad(false);
           setPostSuccess(true);
           console.log(response);
         })
-        .catch((error) => {
+        .catch(error => {
           setPostError(true);
           setSubmitLoad(false);
         });
@@ -96,25 +96,25 @@ const NewListing = (props: any) => {
   // console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then((res) => {
+      .then(res => {
         console.log(res);
         setListings(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setLoading(false);
       });
   }, [dateSort, volumeSort]);
 
-  const handleBitcloutChange = (e) => {
+  const handleBitcloutChange = e => {
     setusdPerBitclout(e.target.value);
     if (parseFloat(e.target.value) <= 0) {
       setusdPerError(true);
     }
   };
 
-  const handleAmountChange = (e) => {
+  const handleAmountChange = e => {
     setAmountBitclout(e.target.value);
     setamountError(false);
     console.log(parseFloat(e.target.value), userData.bitswapbalance);
@@ -183,7 +183,7 @@ const NewListing = (props: any) => {
                     color: "#ACB5BD",
                     fontSize: "0.7rem",
                     marginTop: "1.5rem",
-                    justifyContent: "center",
+                    justifyContent: "center"
                   }}
                 >
                   <Col sm={5}>
@@ -193,7 +193,7 @@ const NewListing = (props: any) => {
                         style={{
                           color: "#212429",
                           marginTop: "0.4rem",
-                          marginLeft: "1rem",
+                          marginLeft: "1rem"
                         }}
                       />
                       <p style={{ color: "#212429", fontSize: "1.5rem" }}>
@@ -204,10 +204,10 @@ const NewListing = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem",
+                          marginLeft: "0.5rem"
                         }}
                       >
-                        BTCLT
+                        BCLT
                       </p>
                     </Row>
                   </Col>
@@ -216,7 +216,7 @@ const NewListing = (props: any) => {
                       style={{
                         color: "#212429",
                         fontSize: "0.9rem",
-                        marginTop: "0.7rem",
+                        marginTop: "0.7rem"
                       }}
                     >
                       <b>FOR</b>
@@ -239,7 +239,7 @@ const NewListing = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem",
+                          marginLeft: "0.5rem"
                         }}
                       >
                         USD
@@ -267,7 +267,7 @@ const NewListing = (props: any) => {
                       padding: "2.5%",
                       paddingLeft: "4%",
                       paddingRight: "4%",
-                      marginRight: "5%",
+                      marginRight: "5%"
                     }}
                     onClick={submitPost}
                   >
@@ -282,7 +282,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%",
+                      paddingRight: "4%"
                     }}
                     onClick={() => {
                       if (
@@ -316,7 +316,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%",
+                      paddingRight: "4%"
                     }}
                     onClick={() => {
                       if (
@@ -350,7 +350,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%",
+                      paddingRight: "4%"
                     }}
                     onClick={() => {
                       if (
@@ -413,10 +413,8 @@ const NewListing = (props: any) => {
                   My Buys
                 </b>
               </h3>
-
             </Row>
-            
-         
+
             <FeedContent>
               <Col>
                 <div
@@ -424,22 +422,39 @@ const NewListing = (props: any) => {
                   style={{
                     background: "transparent",
                     minHeight: "75vh",
-                    overflowX: "hidden",
+                    overflowX: "hidden"
                   }}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                  <table style={{width: "100%"}}>
-                        <tr>
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "25%"}}>Transactor Name</td>
-
-                          <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "27%"}}>Offer</td>
-
+                    <table style={{ width: "100%" }}>
+                      <tr>
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4",
+                            width: "25%"
+                          }}
+                        >
+                          Transactor Name
+                        </td>
 
                         <td
                           style={{
                             paddingBottom: "5%",
                             fontSize: "0.8em",
                             color: "#C4C4C4",
+                            width: "27%"
+                          }}
+                        >
+                          Offer
+                        </td>
+
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: "0.8em",
+                            color: "#C4C4C4"
                           }}
                         >
                           Posted Time
@@ -479,13 +494,13 @@ const NewListing = (props: any) => {
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
-                      marginLeft: "0.25rem",
+                      marginLeft: "0.25rem"
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem",
+                      width: "2rem"
                     }
               }
             />
@@ -515,8 +530,8 @@ const NewListing = (props: any) => {
                         fontSize: "2vh",
                         height: "2vh",
                         fontStyle: "lato",
-                        width: "30vh",
-                      },
+                        width: "30vh"
+                      }
                     }}
                   />
                 </Row>
@@ -534,8 +549,8 @@ const NewListing = (props: any) => {
                         fontSize: "2vh",
                         height: "2vh",
                         fontStyle: "lato",
-                        width: "30vh",
-                      },
+                        width: "30vh"
+                      }
                     }}
                   />
                 </Row>
@@ -574,7 +589,7 @@ const NewListing = (props: any) => {
                     style={{
                       width: "10em",
                       height: "2.5rem",
-                      backgroundColor: "#4263EB",
+                      backgroundColor: "#4263EB"
                     }}
                     disabled={usdPerError || amountError}
                     onClick={() => confirmModalOpen(true)}

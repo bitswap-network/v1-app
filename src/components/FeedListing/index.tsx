@@ -69,38 +69,45 @@ const Listing: React.FC<FeedListing> = (
       <ErrorModal open={errorOpen} close={closeError} error={errorMessage} />
       <BuyModal listing={listing} open={modalOpen} close={closeModal} />
       <StyledContentLoader isLoading={false}>
-        <Wrapper
-            key={index}
-            style={{ backgroundColor: "transparent"}}
+        <Wrapper key={index} style={{ backgroundColor: "transparent" }}>
+          <table
+            style={{ width: "100%", marginTop: "-3%", overflowX: "hidden" }}
           >
-       
-            <table style={{width: "100%", marginTop: "-3%", overflowX: "hidden"}}>
-            
-
-
             <tr>
-              <td style={{width: "10%"}}> 
-                  <img
+              <td style={{ width: "10%" }}>
+                <img
                   src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
                   alt="profile"
                   style={{
                     borderRadius: "60px",
                     height: "auto",
-                    width: "5vh",
+                    width: "5vh"
                   }}
                 />
               </td>
-              <td style={{fontSize: "0.8rem", width: "15%"}}>@{listing.seller.username}</td>
-              <td style={{fontSize: "0.8rem", width: "25%"}}>{listing.bitcloutnanos / 1e9} @{" "}{(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "} $USD</td>
-              <td style={{fontSize: "0.8rem", width: "25%"}}>{dateRender(listing.created)}</td>
+              <td style={{ fontSize: "0.8rem", width: "15%" }}>
+                <a
+                  style={{ color: "black" }}
+                  href={`/profile/${listing.seller.username}`}
+                >
+                  @{listing.seller.username}
+                </a>
+              </td>
+              <td style={{ fontSize: "0.8rem", width: "25%" }}>
+                {listing.bitcloutnanos / 1e9} @{" "}
+                {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
+                $USD
+              </td>
+              <td style={{ fontSize: "0.8rem", width: "25%" }}>
+                {dateRender(listing.created)}
+              </td>
               <Button
                 style={{
                   width: "10em",
                   height: "2.5rem",
                   backgroundColor: "#4263EB",
                   borderColor: "white",
-                  marginTop: "3%",
-
+                  marginTop: "3%"
                 }}
                 onClick={() => {
                   if (isLoggedIn) {
@@ -114,14 +121,9 @@ const Listing: React.FC<FeedListing> = (
               >
                 Buy
               </Button>
-
             </tr>
-
-
-            </table>
-            <hr style={{marginTop: "3%"}}></hr>
-
-
+          </table>
+          <hr style={{ marginTop: "3%" }}></hr>
         </Wrapper>
         {/* <MediaQuery query="(max-device-width: 768px)">
           <Row key={index} className="align-items-center">

@@ -39,7 +39,11 @@ const TransactionModal: React.FC<TxnModal> = (
   const isLoggedIn = useRecoilValue(loggedInState);
   console.log(transaction);
   return (
-    <Modal show={open} onHide={close} aria-labelledby="contained-modal-title-vcenter">
+    <Modal
+      show={open}
+      onHide={close}
+      aria-labelledby="contained-modal-title-vcenter"
+    >
       <Modal.Body>
         <FiX
           size={"1rem"}
@@ -48,7 +52,7 @@ const TransactionModal: React.FC<TxnModal> = (
             float: "right",
             marginRight: "0.75rem",
             marginTop: "0.5rem",
-            color: "#ACB5BD",
+            color: "#ACB5BD"
           }}
           className="hoverCursor"
         />
@@ -60,7 +64,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 style={{
                   fontSize: "0.75rem",
                   color: "#495057",
-                  marginTop: "1rem",
+                  marginTop: "1rem"
                 }}
               >
                 ID: {transaction.tx_id}
@@ -74,7 +78,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 color: "#ACB5BD",
                 fontSize: "0.7rem",
                 marginTop: "1.5rem",
-                marginLeft: "0.5rem",
+                marginLeft: "0.5rem"
               }}
             >
               <Col sm={4}>
@@ -89,7 +93,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 <Row>AMOUNT</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.bitcloutnanos / 1e9} $BTCLT
+                    {transaction.bitcloutnanos / 1e9} $BCLT
                   </p>
                 </Row>
               </Col>
@@ -109,7 +113,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 color: "#ACB5BD",
                 fontSize: "0.7rem",
                 marginTop: "1.5rem",
-                marginLeft: "0.5rem",
+                marginLeft: "0.5rem"
               }}
             >
               <Col sm={0}>

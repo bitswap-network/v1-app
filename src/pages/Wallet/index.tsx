@@ -179,7 +179,7 @@ const Wallet = (props: any) => {
           <Col
             style={
               window.innerWidth > 768
-                ? { alignSelf: "center", justifySelf: "center" }
+                ? { alignSelf: "center", justifySelf: "center",  marginLeft: "5%" }
                 : { marginLeft: "8%" }
             }
             xs={window.innerWidth <= 768 ? 10 : 10}
@@ -251,7 +251,7 @@ const Wallet = (props: any) => {
               </Col>
             </Row>
             <Row style={{ marginTop: "10%" }}>
-              <Col sm={2}>
+              <Col sm={1}>
                 <p
                   style={{
                     color:
@@ -263,7 +263,7 @@ const Wallet = (props: any) => {
                   Deposit
                 </p>
               </Col>
-              <Col>
+              <Col style={{marginLeft: "5%"}}>
                 <p
                   style={{
                     color:

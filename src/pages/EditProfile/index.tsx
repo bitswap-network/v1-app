@@ -236,6 +236,7 @@ const EditProfile = (props: any) => {
                     display: "flex",
                     flexDirection: "column",
                     alignSelf: "center",
+                    marginLeft: "3rem",
                   }
             }
           >

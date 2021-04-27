@@ -74,9 +74,9 @@ const UserListings = (props: any) => {
     }
   };
 
-  if (!isLoading) {
-    console.log("userData", userData);
-  }
+  // if (!isLoading) {
+  //   console.log("userData", userData);
+  // }
 
   const submitPost = () => {
     if (

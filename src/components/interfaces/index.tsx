@@ -19,7 +19,7 @@ export interface UserSchema {
   admin: boolean;
   verified: string;
   ratings: [{ rating: number; rater: [string] }];
-  completedtransactions: number;
+  completedorders: number;
   bitswapbalance: number;
   transactions: [string];
   buystate: boolean;

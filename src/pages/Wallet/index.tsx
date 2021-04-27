@@ -6,7 +6,12 @@ import NavBar from "components/NavBar";
 import { userState, loggedInState } from "store";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { FiCodesandbox, FiActivity, FiX } from "react-icons/fi";
-import { deposit, withdraw, getTransactions } from "services/users";
+import {
+  deposit,
+  withdraw,
+  getTransactions,
+  preFlightTxn,
+} from "services/users";
 import { TransactionSchema } from "../../components/interfaces";
 import { useUser } from "../../components/hooks";
 
@@ -24,6 +29,7 @@ const Wallet = (props: any) => {
   const [txnView, setTxnView] = useState<TransactionSchema>();
   const { userData, isLoading, isError } = useUser(user?.token);
   const [withdrawError, setWithdrawError] = useState(false);
+  const [fees, setFees] = useState(0);
 
   if (!isLoggedIn) {
     window.location.assign("/login");
@@ -32,24 +38,19 @@ const Wallet = (props: any) => {
   // useEffect hook update user transactions on successful request
   useEffect(() => {
     getTransactions(user.token)
-      .then(response => {
+      .then((response) => {
         setUser({
           ...user,
-          transactions: response.data
+          transactions: response.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, [successful]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setAmount(e.target.value);
-    console.log(
-      parseFloat(e.target.value),
-      user.bitswapbalance / 1e9,
-      transactionType
-    );
     if (
       transactionType === "Withdraw" &&
       parseFloat(e.target.value) > userData?.bitswapbalance
@@ -66,11 +67,11 @@ const Wallet = (props: any) => {
     if (transactionType === "Deposit") {
       deposit(user.token, amount)
         .then(() => {
-          closeModal();
+          confirmModalOpen(false);
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -81,13 +82,13 @@ const Wallet = (props: any) => {
           }
         });
     } else {
-      withdraw(user.token, amount)
+      withdraw(user.token, amount, fees)
         .then(() => {
           setSuccessful(true);
           setLoading(false);
-          closeModal();
+          confirmModalOpen(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             setError(error.response.data.message);
@@ -99,9 +100,23 @@ const Wallet = (props: any) => {
         });
     }
   };
+  const preFlight = () => {
+    preFlightTxn(user.token, amount)
+      .then((response) => {
+        console.log(response.data);
+        setFees(parseInt(response.data.FeeNanos));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const closeModal = () => {
     setOpenModal(false);
+  };
+  const closeConfirmModal = () => {
+    confirmModalOpen(false);
+    setError(null);
   };
   return (
     <>
@@ -113,18 +128,27 @@ const Wallet = (props: any) => {
         />
         <Modal
           show={confirmModal}
-          onHide={false}
+          onHide={closeConfirmModal}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Body style={{ padding: "2em" }}>
             <Col style={{ textAlign: "center" }}>
-              <p style={{ fontSize: "2rem", color: "black" }}>Confirm</p>
+              <p style={{ fontSize: "2rem", color: "black" }}>
+                Confirm {transactionType}
+              </p>
+            </Col>
+
+            <Col style={{ textAlign: "center", marginTop: "2%" }}>
+              <p style={{ fontSize: "1rem", color: "#000" }}>
+                You will recieve {amount} $BCLT.
+              </p>
             </Col>
             <Col style={{ textAlign: "center", marginTop: "2%" }}>
-              <p style={{ fontSize: "1rem", color: "#ACB5BD" }}>
-                Are you sure you'd like to {transactionType}?
+              <p style={{ fontSize: "0.8rem", color: "#979ca1" }}>
+                A bitclout transaction fee of ~{(fees / 1e9).toFixed(9)} $BCLT
+                will be deducted from the total.
               </p>
             </Col>
             <Col style={{ textAlign: "center", marginTop: "8%" }}>
@@ -138,7 +162,7 @@ const Wallet = (props: any) => {
                   padding: "2.5%",
                   paddingLeft: "4%",
                   paddingRight: "4%",
-                  marginRight: "5%"
+                  marginRight: "5%",
                 }}
                 onClick={handleSubmit}
                 disabled={withdrawError}
@@ -154,13 +178,19 @@ const Wallet = (props: any) => {
                   fontSize: "0.85rem",
                   padding: "2.5%",
                   paddingLeft: "4%",
-                  paddingRight: "4%"
+                  paddingRight: "4%",
                 }}
-                onClick={() => confirmModalOpen(false)}
+                onClick={closeConfirmModal}
                 disabled={withdrawError}
               >
                 Cancel {transactionType}
               </Button>
+            </Col>
+
+            <Col style={{ textAlign: "center", paddingTop: "1rem" }}>
+              {error && (
+                <p style={{ color: "#F03D3E", fontSize: "0.8rem" }}>{error}</p>
+              )}
             </Col>
           </Modal.Body>
         </Modal>
@@ -172,7 +202,7 @@ const Wallet = (props: any) => {
             : {
                 display: "flex",
                 flexDirection: "row",
-                marginLeft: "1.3rem"
+                marginLeft: "1.3rem",
               }
         }
       >
@@ -184,7 +214,7 @@ const Wallet = (props: any) => {
                 ? {
                     alignSelf: "center",
                     justifySelf: "center",
-                    marginLeft: "5%"
+                    marginLeft: "5%",
                   }
                 : { marginLeft: "8%" }
             }
@@ -202,12 +232,12 @@ const Wallet = (props: any) => {
                       ? {
                           marginTop: "2%",
                           color: "#495057",
-                          fontSize: "1.35rem"
+                          fontSize: "1.35rem",
                         }
                       : {
                           marginTop: "10%",
                           color: "#495057",
-                          fontSize: "1.35rem"
+                          fontSize: "1.35rem",
                         }
                   }
                 >
@@ -222,7 +252,7 @@ const Wallet = (props: any) => {
                   style={{
                     color: "#ACB5BD",
                     fontSize: "0.75rem",
-                    marginTop: "8%"
+                    marginTop: "8%",
                   }}
                 >
                   BITSWAP BALANCE
@@ -242,7 +272,7 @@ const Wallet = (props: any) => {
                   style={{
                     color: "#ACB5BD",
                     fontSize: "0.75rem",
-                    marginTop: "8%"
+                    marginTop: "8%",
                   }}
                 >
                   TOTAL TRANSACTIONS
@@ -262,7 +292,7 @@ const Wallet = (props: any) => {
                   style={{
                     color:
                       transactionType === "Deposit" ? "#6494FF" : "#D7DFFF",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => setTransactionType("Deposit")}
                 >
@@ -274,7 +304,7 @@ const Wallet = (props: any) => {
                   style={{
                     color:
                       transactionType === "Withdraw" ? "#6494FF" : "#D7DFFF",
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => setTransactionType("Withdraw")}
                 >
@@ -293,7 +323,7 @@ const Wallet = (props: any) => {
                   type="number"
                   value={amount}
                   inputProps={{
-                    style: { fontStyle: "initial" }
+                    style: { fontStyle: "initial" },
                   }}
                   onChange={handleChange}
                   error={withdrawError}
@@ -308,7 +338,7 @@ const Wallet = (props: any) => {
                       backgroundColor: "#4263EB",
                       borderColor: "white",
                       color: "white",
-                      fontSize: "0.85rem"
+                      fontSize: "0.85rem",
                     }}
                     onClick={() => {
                       setAmount(user.bitswapbalance);
@@ -344,9 +374,12 @@ const Wallet = (props: any) => {
                   borderColor: "white",
                   color: "white",
                   fontSize: "0.85rem",
-                  padding: "1.2%"
+                  padding: "1.2%",
                 }}
-                onClick={() => confirmModalOpen(true)}
+                onClick={() => {
+                  confirmModalOpen(true);
+                  preFlight();
+                }}
                 disabled={withdrawError || amount === 0}
               >
                 Confirm {transactionType}
@@ -362,7 +395,7 @@ const Wallet = (props: any) => {
                   height: "100vh",
                   marginRight: 0,
                   paddingRight: 0,
-                  width: "2rem"
+                  width: "2rem",
                 }}
               />
             </Row>
@@ -380,7 +413,7 @@ const Wallet = (props: any) => {
                   color: "#ACB5BD",
                   fontSize: "0.75rem",
                   marginTop: "12%",
-                  marginLeft: "10%"
+                  marginLeft: "10%",
                 }}
               >
                 Amount (BCLT)
@@ -391,77 +424,80 @@ const Wallet = (props: any) => {
             <div className="scrollNoBar">
               {userData &&
                 userData.transactions &&
-                userData.transactions.map((transaction, index) => (
-                  <React.Fragment key={index}>
-                    <Row>
-                      <hr
-                        style={{
-                          borderTop: "1px solid #DDE2E5",
-                          width: "100rem"
-                        }}
-                      />
-                    </Row>
-                    <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
-                      <Col sm={3}>
-                        <p style={{ color: "#495057" }}>
-                          {transaction.transactiontype === "withdraw" &&
-                            (transaction.bitcloutnanos / -1e9).toFixed(2)}
-                          {transaction.transactiontype === "deposit" &&
-                            (transaction.bitcloutnanos / 1e9).toFixed(2)}
-                        </p>
-                      </Col>
-                      <Col sm={4}>
-                        {transaction.status === "pending" && (
+                userData.transactions //reverses the array to show recent transactions first
+                  .slice(0)
+                  .reverse()
+                  .map((transaction, index) => (
+                    <React.Fragment key={index}>
+                      <Row>
+                        <hr
+                          style={{
+                            borderTop: "1px solid #DDE2E5",
+                            width: "100rem",
+                          }}
+                        />
+                      </Row>
+                      <Row style={{ marginTop: "5%", marginLeft: "4%" }}>
+                        <Col sm={3}>
+                          <p style={{ color: "#495057" }}>
+                            {transaction.transactiontype === "withdraw" &&
+                              (transaction.bitcloutnanos / -1e9).toFixed(2)}
+                            {transaction.transactiontype === "deposit" &&
+                              (transaction.bitcloutnanos / 1e9).toFixed(2)}
+                          </p>
+                        </Col>
+                        <Col sm={4}>
+                          {transaction.status === "pending" && (
+                            <div
+                              style={{
+                                borderRadius: "3px",
+                                backgroundColor: "#DDE2E5",
+                                textAlign: "center",
+                              }}
+                            >
+                              <p style={{ fontSize: "0.8em", padding: "1px" }}>
+                                Pending
+                              </p>
+                            </div>
+                          )}
+                          {transaction.status === "completed" && (
+                            <div
+                              style={{
+                                borderRadius: "3px",
+                                backgroundColor: "#6494FF",
+                                textAlign: "center",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  fontSize: "0.8rem",
+                                  padding: "3px",
+                                  color: "white",
+                                }}
+                              >
+                                Completed
+                              </p>
+                            </div>
+                          )}
+                        </Col>
+                        <Col>
                           <div
-                            style={{
-                              borderRadius: "3px",
-                              backgroundColor: "#DDE2E5",
-                              textAlign: "center"
-                            }}
-                          >
-                            <p style={{ fontSize: "0.8em", padding: "1px" }}>
-                              Pending
-                            </p>
-                          </div>
-                        )}
-                        {transaction.status === "completed" && (
-                          <div
-                            style={{
-                              borderRadius: "3px",
-                              backgroundColor: "#6494FF",
-                              textAlign: "center"
+                            onClick={() => {
+                              setTxnView(transaction);
+                              setOpenModal(true);
                             }}
                           >
                             <p
-                              style={{
-                                fontSize: "0.8rem",
-                                padding: "3px",
-                                color: "white"
-                              }}
+                              className="hoverCursor"
+                              style={{ color: "#4263EB", fontSize: "1rem" }}
                             >
-                              Completed
+                              Details →
                             </p>
                           </div>
-                        )}
-                      </Col>
-                      <Col>
-                        <div
-                          onClick={() => {
-                            setTxnView(transaction);
-                            setOpenModal(true);
-                          }}
-                        >
-                          <p
-                            className="hoverCursor"
-                            style={{ color: "#4263EB", fontSize: "1rem" }}
-                          >
-                            Details →
-                          </p>
-                        </div>
-                      </Col>
-                    </Row>
-                  </React.Fragment>
-                ))}
+                        </Col>
+                      </Row>
+                    </React.Fragment>
+                  ))}
             </div>
           </Col>
         </>

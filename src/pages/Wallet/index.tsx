@@ -30,6 +30,7 @@ const Wallet = (props: any) => {
   const { userData, isLoading, isError } = useUser(user?.token);
   const [withdrawError, setWithdrawError] = useState(false);
   const [fees, setFees] = useState(0);
+  const [max, setMax] = useState(null);
 
   if (!isLoggedIn) {
     window.location.assign("/login");
@@ -37,6 +38,7 @@ const Wallet = (props: any) => {
 
   // useEffect hook update user transactions on successful request
   useEffect(() => {
+    getMax();
     getTransactions(user.token)
       .then((response) => {
         setUser({
@@ -52,13 +54,28 @@ const Wallet = (props: any) => {
   const handleChange = (e) => {
     setAmount(e.target.value);
     if (
-      transactionType === "Withdraw" &&
-      parseFloat(e.target.value) > userData?.bitswapbalance
+      (transactionType === "Withdraw" &&
+        parseFloat(e.target.value) > userData?.bitswapbalance) ||
+      e.target.value.length === 0
     ) {
       // console.log(parseFloat(e.target.value),u)
       setWithdrawError(true);
     } else {
       setWithdrawError(false);
+    }
+    console.log(amount, typeof amount);
+  };
+
+  const getMax = () => {
+    if (user.bitswapbalance > 0) {
+      preFlightTxn(user.token, user.bitswapbalance)
+        .then((response) => {
+          console.log(response.data);
+          setMax(user.bitswapbalance - parseInt(response.data.FeeNanos) / 1e9);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -341,7 +358,7 @@ const Wallet = (props: any) => {
                       fontSize: "0.85rem",
                     }}
                     onClick={() => {
-                      setAmount(user.bitswapbalance);
+                      setAmount(max);
                     }}
                   >
                     Max

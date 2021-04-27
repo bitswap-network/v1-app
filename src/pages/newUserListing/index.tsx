@@ -374,8 +374,8 @@ const NewListing = (props: any) => {
       </>
       <Wrapper>
         <NavBar />
-        <Col sm={window.visualViewport.width <= 1800 ? 9 : 9}>
-          <MainContent md={11}>
+        <Col sm={window.visualViewport.width <= 1800 ? 9 : 12}>
+          <MainContent>
             <Row>
               <h3
                 style={
@@ -434,16 +434,6 @@ const NewListing = (props: any) => {
 
                           <td style={{paddingBottom: "5%", fontSize: "0.8em", color: "#C4C4C4", width: "27%"}}>Offer</td>
 
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "27%",
-                          }}
-                        >
-                          Offer
-                        </td>
 
                         <td
                           style={{
@@ -502,7 +492,7 @@ const NewListing = (props: any) => {
           </Row>
         </Col>
         {isLoggedIn ? (
-          <Col sm={4} style={{ marginTop: "6%" }}>
+          <Col sm={3} style={{ marginTop: "6%" }}>
             {true && (
               <>
                 <Row>

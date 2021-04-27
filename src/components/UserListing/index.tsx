@@ -159,9 +159,9 @@ const Listing: React.FC<UserListing> = (
             
             <tr>
               <td style={{width: "3%"}}></td>
-              <td  style={{fontSize: "0.8rem", width: "20%"}}>{listing.buyer ? `${listing.buyer.username}` : "No Transactor"}</td>
-              <td  style={{fontSize: "0.8rem",width: "22%"}}>{listing.bitcloutnanos / 1e9} @ {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT</td>
-              <td  style={{fontSize: "0.8rem", width: "20%"}}>{dateRender(listing.created)}</td>
+              <td  style={{fontSize: "0.8rem", width: "25%"}}>{listing.buyer ? `${listing.buyer.username}` : "No Transactor"}</td>
+              <td  style={{fontSize: "0.8rem",width: "30%"}}>{listing.bitcloutnanos / 1e9} @ {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BTCLT</td>
+              <td  style={{fontSize: "0.8rem", width: "25%"}}>{dateRender(listing.created)}</td>
               <td>
               <Button
                   style={{

@@ -67,7 +67,17 @@ const TransactionModal: React.FC<TxnModal> = (
                   marginTop: "1rem"
                 }}
               >
-                ID: {transaction.tx_id}
+                ID:{" "}
+                {transaction.tx_id.length == 54 ? (
+                  <a
+                    href={`https://explorer.bitclout.com/?transaction-id=${transaction.tx_id}&query-node=https:%2F%2Fapi.bitclout.com`}
+                    target="_blank"
+                  >
+                    {transaction.tx_id}
+                  </a>
+                ) : (
+                  `${transaction.tx_id}`
+                )}
               </p>
             </h4>
 

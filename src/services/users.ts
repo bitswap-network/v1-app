@@ -59,11 +59,12 @@ const deposit = async (token: string, bitcloutvalue: number) => {
     }
   );
 };
-const withdraw = async (token: string, bitcloutvalue: number) => {
+const withdraw = async (token: string, bitcloutvalue: number, fees: number) => {
   return await axios.post(
     `${url}/user/withdraw`,
     {
       bitcloutvalue: bitcloutvalue,
+      fees: fees,
     },
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -72,13 +73,25 @@ const withdraw = async (token: string, bitcloutvalue: number) => {
 };
 
 const getProfile = async (username: string) => {
-  return await axios.get(`${url}/user/profile/${username}`)
-}
+  return await axios.get(`${url}/user/profile/${username}`);
+};
 
 const verifyBitclout = async (token: string) => {
   return await axios.post(
     `${url}/user/verifyBitclout`,
     {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
+const preFlightTxn = async (token: string, bitcloutvalue: number) => {
+  return await axios.post(
+    `${url}/user/preFlightTxn`,
+    {
+      bitcloutvalue: bitcloutvalue,
+    },
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -93,4 +106,5 @@ export {
   withdraw,
   getProfile,
   verifyBitclout,
+  preFlightTxn,
 };

@@ -56,4 +56,5 @@ export interface TransactionSchema {
   created: Date;
   completed: Date;
   tx_id: string;
+  fees: number;
 }

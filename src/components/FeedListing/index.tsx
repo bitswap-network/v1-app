@@ -11,6 +11,7 @@ import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import BuyModal from "../modalBuy";
 import ErrorModal from "../modalError";
+import { getFontSize } from "../../helpers/styling";
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -64,6 +65,7 @@ const Listing: React.FC<FeedListing> = (
       } ago`;
     }
   };
+
   return (
     <>
       <ErrorModal open={errorOpen} close={closeError} error={errorMessage} />
@@ -71,7 +73,7 @@ const Listing: React.FC<FeedListing> = (
       <StyledContentLoader isLoading={false}>
         <Wrapper key={index} style={{ backgroundColor: "transparent" }}>
           <table
-            style={{ width: "100%", marginTop: "-3%", overflowX: "hidden" }}
+            style={{ width: "110%", marginTop: "-3%", overflowX: "hidden" }}
           >
             <tr>
               <td style={{ width: "10%" }}>
@@ -81,11 +83,11 @@ const Listing: React.FC<FeedListing> = (
                   style={{
                     borderRadius: "60px",
                     height: "auto",
-                    width: "5vh"
+                    width: "2.5vw",
                   }}
                 />
               </td>
-              <td style={{ fontSize: "0.8rem", width: "15%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "20%" }}>
                 <a
                   style={{ color: "black" }}
                   href={`/profile/${listing.seller.username}`}
@@ -93,21 +95,23 @@ const Listing: React.FC<FeedListing> = (
                   @{listing.seller.username}
                 </a>
               </td>
-              <td style={{ fontSize: "0.8rem", width: "25%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "25%" }}>
                 {listing.bitcloutnanos / 1e9} @{" "}
                 {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
                 $USD
               </td>
-              <td style={{ fontSize: "0.8rem", width: "25%" }}>
+              <td style={{ fontSize: getFontSize(0.8, 3), width: "25%" }}>
                 {dateRender(listing.created)}
               </td>
               <Button
                 style={{
-                  width: "10em",
-                  height: "2.5rem",
+                  width: getFontSize(6, 4),
+                  height: getFontSize(2.5, 1),
                   backgroundColor: "#4263EB",
                   borderColor: "white",
-                  marginTop: "3%"
+                  fontSize: getFontSize(0.8, 3),
+                  textAlign: "center",
+                  alignItems: "center",
                 }}
                 onClick={() => {
                   if (isLoggedIn) {

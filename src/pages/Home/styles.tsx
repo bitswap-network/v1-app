@@ -5,9 +5,9 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 const Wrapper = styled(Container)`
   display: flex;
   flex-direction: row;
-  margin-left: 1.3rem;
+  margin-left: 0.3rem;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 767px) {
     margin-left: 0;
     margin-right: 0;
     padding-left: 0;

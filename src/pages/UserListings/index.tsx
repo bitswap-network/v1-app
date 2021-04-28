@@ -8,12 +8,11 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal
+  Modal,
 } from "react-bootstrap";
 import env from "../../components/data/env.json";
 import UserListing from "../../components/UserListing";
 import { ListingSchema } from "../../components/interfaces";
-import { myListings } from "../../services/listings";
 
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
@@ -24,7 +23,7 @@ import {
   FiCodesandbox,
   FiActivity,
   FiDollarSign,
-  FiBox
+  FiBox,
 } from "react-icons/fi";
 import { getListings, createListing } from "../../services/listings";
 import { useUser, useEthPrice, useGasPrice } from "../../components/hooks";
@@ -55,13 +54,13 @@ const UserListings = (props: any) => {
       setGas((gasPrice.average / 1e10) * 21000);
     }
   }, []);
-  const handleBitcloutChange = e => {
+  const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
     if (parseFloat(e.target.value) <= 0) {
       setusdPerError(true);
     }
   };
-  const handleAmountChange = e => {
+  const handleAmountChange = (e) => {
     setAmountBitclout(e.target.value);
     setamountError(false);
     if (isLoggedIn) {
@@ -95,12 +94,12 @@ const UserListings = (props: any) => {
           etherPrice.USD,
         user.token
       )
-        .then(response => {
+        .then((response) => {
           setSubmitLoad(false);
           setPostSuccess(true);
           console.log(response);
         })
-        .catch(error => {
+        .catch((error) => {
           setPostError(true);
           setSubmitLoad(false);
         });
@@ -164,7 +163,7 @@ const UserListings = (props: any) => {
                     color: "#ACB5BD",
                     fontSize: "0.7rem",
                     marginTop: "1.5rem",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                 >
                   <Col sm={5}>
@@ -174,7 +173,7 @@ const UserListings = (props: any) => {
                         style={{
                           color: "#212429",
                           marginTop: "0.4rem",
-                          marginLeft: "1rem"
+                          marginLeft: "1rem",
                         }}
                       />
                       <p style={{ color: "#212429", fontSize: "1.5rem" }}>
@@ -185,7 +184,7 @@ const UserListings = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem"
+                          marginLeft: "0.5rem",
                         }}
                       >
                         BCLT
@@ -197,7 +196,7 @@ const UserListings = (props: any) => {
                       style={{
                         color: "#212429",
                         fontSize: "0.9rem",
-                        marginTop: "0.7rem"
+                        marginTop: "0.7rem",
                       }}
                     >
                       <b>FOR</b>
@@ -220,7 +219,7 @@ const UserListings = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem"
+                          marginLeft: "0.5rem",
                         }}
                       >
                         USD
@@ -248,7 +247,7 @@ const UserListings = (props: any) => {
                       padding: "2.5%",
                       paddingLeft: "4%",
                       paddingRight: "4%",
-                      marginRight: "5%"
+                      marginRight: "5%",
                     }}
                     onClick={submitPost}
                   >
@@ -263,7 +262,7 @@ const UserListings = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -297,7 +296,7 @@ const UserListings = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -331,7 +330,7 @@ const UserListings = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -362,7 +361,7 @@ const UserListings = (props: any) => {
                 paddingLeft: 0,
                 paddingRight: 0,
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
               }
             : {
                 display: "flex",
@@ -370,7 +369,7 @@ const UserListings = (props: any) => {
                 marginLeft: "1.3rem",
                 marginRight: 0,
                 paddingRight: 0,
-                flex: 1
+                flex: 1,
               }
         }
       >
@@ -401,7 +400,7 @@ const UserListings = (props: any) => {
                       >
                         <b
                           style={{
-                            color: pageView === "swaps" ? "black" : "grey"
+                            color: pageView === "swaps" ? "black" : "grey",
                           }}
                         >
                           My Swaps
@@ -425,7 +424,7 @@ const UserListings = (props: any) => {
                       >
                         <b
                           style={{
-                            color: pageView === "buys" ? "black" : "grey"
+                            color: pageView === "buys" ? "black" : "grey",
                           }}
                         >
                           My Buys
@@ -450,12 +449,12 @@ const UserListings = (props: any) => {
                             ? {
                                 color: "#C4C4C4",
                                 fontSize: "0.8em",
-                                marginRight: "4.5em"
+                                marginRight: "4.5em",
                               }
                             : {
                                 color: "#C4C4C4",
                                 marginRight: "10em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -468,7 +467,7 @@ const UserListings = (props: any) => {
                             : {
                                 color: "#C4C4C4",
                                 marginRight: "14em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -490,7 +489,7 @@ const UserListings = (props: any) => {
                             : {
                                 color: "#C4C4C4",
                                 marginLeft: "12em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -517,12 +516,12 @@ const UserListings = (props: any) => {
                             ? {
                                 color: "#C4C4C4",
                                 fontSize: "0.8em",
-                                marginRight: "4.5em"
+                                marginRight: "4.5em",
                               }
                             : {
                                 color: "#C4C4C4",
                                 marginRight: "10em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -535,7 +534,7 @@ const UserListings = (props: any) => {
                             : {
                                 color: "#C4C4C4",
                                 marginRight: "14em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -557,7 +556,7 @@ const UserListings = (props: any) => {
                             : {
                                 color: "#C4C4C4",
                                 marginLeft: "12em",
-                                fontSize: "0.8em"
+                                fontSize: "0.8em",
                               }
                         }
                       >
@@ -598,14 +597,14 @@ const UserListings = (props: any) => {
           style={{
             borderLeft: "1px solid #DDE2E5",
             height: "100vh",
-            width: "1rem"
+            width: "1rem",
           }}
         />
 
         <Col
           style={{
             marginLeft: "5%",
-            marginTop: "5%"
+            marginTop: "5%",
           }}
           sm={3}
         >
@@ -633,7 +632,7 @@ const UserListings = (props: any) => {
             error={amountError}
             style={{ marginTop: "15%" }}
             inputProps={{
-              style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" }
+              style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
             }}
           />
           <TextField
@@ -647,7 +646,7 @@ const UserListings = (props: any) => {
             size={"medium"}
             style={{ marginTop: "15%" }}
             inputProps={{
-              style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" }
+              style: { fontSize: "2vh", height: "2vh", fontStyle: "lato" },
             }}
           />
 
@@ -676,7 +675,7 @@ const UserListings = (props: any) => {
               width: "10em",
               height: "2.5rem",
               backgroundColor: "#4263EB",
-              marginTop: "12%"
+              marginTop: "12%",
             }}
             disabled={usdPerError || amountError}
             onClick={() => confirmModalOpen(true)}

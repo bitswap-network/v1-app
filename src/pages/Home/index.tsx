@@ -8,7 +8,7 @@ import {
   FormControl,
   Modal,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
 } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
@@ -18,7 +18,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
-  FiBox
+  FiBox,
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -32,18 +32,18 @@ import {
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper
+  SearchBarWrapper,
 } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
 
-const ongoingSwapTooltip = props => (
+const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
     These are listings you have made that are currently in progress
   </Tooltip>
 );
-const ongoingBuysTooltip = props => (
+const ongoingBuysTooltip = (props) => (
   <Tooltip id="buys-tooltip" {...props}>
     These are listings you have purchased that are currently in progress
   </Tooltip>
@@ -60,12 +60,12 @@ const Home = (props: any) => {
   console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         setListings(res.data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setLoading(false);
       });
@@ -101,7 +101,12 @@ const Home = (props: any) => {
     <>
       <Wrapper>
         <NavBar />
-        <Col sm={9} xl={window.visualViewport.width > 1600 ? 11 : 9}>
+        <Col
+          sm={12}
+          md={8}
+          lg={8}
+          xl={window.visualViewport.width > 1600 ? 11 : 8}
+        >
           <MainContent>
             <Row>
               <h3
@@ -150,7 +155,7 @@ const Home = (props: any) => {
                   style={{
                     background: "transparent",
                     minHeight: "77vh",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
@@ -161,7 +166,7 @@ const Home = (props: any) => {
                             paddingBottom: "5%",
                             fontSize: "0.8em",
                             color: "#C4C4C4",
-                            width: "23%"
+                            width: "23%",
                           }}
                         >
                           Username
@@ -172,7 +177,7 @@ const Home = (props: any) => {
                             paddingBottom: "5%",
                             fontSize: "0.8em",
                             color: "#C4C4C4",
-                            width: "24%"
+                            width: "24%",
                           }}
                         >
                           Offer
@@ -182,7 +187,7 @@ const Home = (props: any) => {
                           style={{
                             paddingBottom: "5%",
                             fontSize: "0.8em",
-                            color: "#C4C4C4"
+                            color: "#C4C4C4",
                           }}
                         >
                           Posted Time
@@ -221,13 +226,13 @@ const Home = (props: any) => {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem"
+                      width: "2rem",
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem"
+                      width: "2rem",
                     }
               }
             />
@@ -255,7 +260,7 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%"
+                      marginLeft: "10%",
                     }}
                   >
                     Amount (BCLT)
@@ -266,11 +271,11 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem"
+                        width: "100rem",
                       }}
                     />
                   </Row>
-                  {userData.listings.map(listing => {
+                  {userData.listings.map((listing) => {
                     if (listing.ongoing) {
                       return (
                         <OngoingItem
@@ -282,7 +287,7 @@ const Home = (props: any) => {
                     }
                   })}
                   {userData.listings.some(
-                    listing => listing.ongoing === true
+                    (listing) => listing.ongoing === true
                   ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing swaps
@@ -307,7 +312,7 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%"
+                      marginLeft: "10%",
                     }}
                   >
                     Amount (BCLT)
@@ -318,11 +323,11 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem"
+                        width: "100rem",
                       }}
                     />
                   </Row>
-                  {userData.buys.map(listing =>
+                  {userData.buys.map((listing) =>
                     listing.ongoing ? (
                       <OngoingItem
                         bitcloutnanos={listing.bitcloutnanos}
@@ -332,7 +337,7 @@ const Home = (props: any) => {
                     ) : null
                   )}
                   {userData.buys.some(
-                    listing => listing.ongoing === true
+                    (listing) => listing.ongoing === true
                   ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing buys

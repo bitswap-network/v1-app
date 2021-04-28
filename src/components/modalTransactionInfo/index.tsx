@@ -68,7 +68,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 }}
               >
                 ID:{" "}
-                {transaction.tx_id.length == 54 ? (
+                {transaction.tx_id ? (
                   <a
                     href={`https://explorer.bitclout.com/?transaction-id=${transaction.tx_id}&query-node=https:%2F%2Fapi.bitclout.com`}
                     target="_blank"
@@ -76,7 +76,7 @@ const TransactionModal: React.FC<TxnModal> = (
                     {transaction.tx_id}
                   </a>
                 ) : (
-                  `${transaction.tx_id}`
+                  `pending`
                 )}
               </p>
             </h4>
@@ -143,7 +143,7 @@ const TransactionModal: React.FC<TxnModal> = (
                   </p>
                 </Row>
               </Col>
-              {transaction.status === "completed" && (
+              {transaction.status === "completed" ? (
                 <>
                   <Col sm={4}>
                     <Row> COMPLETED TIME</Row>
@@ -155,8 +155,46 @@ const TransactionModal: React.FC<TxnModal> = (
                     </Row>
                   </Col>
                 </>
+              ) : (
+                <>
+                  <Col sm={4}>
+                    <Row> COMPLETED TIME</Row>
+                    <Row>
+                      <p style={{ fontSize: "0.75rem", color: "#495057" }}>
+                        pending
+                      </p>
+                    </Row>
+                  </Col>
+                </>
               )}
             </Col>
+            {transaction.transactiontype === "deposit" &&
+              transaction.status === "pending" && (
+                <Col style={{ textAlign: "center", marginTop: "5%" }}>
+                  <p style={{ fontSize: "0.7rem", marginBottom: "0%" }}>
+                    If you haven't already, send the required amount to:
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "0.7rem",
+                      color: "#495057",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
+                  </p>
+                  <p style={{ fontSize: "0.7rem", marginBottom: "2%" }}>
+                    Do NOT send duplicate deposits.
+                  </p>{" "}
+                  <p style={{ fontSize: "0.7rem", marginBottom: "0%" }}>
+                    Contact{" "}
+                    <a href="mailto:support@bitswap.network" target="_blank">
+                      support@bitswap.network
+                    </a>{" "}
+                    if your deposit doesnt show up.
+                  </p>
+                </Col>
+              )}
           </>
         )}
       </Modal.Body>

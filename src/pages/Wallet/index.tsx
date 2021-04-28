@@ -74,7 +74,8 @@ const Wallet = (props: any) => {
     if (
       (transactionType === "Withdraw" &&
         parseFloat(e.target.value) > userData?.bitswapbalance) ||
-      e.target.value.length === 0
+      e.target.value.length === 0 ||
+      parseFloat(e.target.value) <= 0
     ) {
       // console.log(parseFloat(e.target.value),u)
       setWithdrawError(true);
@@ -176,51 +177,78 @@ const Wallet = (props: any) => {
             </Col>
 
             <Col style={{ textAlign: "center", marginTop: "2%" }}>
-              <p style={{ fontSize: "1rem", color: "#000" }}>
-                You will recieve {amount} $BCLT.
-              </p>
+              {transactionType === "Withdraw" ? (
+                <p style={{ fontSize: "1rem", color: "#000" }}>
+                  {amount} $BCLT will be sent to ${user.username}.
+                </p>
+              ) : (
+                <>
+                  <p
+                    style={{
+                      fontSize: "1rem",
+                      color: "#000",
+                      marginBottom: "0%"
+                    }}
+                  >
+                    <b>Send {amount} $BCLT to:</b>
+                  </p>
+                  <p style={{ fontSize: "0.7rem", color: "#495057" }}>
+                    BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
+                  </p>
+                  <p style={{ fontSize: "0.9rem", color: "#000" }}>
+                    Your deposit will be processed and reflect in your balance
+                    1-3 minutes after being sent.
+                  </p>
+                </>
+              )}
             </Col>
+
             <Col style={{ textAlign: "center", marginTop: "2%" }}>
-              <p style={{ fontSize: "0.8rem", color: "#979ca1" }}>
-                A bitclout transaction fee of ~{(fees / 1e9).toFixed(9)} $BCLT
-                will be deducted from the total.
-              </p>
+              {transactionType === "Withdraw" && (
+                <p style={{ fontSize: "0.8rem", color: "#979ca1" }}>
+                  A bitclout transaction fee of ~{(fees / 1e9).toFixed(9)} $BCLT
+                  will be deducted from the total.
+                </p>
+              )}
             </Col>
-            <Col style={{ textAlign: "center", marginTop: "8%" }}>
-              <Button
-                style={{
-                  height: "100%",
-                  backgroundColor: "#4263EB",
-                  borderColor: "white",
-                  color: "white",
-                  fontSize: "0.85rem",
-                  padding: "2.5%",
-                  paddingLeft: "4%",
-                  paddingRight: "4%",
-                  marginRight: "5%"
-                }}
-                onClick={handleSubmit}
-                disabled={withdrawError}
-              >
-                {loading ? "Loading..." : `Confirm ${transactionType}`}
-              </Button>
-              <Button
-                style={{
-                  height: "100%",
-                  backgroundColor: "white",
-                  borderColor: "#4263EB",
-                  color: "#4263EB",
-                  fontSize: "0.85rem",
-                  padding: "2.5%",
-                  paddingLeft: "4%",
-                  paddingRight: "4%"
-                }}
-                onClick={closeConfirmModal}
-                disabled={withdrawError}
-              >
-                Cancel {transactionType}
-              </Button>
-            </Col>
+
+            <Row>
+              <Col style={{ textAlign: "center", marginTop: "3%" }}>
+                <Button
+                  style={{
+                    height: "100%",
+                    backgroundColor: "#4263EB",
+                    borderColor: "white",
+                    color: "white",
+                    fontSize: "0.85rem",
+                    padding: "2.5%",
+                    paddingLeft: "4%",
+                    paddingRight: "4%",
+                    marginRight: "5%"
+                  }}
+                  onClick={handleSubmit}
+                  disabled={withdrawError}
+                >
+                  {loading ? "Loading..." : `Confirm ${transactionType}`}
+                </Button>
+                <Button
+                  style={{
+                    height: "100%",
+                    backgroundColor: "white",
+                    borderColor: "#4263EB",
+                    color: "#4263EB",
+                    fontSize: "0.85rem",
+                    padding: "2.5%",
+                    paddingLeft: "4%",
+                    paddingRight: "4%"
+                  }}
+                  onClick={closeConfirmModal}
+                  disabled={withdrawError}
+                >
+                  Cancel {transactionType}
+                </Button>
+              </Col>
+            </Row>
 
             <Col style={{ textAlign: "center", paddingTop: "1rem" }}>
               {error && (

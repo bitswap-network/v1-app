@@ -13,13 +13,6 @@ async function getListing(token: string, id: string) {
   });
 }
 
-// Get User Listings
-async function myListings(token: string) {
-  return await axios.get(`${url}/listing/mylistings`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-}
-
 async function createListing(
   bitcloutamount: number,
   usdamount: number,
@@ -73,7 +66,6 @@ async function deleteListing(token: string, id: string) {
 export {
   getListings,
   getListing,
-  myListings,
   createListing,
   buyListing,
   cancelListing,

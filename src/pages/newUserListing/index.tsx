@@ -6,7 +6,7 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal
+  Modal,
 } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import FeedListing from "../../components/FeedListing";
@@ -17,7 +17,7 @@ import {
   FiChevronUp,
   FiChevronDown,
   FiDollarSign,
-  FiBox
+  FiBox,
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -31,7 +31,7 @@ import {
   DesktopButton,
   MobileButton,
   FeedContent,
-  SearchBarWrapper
+  SearchBarWrapper,
 } from "./styles";
 import { useUser, useEthPrice, useGasPrice } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
@@ -54,6 +54,7 @@ const NewListing = (props: any) => {
   const [submitLoad, setSubmitLoad] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
   const [postError, setPostError] = useState(false);
+  const [formError, setFormError] = useState(null);
   const [gas, setGas] = useState(0);
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
@@ -76,12 +77,12 @@ const NewListing = (props: any) => {
           etherPrice.USD,
         user.token
       )
-        .then(response => {
+        .then((response) => {
           setSubmitLoad(false);
           setPostSuccess(true);
           console.log(response);
         })
-        .catch(error => {
+        .catch((error) => {
           setPostError(true);
           setSubmitLoad(false);
         });
@@ -108,24 +109,39 @@ const NewListing = (props: any) => {
     setTable(userData?.listings);
   }, [userData]);
 
-  const handleBitcloutChange = e => {
+  const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
+    setFormError(null);
     if (parseFloat(e.target.value) <= 0) {
+      setFormError("You need to sell for a non-zero, non-negative amount.");
       setusdPerError(true);
+    }
+    if (parseFloat(e.target.value) >= 1000) {
+      setFormError("Woah. That price looks way too high.");
+      setusdPerError(true);
+    } else {
+      setFormError(null);
+      setusdPerError(false);
     }
   };
 
-  const handleAmountChange = e => {
+  const handleAmountChange = (e) => {
+    console.log(amountBitclout, typeof amountBitclout);
     setAmountBitclout(e.target.value);
-    setamountError(false);
-    console.log(parseFloat(e.target.value), userData.bitswapbalance);
     if (isLoggedIn) {
       if (parseFloat(e.target.value) > userData.bitswapbalance) {
-        console.log("setting amt error as true");
         setamountError(true);
-      }
-      if (parseFloat(amountBitclout) < 0) {
+        setFormError("You need more balance to post this swap.");
+      } else if (parseFloat(amountBitclout) <= 0) {
+        setFormError("You can't sell 0 or less bitclout!");
         setamountError(true);
+        setAmountBitclout(e.target.value);
+      } else if (isNaN(parseFloat(amountBitclout))) {
+        setamountError(true);
+        setFormError("You can't sell 0 or less bitclout!");
+      } else {
+        setFormError(null);
+        setamountError(false);
       }
     }
   };
@@ -188,7 +204,7 @@ const NewListing = (props: any) => {
                     color: "#ACB5BD",
                     fontSize: "0.7rem",
                     marginTop: "1.5rem",
-                    justifyContent: "center"
+                    justifyContent: "center",
                   }}
                 >
                   <Col sm={5}>
@@ -198,7 +214,7 @@ const NewListing = (props: any) => {
                         style={{
                           color: "#212429",
                           marginTop: "0.4rem",
-                          marginLeft: "1rem"
+                          marginLeft: "1rem",
                         }}
                       />
                       <p style={{ color: "#212429", fontSize: "1.5rem" }}>
@@ -209,7 +225,7 @@ const NewListing = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem"
+                          marginLeft: "0.5rem",
                         }}
                       >
                         BCLT
@@ -221,7 +237,7 @@ const NewListing = (props: any) => {
                       style={{
                         color: "#212429",
                         fontSize: "0.9rem",
-                        marginTop: "0.7rem"
+                        marginTop: "0.7rem",
                       }}
                     >
                       <b>FOR</b>
@@ -244,7 +260,7 @@ const NewListing = (props: any) => {
                           color: "#212429",
                           fontSize: "0.9rem",
                           marginTop: "0.7rem",
-                          marginLeft: "0.5rem"
+                          marginLeft: "0.5rem",
                         }}
                       >
                         USD
@@ -272,7 +288,7 @@ const NewListing = (props: any) => {
                       padding: "2.5%",
                       paddingLeft: "4%",
                       paddingRight: "4%",
-                      marginRight: "5%"
+                      marginRight: "5%",
                     }}
                     onClick={submitPost}
                   >
@@ -287,7 +303,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -321,7 +337,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -355,7 +371,7 @@ const NewListing = (props: any) => {
                       fontSize: "0.85rem",
                       padding: "2.5%",
                       paddingLeft: "4%",
-                      paddingRight: "4%"
+                      paddingRight: "4%",
                     }}
                     onClick={() => {
                       if (
@@ -393,6 +409,7 @@ const NewListing = (props: any) => {
                   className="hoverCursor"
                   onClick={() => {
                     setPageView("swaps");
+                    setTable(null);
                     setTable(userData.listings);
                   }}
                   style={{ color: pageView === "swaps" ? "black" : "grey" }}
@@ -411,6 +428,7 @@ const NewListing = (props: any) => {
                   className="hoverCursor"
                   onClick={() => {
                     setPageView("buys");
+                    setTable(null);
                     setTable(userData.buys);
                   }}
                   style={{ color: pageView === "buys" ? "black" : "grey" }}
@@ -427,7 +445,7 @@ const NewListing = (props: any) => {
                   style={{
                     background: "transparent",
                     minHeight: "75vh",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
@@ -438,7 +456,7 @@ const NewListing = (props: any) => {
                             paddingBottom: "5%",
                             fontSize: "0.8em",
                             color: "#C4C4C4",
-                            width: "25%"
+                            width: "25%",
                           }}
                         >
                           Transactor Name
@@ -449,7 +467,7 @@ const NewListing = (props: any) => {
                             paddingBottom: "5%",
                             fontSize: "0.8em",
                             color: "#C4C4C4",
-                            width: "27%"
+                            width: "27%",
                           }}
                         >
                           Offer
@@ -459,7 +477,7 @@ const NewListing = (props: any) => {
                           style={{
                             paddingBottom: "5%",
                             fontSize: "0.8em",
-                            color: "#C4C4C4"
+                            color: "#C4C4C4",
                           }}
                         >
                           Posted Time
@@ -499,13 +517,13 @@ const NewListing = (props: any) => {
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
-                      marginLeft: "0.25rem"
+                      marginLeft: "0.25rem",
                     }
                   : {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem"
+                      width: "2rem",
                     }
               }
             />
@@ -520,6 +538,15 @@ const NewListing = (props: any) => {
                     Post Swap
                   </h5>
                 </Row>
+                <Row style={{ marginLeft: "6%", marginTop: "5%" }}>
+                  {formError && (
+                    <>
+                      <p style={{ fontSize: "0.8rem", color: "#F03D3E" }}>
+                        {formError}
+                      </p>
+                    </>
+                  )}
+                </Row>
 
                 <Row style={{ marginLeft: "6%", marginTop: "5%" }}>
                   <TextField
@@ -528,15 +555,17 @@ const NewListing = (props: any) => {
                     variant="outlined"
                     onChange={handleAmountChange}
                     value={amountBitclout}
+                    type="number"
                     size={"medium"}
                     error={amountError}
                     inputProps={{
+                      min: 0,
                       style: {
                         fontSize: "2vh",
                         height: "2vh",
-                        fontStyle: "lato",
-                        width: "30vh"
-                      }
+                        fontFamily: "lato",
+                        width: "30vh",
+                      },
                     }}
                   />
                 </Row>
@@ -549,13 +578,15 @@ const NewListing = (props: any) => {
                     value={usdPerBitclout}
                     error={usdPerError}
                     size={"medium"}
+                    type="number"
                     inputProps={{
+                      min: 0,
                       style: {
                         fontSize: "2vh",
                         height: "2vh",
-                        fontStyle: "lato",
-                        width: "30vh"
-                      }
+                        fontStyle: "Roboto Mono",
+                        width: "30vh",
+                      },
                     }}
                   />
                 </Row>
@@ -594,7 +625,7 @@ const NewListing = (props: any) => {
                     style={{
                       width: "10em",
                       height: "2.5rem",
-                      backgroundColor: "#4263EB"
+                      backgroundColor: "#4263EB",
                     }}
                     disabled={
                       usdPerError ||

@@ -45,7 +45,7 @@ const NewListing = (props: any) => {
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
-  const [amountBitclout, setAmountBitclout] = useState("0");
+  const [amountBitclout, setAmountBitclout] = useState("");
   const [amountError, setamountError] = useState(false);
   const [usdPerError, setusdPerError] = useState(false);
   const [usdPerBitclout, setusdPerBitclout] = useState("");
@@ -175,6 +175,10 @@ const NewListing = (props: any) => {
                 <Col style={{ textAlign: "center", marginTop: "2%" }}>
                   <p style={{ fontSize: "1rem", color: "#ACB5BD" }}>
                     Are you sure you'd like to post?
+                    <br />
+                    <br />
+                    The Bitclout amount will be deducted from your Bitclout
+                    wallet.
                   </p>
                 </Col>
                 <Col
@@ -592,7 +596,12 @@ const NewListing = (props: any) => {
                       height: "2.5rem",
                       backgroundColor: "#4263EB"
                     }}
-                    disabled={usdPerError || amountError}
+                    disabled={
+                      usdPerError ||
+                      amountError ||
+                      amountBitclout.length === 0 ||
+                      usdPerBitclout.length === 0
+                    }
                     onClick={() => confirmModalOpen(true)}
                   >
                     Submit

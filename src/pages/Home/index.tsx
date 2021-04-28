@@ -6,7 +6,9 @@ import {
   Button,
   InputGroup,
   FormControl,
-  Modal
+  Modal,
+  OverlayTrigger,
+  Tooltip
 } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
@@ -35,6 +37,17 @@ import {
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
+
+const ongoingSwapTooltip = props => (
+  <Tooltip id="swap-tooltip" {...props}>
+    These are listings you have made that are currently in progress
+  </Tooltip>
+);
+const ongoingBuysTooltip = props => (
+  <Tooltip id="buys-tooltip" {...props}>
+    These are listings you have purchased that are currently in progress
+  </Tooltip>
+);
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
@@ -225,9 +238,15 @@ const Home = (props: any) => {
             {userData && (
               <>
                 <Row>
-                  <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
-                    Ongoing Swaps
-                  </h5>
+                  <OverlayTrigger
+                    placement="right"
+                    delay={{ show: 100, hide: 300 }}
+                    overlay={ongoingSwapTooltip}
+                  >
+                    <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                      Ongoing Swaps
+                    </h5>
+                  </OverlayTrigger>
                 </Row>
 
                 <Row>
@@ -272,9 +291,15 @@ const Home = (props: any) => {
                 </div>
 
                 <Row style={{ marginTop: "7.5%" }}>
-                  <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
-                    Ongoing Buy
-                  </h5>
+                  <OverlayTrigger
+                    placement="right"
+                    delay={{ show: 100, hide: 300 }}
+                    overlay={ongoingBuysTooltip}
+                  >
+                    <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                      Ongoing Buy
+                    </h5>
+                  </OverlayTrigger>
                 </Row>
                 <Row>
                   <p

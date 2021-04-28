@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Row, Container, Col, Navbar, Nav } from "react-bootstrap";
+import {
+  Row,
+  Container,
+  Col,
+  Navbar,
+  Nav,
+  Tooltip,
+  OverlayTrigger
+} from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
 import { FiHome, FiUploadCloud, FiInbox, FiDollarSign } from "react-icons/fi";
@@ -8,6 +16,12 @@ import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import { useUser } from "components/hooks";
 
+const renderTooltip = props => (
+  <Tooltip id="balance-tooltip" {...props}>
+    This is your balance on the BitSwap platform. You may deposit or withdraw
+    funds on the wallet page.
+  </Tooltip>
+);
 const NavElement = (props: any) => {
   return (
     <div
@@ -218,6 +232,7 @@ export const NavBar: React.FC = (props: any) => {
                   </Row>
                 </>
               )}
+
               <Row
                 style={{
                   marginTop: "30vh",
@@ -225,17 +240,24 @@ export const NavBar: React.FC = (props: any) => {
                   width: "200%"
                 }}
               >
-                <p style={{ fontSize: "0.85rem" }}>
-                  {isLoggedIn && (
-                    <b>
-                      Balance:{" "}
-                      {isLoading || isError
-                        ? user.bitswapbalance.toFixed(2)
-                        : userData.bitswapbalance.toFixed(2)}{" "}
-                      $BCLT
-                    </b>
-                  )}
-                </p>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 100, hide: 300 }}
+                  overlay={renderTooltip}
+                  trigger="hover"
+                >
+                  <p style={{ fontSize: "0.85rem" }}>
+                    {isLoggedIn && (
+                      <b>
+                        Balance:{" "}
+                        {isLoading || isError
+                          ? user.bitswapbalance.toFixed(2)
+                          : userData.bitswapbalance.toFixed(2)}{" "}
+                        $BCLT
+                      </b>
+                    )}
+                  </p>
+                </OverlayTrigger>
               </Row>
 
               {user ? (

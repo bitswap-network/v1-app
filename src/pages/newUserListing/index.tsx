@@ -37,10 +37,13 @@ import { useUser, useEthPrice, useGasPrice } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
 import UserListing from "../../components/UserListing";
+import { convertToObject } from "typescript";
 
 const NewListing = (props: any) => {
   const user = useRecoilValue(userState);
   const { userData, isLoading, isError } = useUser(user?.token);
+  const [amountUpdated, setAmountUpdated] = useState(false);
+  const [usdUpdated, setUsdUpdated] = useState(false);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState<ListingSchema[]>([]);
@@ -59,7 +62,11 @@ const NewListing = (props: any) => {
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
   const [tableData, setTable] = useState([]);
-
+  useEffect(() => {
+    if (gasPrice && !gasIsError && !gasIsLoading) {
+      setGas((gasPrice.average / 1e10) * 21000);
+    }
+  }, []);
   const submitPost = () => {
     if (
       !amountError &&
@@ -89,79 +96,58 @@ const NewListing = (props: any) => {
     }
   };
 
-  // if (!isLoading) {
-  //   console.log("userData", userData);
-  // }
-
   const [dateSort, setDateSort] = useState("desc");
-  // console.log("user data", userData, user);
   useEffect(() => {
-    // getListings(volumeSort, dateSort)
-    //   .then(res => {
-    //     console.log(res);
-    //     setListings(res.data);
-    //     setLoading(false);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     setLoading(false);
-    //   });
     setTable(userData?.listings);
   }, [userData]);
 
   const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
-    setFormError(null);
-    if (parseFloat(e.target.value) <= 0) {
-      setFormError("You need to sell for a non-zero, non-negative amount.");
-      setusdPerError(true);
-    }
-    if (parseFloat(e.target.value) >= 1000) {
-      setFormError("Woah. That price looks way too high.");
-      setusdPerError(true);
-    } else {
-      setFormError(null);
-      setusdPerError(false);
-    }
+    setUsdUpdated(true);
   };
 
   const handleAmountChange = (e) => {
-    console.log(amountBitclout, typeof amountBitclout);
     setAmountBitclout(e.target.value);
-    if (isLoggedIn) {
-      if (parseFloat(e.target.value) > userData.bitswapbalance) {
+    setAmountUpdated(true);
+  };
+
+  useEffect(() => {
+    let pass = true;
+    if (amountUpdated) {
+      if (parseFloat(amountBitclout) > userData?.bitswapbalance) {
+        pass = false;
         setamountError(true);
         setFormError("You need more balance to post this swap.");
-      } else if (parseFloat(amountBitclout) <= 0) {
-        setFormError("You can't sell 0 or less bitclout!");
+      } else if (parseFloat(amountBitclout) < 0.5) {
+        pass = false;
+        setFormError("You can't sell less then 0.5 bitclout.");
         setamountError(true);
-        setAmountBitclout(e.target.value);
       } else if (isNaN(parseFloat(amountBitclout))) {
+        pass = false;
         setamountError(true);
-        setFormError("You can't sell 0 or less bitclout!");
+        setFormError("Amount must be a valid number");
       } else {
-        setFormError(null);
         setamountError(false);
       }
     }
-  };
-
-  const handleSort = (type: string) => {
-    if (type === "date") {
-      if (dateSort === "desc") {
-        setDateSort("asc");
+    if (usdUpdated) {
+      console.log(parseFloat(usdPerBitclout) <= 0);
+      if (parseFloat(usdPerBitclout) <= 0) {
+        pass = false;
+        setFormError("You need to sell for a non-zero, non-negative amount.");
+        setusdPerError(true);
+      } else if (parseFloat(usdPerBitclout) >= 500) {
+        pass = false;
+        setFormError("Woah. That price looks way too high.");
+        setusdPerError(true);
       } else {
-        setDateSort("desc");
+        setusdPerError(false);
       }
     }
-    if (type === "volume") {
-      if (volumeSort === "desc") {
-        setVolumeSort("asc");
-      } else {
-        setVolumeSort("desc");
-      }
+    if (pass) {
+      setFormError(null);
     }
-  };
+  }, [amountBitclout, usdPerBitclout]);
 
   if (user && !isLoggedIn) {
     window.location.assign("/login");
@@ -189,12 +175,11 @@ const NewListing = (props: any) => {
             {!postSuccess && !postError && !submitLoad && (
               <>
                 <Col style={{ textAlign: "center", marginTop: "2%" }}>
-                  <p style={{ fontSize: "1rem", color: "#ACB5BD" }}>
+                  <p style={{ fontSize: "0.8rem", color: "#8d9296" }}>
                     Are you sure you'd like to post?
                     <br />
                     <br />
-                    The Bitclout amount will be deducted from your Bitclout
-                    wallet.
+                    The Bitclout amount will be deducted from your wallet.
                   </p>
                 </Col>
                 <Col
@@ -270,9 +255,14 @@ const NewListing = (props: any) => {
                 </Col>
                 <Col style={{ textAlign: "center", marginTop: "1%" }}>
                   {etherPrice && gas && !gasIsLoading && !gasIsError && (
-                    <p>
-                      Estimated ETH Gas: ~${(gas * etherPrice.USD).toFixed(2)}
-                    </p>
+                    <>
+                      <p style={{ marginBottom: "0px" }}>
+                        Estimated ETH Gas: ~${(gas * etherPrice.USD).toFixed(2)}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", color: "#8d9296" }}>
+                        This will be deducted from the $ETH you recieve.
+                      </p>
+                    </>
                   )}
                   {gasIsLoading && <p>Fetching gas prices...</p>}
                   {gasIsError && <p>Error while getting gas prices.</p>}
@@ -559,11 +549,11 @@ const NewListing = (props: any) => {
                     size={"medium"}
                     error={amountError}
                     inputProps={{
-                      min: 0,
+                      min: 0.5,
                       style: {
                         fontSize: "2vh",
                         height: "2vh",
-                        fontFamily: "lato",
+                        fontStyle: "Roboto Mono",
                         width: "30vh",
                       },
                     }}

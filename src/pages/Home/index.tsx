@@ -63,7 +63,6 @@ const Home = (props: any) => {
         console.log(err);
         setLoading(false);
       });
-    console.log(window.visualViewport.width);
   }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
@@ -86,10 +85,6 @@ const Home = (props: any) => {
   if (user && !isLoggedIn) {
     window.location.assign("/login");
   }
-
-  // const closeModal = () => {
-  //   setOpenModal(false);
-  // };
 
   return (
     <>

@@ -62,11 +62,13 @@ const NewListing = (props: any) => {
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
   const [tableData, setTable] = useState([]);
+
   useEffect(() => {
-    if (gasPrice && !gasIsError && !gasIsLoading) {
+    if (gasPrice) {
+      console.log(gasPrice);
       setGas((gasPrice.average / 1e10) * 21000);
     }
-  }, []);
+  }, [gasIsLoading]);
   const submitPost = () => {
     if (
       !amountError &&

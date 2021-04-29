@@ -23,13 +23,13 @@ const Wrapper = styled.section`
 interface UserListing {
   listing: ListingSchema;
   index: number;
+  buy: boolean;
   history: any;
   loading: boolean;
-  buy: boolean;
 }
 
 const Listing: React.FC<UserListing> = (
-  { listing, index, history, loading, buy },
+  { listing, index, buy, history, loading },
   props: any
 ) => {
   const user = useRecoilValue(userState);
@@ -48,108 +48,6 @@ const Listing: React.FC<UserListing> = (
     }
   };
   return (
-    // <>
-    //   <Container>
-    //     <MediaQuery query="(max-device-width: 768px)">
-    //       <Wrapper
-    //         key={index}
-    //         style={{ backgroundColor: "transparent", width: "20em" }}
-    //       >
-    //         <hr></hr>
-    //         <Row key={index} className="align-items-center">
-    //           <Col style={{ textAlign: "left" }} xs={5}>
-    //             <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.buyer
-    //                 ? `${listing.buyer.username}`
-    //                 : "No Transactor"}
-    //               <br></br>
-    //             </p>
-    //           </Col>
-
-    //           <Col style={{ textAlign: "left" }} xs={6}>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.bitcloutnanos / 1e9} $BCLT @
-    //             </p>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
-    //             </p>
-    //           </Col>
-    //         </Row>
-    //         <Col>
-    //           <Col sm={0}>
-    //             {/* <Link to={`/listing/${listing._id}`}> */}
-    //             <Button
-    //               style={{
-    //                 width: "10em",
-    //                 backgroundColor: "#4263EB",
-    //                 marginTop: "1.3em",
-    //               }}
-    //               onClick={() => {
-    //                 // history.push(`/listing/${listing._id}`);
-    //                 window.location.replace(`/listing/${listing._id}`);
-    //               }}
-    //             >
-    //               View
-    //             </Button>
-    //             {/* </Link> */}
-    //           </Col>
-    //         </Col>
-    //       </Wrapper>
-    //     </MediaQuery>
-
-    //     <MediaQuery query="(min-device-width: 768px)">
-    //       <Wrapper
-    //         key={index}
-    //         style={{ backgroundColor: "transparent", width: "100em" }}
-    //       >
-    //         <hr></hr>
-    //         <Row key={index} className="align-items-center">
-    //           <Col style={{ textAlign: "left" }} sm={2}>
-    //             <p className="userNameSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.buyer
-    //                 ? `${listing.buyer.username}`
-    //                 : "No Transactor"}
-    //             </p>
-    //           </Col>
-
-    //           <Col style={{ textAlign: "left" }} sm={2}>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.bitcloutnanos / 1e9} $BCLT @
-    //             </p>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
-    //             </p>
-    //           </Col>
-    //           <Col style={{ textAlign: "center" }} sm={1}>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {dateRender(listing.created)}
-    //             </p>
-    //           </Col>
-    //           <Col style={{ textAlign: "center" }} sm={1}>
-    //             <p className="detailsSellFeed" style={{ fontSize: "0.9em" }}>
-    //               {listing.ongoing ? "In progress" : ""}
-    //               {listing.completed.status ? "Completed" : ""}
-    //               {!listing.ongoing && !listing.completed.status
-    //                 ? "Available"
-    //                 : ""}
-    //               {}
-    //             </p>
-    //           </Col>
-    //           <Col sm={1}>
-    //             <Button
-    //               style={{ width: "10em", backgroundColor: "#4263EB" }}
-    //               onClick={() => {
-    //                 window.location.replace(`/listing/${listing._id}`);
-    //               }}
-    //             >
-    //               View
-    //             </Button>
-    //           </Col>
-    //         </Row>
-    //       </Wrapper>
-    //     </MediaQuery>
-    //   </Container>
-    // </>
     <>
       <table
         style={
@@ -193,20 +91,37 @@ const Listing: React.FC<UserListing> = (
           <td style={{ fontSize: "0.8rem", width: "25%" }}>
             {listing.buyer ? (
               <>
-                <Col>
-                  <img
-                    src={listing.buyer.profilepicture}
-                    alt="profile"
-                    style={{
-                      borderRadius: "60px",
-                      height: "auto",
-                      width: getFontSize(2.5, 10),
-                    }}
-                  />
-                  <a href={`/profile/${listing.buyer.username}`}>
-                    <p>${listing.buyer.username}</p>
-                  </a>
-                </Col>
+                {buy ? (
+                  <Col>
+                    <img
+                      src={listing.seller.profilepicture}
+                      alt="profile"
+                      style={{
+                        borderRadius: "60px",
+                        height: "auto",
+                        width: getFontSize(2.5, 10),
+                      }}
+                    />
+                    <a href={`/profile/${listing.seller.username}`}>
+                      <p>${listing.seller.username}</p>
+                    </a>
+                  </Col>
+                ) : (
+                  <Col>
+                    <img
+                      src={listing.buyer.profilepicture}
+                      alt="profile"
+                      style={{
+                        borderRadius: "60px",
+                        height: "auto",
+                        width: getFontSize(2.5, 10),
+                      }}
+                    />
+                    <a href={`/profile/${listing.buyer.username}`}>
+                      <p>${listing.buyer.username}</p>
+                    </a>
+                  </Col>
+                )}
               </>
             ) : (
               "Awaiting Buy"

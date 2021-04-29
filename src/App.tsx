@@ -26,19 +26,13 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
       <Route exact path="/listing/:id" component={SpecificListing} />
-
-      {/* <PrivateRoute path="/buy/:id" component={Buy} /> */}
       <Route path="/wallet" component={Wallet} />
-
-      {/* <Route path="/postad" component={PostAd} /> */}
       <Route path="/userlistings" component={NewListing} />
       <Route exact path="/profile" component={EditProfile} />
       <Switch>
         <Route path="/profile/:username" component={Profile} />
       </Switch>
       <Route path="/admin" component={Admin} />
-      <Route path="/old" component={UserListings} />
-      {/* <PrivateRoute path="/manage/:id" component={Manage} /> */}
     </Router>
   );
 }

@@ -302,7 +302,7 @@ const Wallet = (props: any) => {
                     overlay={renderTooltip}
                   >
                     <FiHelpCircle
-                      style={{ marginTop: "-8px", marginLeft: "12px" }}
+                      style={window.visualViewport.width > 768 ? { marginTop: "-8px", marginLeft: "12px" }: {display: "none"}}
                     />
                   </OverlayTrigger>
                 </h3>
@@ -379,7 +379,7 @@ const Wallet = (props: any) => {
                   Deposit
                 </p>
               </Col>
-              <Col style={{ marginLeft: "5%" }}>
+              <Col style={window.visualViewport.width > 768 ? { marginLeft: "5%" }: {}}>
                 <p
                   style={{
                     color:
@@ -414,7 +414,7 @@ const Wallet = (props: any) => {
                 <Col>
                   <Button
                     style={{
-                      maxWidth: "15%",
+                      maxWidth: "100%",
                       backgroundColor: "#4263EB",
                       borderColor: "white",
                       color: "white",
@@ -433,7 +433,7 @@ const Wallet = (props: any) => {
               <Row style={{ marginBottom: "-3%", marginTop: "1%" }}>
                 <Col>
                   <>
-                    <div style={{ width: "50%", wordBreak: "break-all" }}>
+                    <div style={{ width: "80%", wordBreak: "break-all" }}>
                       <p style={{ color: "#495057", fontSize: "0.9rem" }}>
                         <b>Send exact amount to: </b>
                         <p style={{ color: "#495057", fontSize: "0.8rem" }}>
@@ -479,20 +479,29 @@ const Wallet = (props: any) => {
           <Col>
             <Row>
               <div
-                style={{
-                  borderRight: "1px solid #DDE2E5",
-                  height: "100vh",
-                  marginRight: 0,
-                  paddingRight: 0,
-                  width: "2rem",
-                }}
+                style={
+                  window.visualViewport.width > 768
+                  ? {
+                      borderRight: "1px solid #DDE2E5",
+                      height: "100vh",
+                      paddingRight: 0,
+                      width: "2rem",
+                    }
+                    :
+
+                  {
+                    display: "none",
+                  }
+
+                }
+                
               />
             </Row>
           </Col>
 
           <Col sm={4} style={{ marginTop: "6%" }}>
             <Row>
-              <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+              <h5 style={window.visualViewport.width > 768 ? { fontWeight: 600, marginLeft: "10%" }: {marginTop: "10%",fontWeight: 600, marginLeft: "10%" }}>
                 Transactions
               </h5>
             </Row>

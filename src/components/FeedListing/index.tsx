@@ -135,7 +135,7 @@ const Listing: React.FC<FeedListing> = (
                   @{listing.seller.username}
                 </a>
               </td>
-              <td style={{ fontSize: getFontSize(0.5, 8), width: "30%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "26%" }}>
                 {listing.bitcloutnanos / 1e9} @{" "}
                 {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
                 $USD

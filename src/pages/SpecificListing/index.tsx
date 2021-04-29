@@ -66,10 +66,7 @@ const SpecificListing = (
   if (!match.params.id) {
     window.location.assign("/userlistings");
   }
-  // if (back) {
-  //   window.location.assign("/userlistings");
-  // }
-  // if (listing) {
+
   return (
     <>
       {listing && (
@@ -465,23 +462,34 @@ const SpecificListing = (
                       </p>
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         {(listing.bitcloutnanos / 1e9).toFixed(3)} $BCLT has
-                        been sent to {listing.buyer.username}
+                        added to ${listing.buyer.username}'s wallet
                       </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                        {listing.etheramount.toFixed(8)} $ETH has been sent to
-                        your Ethereum Wallet{" "}
-                        <i>
-                          <u>{user.ethereumaddress}</u>
-                        </i>
-                      </p>
+                      {listing.seller.username === user.username ? (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          your Ethereum Wallet{" "}
+                          <i>
+                            <u>{user.ethereumaddress}</u>
+                          </i>
+                        </p>
+                      ) : (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          ${listing.seller.username}
+                          <i>
+                            <u>{user.ethereumaddress}</u>
+                          </i>
+                        </p>
+                      )}
+
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Ethereum Txn ID:</b> <br></br>
                         {listing.finalTransactionId}
                       </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Bitclout Txn ID:</b> <br></br>
                         {listing.bitcloutTransactionId}
-                      </p>
+                      </p> */}
                     </Col>
                   ) : (
                     <Col sm={8} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
@@ -510,10 +518,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p>
+                          </p> */}
                         </>
                       ) : (
                         <>

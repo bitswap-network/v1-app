@@ -184,25 +184,26 @@ const EditProfile = (props: any) => {
             </h3>
           </Col>
           <Col>
-            <p>
-              To complete profile verification, make a post on Bitclout like
-              this:{" "}
-            </p>
+            <p>Post on bitclout to verify your profile:</p>
             <img
               src={
                 "https://cdn.discordapp.com/attachments/803030950116065290/836025514372235314/unknown.png"
               }
               style={{ width: "100%" }}
             />
-            <p style={{ marginTop: "3%" }}>
-              Using your code: {userData?.bitcloutverification}
-            </p>
+            <Col style={{ textAlign: "center" }}>
+              <p style={{ marginTop: "3%" }}>
+                Verifying my @bitswap account! {userData?.bitcloutverification}
+              </p>
+            </Col>
           </Col>
           <Col style={{ textAlign: "center" }}>
             <Button
               style={{ backgroundColor: "white", color: "blue" }}
               onClick={() => {
-                navigator.clipboard.writeText(userData?.bitcloutverification);
+                navigator.clipboard.writeText(
+                  `Verifying my @bitswap account! ${userData?.bitcloutverification}`
+                );
                 setCopy(true);
                 setTimeout(() => {
                   setCopy(false);

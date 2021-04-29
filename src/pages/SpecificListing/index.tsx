@@ -263,7 +263,7 @@ const SpecificListing = (
                             Transaction started by:{" "}
                             <b>
                               <a
-                                href={`https://bitclout.com/u/${listing.buyer.username}`}
+                                href={`/profile/${listing.buyer.username}`}
                                 target={"_blank"}
                               >
                                 @{listing.buyer.username}
@@ -275,7 +275,7 @@ const SpecificListing = (
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             Transaction started with:{" "}
                             <a
-                              href={`https://bitclout.com/u/${listing.seller.username}`}
+                              href={`/profile/{listing.seller.username}`}
                               target={"_blank"}
                             >
                               @{listing.seller.username}
@@ -405,7 +405,7 @@ const SpecificListing = (
                             >
                               <b>
                                 <a
-                                  href={`https://bitclout.com/u/${listing.buyer.username}`}
+                                  href={`/profile/${listing.buyer.username}`}
                                   target={"_blank"}
                                 >
                                   @{listing.buyer.username}
@@ -501,7 +501,7 @@ const SpecificListing = (
                         added to{" "}
                         <b>
                           <a
-                            href={`https://bitclout.com/u/${listing.buyer.username}`}
+                            href={`/profile/${listing.buyer.username}`}
                             target={"_blank"}
                           >
                             @{listing.buyer.username}'s
@@ -522,7 +522,7 @@ const SpecificListing = (
                           {listing.etheramount.toFixed(8)} $ETH has been sent to
                           <b>
                             <a
-                              href={`https://bitclout.com/u/${listing.seller.username}`}
+                              href={`/profile/${listing.seller.username}`}
                               target={"_blank"}
                             >
                               @{listing.seller.username}

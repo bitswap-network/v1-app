@@ -534,16 +534,12 @@ const SpecificListing = (
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Ethereum Txn ID:</b> <br></br>
                         <a
-                          href={`https://kovan.etherscan.io/tx/${listing.finalTransactionId}`}
+                          href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
                           target={"_blank"}
                         >
                           {listing.finalTransactionId}
                         </a>
                       </p>
-                      {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                        <b>Bitclout Txn ID:</b> <br></br>
-                        {listing.bitcloutTransactionId}
-                      </p> */}
                     </Col>
                   ) : (
                     <Col

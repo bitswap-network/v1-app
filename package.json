@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "exchanging bitclout for eth",
   "author": "https://github.com/aryanmisra",
-  "homepage": ".",
+  "homepage": "https://app.bitswap.network",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/styles": "^4.11.3",

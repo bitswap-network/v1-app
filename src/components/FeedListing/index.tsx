@@ -118,7 +118,7 @@ const Listing: React.FC<FeedListing> = (
             <tr>
               <td style={{ width: "10%" }}>
                 <img
-                  src={`https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`}
+                  src={listing.seller.profilepicture}
                   alt="profile"
                   style={{
                     borderRadius: "60px",

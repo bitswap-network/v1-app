@@ -214,7 +214,10 @@ const SpecificListing = (
                   </Col>
                 </Row>
                 <Row style={{ marginTop: "5%" }}>
-                  <Col sm={1} style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.buyer ? (
                         <FiChevronsRight
@@ -262,19 +265,33 @@ const SpecificListing = (
                         </p>
                         {listing.seller.username === user.username && (
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            Transaction started by: ${listing.buyer.username}
+                            Transaction started by:{" "}
+                            <b>
+                              <a
+                                href={`/profile/${listing.buyer.username}`}
+                                target={"_blank"}
+                              >
+                                @{listing.buyer.username}
+                              </a>
+                            </b>
                           </p>
                         )}
                         {listing.buyer.username === user.username && (
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            Transaction started with: ${listing.seller.username}
+                            Transaction started with:{" "}
+                            <a
+                              href={`/profile/{listing.seller.username}`}
+                              target={"_blank"}
+                            >
+                              @{listing.seller.username}
+                            </a>
                           </p>
                         )}
                       </Col>
                     </>
                   ) : (
                     <>
-                      <Col sm={6} >
+                      <Col sm={6}>
                         <p
                           style={{
                             color: "#6494FF",
@@ -293,7 +310,10 @@ const SpecificListing = (
                 </Row>
 
                 <Row>
-                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.escrow.full ? (
                         <FiChevronsRight
@@ -388,8 +408,16 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              ${listing.buyer?.username} has transferred{" "}
-                              {listing.etheramount.toFixed(8)} $ETH to escrow
+                              <b>
+                                <a
+                                  href={`/profile/${listing.buyer.username}`}
+                                  target={"_blank"}
+                                >
+                                  @{listing.buyer.username}
+                                </a>
+                              </b>{" "}
+                              has transferred {listing.etheramount.toFixed(8)}{" "}
+                              $ETH to escrow
                             </p>
                           </Col>
                         )}
@@ -417,7 +445,10 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -455,7 +486,12 @@ const SpecificListing = (
                     />
                   </Col>
                   {listing.completed.status ? (
-                    <Col sm={8} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
+                    <Col
+                      sm={8}
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                      }
+                    >
                       <p
                         style={{
                           color: "#6494FF",
@@ -467,15 +503,39 @@ const SpecificListing = (
                       </p>
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         {(listing.bitcloutnanos / 1e9).toFixed(3)} $BCLT has
-                        been sent to {listing.buyer.username}
+                        added to{" "}
+                        <b>
+                          <a
+                            href={`/profile/${listing.buyer.username}`}
+                            target={"_blank"}
+                          >
+                            @{listing.buyer.username}'s
+                          </a>
+                        </b>{" "}
+                        wallet
                       </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                        {listing.etheramount.toFixed(8)} $ETH has been sent to
-                        your Ethereum Wallet{" "}
-                        <i>
-                          <u>{user.ethereumaddress}</u>
-                        </i>
-                      </p>
+                      {listing.seller.username === user.username ? (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          your Ethereum Wallet{" "}
+                          <i>
+                            <u>{user.ethereumaddress}</u>
+                          </i>
+                        </p>
+                      ) : (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          <b>
+                            <a
+                              href={`/profile/${listing.seller.username}`}
+                              target={"_blank"}
+                            >
+                              @{listing.seller.username}
+                            </a>
+                          </b>
+                        </p>
+                      )}
+
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Ethereum Txn ID:</b> <br></br>
                         <a
@@ -487,7 +547,12 @@ const SpecificListing = (
                       </p>
                     </Col>
                   ) : (
-                    <Col sm={8} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
+                    <Col
+                      sm={8}
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                      }
+                    >
                       <p
                         style={{
                           color: "#6494FF",
@@ -537,7 +602,10 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -608,7 +676,12 @@ const SpecificListing = (
                   {listing.seller._id === user._id &&
                     !listing.completed.status &&
                     !listing.ongoing && (
-                      <Col sm={1} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
+                      <Col
+                        sm={1}
+                        style={
+                          window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                        }
+                      >
                         <Button
                           style={{
                             backgroundColor: "#F03D3E",

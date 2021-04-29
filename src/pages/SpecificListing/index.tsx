@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import env from "../../components/data/env.json";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -16,6 +13,7 @@ import {
   deleteListing
 } from "../../services/listings";
 import LoadingIcons from "react-loading-icons";
+import config from "../../helpers/config.json";
 
 const SpecificListing = (
   { match }: RouteComponentProps<{ id: string }>,
@@ -68,10 +66,7 @@ const SpecificListing = (
   if (!match.params.id) {
     window.location.assign("/userlistings");
   }
-  // if (back) {
-  //   window.location.assign("/userlistings");
-  // }
-  // if (listing) {
+
   return (
     <>
       {listing && (
@@ -88,7 +83,7 @@ const SpecificListing = (
                 : {
                     display: "flex",
                     flexDirection: "row",
-                    marginLeft: "1.3rem",
+                    marginLeft: "0.3rem",
                     marginRight: 0
                   }
             }
@@ -98,8 +93,8 @@ const SpecificListing = (
               <Col
                 style={
                   window.innerWidth > 768
-                    ? { marginTop: "8%" }
-                    : { marginLeft: "8%" }
+                    ? { marginTop: "5%" }
+                    : { marginLeft: "2%", marginTop: "3%" }
                 }
                 xs={window.innerWidth <= 768 ? 10 : 10}
                 xl={window.innerWidth >= 1600 ? 11 : 8}
@@ -214,7 +209,10 @@ const SpecificListing = (
                   </Col>
                 </Row>
                 <Row style={{ marginTop: "5%" }}>
-                  <Col sm={1}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.buyer ? (
                         <FiChevronsRight
@@ -293,7 +291,10 @@ const SpecificListing = (
                 </Row>
 
                 <Row>
-                  <Col sm={1}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.escrow.full ? (
                         <FiChevronsRight
@@ -347,8 +348,8 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Transfer {listing.etheramount.toFixed(8)} $ETH to
-                              0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707
+                              Transfer {listing.etheramount.toFixed(8)} $ETH to{" "}
+                              {config.eth_address}
                             </p>
                           </Col>
                         )}
@@ -417,7 +418,10 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -455,7 +459,12 @@ const SpecificListing = (
                     />
                   </Col>
                   {listing.completed.status ? (
-                    <Col sm={8}>
+                    <Col
+                      sm={8}
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                      }
+                    >
                       <p
                         style={{
                           color: "#6494FF",
@@ -467,26 +476,42 @@ const SpecificListing = (
                       </p>
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         {(listing.bitcloutnanos / 1e9).toFixed(3)} $BCLT has
-                        been sent to {listing.buyer.username}
+                        added to ${listing.buyer.username}'s wallet
                       </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                        {listing.etheramount.toFixed(8)} $ETH has been sent to
-                        your Ethereum Wallet{" "}
-                        <i>
-                          <u>{user.ethereumaddress}</u>
-                        </i>
-                      </p>
+                      {listing.seller.username === user.username ? (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          your Ethereum Wallet{" "}
+                          <i>
+                            <u>{user.ethereumaddress}</u>
+                          </i>
+                        </p>
+                      ) : (
+                        <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          ${listing.seller.username}
+                          <i>
+                            <u>{user.ethereumaddress}</u>
+                          </i>
+                        </p>
+                      )}
+
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Ethereum Txn ID:</b> <br></br>
                         {listing.finalTransactionId}
                       </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                      {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Bitclout Txn ID:</b> <br></br>
                         {listing.bitcloutTransactionId}
-                      </p>
+                      </p> */}
                     </Col>
                   ) : (
-                    <Col sm={8}>
+                    <Col
+                      sm={8}
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                      }
+                    >
                       <p
                         style={{
                           color: "#6494FF",
@@ -512,10 +537,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p>
+                          </p> */}
                         </>
                       ) : (
                         <>
@@ -536,7 +561,10 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}>
+                  <Col
+                    sm={1}
+                    style={window.innerWidth <= 768 ? { display: "none" } : {}}
+                  >
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -607,7 +635,14 @@ const SpecificListing = (
                   {listing.seller._id === user._id &&
                     !listing.completed.status &&
                     !listing.ongoing && (
-                      <Col sm={1}>
+                      <Col
+                        sm={1}
+                        style={
+                          window.innerWidth <= 768
+                            ? { marginBottom: "1rem" }
+                            : {}
+                        }
+                      >
                         <Button
                           style={{
                             backgroundColor: "#F03D3E",

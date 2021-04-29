@@ -90,7 +90,7 @@ const preFlightTxn = async (token: string, bitcloutvalue: number) => {
   return await axios.post(
     `${url}/user/preFlightTxn`,
     {
-      bitcloutvalue: bitcloutvalue,
+      bitcloutvalue: bitcloutvalue.toFixed(9),
     },
     {
       headers: { Authorization: `Bearer ${token}` },

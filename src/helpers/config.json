@@ -1,3 +1,5 @@
 {
-  "url": "http://localhost:5000"
+  "url": "http://localhost:5000",
+  "eth_address": "0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707",
+  "bclt_address": "BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1"
 }

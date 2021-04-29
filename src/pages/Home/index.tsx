@@ -55,13 +55,8 @@ const Home = (props: any) => {
   // console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
-<<<<<<< HEAD
-      .then(res => {
-        console.log(res);
-=======
       .then((res) => {
         // console.log(res);
->>>>>>> bf768d2de7c48ca4bff235ba606fbf2422205285
         setListings(res.data);
         setLoading(false);
       })
@@ -110,11 +105,7 @@ const Home = (props: any) => {
                     ? {
                         marginLeft: "1rem",
                         fontSize: "1.5rem",
-<<<<<<< HEAD
-                        marginBottom: "2rem"
-=======
                         marginBottom: "2rem",
->>>>>>> bf768d2de7c48ca4bff235ba606fbf2422205285
                       }
                     : { marginLeft: "1rem" }
                 }
@@ -155,52 +146,6 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-<<<<<<< HEAD
-                  style={{
-                    background: "transparent",
-                    minHeight: "77vh",
-                    overflowX: "hidden"
-                  }}
-                >
-                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <table style={{ width: "100%" }}>
-                      <tr>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "23%"
-                          }}
-                        >
-                          Username
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "24%"
-                          }}
-                        >
-                          Offer
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4"
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
-                      <tr></tr>
-                    </table>
-                  </Row>
-=======
                   style={
                     window.visualViewport.width > 768
                       ? {
@@ -214,7 +159,6 @@ const Home = (props: any) => {
                   <Row
                     style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}
                   ></Row>
->>>>>>> bf768d2de7c48ca4bff235ba606fbf2422205285
                   <hr style={{ marginBottom: "5%" }}></hr>
 
                   {listings.map((listing: any, i: number) => (

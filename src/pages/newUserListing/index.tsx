@@ -398,7 +398,7 @@ const NewListing = (props: any) => {
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
+                    ? { marginLeft: "1rem", fontSize: "1.5rem" }
                     : { marginLeft: "1rem" }
                 }
               >
@@ -439,11 +439,15 @@ const NewListing = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{
-                    background: "transparent",
-                    minHeight: "75vh",
-                    overflowX: "hidden",
-                  }}
+                  style={
+                    window.visualViewport.width > 768
+                      ? {
+                          background: "transparent",
+                          maxHeight: "77vh",
+                          overflowX: "hidden",
+                        }
+                      : { background: "transparent", maxHeight: "65vh" }
+                  }
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
                     <table style={{ width: "100%" }}>

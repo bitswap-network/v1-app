@@ -73,8 +73,48 @@ const Listing: React.FC<FeedListing> = (
       <StyledContentLoader isLoading={false}>
         <Wrapper key={index} style={{ backgroundColor: "transparent" }}>
           <table
-            style={{ width: "110%", marginTop: "-3%", overflowX: "hidden" }}
+            style={window.visualViewport.width > 768 ? { width: "110%", marginTop: "-3%", overflowX: "hidden" }: {width: "150%", marginTop: "-6%",overflowX: "visible"}}
           >
+             <tr style={index == 0 ? {} : {display: "none"}}>
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Username
+                        </td>
+
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize:  getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                        </td>
+
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Offer
+                        </td>
+                        
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Posted Time
+                        </td>
+                      </tr>
             <tr>
               <td style={{ width: "10%" }}>
                 <img
@@ -87,7 +127,7 @@ const Listing: React.FC<FeedListing> = (
                   }}
                 />
               </td>
-              <td style={{ fontSize: getFontSize(0.5, 8), width: "20%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "15%" }}>
                 <a
                   style={{ color: "black" }}
                   href={`/profile/${listing.seller.username}`}
@@ -95,7 +135,7 @@ const Listing: React.FC<FeedListing> = (
                   @{listing.seller.username}
                 </a>
               </td>
-              <td style={{ fontSize: getFontSize(0.5, 8), width: "25%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "30%" }}>
                 {listing.bitcloutnanos / 1e9} @{" "}
                 {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
                 $USD
@@ -105,8 +145,8 @@ const Listing: React.FC<FeedListing> = (
               </td>
               <Button
                 style={{
-                  width: getFontSize(6, 4),
-                  height: getFontSize(2.5, 1),
+                  width: getFontSize(6, 15),
+                  height: getFontSize(2.5, window.visualViewport.width < 768 ? 13 : 2),
                   backgroundColor: "#4263EB",
                   borderColor: "white",
                   fontSize: getFontSize(0.8, 3),
@@ -127,7 +167,7 @@ const Listing: React.FC<FeedListing> = (
               </Button>
             </tr>
           </table>
-          <hr style={{ marginTop: "3%" }}></hr>
+          <hr style={{ marginTop: "3%", width: "150%" }}></hr>
         </Wrapper>
         {/* <MediaQuery query="(max-device-width: 768px)">
           <Row key={index} className="align-items-center">

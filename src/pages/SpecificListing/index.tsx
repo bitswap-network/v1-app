@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import TextField from "@material-ui/core/TextField";
+import axios from "axios";
+import env from "../../components/data/env.json";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -13,7 +16,6 @@ import {
   deleteListing,
 } from "../../services/listings";
 import LoadingIcons from "react-loading-icons";
-import config from "../../helpers/config.json";
 
 const SpecificListing = (
   { match }: RouteComponentProps<{ id: string }>,
@@ -66,7 +68,10 @@ const SpecificListing = (
   if (!match.params.id) {
     window.location.assign("/userlistings");
   }
-
+  // if (back) {
+  //   window.location.assign("/userlistings");
+  // }
+  // if (listing) {
   return (
     <>
       {listing && (
@@ -362,8 +367,8 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Transfer {listing.etheramount.toFixed(8)} $ETH to{" "}
-                              {config.eth_address}
+                              Transfer {listing.etheramount.toFixed(8)} $ETH to
+                              0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707
                             </p>
                           </Col>
                         )}
@@ -573,10 +578,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p> */}
+                          </p>
                         </>
                       ) : (
                         <>
@@ -587,10 +592,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p> */}
+                          </p>
                         </>
                       )}
                     </Col>
@@ -674,9 +679,7 @@ const SpecificListing = (
                       <Col
                         sm={1}
                         style={
-                          window.innerWidth <= 768
-                            ? { marginBottom: "1rem" }
-                            : {}
+                          window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
                         }
                       >
                         <Button

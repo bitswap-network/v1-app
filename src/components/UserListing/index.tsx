@@ -3,12 +3,7 @@ import { Row, Col, Button, Container } from "react-bootstrap";
 import axios from "axios";
 import { ListingSchema } from "../interfaces";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
-import { connect } from "react-redux";
-import env from "../data/env.json";
-import StyledContentLoader from "styled-content-loader";
-import MediaQuery from "react-responsive";
+import { getFontSize } from "../../helpers/styling";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 const Wrapper = styled.section`
@@ -159,7 +154,26 @@ const Listing: React.FC<UserListing> = (
         <tr>
           <td style={{ width: "3%" }}></td>
           <td style={{ fontSize: "0.8rem", width: "25%" }}>
-            {listing.buyer ? `${listing.buyer.username}` : "No Transactor"}
+            {listing.buyer ? (
+              <>
+                <Col>
+                  <img
+                    src={listing.buyer.profilepicture}
+                    alt="profile"
+                    style={{
+                      borderRadius: "60px",
+                      height: "auto",
+                      width: getFontSize(2.5, 10),
+                    }}
+                  />
+                  <a href={`/profile/${listing.buyer.username}`}>
+                    <p>${listing.buyer.username}</p>
+                  </a>
+                </Col>
+              </>
+            ) : (
+              "No Transactor"
+            )}
           </td>
           <td style={{ fontSize: "0.8rem", width: "30%" }}>
             {listing.bitcloutnanos / 1e9} @{" "}

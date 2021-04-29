@@ -456,7 +456,7 @@ const NewListing = (props: any) => {
                             width: "25%",
                           }}
                         >
-                          Transactor Name
+                          Transactor
                         </td>
 
                         <td
@@ -486,19 +486,22 @@ const NewListing = (props: any) => {
                   <hr style={{ marginBottom: "5%" }}></hr>
 
                   {!isLoading &&
-                    tableData?.map((listing: any, i: number) => {
-                      return (
-                        <>
-                          <UserListing
-                            listing={listing}
-                            index={i}
-                            history={props.history}
-                            loading={loading}
-                            buy={true}
-                          />
-                        </>
-                      );
-                    })}
+                    tableData
+                      ?.slice(0)
+                      .reverse()
+                      .map((listing: any, i: number) => {
+                        return (
+                          <>
+                            <UserListing
+                              listing={listing}
+                              index={i}
+                              history={props.history}
+                              loading={loading}
+                              buy={true}
+                            />
+                          </>
+                        );
+                      })}
                 </div>
               </Col>
             </FeedContent>

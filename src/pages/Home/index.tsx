@@ -105,7 +105,7 @@ const Home = (props: any) => {
             <iframe
               width="100%"
               height="400vh"
-              src="https://www.youtube-nocookie.com/embed/sSzPa34mEaY"
+              src="https://www.youtube.com/embed/pLy_t9objuU"
               title="BitSwap Intro Video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             ></iframe>

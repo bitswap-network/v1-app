@@ -127,6 +127,7 @@ const Listing: React.FC<FeedListing> = (
                     borderRadius: "60px",
                     height: "auto",
                     width: getFontSize(2.5, 10),
+                    maxHeight: getFontSize(2.5, 10),
                   }}
                 />
               </td>
@@ -135,7 +136,10 @@ const Listing: React.FC<FeedListing> = (
                   style={{ color: "black" }}
                   href={`/profile/${listing.seller.username}`}
                 >
-                  @{listing.seller.username}
+                  @
+                  {listing.seller.username.length > 12
+                    ? `${listing.seller.username.substring(0, 12)}...`
+                    : listing.seller.username}
                 </a>
               </td>
               <td style={{ fontSize: getFontSize(0.5, 8), width: "26%" }}>
@@ -162,6 +166,7 @@ const Listing: React.FC<FeedListing> = (
                   fontSize: getFontSize(0.8, 3),
                   textAlign: "center",
                   alignItems: "center",
+                  borderRadius: "50px",
                 }}
                 onClick={() => {
                   if (isLoggedIn) {

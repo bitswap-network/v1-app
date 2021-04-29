@@ -528,7 +528,7 @@ const SpecificListing = (
                         </p>
                       ) : (
                         <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to{" "}
                           <b>
                             <a
                               href={`/profile/${listing.seller.username}`}

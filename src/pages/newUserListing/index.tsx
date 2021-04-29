@@ -437,7 +437,7 @@ const NewListing = (props: any) => {
                               index={i}
                               history={props.history}
                               loading={loading}
-                              buy={true}
+                              buy={pageView === "buys"}
                             />
                           </>
                         );

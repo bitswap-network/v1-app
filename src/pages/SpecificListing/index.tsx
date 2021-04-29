@@ -367,7 +367,12 @@ const SpecificListing = (
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
                               Transfer {listing.etheramount.toFixed(8)} $ETH to
-                              0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707
+                              <b>
+                                {" "}
+                                0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707{" "}
+                              </b>
+                              from your wallet:{" "}
+                              <b>{listing.buyer.ethereumaddress}</b>
                             </p>
                           </Col>
                         )}
@@ -575,12 +580,13 @@ const SpecificListing = (
                           </p>
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Ethereum Txn ID:</b> <br></br>
-                            {listing.finalTransactionId}
+                            <a
+                              href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
+                              target={"_blank"}
+                            >
+                              {listing.finalTransactionId}
+                            </a>
                           </p>
-                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            <b>Bitclout Txn ID:</b> <br></br>
-                            {listing.bitcloutTransactionId}
-                          </p> */}
                         </>
                       ) : (
                         <>
@@ -589,12 +595,13 @@ const SpecificListing = (
                           </p>
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Ethereum Txn ID:</b> <br></br>
-                            {listing.finalTransactionId}
+                            <a
+                              href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
+                              target={"_blank"}
+                            >
+                              {listing.finalTransactionId}
+                            </a>
                           </p>
-                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            <b>Bitclout Txn ID:</b> <br></br>
-                            {listing.bitcloutTransactionId}
-                          </p> */}
                         </>
                       )}
                     </Col>

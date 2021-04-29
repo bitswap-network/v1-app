@@ -8,6 +8,7 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import { useUser } from "components/hooks";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -19,6 +20,7 @@ const Web3 = require("web3");
 
 const Admin = (props: any) => {
   const user = useRecoilValue(userState);
+  const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [email, setEmail] = useState("  ");
   const [currentUser, setCurrentUser] = useState(
@@ -31,8 +33,15 @@ const Admin = (props: any) => {
   if (!isLoggedIn) {
     return <Redirect to="/login" />;
   }
-  if (isLoggedIn && !currentUser.admin) {
-    return <Redirect to="/" />;
+  if (isLoggedIn && !isLoading) {
+    if (!userData.admin) {
+      console.log("not admin", userData);
+      return <Redirect to="/" />;
+    }
+    if (isError) {
+      console.log("error");
+      return <Redirect to="/" />;
+    }
   }
 
   return (

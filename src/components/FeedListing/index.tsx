@@ -130,7 +130,7 @@ const Listing: React.FC<FeedListing> = (
                   }}
                 />
               </td>
-              <td style={{ fontSize: getFontSize(0.5, 8), width: "15%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "20%" }}>
                 <a
                   style={{ color: "black" }}
                   href={`/profile/${listing.seller.username}`}
@@ -139,11 +139,15 @@ const Listing: React.FC<FeedListing> = (
                 </a>
               </td>
               <td style={{ fontSize: getFontSize(0.5, 8), width: "26%" }}>
-                {listing.bitcloutnanos / 1e9} @{" "}
-                {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
+                <b>
+                  {listing.bitcloutnanos / 1e9} @{" "}
+                  {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(
+                    2
+                  )}{" "}
+                </b>
                 $USD
               </td>
-              <td style={{ fontSize: getFontSize(0.5, 8), width: "25%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "23%" }}>
                 {dateRender(listing.created)}
               </td>
               <Button

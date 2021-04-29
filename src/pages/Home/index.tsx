@@ -31,6 +31,8 @@ import { MainContent, Wrapper, FeedContent } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
+import { getFontSize } from "../../helpers/styling";
+
 
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
@@ -141,49 +143,14 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{
+                  style={window.visualViewport.width > 768 ? {
                     background: "transparent",
                     minHeight: "77vh",
                     overflowX: "hidden",
-                  }}
+                  }: {background: "transparent", minHeight: "65vh",}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <table style={{ width: "100%" }}>
-                      <tr>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "23%",
-                          }}
-                        >
-                          Username
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "24%",
-                          }}
-                        >
-                          Offer
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
-                      <tr></tr>
-                    </table>
+                 
                   </Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 

@@ -148,6 +148,9 @@ export const NavBar: React.FC = (props: any) => {
                 <Nav.Link href="/userlistings">My Listings</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/wallet">My Wallet</Nav.Link>
+                {isLoggedIn && userData?.verified !== "verified" && (
+                  <Nav.Link onClick={() => window.location.assign("/profile")} style={{color: "red"}}>Verify Profile</Nav.Link>
+                )}
                 <div onClick={() => window.location.replace(`/logout`)}>
                   <Nav.Link href="/logout" style={{ color: "red" }}>
                     Logout

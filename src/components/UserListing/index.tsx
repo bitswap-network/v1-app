@@ -11,6 +11,8 @@ import StyledContentLoader from "styled-content-loader";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
+import { getFontSize } from "../../helpers/styling";
+
 const Wrapper = styled.section`
   background-color: #f8f9fa;
   border-radius: 30px;
@@ -155,24 +157,57 @@ const Listing: React.FC<UserListing> = (
     //   </Container>
     // </>
     <>
-      <table style={{ width: "100%", marginTop: "-2%", overflowX: "hidden" }}>
+      <table style={window.visualViewport.width > 768 ? { width: "100%", marginTop: "-2%", overflowX: "hidden" }: {width: "150%", marginTop: "1%"}}>
+      <tr style={index == 0 ? {} : {display: "none"}}>
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Username
+                        </td>
+
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize:  getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Offer
+
+                        </td>
+
+                   
+                        <td
+                          style={{
+                            paddingBottom: "5%",
+                            fontSize: getFontSize(0.5, 8),
+                            color: "#C4C4C4",
+                          }}
+                        >
+                          Posted Time
+                        </td>
+                      </tr>
         <tr>
-          <td style={{ width: "3%" }}></td>
-          <td style={{ fontSize: "0.8rem", width: "25%" }}>
+          <td style={{ fontSize: getFontSize(0.5, 8), width: "28%"}}>
             {listing.buyer ? `${listing.buyer.username}` : "No Transactor"}
           </td>
-          <td style={{ fontSize: "0.8rem", width: "30%" }}>
+          <td style={{ fontSize: getFontSize(0.5, 8), width: "35%" }}>
             {listing.bitcloutnanos / 1e9} @{" "}
             {listing.usdamount / (listing.bitcloutnanos / 1e9)}$ / $BCLT
           </td>
-          <td style={{ fontSize: "0.8rem", width: "25%" }}>
+          <td style={{ fontSize: getFontSize(0.5, 8), width: "30%" }}>
             {dateRender(listing.created)}
           </td>
           <td>
             <Button
               style={{
-                width: "10em",
+                width: "100%",
                 backgroundColor: "#4263EB",
+          
               }}
               onClick={() => {
                 // history.push(`/listing/${listing._id}`);

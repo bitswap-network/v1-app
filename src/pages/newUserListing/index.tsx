@@ -398,7 +398,7 @@ const NewListing = (props: any) => {
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
+                    ? { marginLeft: "1rem", fontSize: "1.5rem" }
                     : { marginLeft: "1rem" }
                 }
               >
@@ -439,49 +439,14 @@ const NewListing = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{
+                  style={window.visualViewport.width > 768 ? {
                     background: "transparent",
-                    minHeight: "75vh",
+                    maxHeight: "77vh",
                     overflowX: "hidden",
-                  }}
+                  }: {background: "transparent", maxHeight: "65vh",}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <table style={{ width: "100%" }}>
-                      <tr>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "25%",
-                          }}
-                        >
-                          Transactor Name
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "27%",
-                          }}
-                        >
-                          Offer
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
-                      <tr></tr>
-                    </table>
+                   
                   </Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 

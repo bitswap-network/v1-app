@@ -145,9 +145,9 @@ const Home = (props: any) => {
                   className="scrollNoBar"
                   style={window.visualViewport.width > 768 ? {
                     background: "transparent",
-                    minHeight: "77vh",
+                    maxHeight: "77vh",
                     overflowX: "hidden",
-                  }: {background: "transparent", minHeight: "65vh",}}
+                  }: {background: "transparent", maxHeight: "65vh"}}
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
                  
@@ -194,7 +194,7 @@ const Home = (props: any) => {
           </Row>
         </Col>
         {isLoggedIn ? (
-          <Col sm={4} style={ window.visualViewport.width > 768 ? { marginTop: "6%" } : { marginTop: "-12%"}}>
+          <Col sm={4} style={ window.visualViewport.width > 768 ? { marginTop: "6%" } : {}}>
             {userData && (
               <>
                 <Row>

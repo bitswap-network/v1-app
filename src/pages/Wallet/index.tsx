@@ -265,7 +265,7 @@ const Wallet = (props: any) => {
             : {
                 display: "flex",
                 flexDirection: "row",
-                marginLeft: "1.3rem"
+                marginLeft: "0.3rem"
               }
         }
       >

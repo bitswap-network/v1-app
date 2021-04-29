@@ -83,7 +83,7 @@ const Listing: React.FC<FeedListing> = (
                   style={{
                     borderRadius: "60px",
                     height: "auto",
-                    width: "2.5vw",
+                    width: getFontSize(2.5, 10),
                   }}
                 />
               </td>
@@ -100,7 +100,7 @@ const Listing: React.FC<FeedListing> = (
                 {(listing.usdamount / (listing.bitcloutnanos / 1e9)).toFixed(2)}{" "}
                 $USD
               </td>
-              <td style={{ fontSize: getFontSize(0.8, 3), width: "25%" }}>
+              <td style={{ fontSize: getFontSize(0.5, 8), width: "25%" }}>
                 {dateRender(listing.created)}
               </td>
               <Button

@@ -88,7 +88,7 @@ const SpecificListing = (
                 : {
                     display: "flex",
                     flexDirection: "row",
-                    marginLeft: "1.3rem",
+                    marginLeft: "0.3rem",
                     marginRight: 0,
                   }
             }
@@ -98,8 +98,8 @@ const SpecificListing = (
               <Col
                 style={
                   window.innerWidth > 768
-                    ? { marginTop: "8%" }
-                    : { marginLeft: "8%" }
+                    ? { marginTop: "5%" }
+                    : { marginLeft: "2%", marginTop: "3%" }
                 }
                 xs={window.innerWidth <= 768 ? 10 : 10}
                 xl={window.innerWidth >= 1600 ? 11 : 8}
@@ -214,7 +214,7 @@ const SpecificListing = (
                   </Col>
                 </Row>
                 <Row style={{ marginTop: "5%" }}>
-                  <Col sm={1}>
+                  <Col sm={1} style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
                     <div style={{ textAlign: "center" }}>
                       {listing.buyer ? (
                         <FiChevronsRight
@@ -274,7 +274,7 @@ const SpecificListing = (
                     </>
                   ) : (
                     <>
-                      <Col sm={6}>
+                      <Col sm={6} >
                         <p
                           style={{
                             color: "#6494FF",
@@ -293,7 +293,7 @@ const SpecificListing = (
                 </Row>
 
                 <Row>
-                  <Col sm={1}>
+                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
                     <div style={{ textAlign: "center" }}>
                       {listing.escrow.full ? (
                         <FiChevronsRight
@@ -417,7 +417,7 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}>
+                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -455,7 +455,7 @@ const SpecificListing = (
                     />
                   </Col>
                   {listing.completed.status ? (
-                    <Col sm={8}>
+                    <Col sm={8} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
                       <p
                         style={{
                           color: "#6494FF",
@@ -486,7 +486,7 @@ const SpecificListing = (
                       </p>
                     </Col>
                   ) : (
-                    <Col sm={8}>
+                    <Col sm={8} style={ window.innerWidth <= 768 ? {marginTop: "1rem"}: {}}>
                       <p
                         style={{
                           color: "#6494FF",
@@ -536,7 +536,7 @@ const SpecificListing = (
                   )}
                 </Row>
                 <Row>
-                  <Col sm={1}>
+                  <Col sm={1}  style={ window.innerWidth <= 768 ? {display: "none"}: {}}>
                     <div style={{ textAlign: "center" }}>
                       {listing.completed.status ? (
                         <FiChevronsRight
@@ -607,7 +607,7 @@ const SpecificListing = (
                   {listing.seller._id === user._id &&
                     !listing.completed.status &&
                     !listing.ongoing && (
-                      <Col sm={1}>
+                      <Col sm={1} style={ window.innerWidth <= 768 ? {marginBottom: "1rem"}: {}}>
                         <Button
                           style={{
                             backgroundColor: "#F03D3E",

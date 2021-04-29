@@ -112,7 +112,7 @@ const Home = (props: any) => {
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
+                    ? { marginLeft: "1rem", fontSize: "1.5rem", marginBottom: "2rem" }
                     : { marginLeft: "1rem" }
                 }
               >
@@ -221,25 +221,24 @@ const Home = (props: any) => {
           <Row>
             <div
               style={
-                window.visualViewport.width <= 1800
+                window.visualViewport.width > 768
                   ? {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
                     }
-                  : {
-                      borderRight: "1px solid #DDE2E5",
-                      height: "100vh",
-                      paddingRight: 0,
-                      width: "2rem",
-                    }
+                    :
+
+                  {
+                    display: "none",
+                  }
               }
             />
           </Row>
         </Col>
         {isLoggedIn ? (
-          <Col sm={4} style={{ marginTop: "6%" }}>
+          <Col sm={4} style={ window.visualViewport.width > 768 ? { marginTop: "6%" } : { marginTop: "-12%"}}>
             {userData && (
               <>
                 <Row>

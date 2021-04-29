@@ -395,7 +395,11 @@ const NewListing = (props: any) => {
       </>
       <Wrapper>
         <NavBar />
-        <Col sm={window.visualViewport.width <= 1800 ? 9 : 12}>
+        <Col          
+          sm={12}
+          md={8}
+          lg={8}
+          xl={window.visualViewport.width > 1600 ? 11 : 8}>
           <MainContent>
             <Row>
               <h3
@@ -511,20 +515,18 @@ const NewListing = (props: any) => {
           <Row>
             <div
               style={
-                window.visualViewport.width <= 1800
+                window.visualViewport.width > 768
                   ? {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
                       width: "2rem",
-                      marginLeft: "0.25rem",
                     }
-                  : {
-                      borderRight: "1px solid #DDE2E5",
-                      height: "100vh",
-                      paddingRight: 0,
-                      width: "2rem",
-                    }
+                    :
+
+                  {
+                    display: "none",
+                  }
               }
             />
           </Row>

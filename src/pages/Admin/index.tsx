@@ -16,7 +16,7 @@ import MD5 from "crypto-js/md5";
 import StyledContentLoader from "styled-content-loader";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
-const Web3 = require("web3");
+// const Web3 = require("web3");
 
 const Admin = (props: any) => {
   const user = useRecoilValue(userState);

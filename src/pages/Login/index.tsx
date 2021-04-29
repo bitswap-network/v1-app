@@ -15,13 +15,13 @@ import {
   RegAccountText,
   UsernameRow,
   PasswordRow,
-  MobileLogo
+  MobileLogo,
 } from "./styles";
 import { login } from "services/auth";
 import { saveData } from "helpers/local";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, userState } from "store";
-import Web3 from "web3";
+// import Web3 from "web3";
 
 declare let window: any;
 
@@ -31,7 +31,7 @@ const Login = (props: any) => {
 
   const [form, setForm] = useState({
     username: "" as string,
-    password: "" as string
+    password: "" as string,
   });
 
   // useEffect(() => {
@@ -48,13 +48,13 @@ const Login = (props: any) => {
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
   const handleLogin = () => {
     login(form.username, form.password)
-      .then(response => {
+      .then((response) => {
         if (response.status === 200) {
           saveData("user", JSON.stringify(response.data));
           setUser(response.data);

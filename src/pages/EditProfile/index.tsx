@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import {
   updateProfile,
   updatePassword,
-  verifyBitclout,
+  verifyBitclout
 } from "../../services/users";
 import Cropper from "react-easy-crop";
 import { useUser } from "components/hooks";
@@ -33,7 +33,7 @@ const EditProfile = (props: any) => {
     email: false,
     ethereumaddress: false,
     password: false,
-    newPassword: false,
+    newPassword: false
   });
 
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ const EditProfile = (props: any) => {
     email: user.email,
     ethereumaddress: user.ethereumaddress,
     password: "",
-    newPassword: "",
+    newPassword: ""
   });
   const valerrorHandler = () => {
     let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -52,7 +52,7 @@ const EditProfile = (props: any) => {
       ...error,
       name: form.name.length < 1 ? true : false,
       email: !regEmail.test(form.email) ? true : false,
-      ethereumaddress: form.ethereumaddress.length < 1 ? true : false,
+      ethereumaddress: form.ethereumaddress.length < 1 ? true : false
     });
 
     if (form.email.length < 1 || form.ethereumaddress.length < 1) {
@@ -67,7 +67,7 @@ const EditProfile = (props: any) => {
       password:
         form.password.length < 1 && form.newPassword.length > 1 ? true : false,
       newPassword:
-        form.newPassword.length < 1 && form.password.length > 1 ? true : false,
+        form.newPassword.length < 1 && form.password.length > 1 ? true : false
     });
 
     if (
@@ -83,24 +83,24 @@ const EditProfile = (props: any) => {
     setFormUpdated(true);
     setForm({
       ...form,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
     setError({
       ...error,
       email: false,
-      ethereumaddress: false,
+      ethereumaddress: false
     });
   };
   const handlePassChange = (e: any) => {
     setPasswordUpdated(true);
     setForm({
       ...form,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
     setError({
       ...error,
       password: false,
-      newPassword: false,
+      newPassword: false
     });
   };
 
@@ -108,13 +108,13 @@ const EditProfile = (props: any) => {
     if (valerrorHandler()) {
       setLoading(true);
       updateProfile(form.username, form.email, form.ethereumaddress, user.token)
-        .then((response) => {
+        .then(response => {
           setLoading(false);
           setSuccessful(true);
           setFormUpdated(false);
           window.location.reload();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           // Add error message in UI
           setLoading(false);
@@ -126,13 +126,13 @@ const EditProfile = (props: any) => {
     if (passerrorHandler()) {
       setLoading(true);
       updatePassword(form.password, form.newPassword, user.token)
-        .then((response) => {
+        .then(response => {
           setLoading(false);
           setSuccessful(true);
           setPasswordUpdated(false);
           window.location.reload();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
           // Add error message in UI
           setLoading(false);
@@ -142,11 +142,11 @@ const EditProfile = (props: any) => {
   const handleVerify = () => {
     setVerifyState("secondary");
     verifyBitclout(user.token)
-      .then((response) => {
+      .then(response => {
         // console.log(response.data);
         setVerifyState("success");
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
         setVerifyState("danger");
       });
@@ -170,7 +170,7 @@ const EditProfile = (props: any) => {
               size={"1rem"}
               style={{
                 marginTop: "1%",
-                color: "#ACB5BD",
+                color: "#ACB5BD"
               }}
               onClick={() => {
                 setVerifyModal(false);
@@ -240,7 +240,7 @@ const EditProfile = (props: any) => {
                     display: "flex",
                     flexDirection: "column",
                     alignSelf: "center",
-                    marginLeft: "3rem",
+                    marginLeft: "3rem"
                   }
             }
           >
@@ -250,7 +250,7 @@ const EditProfile = (props: any) => {
                 backgroundColor: "white",
                 padding: "2%",
                 borderRadius: "5px",
-                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"
               }}
             >
               <Row style={{ marginBottom: "10px" }}>
@@ -269,7 +269,7 @@ const EditProfile = (props: any) => {
                     style={{
                       fontSize: "0.9rem",
                       marginTop: "0",
-                      marginBottom: "0.5rem",
+                      marginBottom: "0.5rem"
                     }}
                   >
                     {user.description}
@@ -289,7 +289,7 @@ const EditProfile = (props: any) => {
                               color:
                                 userData.verified === "verified"
                                   ? "#4263EB"
-                                  : "#F03D3E",
+                                  : "#F03D3E"
                             }}
                           >
                             {userData.verified === "unverified" &&
@@ -318,7 +318,7 @@ const EditProfile = (props: any) => {
                               fontWeight: "bold",
                               color: userData.emailverified
                                 ? "#4263EB"
-                                : "#F03D3E",
+                                : "#F03D3E"
                             }}
                           >
                             {userData.emailverified
@@ -414,6 +414,7 @@ const EditProfile = (props: any) => {
                     <TextField
                       id="password"
                       label="Current Password"
+                      type="password"
                       variant="outlined"
                       value={form.password}
                       error={error.password}
@@ -430,6 +431,7 @@ const EditProfile = (props: any) => {
                     <TextField
                       id="newPassword"
                       label="New Password"
+                      type="password"
                       variant="outlined"
                       value={form.newPassword}
                       error={error.newPassword}

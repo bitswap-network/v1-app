@@ -209,7 +209,7 @@ const Listing: React.FC<UserListing> = (
                 </Col>
               </>
             ) : (
-              "No Transactor"
+              "Awaiting Buy"
             )}
           </td>
           <td style={{ fontSize: getFontSize(0.5, 8), width: "35%" }}>

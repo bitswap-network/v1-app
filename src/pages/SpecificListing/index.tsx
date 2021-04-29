@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import env from "../../components/data/env.json";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -16,6 +13,7 @@ import {
   deleteListing,
 } from "../../services/listings";
 import LoadingIcons from "react-loading-icons";
+import config from "../../helpers/config.json";
 
 const SpecificListing = (
   { match }: RouteComponentProps<{ id: string }>,
@@ -347,8 +345,8 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Transfer {listing.etheramount.toFixed(8)} $ETH to
-                              0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707
+                              Transfer {listing.etheramount.toFixed(8)} $ETH to{" "}
+                              {config.eth_address}
                             </p>
                           </Col>
                         )}

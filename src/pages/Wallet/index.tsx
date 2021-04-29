@@ -22,7 +22,7 @@ import {
 } from "services/users";
 import { TransactionSchema } from "../../components/interfaces";
 import { useUser } from "../../components/hooks";
-
+import config from "../../helpers/config.json";
 import TransactionModal from "../../components/modalTransactionInfo";
 
 const renderTooltip = (props) => (
@@ -201,7 +201,7 @@ const Wallet = (props: any) => {
                     <b>Send {amount} $BCLT to:</b>
                   </p>
                   <p style={{ fontSize: "0.7rem", color: "#495057" }}>
-                    BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
+                    {config.bclt_address}
                   </p>
                   <p style={{ fontSize: "0.9rem", color: "#000" }}>
                     Your deposit will be processed and reflect in your balance
@@ -437,7 +437,7 @@ const Wallet = (props: any) => {
                       <p style={{ color: "#495057", fontSize: "0.9rem" }}>
                         <b>Send exact amount to: </b>
                         <p style={{ color: "#495057", fontSize: "0.8rem" }}>
-                          BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
+                          {config.bclt_address}
                         </p>
                       </p>
                     </div>

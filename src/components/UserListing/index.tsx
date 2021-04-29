@@ -172,14 +172,14 @@ const Listing: React.FC<UserListing> = (
             <Button
               style={{
                 width: "10em",
-                backgroundColor: "#4263EB"
+                backgroundColor: "#4263EB",
               }}
               onClick={() => {
                 // history.push(`/listing/${listing._id}`);
                 window.location.assign(`/listing/${listing._id}`);
               }}
             >
-              View Buy
+              View
             </Button>
           </td>
         </tr>

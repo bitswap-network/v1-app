@@ -10,7 +10,13 @@ import {
 } from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
-import { FiHome, FiUploadCloud, FiInbox, FiDollarSign } from "react-icons/fi";
+import {
+  FiHome,
+  FiUploadCloud,
+  FiInbox,
+  FiDollarSign,
+  FiHelpCircle,
+} from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -245,17 +251,21 @@ export const NavBar: React.FC = (props: any) => {
                   placement="top"
                   delay={{ show: 100, hide: 300 }}
                   overlay={renderTooltip}
-                  trigger="hover"
                 >
                   <p style={{ fontSize: "0.85rem" }}>
                     {isLoggedIn && (
-                      <b>
-                        Balance:{" "}
-                        {isLoading || isError
-                          ? user.bitswapbalance.toFixed(2)
-                          : userData.bitswapbalance.toFixed(2)}{" "}
-                        $BCLT
-                      </b>
+                      <>
+                        <b>
+                          Balance:{" "}
+                          {isLoading || isError
+                            ? user.bitswapbalance.toFixed(2)
+                            : userData.bitswapbalance.toFixed(2)}{" "}
+                          $BCLT
+                        </b>
+                        <FiHelpCircle
+                          style={{ marginTop: "-2px", marginLeft: "12px" }}
+                        />
+                      </>
                     )}
                   </p>
                 </OverlayTrigger>

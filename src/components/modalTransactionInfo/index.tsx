@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
-import { RiUser3Line } from "react-icons/ri";
-import { ListingSchema } from "../interfaces";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import StyledContentLoader from "styled-content-loader";
-import MD5 from "crypto-js/md5";
-import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "../../store";
 import { useRecoilValue } from "recoil";
 import { TransactionSchema } from "../interfaces";
-import { FiCodesandbox, FiActivity, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
+import config from "../../helpers/config.json";
 
 interface TxnModal {
   transaction: TransactionSchema;
@@ -181,7 +175,7 @@ const TransactionModal: React.FC<TxnModal> = (
                       fontWeight: "bold",
                     }}
                   >
-                    BC1YLiYo25DLiUf9XfNPWD4EPcuZkUTFnRCeq9RjRum1gkaYJ2K4Vu1
+                    {config.bclt_address}
                   </p>
                   <p style={{ fontSize: "0.7rem", marginBottom: "2%" }}>
                     Do NOT send duplicate deposits.

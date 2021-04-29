@@ -19,6 +19,7 @@ import {
   FiChevronDown,
   FiDollarSign,
   FiBox,
+  FiHelpCircle,
 } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { Redirect } from "react-router-dom";
@@ -26,14 +27,7 @@ import MediaQuery from "react-responsive";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
 import { useRecoilValue, useRecoilState } from "recoil";
-import {
-  MainContent,
-  Wrapper,
-  DesktopButton,
-  MobileButton,
-  FeedContent,
-  SearchBarWrapper,
-} from "./styles";
+import { MainContent, Wrapper, FeedContent } from "./styles";
 import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
@@ -69,7 +63,6 @@ const Home = (props: any) => {
         console.log(err);
         setLoading(false);
       });
-    console.log(window.visualViewport.width);
   }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
@@ -92,10 +85,6 @@ const Home = (props: any) => {
   if (user && !isLoggedIn) {
     window.location.assign("/login");
   }
-
-  // const closeModal = () => {
-  //   setOpenModal(false);
-  // };
 
   return (
     <>
@@ -242,14 +231,17 @@ const Home = (props: any) => {
             {userData && (
               <>
                 <Row>
+                  <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                    Ongoing Swaps
+                  </h5>
                   <OverlayTrigger
-                    placement="right"
+                    placement="left"
                     delay={{ show: 100, hide: 300 }}
                     overlay={ongoingSwapTooltip}
                   >
-                    <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
-                      Ongoing Swaps
-                    </h5>
+                    <FiHelpCircle
+                      style={{ marginTop: "0px", marginLeft: "12px" }}
+                    />
                   </OverlayTrigger>
                 </Row>
 
@@ -295,14 +287,17 @@ const Home = (props: any) => {
                 </div>
 
                 <Row style={{ marginTop: "7.5%" }}>
+                  <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
+                    Ongoing Buy
+                  </h5>
                   <OverlayTrigger
-                    placement="right"
+                    placement="left"
                     delay={{ show: 100, hide: 300 }}
                     overlay={ongoingBuysTooltip}
                   >
-                    <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
-                      Ongoing Buy
-                    </h5>
+                    <FiHelpCircle
+                      style={{ marginTop: "0px", marginLeft: "12px" }}
+                    />
                   </OverlayTrigger>
                 </Row>
                 <Row>

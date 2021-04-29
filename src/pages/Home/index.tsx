@@ -55,7 +55,7 @@ const Home = (props: any) => {
   // console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
-      .then((res) => {
+      .then(res => {
         // console.log(res);
         setListings(res.data);
         setLoading(false);
@@ -105,7 +105,7 @@ const Home = (props: any) => {
                     ? {
                         marginLeft: "1rem",
                         fontSize: "1.5rem",
-                        marginBottom: "2rem",
+                        marginBottom: "2rem"
                       }
                     : { marginLeft: "1rem" }
                 }
@@ -151,7 +151,7 @@ const Home = (props: any) => {
                       ? {
                           background: "transparent",
                           maxHeight: "77vh",
-                          overflowX: "hidden",
+                          overflowX: "hidden"
                         }
                       : { background: "transparent", maxHeight: "65vh" }
                   }
@@ -193,9 +193,6 @@ const Home = (props: any) => {
                     }
                   : {
                       display: "none"
-                    }
-                  : {
-                      display: "none",
                     }
               }
             />

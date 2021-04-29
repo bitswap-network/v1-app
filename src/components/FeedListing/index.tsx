@@ -43,7 +43,7 @@ const Listing: React.FC<FeedListing> = (
   const closeError = () => {
     setError(false);
   };
-  console.log(listing);
+  // console.log(listing);
 
   const closeModal = () => {
     setOpenModal(false);
@@ -73,48 +73,51 @@ const Listing: React.FC<FeedListing> = (
       <StyledContentLoader isLoading={false}>
         <Wrapper key={index} style={{ backgroundColor: "transparent" }}>
           <table
-            style={window.visualViewport.width > 768 ? { width: "110%", marginTop: "-3%", overflowX: "hidden" }: {width: "150%", marginTop: "-6%",overflowX: "visible"}}
+            style={
+              window.visualViewport.width > 768
+                ? { width: "110%", marginTop: "-3%", overflowX: "hidden" }
+                : { width: "150%", marginTop: "-6%", overflowX: "visible" }
+            }
           >
-             <tr style={index == 0 ? {} : {display: "none"}}>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: getFontSize(0.5, 8),
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Username
-                        </td>
+            <tr style={index == 0 ? {} : { display: "none" }}>
+              <td
+                style={{
+                  paddingBottom: "5%",
+                  fontSize: getFontSize(0.5, 8),
+                  color: "#C4C4C4",
+                }}
+              >
+                Username
+              </td>
 
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize:  getFontSize(0.5, 8),
-                            color: "#C4C4C4",
-                          }}
-                        >
-                        </td>
+              <td
+                style={{
+                  paddingBottom: "5%",
+                  fontSize: getFontSize(0.5, 8),
+                  color: "#C4C4C4",
+                }}
+              ></td>
 
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: getFontSize(0.5, 8),
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Offer
-                        </td>
-                        
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: getFontSize(0.5, 8),
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
+              <td
+                style={{
+                  paddingBottom: "5%",
+                  fontSize: getFontSize(0.5, 8),
+                  color: "#C4C4C4",
+                }}
+              >
+                Offer
+              </td>
+
+              <td
+                style={{
+                  paddingBottom: "5%",
+                  fontSize: getFontSize(0.5, 8),
+                  color: "#C4C4C4",
+                }}
+              >
+                Posted Time
+              </td>
+            </tr>
             <tr>
               <td style={{ width: "10%" }}>
                 <img
@@ -146,7 +149,10 @@ const Listing: React.FC<FeedListing> = (
               <Button
                 style={{
                   width: getFontSize(6, 15),
-                  height: getFontSize(2.5, window.visualViewport.width < 768 ? 13 : 2),
+                  height: getFontSize(
+                    2.5,
+                    window.visualViewport.width < 768 ? 13 : 2
+                  ),
                   backgroundColor: "#4263EB",
                   borderColor: "white",
                   fontSize: getFontSize(0.8, 3),

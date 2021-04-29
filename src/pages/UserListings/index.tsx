@@ -10,7 +10,6 @@ import {
   FormControl,
   Modal,
 } from "react-bootstrap";
-import env from "../../components/data/env.json";
 import UserListing from "../../components/UserListing";
 import { ListingSchema } from "../../components/interfaces";
 
@@ -97,7 +96,7 @@ const UserListings = (props: any) => {
         .then((response) => {
           setSubmitLoad(false);
           setPostSuccess(true);
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           setPostError(true);

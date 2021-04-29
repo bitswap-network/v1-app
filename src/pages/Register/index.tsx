@@ -4,7 +4,6 @@ import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import env from "../../components/data/env.json";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
@@ -77,7 +76,7 @@ const Register = (props: any) => {
     } else if (form.username.length !== 0) {
       getProfile(form.username)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setProfileObj(response);
           setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
           setPageState(1);

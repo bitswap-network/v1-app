@@ -3,7 +3,6 @@ import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import env from "../../components/data/env.json";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -47,10 +46,10 @@ const SpecificListing = (
         });
     }
   };
-  console.log(listing, user);
+  // console.log(listing, user);
   useEffect(() => {
     if (isLoggedIn && match.params.id) {
-      console.log("setting listing");
+      // console.log("setting listing");
       getListing(user.token, match.params.id)
         .then((response) => {
           console.log(response.data);
@@ -578,10 +577,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p>
+                          </p> */}
                         </>
                       ) : (
                         <>
@@ -592,10 +591,10 @@ const SpecificListing = (
                             <b>Ethereum Txn ID:</b> <br></br>
                             {listing.finalTransactionId}
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                          {/* <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             <b>Bitclout Txn ID:</b> <br></br>
                             {listing.bitcloutTransactionId}
-                          </p>
+                          </p> */}
                         </>
                       )}
                     </Col>

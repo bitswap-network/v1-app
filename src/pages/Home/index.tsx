@@ -33,7 +33,6 @@ import OngoingItem from "components/OngoingItem";
 import ModalError from "components/modalError/index";
 import { getFontSize } from "../../helpers/styling";
 
-
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
     These are listings you have made that are currently in progress
@@ -53,11 +52,11 @@ const Home = (props: any) => {
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
-  console.log("user data", userData, user);
+  // console.log("user data", userData, user);
   useEffect(() => {
     getListings(volumeSort, dateSort)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setListings(res.data);
         setLoading(false);
       })
@@ -103,7 +102,11 @@ const Home = (props: any) => {
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "1rem", fontSize: "1.5rem", marginBottom: "2rem" }
+                    ? {
+                        marginLeft: "1rem",
+                        fontSize: "1.5rem",
+                        marginBottom: "2rem",
+                      }
                     : { marginLeft: "1rem" }
                 }
               >
@@ -143,15 +146,19 @@ const Home = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={window.visualViewport.width > 768 ? {
-                    background: "transparent",
-                    maxHeight: "77vh",
-                    overflowX: "hidden",
-                  }: {background: "transparent", maxHeight: "65vh"}}
+                  style={
+                    window.visualViewport.width > 768
+                      ? {
+                          background: "transparent",
+                          maxHeight: "77vh",
+                          overflowX: "hidden",
+                        }
+                      : { background: "transparent", maxHeight: "65vh" }
+                  }
                 >
-                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                 
-                  </Row>
+                  <Row
+                    style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}
+                  ></Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 
                   {listings.map((listing: any, i: number) => (
@@ -184,17 +191,18 @@ const Home = (props: any) => {
                       paddingRight: 0,
                       width: "2rem",
                     }
-                    :
-
-                  {
-                    display: "none",
-                  }
+                  : {
+                      display: "none",
+                    }
               }
             />
           </Row>
         </Col>
         {isLoggedIn ? (
-          <Col sm={4} style={ window.visualViewport.width > 768 ? { marginTop: "6%" } : {}}>
+          <Col
+            sm={4}
+            style={window.visualViewport.width > 768 ? { marginTop: "6%" } : {}}
+          >
             {userData && (
               <>
                 <Row>

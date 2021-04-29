@@ -273,7 +273,7 @@ const Wallet = (props: any) => {
             : {
                 display: "flex",
                 flexDirection: "row",
-                marginLeft: "0.3rem"
+                marginLeft: "0.3rem",
               }
         }
       >
@@ -460,10 +460,19 @@ const Wallet = (props: any) => {
                   confirmModalOpen(true);
                   preFlight();
                 }}
-                disabled={withdrawError || amount === 0}
+                disabled={
+                  withdrawError ||
+                  amount === 0 ||
+                  userData?.verified !== "verified"
+                }
               >
                 Confirm {transactionType}
               </Button>
+              {userData?.verified !== "verified" && (
+                <Col>
+                  <p style={{ color: "red" }}>Profile Verification Required</p>
+                </Col>
+              )}
             </Row>
           </Col>
 

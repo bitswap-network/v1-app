@@ -239,10 +239,32 @@ export const NavBar: React.FC = (props: any) => {
                   </Row>
                 </>
               )}
-
               <Row
                 style={{
-                  marginTop: "30vh",
+                  marginTop: "27vh",
+                  textAlign: "left",
+                  width: "200%",
+                }}
+              >
+                {isLoggedIn && userData?.verified !== "verified" && (
+                  <>
+                    <div
+                      style={{
+                        textAlign: "center",
+                      }}
+                      className="hoverCursor"
+                      onClick={() => window.location.assign("/profile")}
+                    >
+                      <p style={{ fontWeight: "bold", color: "red" }}>
+                        Verify profile
+                      </p>
+                    </div>
+                  </>
+                )}
+              </Row>
+              <Row
+                style={{
+                  marginTop: "2vh",
                   textAlign: "left",
                   width: "200%",
                 }}

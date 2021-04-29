@@ -408,7 +408,7 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Escrow has recieved your transfer of
+                              Escrow has received your transfer of{" "}
                               {listing.etheramount.toFixed(8)} $ETH
                             </p>
                           </Col>
@@ -478,11 +478,12 @@ const SpecificListing = (
                       </p>
                       <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                         <b>Ethereum Txn ID:</b> <br></br>
-                        {listing.finalTransactionId}
-                      </p>
-                      <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                        <b>Bitclout Txn ID:</b> <br></br>
-                        {listing.bitcloutTransactionId}
+                        <a
+                          href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
+                          target={"_blank"}
+                        >
+                          {listing.finalTransactionId}
+                        </a>
                       </p>
                     </Col>
                   ) : (

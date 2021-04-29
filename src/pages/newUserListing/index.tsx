@@ -387,11 +387,12 @@ const NewListing = (props: any) => {
       </>
       <Wrapper>
         <NavBar />
-        <Col          
+        <Col
           sm={12}
           md={8}
           lg={8}
-          xl={window.visualViewport.width > 1600 ? 11 : 8}>
+          xl={window.visualViewport.width > 1600 ? 11 : 8}
+        >
           <MainContent>
             <Row>
               <h3
@@ -514,18 +515,16 @@ const NewListing = (props: any) => {
                       paddingRight: 0,
                       width: "2rem",
                     }
-                    :
-
-                  {
-                    display: "none",
-                  }
+                  : {
+                      display: "none",
+                    }
               }
             />
           </Row>
         </Col>
         {isLoggedIn ? (
           <Col sm={3} style={{ marginTop: "6%" }}>
-            {true && (
+            {userData?.verified === "verified" && (
               <>
                 <Row>
                   <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>

@@ -190,7 +190,6 @@ const Listing: React.FC<UserListing> = (
           </td>
         </tr>
         <tr>
-          <td style={{ width: "3%" }}></td>
           <td style={{ fontSize: "0.8rem", width: "25%" }}>
             {listing.buyer ? (
               <>

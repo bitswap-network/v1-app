@@ -450,42 +450,7 @@ const NewListing = (props: any) => {
                   }
                 >
                   <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <table style={{ width: "100%" }}>
-                      <tr>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "25%",
-                          }}
-                        >
-                          Transactor
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "27%",
-                          }}
-                        >
-                          Offer
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
-                      <tr></tr>
-                    </table>
+                  
                   </Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 

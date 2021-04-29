@@ -246,7 +246,7 @@ export const NavBar: React.FC = (props: any) => {
                   width: "200%",
                 }}
               >
-                {userData?.verified !== "verified" && (
+                {isLoggedIn && userData?.verified !== "verified" && (
                   <>
                     <div
                       style={{

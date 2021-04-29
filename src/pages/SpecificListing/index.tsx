@@ -431,7 +431,7 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Escrow has recieved your transfer of{" "}
+                              Escrow has received your transfer of{" "}
                               {listing.etheramount.toFixed(8)} $ETH
                             </p>
                           </Col>

@@ -10,13 +10,12 @@ import {
 } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import env from "../../components/data/env.json";
 import { Redirect } from "react-router-dom";
 import MD5 from "crypto-js/md5";
 import StyledContentLoader from "styled-content-loader";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
-// const Web3 = require("web3");
+const Web3 = require("web3");
 
 const Admin = (props: any) => {
   const user = useRecoilValue(userState);

@@ -86,7 +86,7 @@ const Wallet = (props: any) => {
     } else {
       setWithdrawError(false);
     }
-    console.log(amount, typeof amount);
+    // console.log(amount, typeof amount);
   };
 
   const getMax = () => {
@@ -94,7 +94,7 @@ const Wallet = (props: any) => {
       if (userData.bitswapbalance > 0) {
         preFlightTxn(user.token, userData.bitswapbalance)
           .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setMax(
               userData.bitswapbalance - parseInt(response.data.FeeNanos) / 1e9
             );
@@ -147,7 +147,7 @@ const Wallet = (props: any) => {
   const preFlight = () => {
     preFlightTxn(user.token, amount)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setFees(parseInt(response.data.FeeNanos));
       })
       .catch((error) => {
@@ -302,7 +302,11 @@ const Wallet = (props: any) => {
                     overlay={renderTooltip}
                   >
                     <FiHelpCircle
-                      style={window.visualViewport.width > 768 ? { marginTop: "-8px", marginLeft: "12px" }: {display: "none"}}
+                      style={
+                        window.visualViewport.width > 768
+                          ? { marginTop: "-8px", marginLeft: "12px" }
+                          : { display: "none" }
+                      }
                     />
                   </OverlayTrigger>
                 </h3>
@@ -379,7 +383,11 @@ const Wallet = (props: any) => {
                   Deposit
                 </p>
               </Col>
-              <Col style={window.visualViewport.width > 768 ? { marginLeft: "5%" }: {}}>
+              <Col
+                style={
+                  window.visualViewport.width > 768 ? { marginLeft: "5%" } : {}
+                }
+              >
                 <p
                   style={{
                     color:
@@ -481,27 +489,29 @@ const Wallet = (props: any) => {
               <div
                 style={
                   window.visualViewport.width > 768
-                  ? {
-                      borderRight: "1px solid #DDE2E5",
-                      height: "100vh",
-                      paddingRight: 0,
-                      width: "2rem",
-                    }
-                    :
-
-                  {
-                    display: "none",
-                  }
-
+                    ? {
+                        borderRight: "1px solid #DDE2E5",
+                        height: "100vh",
+                        paddingRight: 0,
+                        width: "2rem",
+                      }
+                    : {
+                        display: "none",
+                      }
                 }
-                
               />
             </Row>
           </Col>
 
           <Col sm={4} style={{ marginTop: "6%" }}>
             <Row>
-              <h5 style={window.visualViewport.width > 768 ? { fontWeight: 600, marginLeft: "10%" }: {marginTop: "10%",fontWeight: 600, marginLeft: "10%" }}>
+              <h5
+                style={
+                  window.visualViewport.width > 768
+                    ? { fontWeight: 600, marginLeft: "10%" }
+                    : { marginTop: "10%", fontWeight: 600, marginLeft: "10%" }
+                }
+              >
                 Transactions
               </h5>
             </Row>

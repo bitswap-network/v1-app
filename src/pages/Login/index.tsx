@@ -58,7 +58,7 @@ const Login = (props: any) => {
         if (response.status === 200) {
           saveData("user", JSON.stringify(response.data));
           setUser(response.data);
-          console.log(response.data);
+          // console.log(response.data);
           window.location.assign("/");
         } else {
           setError(response.data);

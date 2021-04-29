@@ -1,44 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  InputGroup,
-  FormControl,
-  Modal,
-} from "react-bootstrap";
+import { Row, Col, Button, Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
-import FeedListing from "../../components/FeedListing";
 import { ListingSchema } from "../../components/interfaces";
-import {
-  FiBookmark,
-  FiX,
-  FiChevronUp,
-  FiChevronDown,
-  FiDollarSign,
-  FiBox,
-} from "react-icons/fi";
+import { FiDollarSign, FiBox } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
-import { Redirect } from "react-router-dom";
-import MediaQuery from "react-responsive";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
 import { useRecoilValue, useRecoilState } from "recoil";
-import {
-  MainContent,
-  Wrapper,
-  DesktopButton,
-  MobileButton,
-  FeedContent,
-  SearchBarWrapper,
-} from "./styles";
+import { MainContent, Wrapper, FeedContent } from "./styles";
 import { useUser, useEthPrice, useGasPrice } from "components/hooks";
-import OngoingItem from "components/OngoingItem";
-import ModalError from "components/modalError/index";
 import UserListing from "../../components/UserListing";
-import { convertToObject } from "typescript";
-
 const NewListing = (props: any) => {
   const user = useRecoilValue(userState);
   const { userData, isLoading, isError } = useUser(user?.token);
@@ -65,7 +36,7 @@ const NewListing = (props: any) => {
 
   useEffect(() => {
     if (gasPrice) {
-      console.log(gasPrice);
+      // console.log(gasPrice);
       setGas((gasPrice.average / 1e10) * 21000);
     }
   }, [gasIsLoading]);
@@ -89,7 +60,7 @@ const NewListing = (props: any) => {
         .then((response) => {
           setSubmitLoad(false);
           setPostSuccess(true);
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           setPostError(true);
@@ -398,7 +369,7 @@ const NewListing = (props: any) => {
               <h3
                 style={
                   window.visualViewport.width <= 768
-                    ? { marginLeft: "3rem", fontSize: "1.5rem" }
+                    ? { marginLeft: "1rem", fontSize: "1.5rem" }
                     : { marginLeft: "1rem" }
                 }
               >
@@ -439,66 +410,38 @@ const NewListing = (props: any) => {
               <Col>
                 <div
                   className="scrollNoBar"
-                  style={{
-                    background: "transparent",
-                    minHeight: "75vh",
-                    overflowX: "hidden",
-                  }}
+                  style={
+                    window.visualViewport.width > 768
+                      ? {
+                          background: "transparent",
+                          maxHeight: "77vh",
+                          overflowX: "hidden",
+                        }
+                      : { background: "transparent", maxHeight: "65vh" }
+                  }
                 >
-                  <Row style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}>
-                    <table style={{ width: "100%" }}>
-                      <tr>
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "25%",
-                          }}
-                        >
-                          Transactor Name
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                            width: "27%",
-                          }}
-                        >
-                          Offer
-                        </td>
-
-                        <td
-                          style={{
-                            paddingBottom: "5%",
-                            fontSize: "0.8em",
-                            color: "#C4C4C4",
-                          }}
-                        >
-                          Posted Time
-                        </td>
-                      </tr>
-                      <tr></tr>
-                    </table>
-                  </Row>
+                  <Row
+                    style={{ marginBottom: "-1.2em", marginLeft: "1.3em" }}
+                  ></Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 
                   {!isLoading &&
-                    tableData?.map((listing: any, i: number) => {
-                      return (
-                        <>
-                          <UserListing
-                            listing={listing}
-                            index={i}
-                            history={props.history}
-                            loading={loading}
-                            buy={true}
-                          />
-                        </>
-                      );
-                    })}
+                    tableData
+                      ?.slice(0)
+                      .reverse()
+                      .map((listing: any, i: number) => {
+                        return (
+                          <>
+                            <UserListing
+                              listing={listing}
+                              index={i}
+                              history={props.history}
+                              loading={loading}
+                              buy={true}
+                            />
+                          </>
+                        );
+                      })}
                 </div>
               </Col>
             </FeedContent>

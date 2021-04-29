@@ -4,7 +4,6 @@ import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import env from "../../components/data/env.json";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
@@ -17,7 +16,7 @@ import {
   HaveAnAccountText,
   UserField,
   RegisterButton,
-  MobileLogo
+  MobileLogo,
 } from "./styles";
 import { register, getProfile } from "services/auth";
 import { FaCheckCircle } from "react-icons/fa";
@@ -35,7 +34,7 @@ const Register = (props: any) => {
     bitcloutpubkey: false,
     ethereumaddress: false,
     password: false,
-    confirmPassword: false
+    confirmPassword: false,
   });
 
   const [creationerror, setCreationerror] = useState(false);
@@ -47,13 +46,13 @@ const Register = (props: any) => {
     bitcloutpubkey: "" as string,
     ethereumaddress: "" as string,
     password: "" as string,
-    confirmPassword: "" as string
+    confirmPassword: "" as string,
   });
 
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
     setError({
       username: false,
@@ -61,7 +60,7 @@ const Register = (props: any) => {
       bitcloutpubkey: false,
       ethereumaddress: false,
       password: false,
-      confirmPassword: false
+      confirmPassword: false,
     });
     setCreationerror(false);
   };
@@ -71,22 +70,22 @@ const Register = (props: any) => {
     if (form.username.length === 0) {
       setError({
         ...error,
-        username: true
+        username: true,
       });
       setLoading(false);
     } else if (form.username.length !== 0) {
       getProfile(form.username)
-        .then(response => {
-          console.log(response);
+        .then((response) => {
+          // console.log(response);
           setProfileObj(response);
           setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
           setPageState(1);
           setLoading(false);
         })
-        .catch(error => {
-          console.log(error);
+        .catch((error) => {
+          console.log(error.response);
           setLoading(false);
-          setErrorMsg("Unable to find profile");
+          setErrorMsg(error.response.data);
         });
     }
   };
@@ -100,7 +99,7 @@ const Register = (props: any) => {
       email: !regEmail.test(form.email) ? true : false,
       bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
       ethereumaddress: form.ethereumaddress.length !== 42 ? true : false,
-      password: form.password !== form.confirmPassword
+      password: form.password !== form.confirmPassword,
     });
 
     if (
@@ -134,7 +133,7 @@ const Register = (props: any) => {
           setSuccessful(true);
           setLoading(false);
         })
-        .catch(error => {
+        .catch((error) => {
           setLoading(false);
           if (error.response) {
             if (error.response.status === 429) {
@@ -215,6 +214,9 @@ const Register = (props: any) => {
         {!successful && pageState === 0 && (
           <>
             <div style={{ marginTop: "1rem" }}>
+              <p style={{ color: "red", fontSize: "0.7rem" }}>
+                Note: Only whitelisted usernames can register right now.
+              </p>
               <p>Let's start off by importing your BitClout profile.</p>
               <UserField>
                 <Col>
@@ -261,7 +263,7 @@ const Register = (props: any) => {
                   padding: "2%",
                   borderRadius: "5px",
                   boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                  width: "100%"
+                  width: "100%",
                 }}
               >
                 <Row style={{ textAlign: "left" }}>

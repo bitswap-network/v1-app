@@ -36,8 +36,8 @@ const NewListing = (props: any) => {
 
   useEffect(() => {
     if (gasPrice) {
-      // console.log(gasPrice);
-      setGas((gasPrice.average / 1e10) * 21000);
+      console.log(gasPrice);
+      setGas((gasPrice.ProposeGasPrice / 1e9) * 21000);
     }
   }, [gasIsLoading]);
   const submitPost = () => {

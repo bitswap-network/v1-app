@@ -49,10 +49,11 @@ const UserListings = (props: any) => {
 
   console.log(gasPrice);
   useEffect(() => {
-    if (gasPrice && !gasIsError && !gasIsLoading) {
-      setGas((gasPrice.average / 1e10) * 21000);
+    if (gasPrice) {
+      console.log(gasPrice);
+      setGas((gasPrice.ProposeGasPrice / 1e9) * 21000);
     }
-  }, []);
+  }, [gasIsLoading]);
   const handleBitcloutChange = (e) => {
     setusdPerBitclout(e.target.value);
     if (parseFloat(e.target.value) <= 0) {

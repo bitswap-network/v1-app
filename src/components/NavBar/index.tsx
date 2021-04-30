@@ -148,8 +148,21 @@ export const NavBar: React.FC = (props: any) => {
                 <Nav.Link href="/userlistings">My Listings</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/wallet">My Wallet</Nav.Link>
+                {isLoggedIn && userData?.admin && (
+                  <Nav.Link
+                    onClick={() => window.location.assign("/admin")}
+                    style={{ color: "red" }}
+                  >
+                    Admin
+                  </Nav.Link>
+                )}
                 {isLoggedIn && userData?.verified !== "verified" && (
-                  <Nav.Link onClick={() => window.location.assign("/profile")} style={{color: "red"}}>Verify Profile</Nav.Link>
+                  <Nav.Link
+                    onClick={() => window.location.assign("/profile")}
+                    style={{ color: "red" }}
+                  >
+                    Verify Profile
+                  </Nav.Link>
                 )}
                 <div onClick={() => window.location.replace(`/logout`)}>
                   <Nav.Link href="/logout" style={{ color: "red" }}>
@@ -244,7 +257,7 @@ export const NavBar: React.FC = (props: any) => {
               )}
               <Row
                 style={{
-                  marginTop: "27vh",
+                  marginTop: "25vh",
                   textAlign: "left",
                   width: "200%",
                 }}
@@ -261,6 +274,27 @@ export const NavBar: React.FC = (props: any) => {
                       <p style={{ fontWeight: "bold", color: "red" }}>
                         Verify profile
                       </p>
+                    </div>
+                  </>
+                )}
+              </Row>
+              <Row
+                style={{
+                  marginTop: "2vh",
+                  textAlign: "left",
+                  width: "200%",
+                }}
+              >
+                {isLoggedIn && userData?.admin && (
+                  <>
+                    <div
+                      style={{
+                        textAlign: "center",
+                      }}
+                      className="hoverCursor"
+                      onClick={() => window.location.assign("/admin")}
+                    >
+                      <p style={{ fontWeight: "bold", color: "red" }}>Admin</p>
                     </div>
                   </>
                 )}

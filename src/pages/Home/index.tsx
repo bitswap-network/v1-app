@@ -75,7 +75,7 @@ const Home = (props: any) => {
     <>
         <>
         <Modal
-          show={true}
+          show={false}
           onHide={false}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
@@ -83,14 +83,15 @@ const Home = (props: any) => {
           size={'lg'}
         >
           <Modal.Body>
-            <Col className="hoverCursor">
+            <Col>
             <FiX
-              size={"1.5rem"}
+              size={"2rem"}
               style={{
                 float: "right",
                 marginRight: "0.75rem",
                 marginTop: "1rem",
                 color: "#ACB5BD",
+                cursor: "pointer",
               }}
               onClick={() => setIntroModal(false)}
             />
@@ -106,8 +107,8 @@ const Home = (props: any) => {
                   </p>
                   <Slider 
                     style={{color: "#4263EB", width: "90%"}}   
-                    aria-labelledby="range-slider"
                     marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
+
                   />
                 </Col>
                 <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>

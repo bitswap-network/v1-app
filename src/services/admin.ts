@@ -14,3 +14,10 @@ export const getTotalVolume = async () => {
 export const getAvgPrice = async () => {
   return await axios.get(`${url}/utility/avgprice`);
 };
+
+export const getPendingTransactions = async (token: string) => {
+  return await axios.get(`${url}/utility/pendingtxns`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+

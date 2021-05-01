@@ -8,8 +8,10 @@ import { Redirect } from "react-router-dom";
 import StyledContentLoader from "styled-content-loader";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
-import { getLogs, getTotalVolume, getAvgPrice } from "../../services/admin";
+import { getLogs, getTotalVolume, getAvgPrice, getPendingTransactions } from "../../services/admin";
 import TransactionModal from "../../components/modalTransactionInfo";
+import { TransactionSchema } from "../../components/interfaces";
+
 
 
 const Web3 = require("web3");
@@ -23,6 +25,13 @@ const Admin = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [volume, setVolume] = useState(null);
   const [avgprice, setAvgprice] = useState(null);
+  const [pendingTransactions, setPendingTransactions] = useState(null);
+  const [txnView, setTxnView] = useState<TransactionSchema>();
+  const [transactionModal, setTransactionModal] = useState(false);
+  const [showLogs, setShowLogs] = useState(false)
+
+
+
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
 
   useEffect(() => {
@@ -42,6 +51,7 @@ const Admin = (props: any) => {
       .catch((error) => {
         console.log(error.data);
       });
+    getPendingTransaction()
   }, [userData]);
 
   if (!isLoggedIn) {
@@ -58,7 +68,12 @@ const Admin = (props: any) => {
     }
   }
 
+  const closeModal = () => {
+    setTransactionModal(false);
+  };
+
   const getAndSetLogs = () => {
+    setShowLogs(true);
     getLogs(user.token, logType)
       .then((response) => {
         console.log(response);
@@ -69,14 +84,26 @@ const Admin = (props: any) => {
       });
   };
 
+  const getPendingTransaction = () => {
+    getPendingTransactions(user.token)
+    .then((resp) => {
+      console.log("SUS ")
+      console.log(resp)
+      setPendingTransactions(resp.data);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   return (
     <>
     <>
-    {/* <TransactionModal
-          transaction={txnId}
-          open={true}
-          close={false}
-        /> */}
+    <TransactionModal
+          transaction={txnView}
+          open={transactionModal}
+          close={closeModal}
+        />
     </>
     <StyledContentLoader isLoading={loading}>
       <Container
@@ -160,7 +187,7 @@ const Admin = (props: any) => {
                 View Logs
               </Button>
               <Button
-                onClick={() => setLogs(null)}
+                onClick={() => {setLogs(null); setShowLogs(false)}}
                 size="sm"
                 variant="danger"
                 style={{ marginLeft: "1rem" }}
@@ -204,16 +231,20 @@ const Admin = (props: any) => {
                 <TextField value={logs} multiline fullWidth rowsMax={20} />
               )}
               
-              {logType == "pending" ? (     
-                  <div className="scrollNoBar" style={{maxHeight: "56vh"}}>
-        
-                  <React.Fragment >
+              {showLogs && logType == "pending" ? (     
+                <div className="scrollNoBar" style={{maxHeight: "53vh", marginTop: "3%"}}>
+                <b>Amount of Pending Transactions: {pendingTransactions.length}</b>
+                {pendingTransactions
+                  .slice(0)
+                  .reverse()
+                  .map((transaction, index) => (
+                  <React.Fragment key={index}>
                   <Row style={{float: "left"}}>
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "30rem",
-                        marginTop: "4%"
+                        width: "40rem",
+                        marginTop: "2%"
 
                       }}
                     />
@@ -221,7 +252,7 @@ const Admin = (props: any) => {
                   <Row style={{ marginTop: "6%", marginLeft: "1%" }}>
                     <Col sm={2}>
                       <p style={{ color: "#495057" }}>
-                        {"withdraw"}
+                        {transaction.transactiontype}
                       </p>
                     </Col>
                     <Col sm={2}>
@@ -240,12 +271,29 @@ const Admin = (props: any) => {
                       
                      
                     </Col>
+                    <Col sm={3}>
+                        <div
+                          style={{
+                            borderRadius: "3px",
+                            backgroundColor: "#DDE2E5",
+                            textAlign: "center",
+                            marginRight: "10%"
+                          }}
+                        >
+                          <p style={{ fontSize: "0.8em", padding: "1px" }}>
+                            Amount: {transaction.bitcloutnanos / 1e9} $BCLT
+                          </p>
+                        </div>
+                      
+                     
+                    </Col>
                     <Col>
-                      <div
+                    <div
                         onClick={() => {
-
+                          setTxnView(transaction);
+                          setTransactionModal(true);
                         }}
-                      >
+                    >
                         <p
                           className="hoverCursor"
                           style={{ color: "#4263EB", fontSize: "1rem" }}
@@ -255,7 +303,7 @@ const Admin = (props: any) => {
                       </div>
                     </Col>
                   </Row>
-                </React.Fragment>
+                </React.Fragment>))}
 
               
             

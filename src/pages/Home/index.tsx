@@ -35,6 +35,8 @@ const Home = (props: any) => {
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
   const [introModal, setIntroModal] = useState(false);
+  const [filterModal, setFilterModal] = useState(false);
+
   useEffect(() => {
     getListings(volumeSort, dateSort)
       .then((res) => {
@@ -75,7 +77,7 @@ const Home = (props: any) => {
     <>
         <>
         <Modal
-          show={false}
+          show={filterModal}
           onHide={false}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
@@ -227,8 +229,8 @@ const Home = (props: any) => {
               </MobileButton>
             </MediaQuery>  */}
             <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
-              <FiFilter className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
-              <p  className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
+              <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
+              <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
             </Row>
             <FeedContent>
               <Col>

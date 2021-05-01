@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Modal, Button,} from "react-bootstrap";
+import {
+  Row,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+  Modal,
+  Button,
+} from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import Slider from "@material-ui/core/Slider";
 
@@ -72,112 +79,151 @@ const Home = (props: any) => {
   }
 
   return (
-
-
     <>
-        <>
+      <>
         <Modal
           show={filterModal}
           onHide={false}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          size={'lg'}
+          size={"lg"}
         >
           <Modal.Body>
             <Col>
-            <FiX
-              size={"2rem"}
-              style={{
-                float: "right",
-                marginRight: "0.75rem",
-                marginTop: "1rem",
-                color: "#ACB5BD",
-                cursor: "pointer",
-              }}
-              onClick={() => setIntroModal(false)}
-            />
+              <FiX
+                size={"2rem"}
+                style={{
+                  float: "right",
+                  marginRight: "0.75rem",
+                  marginTop: "1rem",
+                  color: "#ACB5BD",
+                  cursor: "pointer",
+                }}
+                onClick={() => setIntroModal(false)}
+              />
             </Col>
-            <Col style={{ textAlign: "left"}}>
-              <p style={{fontSize: "1.75rem", fontWeight: 700, marginTop: "3%", marginLeft: "5%"}}>Filter Results</p>
+            <Col style={{ textAlign: "left" }}>
+              <p
+                style={{
+                  fontSize: "1.75rem",
+                  fontWeight: 700,
+                  marginTop: "3%",
+                  marginLeft: "5%",
+                }}
+              >
+                Filter Results
+              </p>
             </Col>
-            <Col style={{ marginTop: "4%", marginLeft: "7%", }}>
-              <Row style={{width: "100%"}}>
-                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>
-                  <p style={{color: "#4263EB", fontSize: "1.05rem" }}>
+            <Col style={{ marginTop: "4%", marginLeft: "7%" }}>
+              <Row style={{ width: "100%" }}>
+                <Col
+                  style={{
+                    border: "0.05rem solid #4263EB",
+                    fontWeight: 700,
+                    borderRadius: 6,
+                    marginRight: "10%",
+                    paddingLeft: "4.5%",
+                    paddingBottom: "3%",
+                    paddingTop: "3.5%",
+                  }}
+                >
+                  <p style={{ color: "#4263EB", fontSize: "1.05rem" }}>
                     Offer Size
                   </p>
-                  <Slider 
-                    style={{color: "#4263EB", width: "90%"}}   
-                    marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
-
+                  <Slider
+                    style={{ color: "#4263EB", width: "90%" }}
+                    marks={[
+                      { value: 5, label: "$0.01" },
+                      { value: 90, label: "$100 000" },
+                    ]}
                   />
                 </Col>
-                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>
-                  <p style={{color: "#4263EB", fontSize: "1.05rem" }}>
+                <Col
+                  style={{
+                    border: "0.05rem solid #4263EB",
+                    fontWeight: 700,
+                    borderRadius: 6,
+                    marginRight: "10%",
+                    paddingLeft: "4.5%",
+                    paddingBottom: "3%",
+                    paddingTop: "3.5%",
+                  }}
+                >
+                  <p style={{ color: "#4263EB", fontSize: "1.05rem" }}>
                     Time Posted
                   </p>
-                  <Slider 
-                    style={{color: "#4263EB", width: "90%"}}   
+                  <Slider
+                    style={{ color: "#4263EB", width: "90%" }}
                     aria-labelledby="range-slider"
-                    marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
+                    marks={[
+                      { value: 5, label: "$0.01" },
+                      { value: 90, label: "$100 000" },
+                    ]}
                   />
                 </Col>
               </Row>
             </Col>
-            <Col style={{marginTop: "5%",  textAlign: "center", alignSelf: "center", justifySelf: "center", marginBottom: "3%"}}>
+            <Col
+              style={{
+                marginTop: "5%",
+                textAlign: "center",
+                alignSelf: "center",
+                justifySelf: "center",
+                marginBottom: "3%",
+              }}
+            >
               <Row>
                 <Col>
-                <Button
-                  onClick={() => setIntroModal(true)}
-                  style={{backgroundColor: "#4263EB", width: "15rem"}}
-                >
-                  Apply Filter
-                </Button>
+                  <Button
+                    onClick={() => setIntroModal(true)}
+                    style={{ backgroundColor: "#4263EB", width: "15rem" }}
+                  >
+                    Apply Filter
+                  </Button>
                 </Col>
               </Row>
-
             </Col>
           </Modal.Body>
         </Modal>
         <Modal
-        show={introModal}
-        onHide={() => setIntroModal(false)}
-        style={{ display: "flex", margin: "auto" }}
-        aria-labelledby="contained-modal-title-vcenter"
-        size="lg"
-        centered
-      >
-        <Modal.Body style={{ padding: "2em", textAlign: "center" }}>
-          <Row style={{ marginBottom: "1rem" }}>
-            <Col style={{ marginLeft: "1.5rem" }}>
-              <h3>BitSwap Tutorial</h3>
-            </Col>
-            <FiX
-              className="hoverCursor"
-              size={"2rem"}
-              style={{
-                float: "right",
-                marginRight: "0.75rem",
-                marginTop: "0rem",
-                color: "#ACB5BD",
-              }}
-              onClick={() => setIntroModal(false)}
-            />
-          </Row>
+          show={introModal}
+          onHide={() => setIntroModal(false)}
+          style={{ display: "flex", margin: "auto" }}
+          aria-labelledby="contained-modal-title-vcenter"
+          size="lg"
+          centered
+        >
+          <Modal.Body style={{ padding: "2em", textAlign: "center" }}>
+            <Row style={{ marginBottom: "1rem" }}>
+              <Col style={{ marginLeft: "1.5rem" }}>
+                <h3>BitSwap Tutorial</h3>
+              </Col>
+              <FiX
+                className="hoverCursor"
+                size={"2rem"}
+                style={{
+                  float: "right",
+                  marginRight: "0.75rem",
+                  marginTop: "0rem",
+                  color: "#ACB5BD",
+                }}
+                onClick={() => setIntroModal(false)}
+              />
+            </Row>
 
-          <div className="video-responsive">
-            <iframe
-              width="100%"
-              height="400vh"
-              src="https://www.youtube.com/embed/pLy_t9objuU"
-              title="BitSwap Intro Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></iframe>
-          </div>
-        </Modal.Body>
-      </Modal>
-        </>
+            <div className="video-responsive">
+              <iframe
+                width="100%"
+                height="400vh"
+                src="https://www.youtube.com/embed/pLy_t9objuU"
+                title="BitSwap Intro Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              ></iframe>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </>
 
       <Wrapper>
         <NavBar />
@@ -228,10 +274,10 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
-              <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
-              <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
-            </Row>
+            {/* <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
+              <FiFilter className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
+              <p  className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
+            </Row> */}
             <FeedContent>
               <Col>
                 <div

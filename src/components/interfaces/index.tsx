@@ -10,7 +10,7 @@ export interface UserSchema {
   bitcloutpubkey: string;
   bitcloutbio: string;
   bitcloutpicture: string;
-  ethereumaddress: string;
+  ethereumaddress: string[];
   password: string;
   passwordverification: string;
   created: Date;
@@ -44,6 +44,7 @@ export interface ListingSchema {
   finalTransactionId: string;
   created: Date;
   completed: { status: boolean; date: Date };
+  ethaddress:string|null;
 }
 
 export interface TransactionSchema {

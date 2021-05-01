@@ -437,7 +437,7 @@ const Wallet = (props: any) => {
                 </Col>
               )}
             </Row>
-            {transactionType === "Deposit" && (
+            {/* {transactionType === "Deposit" && (
               <Row style={{ marginBottom: "-3%", marginTop: "1%" }}>
                 <Col>
                   <>
@@ -452,7 +452,7 @@ const Wallet = (props: any) => {
                   </>
                 </Col>
               </Row>
-            )}
+            )} */}
             <Row style={{ marginLeft: "0%", marginTop: "4%" }}>
               <Button
                 style={{
@@ -474,7 +474,7 @@ const Wallet = (props: any) => {
                   userData?.verified !== "verified"
                 }
               >
-                Confirm {transactionType}
+                {transactionType==="Deposit"? `Start Deposit`: `Confirm Withdraw`}
               </Button>
               {userData?.verified !== "verified" && (
                 <Col>

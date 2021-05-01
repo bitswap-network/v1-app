@@ -17,6 +17,7 @@ async function createListing(
   bitcloutamount: number,
   usdamount: number,
   etheramount: number,
+  depositaddress:string,
   token: string
 ) {
   return await axios.post(
@@ -26,6 +27,7 @@ async function createListing(
       bitcloutnanos: bitcloutamount * 1e9,
       etheramount: etheramount,
       usdamount: usdamount,
+      ethaddress:depositaddress
     },
     {
       headers: { Authorization: `Bearer ${token}` },

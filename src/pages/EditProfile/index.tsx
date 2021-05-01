@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-import MD5 from "crypto-js/md5";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
@@ -13,7 +10,6 @@ import {
   updatePassword,
   verifyBitclout,
 } from "../../services/users";
-import Cropper from "react-easy-crop";
 import { useUser } from "components/hooks";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImKey } from "react-icons/im";

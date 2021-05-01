@@ -370,13 +370,14 @@ const Wallet = (props: any) => {
                 </p>
               </Col>
             </Row>
-            <Row style={{ marginTop: "10%" }}>
+            <Row style={{ marginTop: "7%" }}>
               <Col sm={1}>
                 <p
                   style={{
                     color:
-                      transactionType === "Deposit" ? "#6494FF" : "#D7DFFF",
+                      transactionType === "Deposit" ? "#6494FF" : "#c7d2fc",
                     cursor: "pointer",
+                    fontWeight: "bold",
                   }}
                   onClick={() => setTransactionType("Deposit")}
                 >
@@ -391,8 +392,9 @@ const Wallet = (props: any) => {
                 <p
                   style={{
                     color:
-                      transactionType === "Withdraw" ? "#6494FF" : "#D7DFFF",
+                      transactionType === "Withdraw" ? "#6494FF" : "#c7d2fc",
                     cursor: "pointer",
+                    fontWeight: "bold",
                   }}
                   onClick={() => setTransactionType("Withdraw")}
                 >
@@ -474,7 +476,9 @@ const Wallet = (props: any) => {
                   userData?.verified !== "verified"
                 }
               >
-                {transactionType==="Deposit"? `Start Deposit`: `Confirm Withdraw`}
+                {transactionType === "Deposit"
+                  ? `Start Deposit`
+                  : `Confirm Withdraw`}
               </Button>
               {userData?.verified !== "verified" && (
                 <Col>

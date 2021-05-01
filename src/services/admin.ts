@@ -6,3 +6,11 @@ export const getLogs = async (token: string, type: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const getTotalVolume = async () => {
+  return await axios.get(`${url}/utility/totalcompleted`);
+};
+
+export const getAvgPrice = async () => {
+  return await axios.get(`${url}/utility/avgprice`);
+};

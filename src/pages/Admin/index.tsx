@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button, Dropdown } from "react-bootstrap";
-import { useUser } from "components/hooks";
+import { useUser, useEthPrice } from "components/hooks";
 import NavBar from "components/NavBar";
 import TextField from "@material-ui/core/TextField";
 import { Redirect } from "react-router-dom";
 import StyledContentLoader from "styled-content-loader";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
-import { getLogs } from "../../services/admin";
+import { getLogs, getTotalVolume, getAvgPrice } from "../../services/admin";
 
 const Web3 = require("web3");
 
@@ -19,6 +19,28 @@ const Admin = (props: any) => {
   const [logs, setLogs] = useState("");
   const [logType, setLogType] = useState("out");
   const [loading, setLoading] = useState(false);
+  const [volume, setVolume] = useState(null);
+  const [avgprice, setAvgprice] = useState(null);
+  const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
+
+  useEffect(() => {
+    getTotalVolume()
+      .then((response) => {
+        setVolume(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
+    getAvgPrice()
+      .then((response) => {
+        setAvgprice(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
+  }, [userData]);
 
   if (!isLoggedIn) {
     return <Redirect to="/login" />;
@@ -70,13 +92,58 @@ const Admin = (props: any) => {
       >
         <NavBar />
         <Container>
-          <Row style={{ marginTop: "40px", marginBottom: "40px" }}>
+          <Row style={{ marginTop: "40px", marginBottom: "20px" }}>
             <Col>
               <h3>
                 <b>Admin Panel</b>
               </h3>
             </Col>
           </Row>
+          {volume && avgprice && !ethIsLoading && !ethIsError && (
+            <>
+              <Row>
+                <Col>
+                  <p>
+                    Total Swaps: <b>{volume.count}</b>
+                  </p>
+                  <p>
+                    Total Bitclout Volume:{" "}
+                    <b>{volume.totalbitcloutnanos / 1e9}</b>
+                  </p>
+                  <p>
+                    Total Ether Volume:{" "}
+                    <b>{volume.totaletheramount.toFixed(6)}</b>
+                  </p>
+                </Col>
+                <Col>
+                  <p>
+                    Average Bitclout Price:{" "}
+                    <b>${avgprice.avgprice.toFixed(2)}</b>
+                  </p>
+                  <p>
+                    Est. Total Bitclout Fees: <br></br>
+                    <b>
+                      {(volume.totalbitcloutnanos / 1e9) * 0.02} * $150 = $
+                      {(volume.totalbitcloutnanos / 1e9) * 0.02 * 150}
+                    </b>
+                  </p>
+                  <p>
+                    Est. Total Ether Fees: <br></br>
+                    <b>
+                      {(volume.totaletheramount * 0.02).toFixed(6)} * $
+                      {etherPrice.USD} = $
+                      {(
+                        volume.totaletheramount *
+                        0.02 *
+                        parseFloat(etherPrice.USD)
+                      ).toFixed(2)}
+                    </b>
+                  </p>
+                </Col>
+              </Row>
+            </>
+          )}
+
           <Row>
             <Col>
               <Button onClick={getAndSetLogs} size="sm">

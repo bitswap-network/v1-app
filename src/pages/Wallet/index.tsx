@@ -207,6 +207,7 @@ const Wallet = (props: any) => {
                     Your deposit will be processed and reflect in your balance
                     1-3 minutes after being sent.
                   </p>
+                  <p style={{fontSize: "0.8rem", color: "#F03D3E" }}>Warning: you must send bitclout from @{user.username}</p>
                 </>
               )}
             </Col>

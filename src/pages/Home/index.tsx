@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip, Modal } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Modal, Button,} from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import Slider from "@material-ui/core/Slider";
 
 import { ListingSchema } from "../../components/interfaces";
-import { FiHelpCircle, FiFilter } from "react-icons/fi";
+import { FiHelpCircle, FiFilter, FiX } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { MainContent, Wrapper, FeedContent } from "./styles";
-import { useUser } from "components/hooks";
+import { MainContent, Wrapper, FeedContent, MobileButton } from "./styles";
+import { useUser, useFirstRender } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
-import ModalError from "components/modalError/index";
-import { getFontSize } from "../../helpers/styling";
 
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
@@ -28,13 +26,14 @@ const ongoingBuysTooltip = (props) => (
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
+  const firstRender = useFirstRender();
   const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
-  // console.log("user data", userData, user);
+  const [introModal, setIntroModal] = useState(false);
   useEffect(() => {
     getListings(volumeSort, dateSort)
       .then((res) => {
@@ -75,7 +74,7 @@ const Home = (props: any) => {
     <>
         <>
         <Modal
-          show={true}
+          show={false}
           onHide={false}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
@@ -111,7 +110,45 @@ const Home = (props: any) => {
             <Col></Col>
           </Modal.Body>
         </Modal>
+        <Modal
+        show={introModal}
+        onHide={() => setIntroModal(false)}
+        style={{ display: "flex", margin: "auto" }}
+        aria-labelledby="contained-modal-title-vcenter"
+        size="lg"
+        centered
+      >
+        <Modal.Body style={{ padding: "2em", textAlign: "center" }}>
+          <Row style={{ marginBottom: "1rem" }}>
+            <Col style={{ marginLeft: "1.5rem" }}>
+              <h3>BitSwap Tutorial</h3>
+            </Col>
+            <FiX
+              className="hoverCursor"
+              size={"2rem"}
+              style={{
+                float: "right",
+                marginRight: "0.75rem",
+                marginTop: "0rem",
+                color: "#000",
+              }}
+              onClick={() => setIntroModal(false)}
+            />
+          </Row>
+
+          <div className="video-responsive">
+            <iframe
+              width="100%"
+              height="400vh"
+              src="https://www.youtube.com/embed/pLy_t9objuU"
+              title="BitSwap Intro Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+          </div>
+        </Modal.Body>
+      </Modal>
         </>
+
       <Wrapper>
         <NavBar />
         <Col
@@ -141,22 +178,18 @@ const Home = (props: any) => {
                     ? { marginLeft: "2.5rem" }
                     : {}
                 }
-              >
-                {/* $Bitclout price: ~${bitcloutprice.toFixed(2)} */}
-              </h5>
-            </Row>
-            {/* <Row>
-              <MediaQuery query="(min-device-width: 768px)">
-                <DesktopButton
-                  onClick={() => {
-                    setShowModal(true);
-                  }}
+              ></h5>
+              <Col>
+                <Button
+                  size="sm"
+                  onClick={() => setIntroModal(true)}
+                  style={{ marginTop: "0.1rem" }}
                 >
-                  Post Swap
-                </DesktopButton>
-              </MediaQuery>
+                  Tutorial
+                </Button>
+              </Col>
             </Row>
-            <MediaQuery query="(max-device-width: 768px)">
+            {/* <MediaQuery query="(max-device-width: 768px)">
               <MobileButton
                 onClick={() => {
                   props.history.push("/postad");
@@ -164,7 +197,7 @@ const Home = (props: any) => {
               >
                 Post Swap
               </MobileButton>
-            </MediaQuery> */}
+            </MediaQuery>  */}
             <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
               <FiFilter className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
               <p  className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>

@@ -93,33 +93,37 @@ const Listing: React.FC<UserListing> = (
               <>
                 {buy ? (
                   <Col>
-                    <img
-                      src={listing.seller.profilepicture}
-                      alt="profile"
-                      style={{
-                        borderRadius: "60px",
-                        height: "auto",
-                        width: getFontSize(2.5, 10),
-                      }}
-                    />
-                    <a href={`/profile/${listing.seller.username}`}>
-                      <p>${listing.seller.username}</p>
-                    </a>
+                    <div style={{ textAlign: "center", width: "50%" }}>
+                      <img
+                        src={listing.seller.profilepicture}
+                        alt="profile"
+                        style={{
+                          borderRadius: "60px",
+                          height: "auto",
+                          width: getFontSize(2.5, 10),
+                        }}
+                      />
+                      <a href={`/profile/${listing.seller.username}`}>
+                        <p>${listing.seller.username}</p>
+                      </a>
+                    </div>
                   </Col>
                 ) : (
                   <Col>
-                    <img
-                      src={listing.buyer.profilepicture}
-                      alt="profile"
-                      style={{
-                        borderRadius: "60px",
-                        height: "auto",
-                        width: getFontSize(2.5, 10),
-                      }}
-                    />
-                    <a href={`/profile/${listing.buyer.username}`}>
-                      <p>${listing.buyer.username}</p>
-                    </a>
+                    <div style={{ textAlign: "center", width: "50%" }}>
+                      <img
+                        src={listing.buyer.profilepicture}
+                        alt="profile"
+                        style={{
+                          borderRadius: "60px",
+                          height: "auto",
+                          width: getFontSize(2.5, 10),
+                        }}
+                      />
+                      <a href={`/profile/${listing.buyer.username}`}>
+                        <p>${listing.buyer.username}</p>
+                      </a>
+                    </div>
                   </Col>
                 )}
               </>

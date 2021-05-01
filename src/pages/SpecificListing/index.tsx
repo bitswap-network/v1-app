@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
-import axios from "axios";
+import Web3 from "web3";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import { FiChevronsRight, FiChevronLeft } from "react-icons/fi";
 import { RouteComponentProps } from "react-router-dom";
+import { useGasPrice, useUser } from "components/hooks";
 import { ListingSchema } from "../../components/interfaces";
+import { updateProfile } from "../../services/users";
 import {
   getListing,
   cancelListing,
@@ -23,7 +25,15 @@ const SpecificListing = (
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [listing, setListing] = useState<ListingSchema>(null);
+  const { userData, isLoading, isError } = useUser(user?.token);
   const [back, setBack] = useState(false);
+  const ethereum = new Web3(window["ethereum"]);
+  const [ismetamask, setIsmetamask] = useState(false);
+  const [account, setAccount] = useState(null);
+  const [transaction, setTransaction] = useState(null);
+  const [transactionHash, setTransactionHash] = useState(null);
+  const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
+
   const cancelBuy = () => {
     if (listing.ongoing && !listing.escrow.full) {
       cancelListing(user.token, listing._id)
@@ -46,7 +56,6 @@ const SpecificListing = (
         });
     }
   };
-  // console.log(listing, user);
   useEffect(() => {
     if (isLoggedIn && match.params.id) {
       // console.log("setting listing");
@@ -61,16 +70,82 @@ const SpecificListing = (
     }
   }, []);
 
+  useEffect(() => {
+    if (listing && account && gasPrice) {
+      setTransaction({
+        to: "0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707",
+        from: account, // must match user's active address.
+        value: Web3.utils.toHex(
+          parseInt((listing.etheramount * 1e18).toString())
+        ), // Only required to send ether to the recipient from the initiating external account.
+        chainId: "0x1", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+      });
+    }
+  }, [listing, account, gasPrice]);
+
+  useEffect(() => {
+    if (ethereum) {
+      console.log(ethereum);
+      if (ethereum.givenProvider) {
+        console.log(ethereum.givenProvider);
+        setIsmetamask(ethereum.givenProvider.isMetaMask);
+      }
+    }
+  }, [ethereum]);
+
+  const enableMetamask = async () => {
+    const accounts = await ethereum.givenProvider.request({
+      method: "eth_requestAccounts",
+    });
+    if (Array.isArray(userData?.ethereumaddress)) {
+      if (!userData.ethereumaddress.includes(accounts[0].toLowerCase())) {
+        let addressarr = userData.ethereumaddress;
+        addressarr.push(accounts[0].toLowerCase());
+        updateProfile(userData.email, addressarr, user.token)
+          .then((response) => {
+            console.log(addressarr);
+            console.log("added address to profile");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        console.log("profile already contains address");
+      }
+    } else {
+      let addressarr = [userData.ethereumaddress, accounts[0].toLowerCase()];
+      updateProfile(userData.email, addressarr, user.token)
+        .then((response) => {
+          console.log(addressarr);
+          console.log("added address to profile");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    setAccount(accounts[0]);
+    console.log(accounts);
+  };
+  const sendMetaMaskTxn = async () => {
+    try {
+      const txnhash = await ethereum.givenProvider.request({
+        method: "eth_sendTransaction",
+        params: [transaction],
+      });
+      setTransactionHash(txnhash);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   if (!isLoggedIn) {
     window.location.assign("/login");
   }
   if (!match.params.id) {
     window.location.assign("/userlistings");
   }
-  // if (back) {
-  //   window.location.assign("/userlistings");
-  // }
-  // if (listing) {
+
   return (
     <>
       {listing && (
@@ -171,6 +246,28 @@ const SpecificListing = (
                           <b>Bitclout Amount: </b>
                           {listing.bitcloutnanos / 1e9}
                         </h4>
+                        {listing.seller.username === user.username && (
+                          <>
+                            <h4
+                              style={
+                                window.innerWidth <= 768
+                                  ? {
+                                      color: "#495057",
+                                      fontSize: "0.8rem",
+                                    }
+                                  : {
+                                      color: "#9b9c9d",
+                                      fontSize: "0.8rem",
+                                    }
+                              }
+                            >
+                              <b>Deposit Address:</b>{" "}
+                              {listing.ethaddress
+                                ? listing.ethaddress
+                                : listing.seller.ethereumaddress}
+                            </h4>
+                          </>
+                        )}
                       </Col>
                       <Col>
                         <h4
@@ -350,10 +447,26 @@ const SpecificListing = (
                   </Col>
                   {listing.seller && user && (
                     <>
+                      {!listing.ongoing && !listing.escrow.full && (
+                        <Col sm={8}>
+                          <p
+                            style={{
+                              color: "#6494FF",
+                              fontSize: "1.1rem",
+                              fontWeight: 600,
+                            }}
+                          >
+                            Escrow Empty
+                          </p>
+                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
+                            Awaiting transfer to escrow wallet
+                          </p>
+                        </Col>
+                      )}
                       {listing.ongoing &&
                         !listing.escrow.full &&
                         listing.buyer.username === user.username && (
-                          <Col sm={8}>
+                          <Col sm={10}>
                             <p
                               style={{
                                 color: "#6494FF",
@@ -366,14 +479,44 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Transfer {listing.etheramount.toFixed(8)} $ETH to
+                              Transfer{" "}
+                              <b>{listing.etheramount.toFixed(6)} $ETH </b>to
                               <b>
                                 {" "}
                                 0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707{" "}
                               </b>
-                              from your wallet:{" "}
-                              <b>{listing.buyer.ethereumaddress}</b>
+                              from your added wallets.{" "}
+                              <a href="/profile">View Wallets</a>
                             </p>
+                            {ismetamask && (
+                              <>
+                                <Button
+                                  size="sm"
+                                  onClick={enableMetamask}
+                                  variant={account ? "success" : "primary"}
+                                >
+                                  {account
+                                    ? "Metamask Enabled"
+                                    : "Enable Metamask"}
+                                </Button>
+                              </>
+                            )}
+                            {transaction && (
+                              <>
+                                <Button
+                                  size="sm"
+                                  onClick={sendMetaMaskTxn}
+                                  style={{ marginLeft: "5px" }}
+                                  variant={
+                                    transactionHash ? "success" : "primary"
+                                  }
+                                >
+                                  {transactionHash
+                                    ? "Transaction Sent"
+                                    : "Send Transaction"}
+                                </Button>
+                              </>
+                            )}
                           </Col>
                         )}
                       {listing.ongoing &&
@@ -528,7 +671,7 @@ const SpecificListing = (
                         </p>
                       ) : (
                         <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                          {listing.etheramount.toFixed(8)} $ETH has been sent to
+                          {listing.etheramount.toFixed(8)} $ETH has been sent to{" "}
                           <b>
                             <a
                               href={`/profile/${listing.seller.username}`}
@@ -593,15 +736,25 @@ const SpecificListing = (
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             Listing will be automatically fulfilled soon.
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            <b>Ethereum Txn ID:</b> <br></br>
-                            <a
-                              href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
-                              target={"_blank"}
-                            >
-                              {listing.finalTransactionId}
-                            </a>
-                          </p>
+                          {listing.finalTransactionId !== "" &&
+                            listing.finalTransactionId && (
+                              <>
+                                <p
+                                  style={{
+                                    color: "#6494FF",
+                                    fontSize: "0.85rem",
+                                  }}
+                                >
+                                  <b>Ethereum Txn ID:</b> <br></br>
+                                  <a
+                                    href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
+                                    target={"_blank"}
+                                  >
+                                    {listing.finalTransactionId}
+                                  </a>
+                                </p>
+                              </>
+                            )}
                         </>
                       )}
                     </Col>

@@ -2,22 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-import MD5 from "crypto-js/md5";
 import NavBar from "components/NavBar";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import {
   updateProfile,
   updatePassword,
-  verifyBitclout
+  verifyBitclout,
 } from "../../services/users";
-import Cropper from "react-easy-crop";
 import { useUser } from "components/hooks";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImKey } from "react-icons/im";
-import { FiXCircle, FiX } from "react-icons/fi";
+import { FiXCircle, FiPlusCircle, FiX } from "react-icons/fi";
 
 const EditProfile = (props: any) => {
   const user = useRecoilValue(userState);
@@ -29,30 +25,40 @@ const EditProfile = (props: any) => {
   const [verifyState, setVerifyState] = useState("primary");
   const { userData, isLoading, isError } = useUser(user?.token);
   const [error, setError] = useState({
-    name: false,
     email: false,
     ethereumaddress: false,
     password: false,
-    newPassword: false
+    newPassword: false,
   });
 
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
+  const [successfulpass, setSuccessfulPass] = useState(false);
   const [form, setForm] = useState({
-    name: user.name || "",
     username: user.username,
     email: user.email,
-    ethereumaddress: user.ethereumaddress,
+    ethereumaddress: Array.isArray(userData?.ethereumaddress)
+      ? userData?.ethereumaddress
+      : [userData?.ethereumaddress],
     password: "",
-    newPassword: ""
+    newPassword: "",
   });
+  useEffect(() => {
+    if (!isLoading) {
+      setForm({
+        ...form,
+        ethereumaddress: Array.isArray(userData?.ethereumaddress)
+          ? userData?.ethereumaddress
+          : [userData?.ethereumaddress],
+      });
+    }
+  }, [userData]);
   const valerrorHandler = () => {
     let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setError({
       ...error,
-      name: form.name.length < 1 ? true : false,
       email: !regEmail.test(form.email) ? true : false,
-      ethereumaddress: form.ethereumaddress.length < 1 ? true : false
+      ethereumaddress: form.ethereumaddress.length < 1 ? true : false,
     });
 
     if (form.email.length < 1 || form.ethereumaddress.length < 1) {
@@ -67,7 +73,7 @@ const EditProfile = (props: any) => {
       password:
         form.password.length < 1 && form.newPassword.length > 1 ? true : false,
       newPassword:
-        form.newPassword.length < 1 && form.password.length > 1 ? true : false
+        form.newPassword.length < 1 && form.password.length > 1 ? true : false,
     });
 
     if (
@@ -83,38 +89,67 @@ const EditProfile = (props: any) => {
     setFormUpdated(true);
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
     setError({
       ...error,
       email: false,
-      ethereumaddress: false
+      ethereumaddress: false,
+    });
+  };
+  const handleEthChange = (i: number) => (e: any) => {
+    console.log(form);
+    setFormUpdated(true);
+    let newArr = form.ethereumaddress;
+    newArr[i] = e.target.value;
+
+    setForm({
+      ...form,
+      ethereumaddress: newArr,
+    });
+  };
+  const addAddress = () => {
+    setFormUpdated(true);
+    let newArr = form.ethereumaddress;
+    newArr.push("");
+    setForm({
+      ...form,
+      ethereumaddress: newArr,
+    });
+  };
+  const removeAddress = (i: number) => {
+    setFormUpdated(true);
+    let newArr = form.ethereumaddress;
+    newArr.splice(i, 1);
+    setForm({
+      ...form,
+      ethereumaddress: newArr,
     });
   };
   const handlePassChange = (e: any) => {
     setPasswordUpdated(true);
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
     setError({
       ...error,
       password: false,
-      newPassword: false
+      newPassword: false,
     });
   };
 
   const handlePost = () => {
     if (valerrorHandler()) {
       setLoading(true);
-      updateProfile(form.username, form.email, form.ethereumaddress, user.token)
-        .then(response => {
+      updateProfile(form.email, form.ethereumaddress, user.token)
+        .then((response) => {
           setLoading(false);
           setSuccessful(true);
           setFormUpdated(false);
           window.location.reload();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           // Add error message in UI
           setLoading(false);
@@ -126,13 +161,13 @@ const EditProfile = (props: any) => {
     if (passerrorHandler()) {
       setLoading(true);
       updatePassword(form.password, form.newPassword, user.token)
-        .then(response => {
+        .then((response) => {
           setLoading(false);
-          setSuccessful(true);
+          setSuccessfulPass(true);
           setPasswordUpdated(false);
           window.location.reload();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           // Add error message in UI
           setLoading(false);
@@ -142,11 +177,11 @@ const EditProfile = (props: any) => {
   const handleVerify = () => {
     setVerifyState("secondary");
     verifyBitclout(user.token)
-      .then(response => {
+      .then((response) => {
         // console.log(response.data);
         setVerifyState("success");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         setVerifyState("danger");
       });
@@ -170,7 +205,7 @@ const EditProfile = (props: any) => {
               size={"1rem"}
               style={{
                 marginTop: "1%",
-                color: "#ACB5BD"
+                color: "#ACB5BD",
               }}
               onClick={() => {
                 setVerifyModal(false);
@@ -241,7 +276,7 @@ const EditProfile = (props: any) => {
                     display: "flex",
                     flexDirection: "column",
                     alignSelf: "center",
-                    marginLeft: "3rem"
+                    marginLeft: "3rem",
                   }
             }
           >
@@ -251,7 +286,7 @@ const EditProfile = (props: any) => {
                 backgroundColor: "white",
                 padding: "2%",
                 borderRadius: "5px",
-                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"
+                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
               }}
             >
               <Row style={{ marginBottom: "10px" }}>
@@ -270,7 +305,7 @@ const EditProfile = (props: any) => {
                     style={{
                       fontSize: "0.9rem",
                       marginTop: "0",
-                      marginBottom: "0.5rem"
+                      marginBottom: "0.5rem",
                     }}
                   >
                     {user.description}
@@ -290,7 +325,7 @@ const EditProfile = (props: any) => {
                               color:
                                 userData.verified === "verified"
                                   ? "#4263EB"
-                                  : "#F03D3E"
+                                  : "#F03D3E",
                             }}
                           >
                             {userData.verified === "unverified" &&
@@ -319,7 +354,7 @@ const EditProfile = (props: any) => {
                               fontWeight: "bold",
                               color: userData.emailverified
                                 ? "#4263EB"
-                                : "#F03D3E"
+                                : "#F03D3E",
                             }}
                           >
                             {userData.emailverified
@@ -361,36 +396,51 @@ const EditProfile = (props: any) => {
                     />
                   </Col>
                 </Row>
-                {/* <Row
-                className="align-items-center"
-                style={{ marginTop: "30px", marginBottom: "30px" }}
-              >
-                <Col>
-                  <TextField
-                    id="bitcloutpubkey"
-                    label="Bitclout ID"
-                    variant="outlined"
-                    value={form.bitcloutpubkey}
-                    error={error.bitcloutpubkey}
-                    onChange={handleNameChange}
-                    fullWidth={true}
-                  />
-                </Col>
-              </Row> */}
-                <Row
-                  className="align-items-center"
-                  style={{ marginTop: "30px", marginBottom: "30px" }}
-                >
+
+                {form.ethereumaddress.map((address, i) => (
+                  <>
+                    <Row
+                      className="align-items-center"
+                      style={{
+                        marginTop: i == 0 ? "30px" : "5px",
+                        marginBottom: "0px",
+                      }}
+                    >
+                      <Col sm={12}>
+                        <TextField
+                          color="primary"
+                          margin="dense"
+                          key={i}
+                          id={`ethereumaddress_${i}`}
+                          label={`Ethereum Address ${i + 1}`}
+                          variant="outlined"
+                          value={address ? address : ""}
+                          error={error.ethereumaddress}
+                          onChange={handleEthChange(i)}
+                          style={{ width: "93%" }}
+                        />
+                        <FiXCircle
+                          className="hoverCursor"
+                          size={"1.5rem"}
+                          onClick={() => {
+                            removeAddress(i);
+                          }}
+                          style={{
+                            float: "right",
+                            // marginRight: "0.1rem",
+                            marginTop: "1rem",
+                            color: "#ACB5BD",
+                          }}
+                        />
+                      </Col>{" "}
+                    </Row>
+                  </>
+                ))}
+                <Row style={{ marginTop: "5px", marginBottom: "30px" }}>
                   <Col>
-                    <TextField
-                      id="ethereumaddress"
-                      label="Ethereum Address"
-                      variant="outlined"
-                      value={form.ethereumaddress}
-                      error={error.ethereumaddress}
-                      onChange={handleNameChange}
-                      fullWidth={true}
-                    />
+                    <Button size="sm" onClick={addAddress}>
+                      Add Address
+                    </Button>
                   </Col>
                 </Row>
                 <Row>
@@ -454,8 +504,11 @@ const EditProfile = (props: any) => {
                 </Row>
                 <Row>
                   <Col>
-                    {successful ? (
+                    {successfulpass ? (
                       <p>Your password was succesfully changed!</p>
+                    ) : null}
+                    {successful ? (
+                      <p>Your profile was succesfully updated!</p>
                     ) : null}
                   </Col>
                 </Row>

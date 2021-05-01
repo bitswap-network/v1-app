@@ -48,7 +48,7 @@ export function useUser(token) {
 
 export function useEthPrice() {
   const { data, error } = useSWR(
-    "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD",
+    `${url}/utility/getEthUSD`,
     (url) => axios.get(url).then((res) => res.data),
     {
       refreshInterval: 10000,
@@ -64,7 +64,7 @@ export function useEthPrice() {
 
 export function useGasPrice() {
   const { data, error } = useSWR(
-    "https://ethgasstation.info/json/ethgasAPI.json",
+    `${url}/utility/getGas`,
     (url) => axios.get(url).then((res) => res.data),
     {
       refreshInterval: 10000,
@@ -76,4 +76,13 @@ export function useGasPrice() {
     gasIsLoading: !error && !data,
     gasIsError: error,
   };
+}
+export function useFirstRender() {
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
+
+  return firstRender.current;
 }

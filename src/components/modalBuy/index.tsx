@@ -151,7 +151,7 @@ const BuyModal: React.FC<ListingModal> = (
               <Col>
                 <Row style={{ justifyContent: "center" }}>
                   <p style={{ color: "#212429", fontSize: "1.0rem" }}>
-                    <b>~ {listing.etheramount.toFixed(8)}</b> $ETH
+                    <b>~ {listing.etheramount?.toFixed(8)}</b> $ETH
                   </p>
                   <p
                     style={{

@@ -3,15 +3,13 @@ const { url } = require("../helpers/config.json");
 
 // Update profile
 const updateProfile = async (
-  name: string,
   email: string,
-  ethereumaddress: string,
+  ethereumaddress: string[],
   token: string
 ) => {
-  return await axios.post(
+  return await axios.put(
     `${url}/user/updateprofile`,
     {
-      name: name,
       email: email,
       ethereumaddress: ethereumaddress,
     },

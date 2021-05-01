@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
-import { RiUser3Line } from "react-icons/ri";
+import { FaCheckCircle } from "react-icons/fa";
 import { ListingSchema } from "../interfaces";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import StyledContentLoader from "styled-content-loader";
 import MD5 from "crypto-js/md5";
-import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import BuyModal from "../modalBuy";
@@ -127,6 +126,7 @@ const Listing: React.FC<FeedListing> = (
                     borderRadius: "60px",
                     height: "auto",
                     width: getFontSize(2.5, 10),
+                    maxHeight: getFontSize(2.5, 10),
                   }}
                 />
               </td>
@@ -135,7 +135,17 @@ const Listing: React.FC<FeedListing> = (
                   style={{ color: "black" }}
                   href={`/profile/${listing.seller.username}`}
                 >
-                  @{listing.seller.username}
+                  @
+                  {listing.seller.username.length > 12
+                    ? `${listing.seller.username.substring(0, 12)}...`
+                    : listing.seller.username}
+                  {listing.seller.bitcloutverified && (
+                    <FaCheckCircle
+                      color="#0059f7"
+                      fontSize="1.0rem"
+                      style={{ marginLeft: "3px" }}
+                    />
+                  )}
                 </a>
               </td>
               <td style={{ fontSize: getFontSize(0.5, 8), width: "26%" }}>
@@ -162,6 +172,7 @@ const Listing: React.FC<FeedListing> = (
                   fontSize: getFontSize(0.8, 3),
                   textAlign: "center",
                   alignItems: "center",
+                  borderRadius: "50px",
                 }}
                 onClick={() => {
                   if (isLoggedIn) {

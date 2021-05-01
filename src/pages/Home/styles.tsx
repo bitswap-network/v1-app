@@ -42,7 +42,7 @@ const MobileButton = styled(Button)`
 `;
 
 const FeedContent = styled(Row)`
-  margin-top: 10vh;
+  margin-top: 0vh;
   @media only screen and (max-width: 768px) {
     margin-top: 0vh;
   }

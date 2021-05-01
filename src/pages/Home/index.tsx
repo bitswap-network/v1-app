@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip, Modal } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
+import Slider from "@material-ui/core/Slider";
+
 import { ListingSchema } from "../../components/interfaces";
-import { FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle, FiFilter } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
@@ -68,7 +70,48 @@ const Home = (props: any) => {
   }
 
   return (
+
+
     <>
+        <>
+        <Modal
+          show={true}
+          onHide={false}
+          style={{ display: "flex", margin: "auto" }}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          size={'lg'}
+        >
+          <Modal.Body>
+          
+            <Col style={{ textAlign: "left"}}>
+              <p style={{fontSize: "1.75rem", fontWeight: 700, marginTop: "1.5%", marginLeft: "2%"}}>Filter Results</p>
+            </Col>
+            <Col style={{ marginTop: "3%", marginLeft: "3%", }}>
+              <Row style={{width: "90%"}}>
+                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>
+                  <p style={{color: "#4263EB", fontSize: "1.05rem" }}>
+                    Offer Size
+                  </p>
+                  <Slider 
+                    style={{color: "#4263EB", width: "90%"}}   
+                    aria-labelledby="range-slider"
+                    marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
+                  />
+                </Col>
+                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6 }}>
+                  <p style={{color: "#4263EB", fontSize: "1.2rem"}}>
+                    Offer Size
+                  </p>
+                </Col>
+
+              </Row>
+
+            </Col>
+            <Col></Col>
+          </Modal.Body>
+        </Modal>
+        </>
       <Wrapper>
         <NavBar />
         <Col
@@ -122,6 +165,10 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery> */}
+            <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
+              <FiFilter className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
+              <p  className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
+            </Row>
             <FeedContent>
               <Col>
                 <div

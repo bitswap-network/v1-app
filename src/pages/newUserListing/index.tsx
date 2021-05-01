@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Modal } from "react-bootstrap";
+import { Row, Col, Button, Modal, Dropdown } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import { ListingSchema } from "../../components/interfaces";
 import { FiDollarSign, FiBox } from "react-icons/fi";
@@ -17,8 +17,6 @@ const NewListing = (props: any) => {
   const [usdUpdated, setUsdUpdated] = useState(false);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
-  const [listings, setListings] = useState<ListingSchema[]>([]);
-  const [volumeSort, setVolumeSort] = useState("desc");
   const [amountBitclout, setAmountBitclout] = useState("");
   const [amountError, setamountError] = useState(false);
   const [usdPerError, setusdPerError] = useState(false);
@@ -33,6 +31,7 @@ const NewListing = (props: any) => {
   const { gasPrice, gasIsLoading, gasIsError } = useGasPrice();
   const [pageView, setPageView] = useState("swaps");
   const [tableData, setTable] = useState([]);
+  const [depositAddress, setDepositAddress] = useState(null);
 
   useEffect(() => {
     if (gasPrice) {
@@ -55,6 +54,7 @@ const NewListing = (props: any) => {
         parseFloat(usdPerBitclout) * parseFloat(amountBitclout),
         (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
           etherPrice.USD,
+          depositAddress,
         user.token
       )
         .then((response) => {
@@ -69,9 +69,13 @@ const NewListing = (props: any) => {
     }
   };
 
-  const [dateSort, setDateSort] = useState("desc");
   useEffect(() => {
     setTable(userData?.listings);
+    setDepositAddress(
+      Array.isArray(userData?.ethereumaddress)
+        ? userData?.ethereumaddress[0]
+        : userData?.ethereumaddress
+    );
   }, [userData]);
 
   const handleBitcloutChange = (e) => {
@@ -149,8 +153,6 @@ const NewListing = (props: any) => {
               <>
                 <Col style={{ textAlign: "center", marginTop: "2%" }}>
                   <p style={{ fontSize: "0.8rem", color: "#8d9296" }}>
-                    Are you sure you'd like to post?
-                    <br />
                     <br />
                     The Bitclout amount will be deducted from your wallet.
                   </p>
@@ -239,6 +241,16 @@ const NewListing = (props: any) => {
                   )}
                   {gasIsLoading && <p>Fetching gas prices...</p>}
                   {gasIsError && <p>Error while getting gas prices.</p>}
+                </Col>
+                <Col style={{ textAlign: "center", marginTop: "1%" }}>
+                  {depositAddress && (
+                    <>
+                      <p style={{ marginBottom: "0px",fontSize: "0.8rem", color: "#8d9296"  }}>
+                        Funds will be sent to: <b>{depositAddress}</b>
+                      </p>
+                    </>
+                  )}
+                  
                 </Col>
                 <Col style={{ textAlign: "center", marginTop: "8%" }}>
                   <Button
@@ -526,7 +538,35 @@ const NewListing = (props: any) => {
                     }}
                   />
                 </Row>
+                <Row style={{ marginTop: "8%", marginLeft: "6%" }}>
+                  <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic">
+                      Deposit Address
+                    </Dropdown.Toggle>
 
+                    <Dropdown.Menu>
+                      {userData?.ethereumaddress.map((address, i) => (
+                        <Dropdown.Item
+                          onClick={() => setDepositAddress(address)}
+                        >
+                          {address}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                    <p style={{ fontSize: "0.7rem", marginTop: "1rem" }}>
+                      The $ETH from this listing will be sent to:
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "0.7rem",
+                        marginTop: "0.3rem",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      {depositAddress}
+                    </p>
+                  </Dropdown>
+                </Row>
                 <Row style={{ marginTop: "8%", marginLeft: "6%" }}>
                   <h5 style={{ fontSize: "1rem" }}>
                     Total $USD:{" "}
@@ -567,7 +607,7 @@ const NewListing = (props: any) => {
                       usdPerError ||
                       amountError ||
                       amountBitclout.length === 0 ||
-                      usdPerBitclout.length === 0
+                      usdPerBitclout.length === 0 || !depositAddress || depositAddress === ""
                     }
                     onClick={() => confirmModalOpen(true)}
                   >

@@ -171,6 +171,22 @@ const SpecificListing = (
                           <b>Bitclout Amount: </b>
                           {listing.bitcloutnanos / 1e9}
                         </h4>
+                        {listing.seller.username===user.username && (
+                        <>
+                        <h4 style={
+                            window.innerWidth <= 768
+                              ? {
+                                  color: "#495057",
+                                  fontSize: "0.8rem",
+                                }
+                              : {
+                                  color: "#9b9c9d",
+                                  fontSize: "0.8rem",
+                                }
+                          }><b>Deposit Address:</b> {listing.ethaddress?listing.ethaddress:listing.seller.ethereumaddress}</h4>
+
+                        </>
+                      )}
                       </Col>
                       <Col>
                         <h4
@@ -209,6 +225,8 @@ const SpecificListing = (
                           {listing.etheramount.toFixed(6)} $ETH
                         </h4>
                       </Col>
+                      
+                      
                     </Row>
                   </Col>
                 </Row>
@@ -350,6 +368,25 @@ const SpecificListing = (
                   </Col>
                   {listing.seller && user && (
                     <>
+                    {!listing.ongoing &&
+                        !listing.escrow.full && (
+                          <Col sm={8}>
+                            <p
+                              style={{
+                                color: "#6494FF",
+                                fontSize: "1.1rem",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Escrow Empty
+                            </p>
+                            <p
+                              style={{ color: "#6494FF", fontSize: "0.85rem" }}
+                            >
+                              Awaiting transfer to escrow wallet
+                            </p>
+                          </Col>
+                        )}
                       {listing.ongoing &&
                         !listing.escrow.full &&
                         listing.buyer.username === user.username && (
@@ -366,11 +403,13 @@ const SpecificListing = (
                             <p
                               style={{ color: "#6494FF", fontSize: "0.85rem" }}
                             >
-                              Transfer {listing.etheramount.toFixed(8)} $ETH to
+                              Transfer{" "}
+                              <b>{listing.etheramount.toFixed(6)} $ETH </b>to
                               <b>
                                 {" "}
                                 0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707{" "}
                               </b>
+                              <br></br>
                               from your wallet:{" "}
                               <b>{listing.buyer.ethereumaddress}</b>
                             </p>
@@ -593,15 +632,25 @@ const SpecificListing = (
                           <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
                             Listing will be automatically fulfilled soon.
                           </p>
-                          <p style={{ color: "#6494FF", fontSize: "0.85rem" }}>
-                            <b>Ethereum Txn ID:</b> <br></br>
-                            <a
-                              href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
-                              target={"_blank"}
-                            >
-                              {listing.finalTransactionId}
-                            </a>
-                          </p>
+                          {listing.finalTransactionId !== "" &&
+                            listing.finalTransactionId && (
+                              <>
+                                <p
+                                  style={{
+                                    color: "#6494FF",
+                                    fontSize: "0.85rem",
+                                  }}
+                                >
+                                  <b>Ethereum Txn ID:</b> <br></br>
+                                  <a
+                                    href={`https://etherscan.io/tx/${listing.finalTransactionId}`}
+                                    target={"_blank"}
+                                  >
+                                    {listing.finalTransactionId}
+                                  </a>
+                                </p>
+                              </>
+                            )}
                         </>
                       )}
                     </Col>

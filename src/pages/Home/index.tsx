@@ -12,6 +12,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { MainContent, Wrapper, FeedContent, MobileButton } from "./styles";
 import { useUser, useFirstRender } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
+import { TableRow } from "material-ui";
 
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
@@ -74,7 +75,7 @@ const Home = (props: any) => {
     <>
         <>
         <Modal
-          show={false}
+          show={true}
           onHide={false}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
@@ -82,12 +83,23 @@ const Home = (props: any) => {
           size={'lg'}
         >
           <Modal.Body>
-          
-            <Col style={{ textAlign: "left"}}>
-              <p style={{fontSize: "1.75rem", fontWeight: 700, marginTop: "1.5%", marginLeft: "2%"}}>Filter Results</p>
+            <Col className="hoverCursor">
+            <FiX
+              size={"1.5rem"}
+              style={{
+                float: "right",
+                marginRight: "0.75rem",
+                marginTop: "1rem",
+                color: "#ACB5BD",
+              }}
+              onClick={() => setIntroModal(false)}
+            />
             </Col>
-            <Col style={{ marginTop: "3%", marginLeft: "3%", }}>
-              <Row style={{width: "90%"}}>
+            <Col style={{ textAlign: "left"}}>
+              <p style={{fontSize: "1.75rem", fontWeight: 700, marginTop: "3%", marginLeft: "5%"}}>Filter Results</p>
+            </Col>
+            <Col style={{ marginTop: "4%", marginLeft: "7%", }}>
+              <Row style={{width: "100%"}}>
                 <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>
                   <p style={{color: "#4263EB", fontSize: "1.05rem" }}>
                     Offer Size
@@ -98,16 +110,31 @@ const Home = (props: any) => {
                     marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
                   />
                 </Col>
-                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6 }}>
-                  <p style={{color: "#4263EB", fontSize: "1.2rem"}}>
-                    Offer Size
+                <Col style={{border:"0.05rem solid #4263EB", fontWeight: 700, borderRadius: 6, marginRight: "10%", paddingLeft: "4.5%", paddingBottom: "3%",  paddingTop: "3.5%" }}>
+                  <p style={{color: "#4263EB", fontSize: "1.05rem" }}>
+                    Time Posted
                   </p>
+                  <Slider 
+                    style={{color: "#4263EB", width: "90%"}}   
+                    aria-labelledby="range-slider"
+                    marks={[{value: 5, label: "$0.01"}, {value: 90, label: "$100 000"}]}  
+                  />
                 </Col>
-
+              </Row>
+            </Col>
+            <Col style={{marginTop: "5%",  textAlign: "center", alignSelf: "center", justifySelf: "center", marginBottom: "3%"}}>
+              <Row>
+                <Col>
+                <Button
+                  onClick={() => setIntroModal(true)}
+                  style={{backgroundColor: "#4263EB", width: "15rem"}}
+                >
+                  Apply Filter
+                </Button>
+                </Col>
               </Row>
 
             </Col>
-            <Col></Col>
           </Modal.Body>
         </Modal>
         <Modal
@@ -130,7 +157,7 @@ const Home = (props: any) => {
                 float: "right",
                 marginRight: "0.75rem",
                 marginTop: "0rem",
-                color: "#000",
+                color: "#ACB5BD",
               }}
               onClick={() => setIntroModal(false)}
             />

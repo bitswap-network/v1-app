@@ -414,10 +414,11 @@ const EditProfile = (props: any) => {
                         <TextField
                           color="primary"
                           margin="dense"
-                          id={`ethereumaddress${i}`}
+                          key={i}
+                          id={`ethereumaddress_${i}`}
                           label={`Ethereum Address ${i + 1}`}
                           variant="outlined"
-                          value={address}
+                          value={address ? address : ""}
                           error={error.ethereumaddress}
                           onChange={handleEthChange(i)}
                           style={{ width: "93%" }}

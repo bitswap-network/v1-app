@@ -9,6 +9,8 @@ import StyledContentLoader from "styled-content-loader";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import { getLogs, getTotalVolume, getAvgPrice } from "../../services/admin";
+import TransactionModal from "../../components/modalTransactionInfo";
+
 
 const Web3 = require("web3");
 
@@ -68,6 +70,14 @@ const Admin = (props: any) => {
   };
 
   return (
+    <>
+    <>
+    {/* <TransactionModal
+          transaction={txnId}
+          open={true}
+          close={false}
+        /> */}
+    </>
     <StyledContentLoader isLoading={loading}>
       <Container
         style={
@@ -172,6 +182,12 @@ const Admin = (props: any) => {
                     out
                   </Dropdown.Item>
                   <Dropdown.Item
+                    onClick={() => setLogType("pending")}
+                    active={logType === "pending"}
+                  >
+                    pending
+                  </Dropdown.Item>
+                  <Dropdown.Item
                     onClick={() => setLogType("error")}
                     active={logType === "error"}
                   >
@@ -187,11 +203,73 @@ const Admin = (props: any) => {
               {logs && (
                 <TextField value={logs} multiline fullWidth rowsMax={20} />
               )}
+              
+              {logType == "pending" ? (     
+                  <div className="scrollNoBar" style={{maxHeight: "56vh"}}>
+        
+                  <React.Fragment >
+                  <Row style={{float: "left"}}>
+                    <hr
+                      style={{
+                        borderTop: "1px solid #DDE2E5",
+                        width: "30rem",
+                        marginTop: "4%"
+
+                      }}
+                    />
+                  </Row>
+                  <Row style={{ marginTop: "6%", marginLeft: "1%" }}>
+                    <Col sm={2}>
+                      <p style={{ color: "#495057" }}>
+                        {"withdraw"}
+                      </p>
+                    </Col>
+                    <Col sm={2}>
+                        <div
+                          style={{
+                            borderRadius: "3px",
+                            backgroundColor: "#DDE2E5",
+                            textAlign: "center",
+                            marginRight: "10%"
+                          }}
+                        >
+                          <p style={{ fontSize: "0.8em", padding: "1px" }}>
+                            Pending
+                          </p>
+                        </div>
+                      
+                     
+                    </Col>
+                    <Col>
+                      <div
+                        onClick={() => {
+
+                        }}
+                      >
+                        <p
+                          className="hoverCursor"
+                          style={{ color: "#4263EB", fontSize: "1rem" }}
+                        >
+                          Details →
+                        </p>
+                      </div>
+                    </Col>
+                  </Row>
+                </React.Fragment>
+
+              
+            
+                </div>
+                
+              ):(<></>)}
+            
+            
             </Col>
           </Row>
         </Container>
       </Container>
     </StyledContentLoader>
+    </>
   );
 };
 export default Admin;

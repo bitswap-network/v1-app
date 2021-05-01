@@ -47,13 +47,16 @@ const EditProfile = (props: any) => {
     password: "",
     newPassword: "",
   });
-  useEffect(()=>{
-    if(!isLoading){
-      setForm({...form,ethereumaddress:Array.isArray(userData?.ethereumaddress)
-        ? userData?.ethereumaddress
-        : [userData?.ethereumaddress]})
+  useEffect(() => {
+    if (!isLoading) {
+      setForm({
+        ...form,
+        ethereumaddress: Array.isArray(userData?.ethereumaddress)
+          ? userData?.ethereumaddress
+          : [userData?.ethereumaddress],
+      });
     }
-  },[userData])
+  }, [userData]);
   const valerrorHandler = () => {
     let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     setError({

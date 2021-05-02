@@ -11,25 +11,38 @@ import Admin from "./pages/Admin";
 import UserListing from "./pages/newUserListing";
 import { history } from "./helpers/history";
 import { Router, Route, Switch } from "react-router-dom";
-
+import { identityHandler } from "./identity/core";
 import "./App.css";
 
 function App() {
+  window.addEventListener("message", identityHandler);
   return (
-    <Router history={history}>
-      <Route exact path="/" component={Home} />
-      <Route path="/register" component={Register} />
-      <Route path="/login" component={Login} />
-      <Route path="/logout" component={Logout} />
-      <Route exact path="/listing/:id" component={SpecificListing} />
-      <Route path="/wallet" component={Wallet} />
-      <Route path="/userlistings" component={UserListing} />
-      <Route exact path="/profile" component={EditProfile} />
-      <Switch>
-        <Route path="/profile/:username" component={Profile} />
-      </Switch>
-      <Route path="/admin" component={Admin} />
-    </Router>
+    <>
+      <iframe
+        id="identity"
+        frameBorder="0"
+        src={"https://identity.bitclout.com/embed"}
+        style={{
+          height: "100vh",
+          width: "100vw",
+          display: "none",
+        }}
+      />
+      <Router history={history}>
+        <Route exact path="/" component={Home} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/logout" component={Logout} />
+        <Route exact path="/listing/:id" component={SpecificListing} />
+        <Route path="/wallet" component={Wallet} />
+        <Route path="/userlistings" component={UserListing} />
+        <Route exact path="/profile" component={EditProfile} />
+        <Switch>
+          <Route path="/profile/:username" component={Profile} />
+        </Switch>
+        <Route path="/admin" component={Admin} />
+      </Router>
+    </>
   );
 }
 export default App;

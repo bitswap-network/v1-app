@@ -8,6 +8,12 @@ export const login = async (username: string, password: string) => {
   });
 };
 
+export const loginBitclout = async (bitcloutpubkey: string, jwt: string) => {
+  return await axios.post(`${url}/auth/login-bitclout`, {
+    bitcloutpubkey: bitcloutpubkey,
+    jwt: jwt,
+  });
+};
 export const register = async (
   username: string,
   email: string,

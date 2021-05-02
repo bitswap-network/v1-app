@@ -31,7 +31,6 @@ const TransactionModal: React.FC<TxnModal> = (
   };
   const user = useRecoilValue(userState);
   const isLoggedIn = useRecoilValue(loggedInState);
-  console.log(transaction);
   return (
     <Modal
       show={open}

@@ -88,7 +88,19 @@ const preFlightTxn = async (token: string, bitcloutvalue: number) => {
   return await axios.post(
     `${url}/user/preFlightTxn`,
     {
-      bitcloutvalue: bitcloutvalue.toFixed(9),
+      bitcloutvalue: bitcloutvalue,
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
+const submitDeposit = async (token: string, TransactionHex: string) => {
+  return await axios.post(
+    `${url}/user/submit-deposit`,
+    {
+      TransactionHex: TransactionHex,
     },
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -105,4 +117,5 @@ export {
   getProfile,
   verifyBitclout,
   preFlightTxn,
+  submitDeposit,
 };

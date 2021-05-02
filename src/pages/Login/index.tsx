@@ -17,15 +17,21 @@ import {
   PasswordRow,
   MobileLogo,
 } from "./styles";
-import { login } from "services/auth";
+import { login, loginBitclout } from "services/auth";
 import { saveData } from "helpers/local";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, userState } from "store";
-// import Web3 from "web3";
-
-declare let window: any;
+import { launch, jwt } from "../../identity/core";
+import { setIdentityServiceUsers } from "../../identity/store";
 
 const Login = (props: any) => {
+  // useEffect(() => {
+  //   launch("/log-in").subscribe((res) => {
+  //     console.log(res);
+  //     setIdentityServiceUsers(res.users);
+  //   });
+  // }, []);
+
   const isLoggedIn = useRecoilValue(loggedInState);
   const setUser = useSetRecoilState(userState);
 
@@ -33,15 +39,6 @@ const Login = (props: any) => {
     username: "" as string,
     password: "" as string,
   });
-
-  // useEffect(() => {
-  //   async function Load() {
-  //     const web3 = new Web3(Web3.givenProvider);
-  //     await window.ethereum.enable();
-  //     const accounts = await web3.eth.getAccounts();
-  //   }
-  //   Load();
-  // }, []);
 
   const [error, setError] = useState(null);
 
@@ -52,13 +49,41 @@ const Login = (props: any) => {
     });
   };
 
+  const handleLoginBitclout = () => {
+    launch("/log-in").subscribe((res) => {
+      console.log(res);
+      setIdentityServiceUsers(res.users);
+      let user = res.users[res.publicKeyAdded];
+      jwt(user).subscribe((token) => {
+        console.log(token);
+        loginBitclout(res.publicKeyAdded, token.jwt)
+          .then((response) => {
+            if (response.status === 200) {
+              saveData("user", JSON.stringify(response.data));
+              setUser(response.data);
+              window.location.assign("/");
+            } else {
+              setError(response.data);
+            }
+          })
+          .catch((error: any) => {
+            if (error.response) {
+              setError(error.response.data.error);
+            } else {
+              console.log(error.message);
+              setError(error.message);
+            }
+          });
+      });
+    });
+  };
+
   const handleLogin = () => {
     login(form.username, form.password)
       .then((response) => {
         if (response.status === 200) {
           saveData("user", JSON.stringify(response.data));
           setUser(response.data);
-          // console.log(response.data);
           window.location.assign("/");
         } else {
           setError(response.data);
@@ -145,6 +170,13 @@ const Login = (props: any) => {
           <Col style={{ marginTop: "2%" }}>
             <Button onClick={handleLogin} style={{ width: "100%" }}>
               Login
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col style={{ marginTop: "2%" }}>
+            <Button onClick={handleLoginBitclout} style={{ width: "100%" }}>
+              Login With Bitclout
             </Button>
           </Col>
         </Row>

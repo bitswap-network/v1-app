@@ -19,11 +19,14 @@ import {
   withdraw,
   getTransactions,
   preFlightTxn,
+  submitDeposit,
 } from "services/users";
 import { TransactionSchema } from "../../components/interfaces";
 import { useUser } from "../../components/hooks";
 import config from "../../helpers/config.json";
 import TransactionModal from "../../components/modalTransactionInfo";
+import { launch, jwt, sign } from "../../identity/core";
+import { identityUsers } from "../../identity/store";
 
 const renderTooltip = (props) => (
   <Tooltip id="wallet-tooltip" {...props}>
@@ -42,6 +45,9 @@ const Wallet = (props: any) => {
   const [amount, setAmount] = useState(0);
   const [modalOpen, setOpenModal] = useState(false);
   const [user, setUser] = useRecoilState(userState);
+  const [identityUsersList, setIdentityUsersList] = useRecoilState(
+    identityUsers
+  );
   const isLoggedIn = useRecoilValue(loggedInState);
   const [confirmModal, confirmModalOpen] = useState(false);
   const [txnView, setTxnView] = useState<TransactionSchema>();
@@ -49,7 +55,7 @@ const Wallet = (props: any) => {
   const [withdrawError, setWithdrawError] = useState(false);
   const [fees, setFees] = useState(0);
   const [max, setMax] = useState(null);
-
+  const [txnHash, setTxnHash] = useState(null);
   if (!isLoggedIn) {
     window.location.assign("/login");
   }
@@ -109,22 +115,40 @@ const Wallet = (props: any) => {
   const handleSubmit = () => {
     setLoading(true);
     if (transactionType === "Deposit") {
-      deposit(user.token, amount)
-        .then(() => {
-          confirmModalOpen(false);
-          setSuccessful(true);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          if (error.response) {
-            setError(error.response.data.message);
-          } else if (error.message) {
-            setError(error.message);
-          } else {
-            setError("An error occurred");
-          }
-        });
+      console.log(txnHash);
+      sign({
+        accessLevel: identityUsersList[user.bitcloutpubkey].accessLevel,
+        accessLevelHmac: identityUsersList[user.bitcloutpubkey].accessLevelHmac,
+        encryptedSeedHex:
+          identityUsersList[user.bitcloutpubkey].encryptedSeedHex,
+        transactionHex: txnHash,
+      }).subscribe((res) => {
+        console.log(res);
+        submitDeposit(user.token, res.signedTransactionHex)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+
+      // deposit(user.token, amount)
+      //   .then(() => {
+      //     confirmModalOpen(false);
+      //     setSuccessful(true);
+      //     setLoading(false);
+      //   })
+      //   .catch((error) => {
+      //     setLoading(false);
+      //     if (error.response) {
+      //       setError(error.response.data.message);
+      //     } else if (error.message) {
+      //       setError(error.message);
+      //     } else {
+      //       setError("An error occurred");
+      //     }
+      //   });
     } else {
       withdraw(user.token, amount, fees)
         .then(() => {
@@ -145,10 +169,12 @@ const Wallet = (props: any) => {
     }
   };
   const preFlight = () => {
+    console.log(amount);
     preFlightTxn(user.token, amount)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         setFees(parseInt(response.data.FeeNanos));
+        setTxnHash(response.data.TransactionHex);
       })
       .catch((error) => {
         console.log(error);

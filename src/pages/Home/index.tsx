@@ -229,7 +229,9 @@ const Home = (props: any) => {
                   </Row>
                   <Slider
                     style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
-                    aria-labelledby="range-slider"
+                    value={value}
+                    onChange={handleChange}
+                    scale={(x) => x ** 2}
                   />
                 </Col>
               </Row>

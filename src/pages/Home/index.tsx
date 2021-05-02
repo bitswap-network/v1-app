@@ -136,7 +136,7 @@ const Home = (props: any) => {
                 >
                   <Row>
                   <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
-                    Offer Size
+                    Price per Bitclout
                   </p>
                   <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "32%", marginTop: "1%" }}>
                     ${value[0]} - ${value[1]}
@@ -290,10 +290,10 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
+            {/* <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
               <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
               <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
-            </Row>
+            </Row> */}
             <FeedContent>
               <Col>
                 <div

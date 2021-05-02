@@ -474,7 +474,8 @@ const Wallet = (props: any) => {
                 disabled={
                   withdrawError ||
                   amount === 0 ||
-                  userData?.verified !== "verified"
+                  userData?.verified !== "verified" ||
+                  transactionType === "Deposit"
                 }
               >
                 {transactionType === "Deposit"

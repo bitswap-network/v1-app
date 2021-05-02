@@ -43,6 +43,12 @@ const Home = (props: any) => {
   const [dateSort, setDateSort] = useState("desc");
   const [introModal, setIntroModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
+  const [value, setValue] = React.useState([20, 37]);
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     getListings(volumeSort, dateSort)
@@ -100,7 +106,7 @@ const Home = (props: any) => {
                   color: "#ACB5BD",
                   cursor: "pointer",
                 }}
-                onClick={() => setIntroModal(false)}
+                onClick={() => setFilterModal(false)}              
               />
             </Col>
             <Col style={{ textAlign: "left" }}>
@@ -109,34 +115,39 @@ const Home = (props: any) => {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   marginTop: "3%",
-                  marginLeft: "5%",
+                  marginLeft: "2%",
                 }}
               >
                 Filter Results
               </p>
             </Col>
-            <Col style={{ marginTop: "4%", marginLeft: "7%" }}>
-              <Row style={{ width: "100%" }}>
+            <Col style={{ marginTop: "4%", marginLeft: "3%" }}>
+              <Row style={{ width: "110%" }}>
                 <Col
                   style={{
                     border: "0.05rem solid #4263EB",
                     fontWeight: 700,
                     borderRadius: 6,
-                    marginRight: "10%",
+                    marginRight: "5%",
                     paddingLeft: "4.5%",
                     paddingBottom: "3%",
                     paddingTop: "3.5%",
                   }}
                 >
-                  <p style={{ color: "#4263EB", fontSize: "1.05rem" }}>
+                  <Row>
+                  <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
                     Offer Size
                   </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "32%", marginTop: "1%" }}>
+                    ${value[0]} - ${value[1]}
+                  </p>
+                  </Row>
                   <Slider
-                    style={{ color: "#4263EB", width: "90%" }}
-                    marks={[
-                      { value: 5, label: "$0.01" },
-                      { value: 90, label: "$100 000" },
-                    ]}
+                    value={value}
+                    onChange={handleChange}
+                    scale={(x) => x**2}
+                    style={{ color: "#4263EB", width: "95%" }}
+
                   />
                 </Col>
                 <Col
@@ -150,15 +161,20 @@ const Home = (props: any) => {
                     paddingTop: "3.5%",
                   }}
                 >
-                  <p style={{ color: "#4263EB", fontSize: "1.05rem" }}>
+                  <Row>
+                  <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
                     Time Posted
                   </p>
+                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "30%", marginTop: "1%" }}>
+                    ${value[0]} - ${value[1]}
+                  </p>
+                  </Row>
                   <Slider
                     style={{ color: "#4263EB", width: "90%" }}
                     aria-labelledby="range-slider"
                     marks={[
-                      { value: 5, label: "$0.01" },
-                      { value: 90, label: "$100 000" },
+                      { value: 10, label: "< 1 minute" },
+                      { value: 90, label: "> 2 days" },
                     ]}
                   />
                 </Col>
@@ -274,10 +290,10 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            {/* <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
-              <FiFilter className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
-              <p  className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
-            </Row> */}
+            <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
+              <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
+              <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
+            </Row>
             <FeedContent>
               <Col>
                 <div

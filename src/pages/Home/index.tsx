@@ -163,19 +163,16 @@ const Home = (props: any) => {
                 >
                   <Row>
                   <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
-                    Time Posted
+                    Volume of Bitclout
                   </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "30%", marginTop: "1%" }}>
+                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "10%", marginTop: "1%" }}>
                     ${value[0]} - ${value[1]}
                   </p>
                   </Row>
                   <Slider
-                    style={{ color: "#4263EB", width: "90%" }}
+                    style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
                     aria-labelledby="range-slider"
-                    marks={[
-                      { value: 10, label: "< 1 minute" },
-                      { value: 90, label: "> 2 days" },
-                    ]}
+  
                   />
                 </Col>
               </Row>
@@ -275,10 +272,38 @@ const Home = (props: any) => {
                 <Button
                   size="sm"
                   onClick={() => setIntroModal(true)}
-                  style={{ marginTop: "0.1rem" }}
+                  style={{ marginTop: "0.1rem", backgroundColor: "white", border: "#4263EB", borderWidth: "0.05rem", borderStyle: "solid", color: "#4263EB", marginLeft: "2%" }}
                 >
                   Tutorial
                 </Button>
+              </Col>
+
+            </Row>
+            <Row style={{marginTop: "3%"}}>
+            <Col>
+                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
+                    <p style={{fontSize: "0.6rem"}}><span>Total Volume Transacted</span><span style={{marginLeft: "10%", color: "#DE5753"}}><span style={{marginRight: "2%"}}>🡣</span>400%</span></p>
+
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>$25,000</p>
+                </div>
+
+              </Col>
+
+              <Col>
+                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
+                    <p style={{fontSize: "0.75rem"}}><span>Average Swap Price</span><span style={{marginLeft: "8%", color: "#DE5753"}}><span style={{marginRight: "1%"}}>🡣</span>10%</span></p>
+
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>$132</p>
+                </div>
+
+              </Col>
+              <Col>
+                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
+                    <p style={{fontSize: "0.75rem"}}><span>Volume Reinvested</span><span style={{marginLeft: "10%", color: "#31AE71"}}><span style={{marginRight: "1%"}}>🡡</span>20%</span></p>
+
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>568 BTCLT</p>
+                </div>
+
               </Col>
             </Row>
             {/* <MediaQuery query="(max-device-width: 768px)">
@@ -290,10 +315,10 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            {/* <Row  style={{marginLeft: "1rem", marginTop: "4.75%"}}>
+            <Row  style={{marginLeft: "1rem", marginTop: "4%"}}>
               <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
               <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
-            </Row> */}
+            </Row>
             <FeedContent>
               <Col>
                 <div
@@ -302,7 +327,7 @@ const Home = (props: any) => {
                     window.visualViewport.width > 768
                       ? {
                           background: "transparent",
-                          maxHeight: "77vh",
+                          maxHeight: "62vh",
                           overflowX: "hidden",
                         }
                       : { background: "transparent", maxHeight: "65vh" }

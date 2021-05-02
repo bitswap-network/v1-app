@@ -54,7 +54,7 @@ const NewListing = (props: any) => {
         parseFloat(usdPerBitclout) * parseFloat(amountBitclout),
         (parseFloat(amountBitclout) * parseFloat(usdPerBitclout)) /
           etherPrice.USD,
-          depositAddress,
+        depositAddress,
         user.token
       )
         .then((response) => {
@@ -109,9 +109,9 @@ const NewListing = (props: any) => {
     }
     if (usdUpdated) {
       console.log(parseFloat(usdPerBitclout) <= 0);
-      if (parseFloat(usdPerBitclout) <= 0) {
+      if (parseFloat(usdPerBitclout) <= 50) {
         pass = false;
-        setFormError("You need to sell for a non-zero, non-negative amount.");
+        setFormError("You need to sell for above 50$.");
         setusdPerError(true);
       } else if (parseFloat(usdPerBitclout) >= 500) {
         pass = false;
@@ -245,12 +245,17 @@ const NewListing = (props: any) => {
                 <Col style={{ textAlign: "center", marginTop: "1%" }}>
                   {depositAddress && (
                     <>
-                      <p style={{ marginBottom: "0px",fontSize: "0.8rem", color: "#8d9296"  }}>
+                      <p
+                        style={{
+                          marginBottom: "0px",
+                          fontSize: "0.8rem",
+                          color: "#8d9296",
+                        }}
+                      >
                         Funds will be sent to: <b>{depositAddress}</b>
                       </p>
                     </>
                   )}
-                  
                 </Col>
                 <Col style={{ textAlign: "center", marginTop: "8%" }}>
                   <Button
@@ -607,7 +612,9 @@ const NewListing = (props: any) => {
                       usdPerError ||
                       amountError ||
                       amountBitclout.length === 0 ||
-                      usdPerBitclout.length === 0 || !depositAddress || depositAddress === ""
+                      usdPerBitclout.length === 0 ||
+                      !depositAddress ||
+                      depositAddress === ""
                     }
                     onClick={() => confirmModalOpen(true)}
                   >

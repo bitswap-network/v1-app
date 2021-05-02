@@ -20,4 +20,8 @@ export const getPendingTransactions = async (token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
-
+export const postRetryListing = async(listing_id:string,token:string)=>{
+  return await axios.post(`${url}/utility/retry`, {listing_id:listing_id},{
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}

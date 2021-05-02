@@ -20,6 +20,15 @@ import { MainContent, Wrapper, FeedContent, MobileButton } from "./styles";
 import { useUser, useFirstRender } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import { TableRow } from "material-ui";
+import { useEthPrice } from "components/hooks";
+
+import {
+  getLogs,
+  getTotalVolume,
+  getAvgPrice,
+  getPendingTransactions,
+  postRetryListing
+} from "../../services/admin";
 
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
@@ -45,12 +54,44 @@ const Home = (props: any) => {
   const [filterModal, setFilterModal] = useState(false);
   const [value, setValue] = React.useState([20, 37]);
 
+  const [avgprice, setAvgprice] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [totalVolume, setVolume] = useState(null)
+  const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
+  const [volumeLoading, setVolumeLoading] = useState(true);
+
+
+
+
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(() => {
+    getAvgPrice()
+    .then((response) => {
+      setAvgprice(response.data);
+      setStatsLoading(false)
+      console.log(response);
+    })
+    .catch((error) => {
+      setStatsLoading(false)
+      console.log(error.data);
+    });
+
+    getTotalVolume()
+    .then((response) => {
+      setVolume(response.data);
+      setVolumeLoading(false)
+    })
+    .catch((error) => {
+      console.log(error.data);
+      setVolumeLoading(false)
+
+    });
+
     getListings(volumeSort, dateSort)
       .then((res) => {
         // console.log(res);
@@ -61,6 +102,8 @@ const Home = (props: any) => {
         console.log(err);
         setLoading(false);
       });
+
+     
   }, [dateSort, volumeSort]);
 
   const handleSort = (type: string) => {
@@ -284,7 +327,7 @@ const Home = (props: any) => {
                 <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
                     <p style={{fontSize: "0.6rem"}}><span>Total Volume Transacted</span><span style={{marginLeft: "10%", color: "#DE5753"}}><span style={{marginRight: "2%"}}>🡣</span>400%</span></p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>$25,000</p>
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? ((totalVolume.totaletheramount.toFixed(6)*etherPrice.USD) + (totalVolume.totalbitcloutnanos / 1e9 * 150)).toFixed(2) : 100000}</p>
                 </div>
 
               </Col>
@@ -293,7 +336,7 @@ const Home = (props: any) => {
                 <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
                     <p style={{fontSize: "0.75rem"}}><span>Average Swap Price</span><span style={{marginLeft: "8%", color: "#DE5753"}}><span style={{marginRight: "1%"}}>🡣</span>10%</span></p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>$132</p>
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!statsLoading ? avgprice.avgprice.toFixed(2): 100}</p>
                 </div>
 
               </Col>
@@ -301,7 +344,7 @@ const Home = (props: any) => {
                 <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
                     <p style={{fontSize: "0.75rem"}}><span>Volume Reinvested</span><span style={{marginLeft: "10%", color: "#31AE71"}}><span style={{marginRight: "1%"}}>🡡</span>20%</span></p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>568 BTCLT</p>
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? (((totalVolume.totaletheramount.toFixed(6)*etherPrice.USD) + (totalVolume.totalbitcloutnanos / 1e9 * 150))*0.005).toFixed(2) : 100000}</p>
                 </div>
 
               </Col>

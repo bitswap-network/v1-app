@@ -17,10 +17,9 @@ import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { MainContent, Wrapper, FeedContent, MobileButton } from "./styles";
-import { useUser, useFirstRender } from "components/hooks";
+import { useUser, useFirstRender, useEthPrice } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
 import { TableRow } from "material-ui";
-import { useEthPrice } from "components/hooks";
 
 import {
   getLogs,
@@ -50,13 +49,14 @@ const Home = (props: any) => {
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
+  const [volume, setVolume] = useState(null);
+  const [volumeUSD, setVolumeUSD] = useState(null);
   const [introModal, setIntroModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
   const [value, setValue] = React.useState([20, 37]);
 
   const [avgprice, setAvgprice] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
-  const [totalVolume, setVolume] = useState(null)
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
   const [volumeLoading, setVolumeLoading] = useState(true);
 
@@ -105,6 +105,31 @@ const Home = (props: any) => {
 
      
   }, [dateSort, volumeSort]);
+  useEffect(() => {
+    if (!ethIsLoading) {
+      getTotalVolume()
+        .then((response) => {
+          setVolume(response.data);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+      getAvgPrice()
+        .then((response) => {
+          let bitcloutvolume = volume.totalbitcloutnanos / 1e9;
+          let ethervolume = volume.totaletheramount;
+          let bitcloutpriceUSD = bitcloutvolume * response.data.avgprice;
+          let etherpriceUSD = ethervolume * etherPrice.USD;
+          setVolumeUSD(bitcloutpriceUSD + etherpriceUSD);
+          setAvgprice(response.data);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
+    }
+  }, [ethIsLoading, etherPrice]);
 
   const handleSort = (type: string) => {
     if (type === "date") {
@@ -132,7 +157,7 @@ const Home = (props: any) => {
       <>
         <Modal
           show={filterModal}
-          onHide={false}
+          onHide={() => setFilterModal(false)}
           style={{ display: "flex", margin: "auto" }}
           aria-labelledby="contained-modal-title-vcenter"
           centered
@@ -140,17 +165,21 @@ const Home = (props: any) => {
         >
           <Modal.Body>
             <Col>
-              <FiX
-                size={"2rem"}
-                style={{
-                  float: "right",
-                  marginRight: "0.75rem",
-                  marginTop: "1rem",
-                  color: "#ACB5BD",
-                  cursor: "pointer",
-                }}
-                onClick={() => setFilterModal(false)}              
-              />
+              <div>
+                <FiX
+                  size={"2rem"}
+                  style={{
+                    position: "relative",
+                    float: "right",
+                    marginRight: "0.75rem",
+                    zIndex: 99,
+                    marginTop: "1rem",
+                    color: "#ACB5BD",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setFilterModal(false)}
+                />
+              </div>
             </Col>
             <Col style={{ textAlign: "left" }}>
               <p
@@ -178,19 +207,31 @@ const Home = (props: any) => {
                   }}
                 >
                   <Row>
-                  <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
-                    Price per Bitclout
-                  </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "32%", marginTop: "1%" }}>
-                    ${value[0]} - ${value[1]}
-                  </p>
+                    <p
+                      style={{
+                        color: "#4263EB",
+                        fontSize: "1.05rem",
+                        marginLeft: "2%",
+                      }}
+                    >
+                      Price per Bitclout
+                    </p>
+                    <p
+                      style={{
+                        color: "#6494FF",
+                        fontSize: "0.8rem",
+                        marginLeft: "32%",
+                        marginTop: "1%",
+                      }}
+                    >
+                      ${value[0]} - ${value[1]}
+                    </p>
                   </Row>
                   <Slider
                     value={value}
                     onChange={handleChange}
-                    scale={(x) => x**2}
+                    scale={(x) => x ** 2}
                     style={{ color: "#4263EB", width: "95%" }}
-
                   />
                 </Col>
                 <Col
@@ -205,17 +246,31 @@ const Home = (props: any) => {
                   }}
                 >
                   <Row>
-                  <p style={{ color: "#4263EB", fontSize: "1.05rem", marginLeft: "2%" }}>
-                    Volume of Bitclout
-                  </p>
-                  <p style={{ color: "#6494FF", fontSize: "0.8rem", marginLeft: "10%", marginTop: "1%" }}>
-                    ${value[0]} - ${value[1]}
-                  </p>
+                    <p
+                      style={{
+                        color: "#4263EB",
+                        fontSize: "1.05rem",
+                        marginLeft: "2%",
+                      }}
+                    >
+                      Volume of Bitclout
+                    </p>
+                    <p
+                      style={{
+                        color: "#6494FF",
+                        fontSize: "0.8rem",
+                        marginLeft: "10%",
+                        marginTop: "1%",
+                      }}
+                    >
+                      ${value[0]} - ${value[1]}
+                    </p>
                   </Row>
                   <Slider
                     style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
-                    aria-labelledby="range-slider"
-  
+                    value={value}
+                    onChange={handleChange}
+                    scale={(x) => x ** 2}
                   />
                 </Col>
               </Row>
@@ -315,38 +370,105 @@ const Home = (props: any) => {
                 <Button
                   size="sm"
                   onClick={() => setIntroModal(true)}
-                  style={{ marginTop: "0.1rem", backgroundColor: "white", border: "#4263EB", borderWidth: "0.05rem", borderStyle: "solid", color: "#4263EB", marginLeft: "2%" }}
+                  style={{
+                    marginTop: "0.1rem",
+                    backgroundColor: "white",
+                    border: "#4263EB",
+                    borderWidth: "0.05rem",
+                    borderStyle: "solid",
+                    color: "#4263EB",
+                    marginLeft: "2%",
+                  }}
                 >
                   Tutorial
                 </Button>
               </Col>
-
             </Row>
-            <Row style={{marginTop: "3%"}}>
-            <Col>
-                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
-                    <p style={{fontSize: "0.6rem"}}><span>Total Volume Transacted</span><span style={{marginLeft: "10%", color: "#DE5753"}}><span style={{marginRight: "2%"}}>🡣</span>400%</span></p>
+            <Row style={{ marginTop: "3%" }}>
+              <Col>
+                <div
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#DDE2E5",
+                    borderWidth: "0.08rem",
+                    borderRadius: 10,
+                    paddingTop: "5%",
+                    paddingLeft: "7%",
+                    width: "14rem",
+                  }}
+                >
+                  <p style={{ fontSize: "0.6rem" }}><span>Total Volume Transacted</span></p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? ((totalVolume.totaletheramount.toFixed(6)*etherPrice.USD) + (totalVolume.totalbitcloutnanos / 1e9 * 150)).toFixed(2) : 100000}</p>
+                
+                  <p
+                    style={{
+                      color: "#212429",
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {volumeUSD
+                      ? `$${volumeUSD.toLocaleString()}`
+                      : "Loading..."}
+                  </p>
                 </div>
-
               </Col>
 
               <Col>
-                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
-                    <p style={{fontSize: "0.75rem"}}><span>Average Swap Price</span><span style={{marginLeft: "8%", color: "#DE5753"}}><span style={{marginRight: "1%"}}>🡣</span>10%</span></p>
+                <div
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#DDE2E5",
+                    borderWidth: "0.08rem",
+                    borderRadius: 10,
+                    paddingTop: "5%",
+                    paddingLeft: "7%",
+                    width: "14rem",
+                  }}
+                >
+                  <p style={{ fontSize: "0.75rem" }}>
+                    <span>Average Swap Price</span>
+                    {/* <span style={{ marginLeft: "8%", color: "#DE5753" }}>
+                      <span style={{ marginRight: "1%" }}>🡣</span>10%
+                    </span> */}
+                  </p>
 
                   <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!statsLoading ? avgprice.avgprice.toFixed(2): 100}</p>
                 </div>
-
               </Col>
               <Col>
-                <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
-                    <p style={{fontSize: "0.75rem"}}><span>Volume Reinvested</span><span style={{marginLeft: "10%", color: "#31AE71"}}><span style={{marginRight: "1%"}}>🡡</span>20%</span></p>
+                <div
+                  style={{
+                    borderStyle: "solid",
+                    borderColor: "#DDE2E5",
+                    borderWidth: "0.08rem",
+                    borderRadius: 10,
+                    paddingTop: "5%",
+                    paddingLeft: "7%",
+                    width: "14rem",
+                  }}
+                >
+                  <p style={{ fontSize: "0.75rem" }}>
+                    <span>Volume Reinvested</span>
+                    {/* <span style={{ marginLeft: "10%", color: "#31AE71" }}>
+                      <span style={{ marginRight: "1%" }}>🡡</span>20%
+                    </span> */}
+                  </p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? (( (totalVolume.totalbitcloutnanos / 1e9 * 150))*0.02).toFixed(2) : 100000}</p>
+                  <p
+                    style={{
+                      color: "#212429",
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {volume
+                      ? `${((volume.totalbitcloutnanos / 1e9) * 0.02).toFixed(
+                          2
+                        )} BCLT`
+                      : "Loading..."}
+                  </p>
                 </div>
-
               </Col>
             </Row>
             {/* <MediaQuery query="(max-device-width: 768px)">
@@ -358,9 +480,21 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            <Row  style={{marginLeft: "1rem", marginTop: "4%"}}>
-              <FiFilter onClick={() => setFilterModal(true)} className="hoverCursor" size={'1rem'} color={"#6494FF"} style={{marginTop: "0.7%", marginRight: "0.7%"}} />
-              <p onClick={() => setFilterModal(true)} className="hoverCursor" style={{color: "#6494FF", fontSize: "1em"}}>Filter</p>
+            <Row style={{ marginLeft: "1rem", marginTop: "4%" }}>
+              <FiFilter
+                onClick={() => setFilterModal(true)}
+                className="hoverCursor"
+                size={"1rem"}
+                color={"#6494FF"}
+                style={{ marginTop: "0.7%", marginRight: "0.7%" }}
+              />
+              <p
+                onClick={() => setFilterModal(true)}
+                className="hoverCursor"
+                style={{ color: "#6494FF", fontSize: "1em" }}
+              >
+                Filter
+              </p>
             </Row>
             <FeedContent>
               <Col>

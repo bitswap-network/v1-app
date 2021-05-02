@@ -51,7 +51,7 @@ export function useEthPrice() {
     `${url}/utility/getEthUSD`,
     (url) => axios.get(url).then((res) => res.data),
     {
-      refreshInterval: 10000,
+      refreshInterval: 5000,
     }
   );
 

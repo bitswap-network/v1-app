@@ -344,7 +344,7 @@ const Home = (props: any) => {
                 <div style={{borderStyle: "solid", borderColor: "#DDE2E5", borderWidth: "0.08rem", borderRadius: 10, paddingTop: "5%", paddingLeft: "7%", width: "14rem"}}>
                     <p style={{fontSize: "0.75rem"}}><span>Volume Reinvested</span><span style={{marginLeft: "10%", color: "#31AE71"}}><span style={{marginRight: "1%"}}>🡡</span>20%</span></p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? (((totalVolume.totaletheramount.toFixed(6)*etherPrice.USD) + (totalVolume.totalbitcloutnanos / 1e9 * 150))*0.005).toFixed(2) : 100000}</p>
+                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!volumeLoading && !ethIsLoading ? (( (totalVolume.totalbitcloutnanos / 1e9 * 150))*0.02).toFixed(2) : 100000}</p>
                 </div>
 
               </Col>

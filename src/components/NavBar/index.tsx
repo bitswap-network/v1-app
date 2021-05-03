@@ -107,7 +107,7 @@ const NavElement = (props: any) => {
       )}
       <Link
         to={props.linkto}
-        style={{ color: props.label == "Join Discord" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
+        style={{ color: props.label == "Discord Support" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
       >
         {props.label}
       </Link>
@@ -256,7 +256,7 @@ export const NavBar: React.FC = (props: any) => {
               ) : null}
               <Row className="navRow" style={{ paddingTop: "6vh" }}>
                 <NavElement
-                  label="Join Discord"
+                  label="Discord Support"
                   linkto="/"
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}

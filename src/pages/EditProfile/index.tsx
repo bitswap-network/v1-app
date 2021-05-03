@@ -34,6 +34,7 @@ const EditProfile = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [successfulpass, setSuccessfulPass] = useState(false);
+  const [setAddresses, setSetAddresses] = useState(false);
   const [form, setForm] = useState({
     username: user.username,
     email: user.email,
@@ -44,7 +45,8 @@ const EditProfile = (props: any) => {
     newPassword: "",
   });
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !setAddresses) {
+      setSetAddresses(true);
       setForm({
         ...form,
         ethereumaddress: Array.isArray(userData?.ethereumaddress)

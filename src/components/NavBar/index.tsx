@@ -6,7 +6,7 @@ import {
   Navbar,
   Nav,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
 } from "react-bootstrap";
 import Logo from "url:../../assets/bitswap.png";
 import { Link } from "react-router-dom";
@@ -15,14 +15,14 @@ import {
   FiUploadCloud,
   FiInbox,
   FiDollarSign,
-  FiHelpCircle
+  FiHelpCircle,
 } from "react-icons/fi";
 import MediaQuery from "react-responsive";
 import { loggedInState, userState } from "store";
 import { useRecoilValue } from "recoil";
 import { useUser } from "components/hooks";
 
-const renderTooltip = props => (
+const renderTooltip = (props) => (
   <Tooltip id="balance-tooltip" {...props}>
     This is your balance on the BitSwap platform. You may deposit or withdraw
     funds on the wallet page.
@@ -35,7 +35,7 @@ const NavElement = (props: any) => {
         margin: "0%",
         marginRight: "0%",
         marginLeft: "0%",
-        textAlign: "left"
+        textAlign: "left",
       }}
       onClick={() => {
         props.setCurrentPage(props.linkto);
@@ -63,7 +63,7 @@ const NavElement = (props: any) => {
             style={{
               color: "#43494f",
               textDecoration:
-                props.currentPage === props.linkto ? "underline" : "none"
+                props.currentPage === props.linkto ? "underline" : "none",
             }}
           />
         </>
@@ -77,7 +77,7 @@ const NavElement = (props: any) => {
             style={{
               color: "#43494f",
               textDecoration:
-                props.currentPage === "/post" ? "underline" : "none"
+                props.currentPage === "/post" ? "underline" : "none",
             }}
           />
         </>
@@ -91,7 +91,7 @@ const NavElement = (props: any) => {
             style={{
               color: "#43494f",
               textDecoration:
-                props.currentPage === props.linkto ? "underline" : "none"
+                props.currentPage === props.linkto ? "underline" : "none",
             }}
           />
         </>
@@ -129,7 +129,7 @@ export const NavBar: React.FC = (props: any) => {
             display: "flex",
             marginLeft: 0,
             marginRight: 0,
-            paddingLeft: 0
+            paddingLeft: 0,
           }}
         >
           <Navbar expand="lg">
@@ -203,7 +203,7 @@ export const NavBar: React.FC = (props: any) => {
               marginTop: "5px",
               textAlign: "right",
               height: "90vh",
-              display: "flex"
+              display: "flex",
             }}
           >
             <Row style={{ marginTop: "5px", height: "10%" }}>
@@ -266,14 +266,14 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "19vh",
                   textAlign: "left",
-                  width: "200%"
+                  width: "200%",
                 }}
               >
                 {isLoggedIn && userData?.verified !== "verified" && (
                   <>
                     <div
                       style={{
-                        textAlign: "center"
+                        textAlign: "center",
                       }}
                       className="hoverCursor"
                       onClick={() => window.location.assign("/profile")}
@@ -291,14 +291,14 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "2vh",
                   textAlign: "left",
-                  width: "200%"
+                  width: "200%",
                 }}
               >
                 {isLoggedIn && userData?.admin && (
                   <>
                     <div
                       style={{
-                        textAlign: "center"
+                        textAlign: "center",
                       }}
                       className="hoverCursor"
                       onClick={() => window.location.assign("/admin")}
@@ -312,7 +312,7 @@ export const NavBar: React.FC = (props: any) => {
                 style={{
                   marginTop: "2vh",
                   textAlign: "left",
-                  width: "200%"
+                  width: "200%",
                 }}
               >
                 <OverlayTrigger
@@ -350,14 +350,14 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       borderRadius: "60px",
                       height: "auto",
-                      width: "6vh"
+                      width: "6vh",
                     }}
                   />
                   <Row
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start"
+                      alignItems: "flex-start",
                     }}
                   >
                     <a
@@ -366,7 +366,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         marginLeft: "4vh",
                         fontSize: "1.8vh",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/profile"
                     >
@@ -381,7 +381,7 @@ export const NavBar: React.FC = (props: any) => {
                       fontFamily: "inherit",
                       fontSize: "1.5vh",
                       marginLeft: "-4.5vh",
-                      marginTop: "3vh"
+                      marginTop: "3vh",
                     }}
                   >
                     {"Logout"}
@@ -395,7 +395,7 @@ export const NavBar: React.FC = (props: any) => {
                         color: "#43494f",
                         fontFamily: "inherit",
                         fontSize: "2vh",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/login"
                     >
@@ -406,7 +406,7 @@ export const NavBar: React.FC = (props: any) => {
                     style={{
                       flexDirection: "column",
                       display: "flex",
-                      alignItems: "flex-start"
+                      alignItems: "flex-start",
                     }}
                   >
                     <a
@@ -415,7 +415,7 @@ export const NavBar: React.FC = (props: any) => {
                         fontFamily: "inherit",
                         fontSize: "2vh",
                         marginTop: "0.5rem",
-                        height: "50%"
+                        height: "50%",
                       }}
                       href="/register"
                     >
@@ -432,14 +432,14 @@ export const NavBar: React.FC = (props: any) => {
               marginRight: 0,
               paddingLeft: 0,
               paddingRight: 0,
-              width: 10
+              width: 10,
             }}
           >
             <div
               style={{
                 borderLeft: "1px solid #DDE2E5",
                 height: "100vh",
-                width: "1rem"
+                width: "1rem",
               }}
             />
           </Container>

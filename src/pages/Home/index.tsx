@@ -42,7 +42,7 @@ const ongoingBuysTooltip = (props) => (
 
 const averageSwapTooltip = (props) => (
   <Tooltip id="average-tooltip" {...props}>
-    This price reflects the average over the last 10 listings on BitSwap
+    This price reflects the average over all completed listings on BitSwap
   </Tooltip>
 );
 

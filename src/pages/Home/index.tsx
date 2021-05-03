@@ -26,7 +26,7 @@ import {
   getTotalVolume,
   getAvgPrice,
   getPendingTransactions,
-  postRetryListing
+  postRetryListing,
 } from "../../services/admin";
 
 const ongoingSwapTooltip = (props) => (
@@ -60,37 +60,31 @@ const Home = (props: any) => {
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
   const [volumeLoading, setVolumeLoading] = useState(true);
 
-
-
-
-
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(() => {
     getAvgPrice()
-    .then((response) => {
-      setAvgprice(response.data);
-      setStatsLoading(false)
-      console.log(response);
-    })
-    .catch((error) => {
-      setStatsLoading(false)
-      console.log(error.data);
-    });
+      .then((response) => {
+        setAvgprice(response.data);
+        setStatsLoading(false);
+        console.log(response);
+      })
+      .catch((error) => {
+        setStatsLoading(false);
+        console.log(error.data);
+      });
 
     getTotalVolume()
-    .then((response) => {
-      setVolume(response.data);
-      setVolumeLoading(false)
-    })
-    .catch((error) => {
-      console.log(error.data);
-      setVolumeLoading(false)
-
-    });
+      .then((response) => {
+        setVolume(response.data);
+        setVolumeLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.data);
+        setVolumeLoading(false);
+      });
 
     getListings(volumeSort, dateSort)
       .then((res) => {
@@ -102,8 +96,6 @@ const Home = (props: any) => {
         console.log(err);
         setLoading(false);
       });
-
-     
   }, [dateSort, volumeSort]);
   useEffect(() => {
     if (!ethIsLoading) {
@@ -397,9 +389,10 @@ const Home = (props: any) => {
                     width: "14rem",
                   }}
                 >
-                  <p style={{ fontSize: "0.6rem" }}><span>Total Volume Transacted</span></p>
+                  <p style={{ fontSize: "0.6rem" }}>
+                    <span>Total Volume Transacted</span>
+                  </p>
 
-                
                   <p
                     style={{
                       color: "#212429",
@@ -433,7 +426,15 @@ const Home = (props: any) => {
                     </span> */}
                   </p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!statsLoading ? avgprice.avgprice.toFixed(2): 100}</p>
+                  <p
+                    style={{
+                      color: "#212429",
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    ${!statsLoading ? avgprice.avgprice.toFixed(2) : 100}
+                  </p>
                 </div>
               </Col>
               <Col>
@@ -480,7 +481,7 @@ const Home = (props: any) => {
                 Post Swap
               </MobileButton>
             </MediaQuery>  */}
-            <Row style={{ marginLeft: "1rem", marginTop: "4%" }}>
+            {/* <Row style={{ marginLeft: "1rem", marginTop: "4%" }}>
               <FiFilter
                 onClick={() => setFilterModal(true)}
                 className="hoverCursor"
@@ -495,7 +496,7 @@ const Home = (props: any) => {
               >
                 Filter
               </p>
-            </Row>
+            </Row> */}
             <FeedContent>
               <Col>
                 <div
@@ -667,6 +668,20 @@ const Home = (props: any) => {
                     </p>
                   )}
                 </div>
+                <Row style={{ marginTop: "5rem" }}>
+                  <p
+                    style={{
+                      color: "#ACB5BD",
+                      fontSize: "0.75rem",
+                      marginTop: "12%",
+                      marginLeft: "10%",
+                    }}
+                  >
+                    <a href={"mailto:support@bitswap.network"} target="_blank">
+                      support@bitswap.network
+                    </a>
+                  </p>
+                </Row>
               </>
             )}
           </Col>

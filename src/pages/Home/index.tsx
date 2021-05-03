@@ -40,6 +40,12 @@ const ongoingBuysTooltip = (props) => (
   </Tooltip>
 );
 
+const averageSwapTooltip = (props) => (
+  <Tooltip id="average-tooltip" {...props}>
+    This price reflects the average over the last 10 listings on BitSwap
+  </Tooltip>
+);
+
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
   const firstRender = useFirstRender();
@@ -428,13 +434,14 @@ const Home = (props: any) => {
                     }}
                   >
                     {volumeUSD
-                      ? `$${volumeUSD.toLocaleString()}`
+                      ? `$${Number((volumeUSD.toFixed(2))).toLocaleString()}`
                       : "Loading..."}
                   </p>
                 </div>
               </Col>
 
               <Col>
+                
                 <div
                   style={{
                     borderStyle: "solid",
@@ -446,11 +453,19 @@ const Home = (props: any) => {
                     width: "14rem",
                   }}
                 >
+
                   <p style={{ fontSize: "0.75rem" }}>
                     <span>Average Swap Price</span>
-                    {/* <span style={{ marginLeft: "8%", color: "#DE5753" }}>
-                      <span style={{ marginRight: "1%" }}>🡣</span>10%
-                    </span> */}
+                    <OverlayTrigger
+                    placement="right"
+                    delay={{ show: 100, hide: 300 }}
+                    overlay={averageSwapTooltip}
+                  >
+                    <FiHelpCircle
+                      style={{ marginLeft: "23%", color: "#212429", fontWeight: 400, }}
+                    />
+                  </OverlayTrigger>
+
                   </p>
 
                   <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!statsLoading ? avgprice.avgprice.toFixed(2): 100}</p>

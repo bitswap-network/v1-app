@@ -107,7 +107,7 @@ const NavElement = (props: any) => {
       )}
       <Link
         to={props.linkto}
-        style={{ color: "#43494f", fontFamily: "inherit" }}
+        style={{ color: props.label == "Join Discord" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
       >
         {props.label}
       </Link>
@@ -150,6 +150,8 @@ export const NavBar: React.FC = (props: any) => {
                     <Nav.Link href="/userlistings">My Listings</Nav.Link>
                     <Nav.Link href="/profile">My Profile</Nav.Link>
                     <Nav.Link href="/wallet">My Wallet</Nav.Link>
+                    <Nav.Link href="https://discord.gg/bitswap" style={{color: "#7289DA"}}>Discord</Nav.Link>
+
                   </>
                 ) : null}
                 {isLoggedIn && userData?.admin && (
@@ -222,6 +224,7 @@ export const NavBar: React.FC = (props: any) => {
                   setCurrentPage={setCurrentPage}
                 />
               </Row>
+      
 
               {isLoggedIn ? (
                 <>
@@ -251,9 +254,17 @@ export const NavBar: React.FC = (props: any) => {
                   </Row>
                 </>
               ) : null}
+              <Row className="navRow" style={{ paddingTop: "6vh" }}>
+                <NavElement
+                  label="Join Discord"
+                  linkto="/"
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                />
+              </Row>
               <Row
                 style={{
-                  marginTop: "25vh",
+                  marginTop: "19vh",
                   textAlign: "left",
                   width: "200%"
                 }}
@@ -274,6 +285,8 @@ export const NavBar: React.FC = (props: any) => {
                   </>
                 )}
               </Row>
+        
+           
               <Row
                 style={{
                   marginTop: "2vh",

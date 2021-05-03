@@ -11,7 +11,7 @@ import FeedListing from "../../components/FeedListing";
 import Slider from "@material-ui/core/Slider";
 
 import { ListingSchema } from "../../components/interfaces";
-import { FiHelpCircle, FiFilter, FiX } from "react-icons/fi";
+import { FiHelpCircle, FiFilter, FiX, FiXCircle } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
@@ -53,7 +53,12 @@ const Home = (props: any) => {
   const [volumeUSD, setVolumeUSD] = useState(null);
   const [introModal, setIntroModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
-  const [value, setValue] = React.useState([20, 37]);
+  const [pricePerBitcloutFilter, setPricePerBitcloutFilter] = React.useState([1, 250]);
+  const [volumeFilter, setVolumeFilter] = React.useState([1, 1000]);
+  const [showVolumeTag, setShowVolumeTag] = React.useState(false);
+  const [showPriceTag, setShowPriceTag] = React.useState(false);
+
+
 
   const [avgprice, setAvgprice] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
@@ -65,8 +70,12 @@ const Home = (props: any) => {
 
 
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChangePrice = (event, newValue) => {
+    setPricePerBitcloutFilter(newValue);
+  };
+  
+  const handleChangeVolume = (event, newValue) => {
+    setVolumeFilter(newValue);
   };
 
   useEffect(() => {
@@ -220,18 +229,19 @@ const Home = (props: any) => {
                       style={{
                         color: "#6494FF",
                         fontSize: "0.8rem",
-                        marginLeft: "32%",
+                        marginLeft: "10%",
                         marginTop: "1%",
                       }}
                     >
-                      ${value[0]} - ${value[1]}
+                      ${pricePerBitcloutFilter[0]} - ${pricePerBitcloutFilter[1]}
                     </p>
                   </Row>
                   <Slider
-                    value={value}
-                    onChange={handleChange}
-                    scale={(x) => x ** 2}
-                    style={{ color: "#4263EB", width: "95%" }}
+                    min={1}
+                    max={250}
+                    value={pricePerBitcloutFilter}
+                    onChange={handleChangePrice}
+                    style={{ color: "#4263EB", width: "95%", marginTop: "10%" }}
                   />
                 </Col>
                 <Col
@@ -263,14 +273,20 @@ const Home = (props: any) => {
                         marginTop: "1%",
                       }}
                     >
-                      ${value[0]} - ${value[1]}
+                      {volumeFilter[0]} - {volumeFilter[1]}
                     </p>
                   </Row>
                   <Slider
+                    min={1}
+                    max={1000}
                     style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
-                    value={value}
-                    onChange={handleChange}
-                    scale={(x) => x ** 2}
+                    value={volumeFilter}
+                    onChange={handleChangeVolume}
+                    scale={(volumeFilter) => volumeFilter+10000}
+                    aria-labelledby="non-linear-slider"
+                    step={1}
+
+                  
                   />
                 </Col>
               </Row>
@@ -287,7 +303,11 @@ const Home = (props: any) => {
               <Row>
                 <Col>
                   <Button
-                    onClick={() => setIntroModal(true)}
+                    onClick={() => {
+                      setShowPriceTag(true);
+                      setShowVolumeTag(true);
+                      setFilterModal(false);
+                    }}
                     style={{ backgroundColor: "#4263EB", width: "15rem" }}
                   >
                     Apply Filter
@@ -495,6 +515,29 @@ const Home = (props: any) => {
               >
                 Filter
               </p>
+
+              <div style={{fontSize: "0.75rem",  border: "1px solid #6494FF", backgroundColor: "white", height: "0.85rem", color: "#6494FF", paddingBottom: "1.4rem", width: "auto", borderRadius: 50, flexDirection: "row", display: showPriceTag ? "flex" : "none", marginLeft: "0.65rem", paddingRight: "0.7rem"}}>
+                <FiXCircle
+                  onClick={() => setShowPriceTag(false)}
+                  className="hoverCursor"
+                  color={"#6494FF"}
+                  size={"1rem"}
+                  style={{marginTop: "0.2rem", marginLeft: "0.3rem"}}
+                  
+                />
+                <p style={{marginLeft: "0.5rem", marginTop: "0.1rem"}}>Price per Bitclout: ${pricePerBitcloutFilter[0]} - ${pricePerBitcloutFilter[1]}</p>
+              </div>
+
+              <div style={{fontSize: "0.75rem", border: "1px solid #6494FF", backgroundColor: "white", height: "0.85rem", color: "#6494FF", paddingBottom: "1.4rem", width: "auto", borderRadius: 50, flexDirection: "row", display: showVolumeTag ? "flex" : "none", marginLeft: "0.65rem",  paddingRight: "0.7rem"}}>
+                <FiXCircle
+                  onClick={() => setShowVolumeTag(false)}
+                  className="hoverCursor"
+                  color={"#6494FF"}
+                  size={"1rem"}
+                  style={{marginTop: "0.2rem", marginLeft: "0.3rem"}}
+                />
+                <p style={{marginLeft: "0.5rem", marginTop: "0.1rem"}}>Volume of Bitclout: {volumeFilter[0]} - {volumeFilter[1]}</p>
+              </div>
             </Row>
             <FeedContent>
               <Col>

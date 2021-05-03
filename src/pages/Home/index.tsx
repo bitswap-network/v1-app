@@ -5,7 +5,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Modal,
-  Button,
+  Button
 } from "react-bootstrap";
 import FeedListing from "../../components/FeedListing";
 import Slider from "@material-ui/core/Slider";
@@ -29,18 +29,18 @@ import {
   postRetryListing
 } from "../../services/admin";
 
-const ongoingSwapTooltip = (props) => (
+const ongoingSwapTooltip = props => (
   <Tooltip id="swap-tooltip" {...props}>
     These are listings you have made that are currently in progress
   </Tooltip>
 );
-const ongoingBuysTooltip = (props) => (
+const ongoingBuysTooltip = props => (
   <Tooltip id="buys-tooltip" {...props}>
     These are listings you have purchased that are currently in progress
   </Tooltip>
 );
 
-const averageSwapTooltip = (props) => (
+const averageSwapTooltip = props => (
   <Tooltip id="average-tooltip" {...props}>
     This price reflects the average over the last 10 listings on BitSwap
   </Tooltip>
@@ -55,83 +55,85 @@ const Home = (props: any) => {
   const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("desc");
   const [dateSort, setDateSort] = useState("desc");
+  const [priceSort, setPriceSort] = useState("desc");
   const [volume, setVolume] = useState(null);
   const [volumeUSD, setVolumeUSD] = useState(null);
   const [introModal, setIntroModal] = useState(false);
   const [filterModal, setFilterModal] = useState(false);
-  const [pricePerBitcloutFilter, setPricePerBitcloutFilter] = React.useState([1, 250]);
+  const [pricePerBitcloutFilter, setPricePerBitcloutFilter] = React.useState([
+    1,
+    250
+  ]);
   const [volumeFilter, setVolumeFilter] = React.useState([1, 1000]);
   const [showVolumeTag, setShowVolumeTag] = React.useState(false);
   const [showPriceTag, setShowPriceTag] = React.useState(false);
-
-
 
   const [avgprice, setAvgprice] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
   const [volumeLoading, setVolumeLoading] = useState(true);
 
-
-
-
-
-
   const handleChangePrice = (event, newValue) => {
     setPricePerBitcloutFilter(newValue);
   };
-  
+
   const handleChangeVolume = (event, newValue) => {
     setVolumeFilter(newValue);
   };
 
   useEffect(() => {
     getAvgPrice()
-    .then((response) => {
-      setAvgprice(response.data);
-      setStatsLoading(false)
-      console.log(response);
-    })
-    .catch((error) => {
-      setStatsLoading(false)
-      console.log(error.data);
-    });
+      .then(response => {
+        setAvgprice(response.data);
+        setStatsLoading(false);
+        console.log(response);
+      })
+      .catch(error => {
+        setStatsLoading(false);
+        console.log(error.data);
+      });
 
     getTotalVolume()
-    .then((response) => {
-      setVolume(response.data);
-      setVolumeLoading(false)
-    })
-    .catch((error) => {
-      console.log(error.data);
-      setVolumeLoading(false)
+      .then(response => {
+        setVolume(response.data);
+        setVolumeLoading(false);
+      })
+      .catch(error => {
+        console.log(error.data);
+        setVolumeLoading(false);
+      });
 
-    });
-
-    getListings(volumeSort, dateSort)
-      .then((res) => {
+    getListings(
+      volumeSort,
+      dateSort,
+      priceSort,
+      pricePerBitcloutFilter[0],
+      pricePerBitcloutFilter[1],
+      volumeFilter[0],
+      volumeFilter[1]
+    )
+      .then(res => {
         // console.log(res);
         setListings(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setLoading(false);
       });
-
-     
-  }, [dateSort, volumeSort]);
+  }, [dateSort, volumeSort, priceSort, pricePerBitcloutFilter, volumeFilter]);
   useEffect(() => {
     if (!ethIsLoading) {
       getTotalVolume()
-        .then((response) => {
+        .then(response => {
           setVolume(response.data);
           console.log(response);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.data);
         });
       getAvgPrice()
-        .then((response) => {
+        .then(response => {
           let bitcloutvolume = volume.totalbitcloutnanos / 1e9;
           let ethervolume = volume.totaletheramount;
           let bitcloutpriceUSD = bitcloutvolume * response.data.avgprice;
@@ -140,7 +142,7 @@ const Home = (props: any) => {
           setAvgprice(response.data);
           console.log(response);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error.data);
         });
     }
@@ -190,7 +192,7 @@ const Home = (props: any) => {
                     zIndex: 99,
                     marginTop: "1rem",
                     color: "#ACB5BD",
-                    cursor: "pointer",
+                    cursor: "pointer"
                   }}
                   onClick={() => setFilterModal(false)}
                 />
@@ -202,7 +204,7 @@ const Home = (props: any) => {
                   fontSize: "1.75rem",
                   fontWeight: 700,
                   marginTop: "3%",
-                  marginLeft: "2%",
+                  marginLeft: "2%"
                 }}
               >
                 Filter Results
@@ -218,7 +220,7 @@ const Home = (props: any) => {
                     marginRight: "5%",
                     paddingLeft: "4.5%",
                     paddingBottom: "3%",
-                    paddingTop: "3.5%",
+                    paddingTop: "3.5%"
                   }}
                 >
                   <Row>
@@ -226,7 +228,7 @@ const Home = (props: any) => {
                       style={{
                         color: "#4263EB",
                         fontSize: "1.05rem",
-                        marginLeft: "2%",
+                        marginLeft: "2%"
                       }}
                     >
                       Price per Bitclout
@@ -236,10 +238,11 @@ const Home = (props: any) => {
                         color: "#6494FF",
                         fontSize: "0.8rem",
                         marginLeft: "10%",
-                        marginTop: "1%",
+                        marginTop: "1%"
                       }}
                     >
-                      ${pricePerBitcloutFilter[0]} - ${pricePerBitcloutFilter[1]}
+                      ${pricePerBitcloutFilter[0]} - $
+                      {pricePerBitcloutFilter[1]}
                     </p>
                   </Row>
                   <Slider
@@ -258,7 +261,7 @@ const Home = (props: any) => {
                     marginRight: "10%",
                     paddingLeft: "4.5%",
                     paddingBottom: "3%",
-                    paddingTop: "3.5%",
+                    paddingTop: "3.5%"
                   }}
                 >
                   <Row>
@@ -266,7 +269,7 @@ const Home = (props: any) => {
                       style={{
                         color: "#4263EB",
                         fontSize: "1.05rem",
-                        marginLeft: "2%",
+                        marginLeft: "2%"
                       }}
                     >
                       Volume of Bitclout
@@ -276,7 +279,7 @@ const Home = (props: any) => {
                         color: "#6494FF",
                         fontSize: "0.8rem",
                         marginLeft: "10%",
-                        marginTop: "1%",
+                        marginTop: "1%"
                       }}
                     >
                       {volumeFilter[0]} - {volumeFilter[1]}
@@ -288,11 +291,9 @@ const Home = (props: any) => {
                     style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
                     value={volumeFilter}
                     onChange={handleChangeVolume}
-                    scale={(volumeFilter) => volumeFilter+10000}
+                    scale={volumeFilter => volumeFilter + 10000}
                     aria-labelledby="non-linear-slider"
                     step={1}
-
-                  
                   />
                 </Col>
               </Row>
@@ -303,7 +304,7 @@ const Home = (props: any) => {
                 textAlign: "center",
                 alignSelf: "center",
                 justifySelf: "center",
-                marginBottom: "3%",
+                marginBottom: "3%"
               }}
             >
               <Row>
@@ -343,7 +344,7 @@ const Home = (props: any) => {
                   float: "right",
                   marginRight: "0.75rem",
                   marginTop: "0rem",
-                  color: "#ACB5BD",
+                  color: "#ACB5BD"
                 }}
                 onClick={() => setIntroModal(false)}
               />
@@ -378,7 +379,7 @@ const Home = (props: any) => {
                     ? {
                         marginLeft: "1rem",
                         fontSize: "1.5rem",
-                        marginBottom: "2rem",
+                        marginBottom: "2rem"
                       }
                     : { marginLeft: "1rem" }
                 }
@@ -403,7 +404,7 @@ const Home = (props: any) => {
                     borderWidth: "0.05rem",
                     borderStyle: "solid",
                     color: "#4263EB",
-                    marginLeft: "2%",
+                    marginLeft: "2%"
                   }}
                 >
                   Tutorial
@@ -420,28 +421,28 @@ const Home = (props: any) => {
                     borderRadius: 10,
                     paddingTop: "5%",
                     paddingLeft: "7%",
-                    width: "14rem",
+                    width: "14rem"
                   }}
                 >
-                  <p style={{ fontSize: "0.6rem" }}><span>Total Volume Transacted</span></p>
+                  <p style={{ fontSize: "0.6rem" }}>
+                    <span>Total Volume Transacted</span>
+                  </p>
 
-                
                   <p
                     style={{
                       color: "#212429",
                       fontSize: "1.25rem",
-                      fontWeight: 700,
+                      fontWeight: 700
                     }}
                   >
                     {volumeUSD
-                      ? `$${Number((volumeUSD.toFixed(2))).toLocaleString()}`
+                      ? `$${Number(volumeUSD.toFixed(2)).toLocaleString()}`
                       : "Loading..."}
                   </p>
                 </div>
               </Col>
 
               <Col>
-                
                 <div
                   style={{
                     borderStyle: "solid",
@@ -450,25 +451,35 @@ const Home = (props: any) => {
                     borderRadius: 10,
                     paddingTop: "5%",
                     paddingLeft: "7%",
-                    width: "14rem",
+                    width: "14rem"
                   }}
                 >
-
                   <p style={{ fontSize: "0.75rem" }}>
                     <span>Average Swap Price</span>
                     <OverlayTrigger
-                    placement="right"
-                    delay={{ show: 100, hide: 300 }}
-                    overlay={averageSwapTooltip}
-                  >
-                    <FiHelpCircle
-                      style={{ marginLeft: "23%", color: "#212429", fontWeight: 400, }}
-                    />
-                  </OverlayTrigger>
-
+                      placement="right"
+                      delay={{ show: 100, hide: 300 }}
+                      overlay={averageSwapTooltip}
+                    >
+                      <FiHelpCircle
+                        style={{
+                          marginLeft: "23%",
+                          color: "#212429",
+                          fontWeight: 400
+                        }}
+                      />
+                    </OverlayTrigger>
                   </p>
 
-                  <p style={{color: "#212429", fontSize: "1.25rem", fontWeight: 700}}>${!statsLoading ? avgprice.avgprice.toFixed(2): 100}</p>
+                  <p
+                    style={{
+                      color: "#212429",
+                      fontSize: "1.25rem",
+                      fontWeight: 700
+                    }}
+                  >
+                    ${!statsLoading ? avgprice.avgprice.toFixed(2) : 100}
+                  </p>
                 </div>
               </Col>
               <Col>
@@ -480,7 +491,7 @@ const Home = (props: any) => {
                     borderRadius: 10,
                     paddingTop: "5%",
                     paddingLeft: "7%",
-                    width: "14rem",
+                    width: "14rem"
                   }}
                 >
                   <p style={{ fontSize: "0.75rem" }}>
@@ -494,7 +505,7 @@ const Home = (props: any) => {
                     style={{
                       color: "#212429",
                       fontSize: "1.25rem",
-                      fontWeight: 700,
+                      fontWeight: 700
                     }}
                   >
                     {volume
@@ -531,27 +542,61 @@ const Home = (props: any) => {
                 Filter
               </p>
 
-              <div style={{fontSize: "0.75rem",  border: "1px solid #6494FF", backgroundColor: "white", height: "0.85rem", color: "#6494FF", paddingBottom: "1.4rem", width: "auto", borderRadius: 50, flexDirection: "row", display: showPriceTag ? "flex" : "none", marginLeft: "0.65rem", paddingRight: "0.7rem"}}>
+              <div
+                style={{
+                  fontSize: "0.75rem",
+                  border: "1px solid #6494FF",
+                  backgroundColor: "white",
+                  height: "0.85rem",
+                  color: "#6494FF",
+                  paddingBottom: "1.4rem",
+                  width: "auto",
+                  borderRadius: 50,
+                  flexDirection: "row",
+                  display: showPriceTag ? "flex" : "none",
+                  marginLeft: "0.65rem",
+                  paddingRight: "0.7rem"
+                }}
+              >
                 <FiXCircle
                   onClick={() => setShowPriceTag(false)}
                   className="hoverCursor"
                   color={"#6494FF"}
                   size={"1rem"}
-                  style={{marginTop: "0.2rem", marginLeft: "0.3rem"}}
-                  
+                  style={{ marginTop: "0.2rem", marginLeft: "0.3rem" }}
                 />
-                <p style={{marginLeft: "0.5rem", marginTop: "0.1rem"}}>Price per Bitclout: ${pricePerBitcloutFilter[0]} - ${pricePerBitcloutFilter[1]}</p>
+                <p style={{ marginLeft: "0.5rem", marginTop: "0.1rem" }}>
+                  Price per Bitclout: ${pricePerBitcloutFilter[0]} - $
+                  {pricePerBitcloutFilter[1]}
+                </p>
               </div>
 
-              <div style={{fontSize: "0.75rem", border: "1px solid #6494FF", backgroundColor: "white", height: "0.85rem", color: "#6494FF", paddingBottom: "1.4rem", width: "auto", borderRadius: 50, flexDirection: "row", display: showVolumeTag ? "flex" : "none", marginLeft: "0.65rem",  paddingRight: "0.7rem"}}>
+              <div
+                style={{
+                  fontSize: "0.75rem",
+                  border: "1px solid #6494FF",
+                  backgroundColor: "white",
+                  height: "0.85rem",
+                  color: "#6494FF",
+                  paddingBottom: "1.4rem",
+                  width: "auto",
+                  borderRadius: 50,
+                  flexDirection: "row",
+                  display: showVolumeTag ? "flex" : "none",
+                  marginLeft: "0.65rem",
+                  paddingRight: "0.7rem"
+                }}
+              >
                 <FiXCircle
                   onClick={() => setShowVolumeTag(false)}
                   className="hoverCursor"
                   color={"#6494FF"}
                   size={"1rem"}
-                  style={{marginTop: "0.2rem", marginLeft: "0.3rem"}}
+                  style={{ marginTop: "0.2rem", marginLeft: "0.3rem" }}
                 />
-                <p style={{marginLeft: "0.5rem", marginTop: "0.1rem"}}>Volume of Bitclout: {volumeFilter[0]} - {volumeFilter[1]}</p>
+                <p style={{ marginLeft: "0.5rem", marginTop: "0.1rem" }}>
+                  Volume of Bitclout: {volumeFilter[0]} - {volumeFilter[1]}
+                </p>
               </div>
             </Row>
             <FeedContent>
@@ -563,7 +608,7 @@ const Home = (props: any) => {
                       ? {
                           background: "transparent",
                           maxHeight: "62vh",
-                          overflowX: "hidden",
+                          overflowX: "hidden"
                         }
                       : { background: "transparent", maxHeight: "65vh" }
                   }
@@ -601,10 +646,10 @@ const Home = (props: any) => {
                       borderRight: "1px solid #DDE2E5",
                       height: "100vh",
                       paddingRight: 0,
-                      width: "2rem",
+                      width: "2rem"
                     }
                   : {
-                      display: "none",
+                      display: "none"
                     }
               }
             />
@@ -638,7 +683,7 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%",
+                      marginLeft: "10%"
                     }}
                   >
                     Amount (BCLT)
@@ -649,11 +694,11 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem",
+                        width: "100rem"
                       }}
                     />
                   </Row>
-                  {userData.listings.map((listing) => {
+                  {userData.listings.map(listing => {
                     if (listing.ongoing) {
                       return (
                         <OngoingItem
@@ -665,7 +710,7 @@ const Home = (props: any) => {
                     }
                   })}
                   {userData.listings.some(
-                    (listing) => listing.ongoing === true
+                    listing => listing.ongoing === true
                   ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing swaps
@@ -693,7 +738,7 @@ const Home = (props: any) => {
                       color: "#ACB5BD",
                       fontSize: "0.75rem",
                       marginTop: "12%",
-                      marginLeft: "10%",
+                      marginLeft: "10%"
                     }}
                   >
                     Amount (BCLT)
@@ -704,11 +749,11 @@ const Home = (props: any) => {
                     <hr
                       style={{
                         borderTop: "1px solid #DDE2E5",
-                        width: "100rem",
+                        width: "100rem"
                       }}
                     />
                   </Row>
-                  {userData.buys.map((listing) =>
+                  {userData.buys.map(listing =>
                     listing.ongoing ? (
                       <OngoingItem
                         bitcloutnanos={listing.bitcloutnanos}
@@ -718,7 +763,7 @@ const Home = (props: any) => {
                     ) : null
                   )}
                   {userData.buys.some(
-                    (listing) => listing.ongoing === true
+                    listing => listing.ongoing === true
                   ) ? null : (
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing buys

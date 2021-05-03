@@ -1,9 +1,9 @@
 import axios from "axios";
 const { url } = require("../helpers/config.json");
 
-async function getListings(volumeSort: string, dateSort: string) {
+async function getListings(volumeSort: string, dateSort: string, priceSort: string, minPrice: number, maxPrice: number, minVolume: number, maxVolume: number) {
   return await axios.get(
-    `${url}/listing/listings?date=${dateSort}&volume=${volumeSort}`
+    `${url}/listing/listings?dateSort=${dateSort}&volumeSort=${volumeSort}&priceSort=${priceSort}&minPrice=${minPrice}&maxPrice=${maxPrice}&minVolume=${minVolume}&maxVolume=${maxVolume}`
   );
 }
 

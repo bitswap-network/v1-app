@@ -118,7 +118,7 @@ const Login = (props: any) => {
           <Col>
             <TextField
               id="username"
-              label="Username"
+              label="Bitclout Username (not Email)"
               variant="outlined"
               value={form.username}
               onChange={handleNameChange}
@@ -146,6 +146,11 @@ const Login = (props: any) => {
             <Button onClick={handleLogin} style={{ width: "100%" }}>
               Login
             </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col style={{ marginTop: "4%" }}>
+            <a href="https://bitswap.network/bitswap-guide" style={{ color: "#6494FF" }}>New to Bitswap? <span style={{color: "#6494FF"}}>Check out the Guide</span></a>
           </Col>
         </Row>
 

@@ -45,6 +45,11 @@ const averageSwapTooltip = (props) => (
     This price reflects the average over all completed listings on BitSwap
   </Tooltip>
 );
+const volumeReinvestedTooltip = (props) => (
+  <Tooltip id="volume-tooltip" {...props}>
+    We invest the bitclout made from transaction fees in daily intervals.
+  </Tooltip>
+);
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
@@ -496,9 +501,19 @@ const Home = (props: any) => {
                 >
                   <p style={{ fontSize: "0.75rem" }}>
                     <span>Volume Reinvested</span>
-                    {/* <span style={{ marginLeft: "10%", color: "#31AE71" }}>
-                      <span style={{ marginRight: "1%" }}>🡡</span>20%
-                    </span> */}
+                    <OverlayTrigger
+                      placement="right"
+                      delay={{ show: 100, hide: 300 }}
+                      overlay={volumeReinvestedTooltip}
+                    >
+                      <FiHelpCircle
+                        style={{
+                          marginLeft: "23%",
+                          color: "#212429",
+                          fontWeight: 400,
+                        }}
+                      />
+                    </OverlayTrigger>
                   </p>
 
                   <p

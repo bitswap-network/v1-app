@@ -15,7 +15,7 @@ import {
   RegAccountText,
   UsernameRow,
   PasswordRow,
-  MobileLogo,
+  MobileLogo
 } from "./styles";
 import { login } from "services/auth";
 import { saveData } from "helpers/local";
@@ -31,7 +31,7 @@ const Login = (props: any) => {
 
   const [form, setForm] = useState({
     username: "" as string,
-    password: "" as string,
+    password: "" as string
   });
 
   // useEffect(() => {
@@ -48,13 +48,13 @@ const Login = (props: any) => {
   const handleNameChange = (e: any) => {
     setForm({
       ...form,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
   };
 
   const handleLogin = () => {
     login(form.username, form.password)
-      .then((response) => {
+      .then(response => {
         if (response.status === 200) {
           saveData("user", JSON.stringify(response.data));
           setUser(response.data);
@@ -118,7 +118,7 @@ const Login = (props: any) => {
           <Col>
             <TextField
               id="username"
-              label="Bitclout Username (not Email)"
+              label="Username"
               variant="outlined"
               value={form.username}
               onChange={handleNameChange}
@@ -150,7 +150,13 @@ const Login = (props: any) => {
         </Row>
         <Row>
           <Col style={{ marginTop: "4%" }}>
-            <a href="https://bitswap.network/bitswap-guide" style={{ color: "#6494FF" }}>New to Bitswap? <span style={{color: "#6494FF"}}>Check out the Guide</span></a>
+            <a
+              href="https://bitswap.network/bitswap-guide"
+              style={{ color: "#6494FF" }}
+            >
+              New to Bitswap?{" "}
+              <span style={{ color: "#6494FF" }}>Check out the Guide</span>
+            </a>
           </Col>
         </Row>
 

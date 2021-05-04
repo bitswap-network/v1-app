@@ -50,7 +50,7 @@ const averageSwapTooltip = (props) => (
 );
 const volumeReinvestedTooltip = (props) => (
   <Tooltip id="volume-tooltip" {...props}>
-    We invest the bitclout made from transaction fees in daily intervals.
+    We invest the bitclout made from transaction fees every Friday at midnight.
   </Tooltip>
 );
 

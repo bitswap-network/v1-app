@@ -496,8 +496,6 @@ const SpecificListing = (
                               </b>
                               to
                               <b> {listing.pool.address} </b>
-                              from your added wallets.{" "}
-                              <a href="/profile">View Wallets</a>
                             </p>
                             {ismetamask && (
                               <>

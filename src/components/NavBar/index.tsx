@@ -106,8 +106,8 @@ const NavElement = (props: any) => {
         <> </>
       )}
       <Link
-        to={props.linkto}
-        style={{ color: props.label == "Join Discord" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
+        to={"https://discord.com/invite/bitswap"}
+        style={{ color: props.label == "Discord Support" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
       >
         {props.label}
       </Link>
@@ -255,8 +255,9 @@ export const NavBar: React.FC = (props: any) => {
                 </>
               ) : null}
               <Row className="navRow" style={{ paddingTop: "6vh" }}>
+                <img src={`https://cdn.discordapp.com/attachments/831671962106986517/838837226070474822/discordIcon.png`} height={13} style={{marginTop: "0.4rem", marginRight: "0.6rem"}}></img>
                 <NavElement
-                  label="Join Discord"
+                  label="Discord Support"
                   linkto="/"
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}

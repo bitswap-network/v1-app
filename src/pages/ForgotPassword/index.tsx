@@ -17,20 +17,20 @@ import {
   PasswordRow,
   MobileLogo,
 } from "./styles";
-import { login } from "services/auth";
+import { forgotPassword} from "services/auth";
 import { saveData } from "helpers/local";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, userState } from "store";
 
 declare let window: any;
 
-const Login = (props: any) => {
+const ForgotPassword = (props: any) => {
   const isLoggedIn = useRecoilValue(loggedInState);
   const setUser = useSetRecoilState(userState);
+  const [success, setSuccess] = useState(false)
 
   const [form, setForm] = useState({
-    username: "" as string,
-    password: "" as string,
+    email: "" as string,
   });
 
   const [error, setError] = useState(null);
@@ -42,16 +42,10 @@ const Login = (props: any) => {
     });
   };
 
-  const handleLogin = () => {
-    login(form.username, form.password)
+  const handleForgotPassword = () => {
+    forgotPassword(form.email)
       .then((response) => {
-        if (response.status === 200) {
-          saveData("user", JSON.stringify(response.data));
-          setUser(response.data);
-          window.location.assign("/");
-        } else {
-          setError(response.data);
-        }
+        setSuccess(true)
       })
       .catch((error: any) => {
         if (error.response) {
@@ -90,14 +84,13 @@ const Login = (props: any) => {
           <img src={Logo} width={"55%"} height={"auto"} />
         </MobileLogo>
         <LoginText>
-          <b>Log In</b>
+          <b>Recover Password</b>
         </LoginText>
         <h5>
           <RegAccountText>
-            Don't have an account?{" "}
-            <div onClick={() => window.location.replace("/register")}>
-              <Link to="/register" style={{ color: "#6494FF" }} replace>
-                Create an Account
+            <div onClick={() => window.location.replace("/login")}>
+              <Link to="/login" style={{ color: "#6494FF" }} replace>
+                Login Into Your Account
               </Link>
             </div>
           </RegAccountText>
@@ -106,45 +99,32 @@ const Login = (props: any) => {
         <UsernameRow>
           <Col>
             <TextField
-              id="username"
-              label="Username"
+              id="email"
+              label="Email"
               variant="outlined"
-              value={form.username}
+              value={form.email}
               onChange={handleNameChange}
               fullWidth={true}
             />
           </Col>
         </UsernameRow>
 
-        <PasswordRow>
-          <Col>
-            <TextField
-              id="password"
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={form.password}
-              onChange={handleNameChange}
-              fullWidth={true}
-            />
-          </Col>
-        </PasswordRow>
+       
 
         <Row>
           <Col style={{ marginTop: "2%" }}>
-            <Button onClick={handleLogin} style={{ width: "100%" }}>
-              Login
+            <Button onClick={handleForgotPassword} style={{ width: "100%" }}>
+              Send Recovery Email
             </Button>
           </Col>
         </Row>
         <Row>
           <Col style={{ marginTop: "4%" }}>
             <a
-              href="https://bitswap.network/bitswap-guide"
-              style={{ color: "#6494FF" }}
+              style={{  color: "#6494FF" }}
             >
-              New to Bitswap?{" "}
-              <span style={{ color: "#6494FF" }}>Check out the Guide</span>
+              Need Support?{" "}
+              <span style={{ color: "#6494FF" }}>Email us at <a href="mailto:support@bitswap.com">support@bitswap.com</a></span>
             </a>
           </Col>
         </Row>
@@ -152,7 +132,14 @@ const Login = (props: any) => {
         {error ? (
           <Row>
             <Col style={{ marginTop: "4%" }}>
-              <p style={{ color: "red" }}>Error: {error}  <a href="#" onClick={ () => window.location.assign("/forgot")} style={{color: "#6494FF"}}>Forgot Password?</a></p>
+              <p style={{ color: "red" }}>Error: {error}</p>
+            </Col>
+          </Row>
+        ) : null}
+        {success ? (
+          <Row>
+            <Col style={{ marginTop: "4%" }}>
+              <p style={{ color: "#6494FF" }}>An email has been sent to your account {error}</p>
             </Col>
           </Row>
         ) : null}
@@ -161,4 +148,4 @@ const Login = (props: any) => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

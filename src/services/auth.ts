@@ -62,3 +62,16 @@ export const getProfile = async (username: string) => {
       throw error;
     });
 };
+
+export const forgotPassword = async (email: string) => {
+  return await axios
+  .post(`${url}/user/forgotpassword`, {
+    email: email,
+  })
+  .then((response) => {
+    return response.data
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+}

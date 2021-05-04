@@ -9,6 +9,8 @@ import EditProfile from "./pages/EditProfile";
 import Profile from "pages/UserProfile";
 import Admin from "./pages/Admin";
 import UserListing from "./pages/newUserListing";
+import ForgotPassword from "./pages/ForgotPassword";
+
 import { history } from "./helpers/history";
 import { Router, Route, Switch } from "react-router-dom";
 
@@ -29,6 +31,8 @@ function App() {
         <Route path="/profile/:username" component={Profile} />
       </Switch>
       <Route path="/admin" component={Admin} />
+      <Route path="/forgot" component={ForgotPassword} />
+
     </Router>
   );
 }

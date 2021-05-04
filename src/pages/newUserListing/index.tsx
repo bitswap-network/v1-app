@@ -109,11 +109,11 @@ const NewListing = (props: any) => {
     }
     if (usdUpdated) {
       console.log(parseFloat(usdPerBitclout) <= 0);
-      if (parseFloat(usdPerBitclout) <= 50) {
+      if (parseFloat(usdPerBitclout) <= 10) {
         pass = false;
-        setFormError("You need to sell for above 50$.");
+        setFormError("You need to sell for above 10$.");
         setusdPerError(true);
-      } else if (parseFloat(usdPerBitclout) >= 500) {
+      } else if (parseFloat(usdPerBitclout) >= 1000) {
         pass = false;
         setFormError("Woah. That price looks way too high.");
         setusdPerError(true);

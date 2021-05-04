@@ -40,11 +40,12 @@ export interface ListingSchema {
   escrow: { balance: number; full: Boolean };
   bitcloutsent: boolean;
   escrowsent: boolean;
-  bitcloutTransactionId: string;
   finalTransactionId: string;
   created: Date;
+  buy_time: Date | undefined;
   completed: { status: boolean; date: Date };
-  ethaddress:string|null;
+  ethaddress: string;
+  pool: PoolSchema | null;
 }
 
 export interface TransactionSchema {
@@ -58,4 +59,9 @@ export interface TransactionSchema {
   completed: Date;
   tx_id: string;
   fees: number;
+}
+export interface PoolSchema {
+  address: string;
+  active: boolean;
+  listing: ListingSchema | null;
 }

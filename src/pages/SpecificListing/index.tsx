@@ -14,7 +14,7 @@ import { updateProfile } from "../../services/users";
 import {
   getListing,
   cancelListing,
-  deleteListing
+  deleteListing,
 } from "../../services/listings";
 import LoadingIcons from "react-loading-icons";
 
@@ -37,10 +37,10 @@ const SpecificListing = (
   const cancelBuy = () => {
     if (listing.ongoing && !listing.escrow.full) {
       cancelListing(user.token, listing._id)
-        .then(response => {
+        .then((response) => {
           window.location.replace(`/userlistings`);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -48,10 +48,10 @@ const SpecificListing = (
   const submitDelete = () => {
     if (!listing.ongoing && !listing.completed.status && !listing.escrow.full) {
       deleteListing(user.token, listing._id)
-        .then(response => {
+        .then((response) => {
           window.location.replace(`/userlistings`);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -60,11 +60,11 @@ const SpecificListing = (
     if (isLoggedIn && match.params.id) {
       // console.log("setting listing");
       getListing(user.token, match.params.id)
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           setListing(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -73,7 +73,7 @@ const SpecificListing = (
   useEffect(() => {
     if (listing && account && gasPrice) {
       setTransaction({
-        to: "0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707",
+        to: listing.pool.address,
         from: account, // must match user's active address.
         value: Web3.utils.toHex(
           parseInt(
@@ -83,7 +83,7 @@ const SpecificListing = (
             ).toString()
           )
         ), // Only required to send ether to the recipient from the initiating external account.
-        chainId: "0x1" // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+        chainId: "0x1", // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
       });
     }
   }, [listing, account, gasPrice]);
@@ -100,18 +100,18 @@ const SpecificListing = (
 
   const enableMetamask = async () => {
     const accounts = await ethereum.givenProvider.request({
-      method: "eth_requestAccounts"
+      method: "eth_requestAccounts",
     });
     if (Array.isArray(userData?.ethereumaddress)) {
       if (!userData.ethereumaddress.includes(accounts[0].toLowerCase())) {
         let addressarr = userData.ethereumaddress;
         addressarr.push(accounts[0].toLowerCase());
         updateProfile(userData.email, addressarr, user.token)
-          .then(response => {
+          .then((response) => {
             console.log(addressarr);
             console.log("added address to profile");
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       } else {
@@ -120,11 +120,11 @@ const SpecificListing = (
     } else {
       let addressarr = [userData.ethereumaddress, accounts[0].toLowerCase()];
       updateProfile(userData.email, addressarr, user.token)
-        .then(response => {
+        .then((response) => {
           console.log(addressarr);
           console.log("added address to profile");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -136,7 +136,7 @@ const SpecificListing = (
     try {
       const txnhash = await ethereum.givenProvider.request({
         method: "eth_sendTransaction",
-        params: [transaction]
+        params: [transaction],
       });
       setTransactionHash(txnhash);
     } catch (e) {
@@ -162,13 +162,13 @@ const SpecificListing = (
                     marginLeft: 0,
                     marginRight: 0,
                     paddingLeft: 0,
-                    paddingRight: 0
+                    paddingRight: 0,
                   }
                 : {
                     display: "flex",
                     flexDirection: "row",
                     marginLeft: "0.3rem",
-                    marginRight: 0
+                    marginRight: 0,
                   }
             }
           >
@@ -197,7 +197,7 @@ const SpecificListing = (
                             justifyContent: "center",
                             alignContent: "center",
                             backgroundColor: "6494FF",
-                            borderRadius: "5px"
+                            borderRadius: "5px",
                             // marginLeft: "-5%",
                           }}
                           onClick={() => {
@@ -224,12 +224,12 @@ const SpecificListing = (
                               ? {
                                   marginTop: "2%",
                                   color: "#495057",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                               : {
                                   marginTop: "2.5%",
                                   color: "#9b9c9d",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                           }
                         >
@@ -240,11 +240,11 @@ const SpecificListing = (
                             window.innerWidth <= 768
                               ? {
                                   color: "#495057",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                               : {
                                   color: "#9b9c9d",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                           }
                         >
@@ -258,11 +258,11 @@ const SpecificListing = (
                                 window.innerWidth <= 768
                                   ? {
                                       color: "#495057",
-                                      fontSize: "0.8rem"
+                                      fontSize: "0.8rem",
                                     }
                                   : {
                                       color: "#9b9c9d",
-                                      fontSize: "0.8rem"
+                                      fontSize: "0.8rem",
                                     }
                               }
                             >
@@ -281,12 +281,12 @@ const SpecificListing = (
                               ? {
                                   marginTop: "2%",
                                   color: "#495057",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                               : {
                                   marginTop: "2.5%",
                                   color: "#9b9c9d",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                           }
                         >
@@ -299,11 +299,11 @@ const SpecificListing = (
                             window.innerWidth <= 768
                               ? {
                                   color: "#495057",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                               : {
                                   color: "#9b9c9d",
-                                  fontSize: "1.1rem"
+                                  fontSize: "1.1rem",
                                 }
                           }
                         >
@@ -330,7 +330,7 @@ const SpecificListing = (
                             color: "white",
                             backgroundColor: "#6494FF",
                             borderRadius: 50 / 2,
-                            padding: "6px"
+                            padding: "6px",
                           }}
                         />
                       ) : (
@@ -343,7 +343,7 @@ const SpecificListing = (
                             borderRadius: 50 / 2,
                             padding: "1px",
                             width: "2em",
-                            height: "2rem"
+                            height: "2rem",
                           }}
                         />
                       )}
@@ -351,7 +351,7 @@ const SpecificListing = (
                     <div
                       className="listingLineDiv"
                       style={{
-                        backgroundColor: listing.buyer ? "#6494ff" : "#C4C4C4"
+                        backgroundColor: listing.buyer ? "#6494ff" : "#C4C4C4",
                       }}
                     />
                   </Col>
@@ -362,7 +362,7 @@ const SpecificListing = (
                           style={{
                             color: "#6494FF",
                             fontSize: "1.1rem",
-                            fontWeight: 600
+                            fontWeight: 600,
                           }}
                         >
                           Transaction Started
@@ -400,7 +400,7 @@ const SpecificListing = (
                           style={{
                             color: "#6494FF",
                             fontSize: "1.1rem",
-                            fontWeight: 600
+                            fontWeight: 600,
                           }}
                         >
                           No Buyer Yet
@@ -426,7 +426,7 @@ const SpecificListing = (
                             color: "white",
                             backgroundColor: "#6494FF",
                             borderRadius: 50 / 2,
-                            padding: "6px"
+                            padding: "6px",
                           }}
                         />
                       ) : (
@@ -439,7 +439,7 @@ const SpecificListing = (
                             borderRadius: 50 / 2,
                             padding: "1px",
                             width: "2em",
-                            height: "2rem"
+                            height: "2rem",
                           }}
                         />
                       )}
@@ -449,7 +449,7 @@ const SpecificListing = (
                       style={{
                         backgroundColor: listing.completed.status
                           ? "#6494ff"
-                          : "#C4C4C4"
+                          : "#C4C4C4",
                       }}
                     />
                   </Col>
@@ -461,7 +461,7 @@ const SpecificListing = (
                             style={{
                               color: "#6494FF",
                               fontSize: "1.1rem",
-                              fontWeight: 600
+                              fontWeight: 600,
                             }}
                           >
                             Escrow Empty
@@ -479,7 +479,7 @@ const SpecificListing = (
                               style={{
                                 color: "#6494FF",
                                 fontSize: "1.1rem",
-                                fontWeight: 600
+                                fontWeight: 600,
                               }}
                             >
                               Escrow Empty
@@ -495,10 +495,7 @@ const SpecificListing = (
                                 $ETH{" "}
                               </b>
                               to
-                              <b>
-                                {" "}
-                                0x6C57bB5251443CbFdeEDDc81E7D47C65873DB707{" "}
-                              </b>
+                              <b> {listing.pool.address} </b>
                               from your added wallets.{" "}
                               <a href="/profile">View Wallets</a>
                             </p>
@@ -541,7 +538,7 @@ const SpecificListing = (
                               style={{
                                 color: "#6494FF",
                                 fontSize: "1.1rem",
-                                fontWeight: 600
+                                fontWeight: 600,
                               }}
                             >
                               Escrow Empty
@@ -561,7 +558,7 @@ const SpecificListing = (
                               style={{
                                 color: "#6494FF",
                                 fontSize: "1.1rem",
-                                fontWeight: 600
+                                fontWeight: 600,
                               }}
                             >
                               Escrow Full
@@ -589,7 +586,7 @@ const SpecificListing = (
                               style={{
                                 color: "#6494FF",
                                 fontSize: "1.1rem",
-                                fontWeight: 600
+                                fontWeight: 600,
                               }}
                             >
                               Escrow Full
@@ -621,7 +618,7 @@ const SpecificListing = (
                             color: "white",
                             backgroundColor: "#6494FF",
                             borderRadius: 50 / 2,
-                            padding: "6px"
+                            padding: "6px",
                           }}
                         />
                       ) : (
@@ -634,7 +631,7 @@ const SpecificListing = (
                             borderRadius: 50 / 2,
                             padding: "1px",
                             width: "2em",
-                            height: "2rem"
+                            height: "2rem",
                           }}
                         />
                       )}
@@ -644,7 +641,7 @@ const SpecificListing = (
                       style={{
                         backgroundColor: listing.completed.status
                           ? "#6494ff"
-                          : "#C4C4C4"
+                          : "#C4C4C4",
                         // height: "7rem",
                       }}
                     />
@@ -660,7 +657,7 @@ const SpecificListing = (
                         style={{
                           color: "#6494FF",
                           fontSize: "1.1rem",
-                          fontWeight: 600
+                          fontWeight: 600,
                         }}
                       >
                         Fulfillment Complete
@@ -724,7 +721,7 @@ const SpecificListing = (
                         style={{
                           color: "#6494FF",
                           fontSize: "1.1rem",
-                          fontWeight: 600
+                          fontWeight: 600,
                         }}
                       >
                         Fulfillment Pending
@@ -762,7 +759,7 @@ const SpecificListing = (
                                 <p
                                   style={{
                                     color: "#6494FF",
-                                    fontSize: "0.85rem"
+                                    fontSize: "0.85rem",
                                   }}
                                 >
                                   <b>Ethereum Txn ID:</b> <br></br>
@@ -793,7 +790,7 @@ const SpecificListing = (
                             color: "white",
                             backgroundColor: "#6494FF",
                             borderRadius: 50 / 2,
-                            padding: "6px"
+                            padding: "6px",
                           }}
                         />
                       ) : (
@@ -806,7 +803,7 @@ const SpecificListing = (
                             borderRadius: 50 / 2,
                             padding: "1px",
                             width: "2em",
-                            height: "2rem"
+                            height: "2rem",
                           }}
                         />
                       )}
@@ -818,7 +815,7 @@ const SpecificListing = (
                         style={{
                           color: "#6494FF",
                           fontSize: "1.1rem",
-                          fontWeight: 600
+                          fontWeight: 600,
                         }}
                       >
                         Transaction Finished
@@ -830,7 +827,7 @@ const SpecificListing = (
                         style={{
                           color: "#6494FF",
                           fontSize: "1.1rem",
-                          fontWeight: 600
+                          fontWeight: 600,
                         }}
                       >
                         Transaction Open
@@ -844,7 +841,7 @@ const SpecificListing = (
                       <Button
                         style={{
                           backgroundColor: "#6494FF",
-                          borderColor: "#6494FF"
+                          borderColor: "#6494FF",
                         }}
                         onClick={cancelBuy}
                       >
@@ -865,7 +862,7 @@ const SpecificListing = (
                           style={{
                             backgroundColor: "#F03D3E",
                             borderColor: "#F03D3E",
-                            marginLeft: !listing.ongoing ? "0" : "2rem"
+                            marginLeft: !listing.ongoing ? "0" : "2rem",
                           }}
                           onClick={submitDelete}
                         >

@@ -868,7 +868,7 @@ const SpecificListing = (
                         </Button>
                       </Col>
                     )}
-                  {userData?.admin && (
+                  {userData?.admin && listing.seller._id !== user._id && (
                     <Col
                       sm={1}
                       style={

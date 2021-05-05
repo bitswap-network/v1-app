@@ -868,6 +868,25 @@ const SpecificListing = (
                         </Button>
                       </Col>
                     )}
+                  {userData.admin && (
+                    <Col
+                      sm={1}
+                      style={
+                        window.innerWidth <= 768 ? { marginTop: "1rem" } : {}
+                      }
+                    >
+                      <Button
+                        style={{
+                          backgroundColor: "#F03D3E",
+                          borderColor: "#F03D3E",
+                          marginLeft: !listing.ongoing ? "0" : "2rem",
+                        }}
+                        onClick={submitDelete}
+                      >
+                        Delete
+                      </Button>
+                    </Col>
+                  )}
                 </Row>
               </Col>
             </>

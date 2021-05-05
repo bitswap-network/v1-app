@@ -214,9 +214,9 @@ const Register = (props: any) => {
         {!successful && pageState === 0 && (
           <>
             <div style={{ marginTop: "1rem" }}>
-              <p style={{ color: "red", fontSize: "0.7rem" }}>
+              {/* <p style={{ color: "red", fontSize: "0.7rem" }}>
                 Note: Only whitelisted usernames can register right now.
-              </p>
+              </p> */}
               <p>Let's start off by importing your BitClout profile.</p>
               <UserField>
                 <Col>
@@ -236,7 +236,13 @@ const Register = (props: any) => {
                   <RegisterButton onClick={handleImport}>Next</RegisterButton>
                 </Col>
               </Row>
-              <Row style={{ marginTop: "15px", textAlign: "center", marginLeft: "-60px" }}>
+              <Row
+                style={{
+                  marginTop: "15px",
+                  textAlign: "center",
+                  marginLeft: "-60px",
+                }}
+              >
                 <Col>
                   <a href="https://bitswap.network/terms-and-conditions">
                     Bitswap Terms and Conditions
@@ -244,10 +250,18 @@ const Register = (props: any) => {
                 </Col>
               </Row>
               <Row style={{ textAlign: "center", marginLeft: "-60px" }}>
-              <Col style={{ marginTop: "2%" }}>
-                <a href="https://bitswap.network/bitswap-guide" style={{ color: "#6494FF" }}>New to Bitswap? <span style={{color: "#6494FF"}}>Check out the Guide</span></a>
-              </Col>
-            </Row>
+                <Col style={{ marginTop: "2%" }}>
+                  <a
+                    href="https://bitswap.network/bitswap-guide"
+                    style={{ color: "#6494FF" }}
+                  >
+                    New to Bitswap?{" "}
+                    <span style={{ color: "#6494FF" }}>
+                      Check out the Guide
+                    </span>
+                  </a>
+                </Col>
+              </Row>
             </div>
             {errorMsg ? (
               <Row style={{ marginTop: "15px", textAlign: "center" }}>

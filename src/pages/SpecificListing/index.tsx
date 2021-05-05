@@ -868,7 +868,7 @@ const SpecificListing = (
                         </Button>
                       </Col>
                     )}
-                  {userData.admin && (
+                  {userData?.admin && (
                     <Col
                       sm={1}
                       style={

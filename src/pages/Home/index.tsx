@@ -31,6 +31,7 @@ import {
   postRetryListing,
 } from "../../services/admin";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
+import PastTransactions from "components/PastListings";
 
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
@@ -84,6 +85,7 @@ const Home = (props: any) => {
   const [statsLoading, setStatsLoading] = useState(true);
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
   const [volumeLoading, setVolumeLoading] = useState(true);
+  const [showPastTransactions, setShowPastTransactions] = useState(false)
 
   const handleChangePrice = (event, newValue) => {
     setShowPriceTag(true);
@@ -444,7 +446,7 @@ const Home = (props: any) => {
                     : {}
                 }
               ></h5>
-              <Col>
+              <Col sm={1}>
                 <Button
                   size="sm"
                   onClick={() => setIntroModal(true)}
@@ -455,10 +457,35 @@ const Home = (props: any) => {
                     borderWidth: "0.05rem",
                     borderStyle: "solid",
                     color: "#4263EB",
-                    marginLeft: "2%",
+                    marginLeft: "4%",
                   }}
                 >
                   Tutorial
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    if (showPastTransactions) {
+                      setShowPastTransactions(false)
+                    }
+                    else {
+                      setShowPastTransactions(true)
+                    }
+                  }}
+                  style={{
+                    marginTop: "0.1rem",
+                    backgroundColor: showPastTransactions ? "#4263EB" : "white",
+                    border: showPastTransactions ? "white" : "#4263EB",
+                    borderColor: showPastTransactions ? "white" : "#4263EB",
+                    borderWidth: "0.05rem",
+                    borderStyle: "solid",
+                    color: showPastTransactions ? "white" : "#4263EB",
+                    marginLeft: "7%",
+                  }}
+                >
+                  See Past Transactions
                 </Button>
               </Col>
             </Row>
@@ -588,15 +615,10 @@ const Home = (props: any) => {
               </MobileButton>
             </MediaQuery>  */}
             <Row style={{ marginLeft: "1rem", marginTop: "4%" }}>
-              <Col sm={2}>
+              <Col sm={1}>
                 <Row>
-                  <FiSliders
-                    size={"1.5rem"}
-                    color={"#6494FF"}
-                    style={{ marginTop: "5%", marginRight: "4%" }}
-                  />
-                  {/* <p style={{ fontSize: "1em" }}>Sort</p> */}
-
+                
+                
                   <Dropdown
                     onSelect={(eventKey: any, event: Object) => {
                       switch (eventKey) {
@@ -664,11 +686,17 @@ const Home = (props: any) => {
                       >
                         Volume, descending
                       </Dropdown.Item>
+                      <Dropdown.Item style={{color: "#6494FF"}}
+                        
+                      >
+                        See Past Transactions
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Row>
               </Col>
-              <Col>
+           
+              <Col style={{marginLeft: "5%"}}>
                 <Row>
                   <FiFilter
                     onClick={() => setFilterModal(true)}
@@ -755,6 +783,7 @@ const Home = (props: any) => {
                   </div>
                 </Row>
               </Col>
+     
             </Row>
             <FeedContent>
               <Col>
@@ -764,7 +793,7 @@ const Home = (props: any) => {
                     window.visualViewport.width > 768
                       ? {
                           background: "transparent",
-                          maxHeight: "62vh",
+                          maxHeight: "60vh",
                           overflowX: "hidden",
                         }
                       : { background: "transparent", maxHeight: "65vh" }
@@ -775,8 +804,19 @@ const Home = (props: any) => {
                   ></Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 
-                  {listings.map((listing: any, i: number) => (
+                  
+                  {!showPastTransactions ? listings.map((listing: any, i: number) => (
                     <FeedListing
+                      listing={listing}
+                      price={1}
+                      index={i}
+                      key={i}
+                      loading={loading}
+                      history={props.history}
+                    />
+                  )): 
+                  listings.map((listing: any, i: number) => (
+                  <PastTransactions
                       listing={listing}
                       price={1}
                       index={i}

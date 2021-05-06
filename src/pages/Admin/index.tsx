@@ -13,12 +13,10 @@ import {
   getTotalVolume,
   getAvgPrice,
   getPendingTransactions,
-  postRetryListing
+  postRetryListing,
 } from "../../services/admin";
 import TransactionModal from "../../components/modalTransactionInfo";
 import { TransactionSchema } from "../../components/interfaces";
-
-const Web3 = require("web3");
 
 const Admin = (props: any) => {
   const user = useRecoilValue(userState);
@@ -33,7 +31,7 @@ const Admin = (props: any) => {
   const [txnView, setTxnView] = useState<TransactionSchema>();
   const [transactionModal, setTransactionModal] = useState(false);
   const [showLogs, setShowLogs] = useState(false);
-  const [listing_id, setListing_id] = useState("")
+  const [listing_id, setListing_id] = useState("");
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
 
   useEffect(() => {
@@ -97,18 +95,20 @@ const Admin = (props: any) => {
         console.log(err);
       });
   };
-  const retryListing = () =>{
-    postRetryListing(listing_id,user.token).then((response)=>{
-      console.log(listing_id);
-      console.log(response)
-    }).catch((error)=>{
-      console.log(error);
-    })
-  }
+  const retryListing = () => {
+    postRetryListing(listing_id, user.token)
+      .then((response) => {
+        console.log(listing_id);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const setListingIdHook = (e) => {
-    console.log(listing_id)
-    setListing_id(e.target.value)
-  }
+    console.log(listing_id);
+    setListing_id(e.target.value);
+  };
 
   return (
     <>
@@ -194,12 +194,18 @@ const Admin = (props: any) => {
                 </Row>
               </>
             )}
-            <Row style={{marginTop:"1rem", marginBottom:"1rem"}}>
+            <Row style={{ marginTop: "1rem", marginBottom: "1rem" }}>
               <Col sm={4}>
-                <TextField value={listing_id} onChange={setListingIdHook} label="Listing ID"/>
+                <TextField
+                  value={listing_id}
+                  onChange={setListingIdHook}
+                  label="Listing ID"
+                />
               </Col>
               <Col>
-                <Button onClick={retryListing} disabled={listing_id===""}>Retry Listing</Button>
+                <Button onClick={retryListing} disabled={listing_id === ""}>
+                  Retry Listing
+                </Button>
               </Col>
             </Row>
             <Row>

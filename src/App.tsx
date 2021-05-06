@@ -32,7 +32,6 @@ function App() {
       </Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/forgot" component={ForgotPassword} />
-
     </Router>
   );
 }

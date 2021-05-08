@@ -7,7 +7,6 @@ var outboundRequests = {};
 var pendingRequests = [];
 var identityWindow;
 var identityWindowSubject;
-var identityServiceUsers;
 var iframe = null;
 var storageGranted = new Subject();
 var importingIdentities: any[];
@@ -47,14 +46,7 @@ const launch = (
 
   return identityWindowSubject;
 };
-const burn = (payload: {
-  accessLevel: number;
-  accessLevelHmac: string;
-  encryptedSeedHex: string;
-  unsignedHashes: string[];
-}): Observable<any> => {
-  return send("burn", payload);
-};
+
 const sign = (payload: {
   accessLevel: number;
   accessLevelHmac: string;
@@ -80,19 +72,6 @@ const jwt = (payload: {
 }): Observable<any> => {
   console.log(payload);
   return send("jwt", payload);
-};
-
-const info = (): Observable<any> => {
-  return send("info", {});
-};
-
-const identityServiceParamsForKey = (publicKey: string) => {
-  const {
-    encryptedSeedHex,
-    accessLevel,
-    accessLevelHmac,
-  } = identityServiceUsers[publicKey];
-  return { encryptedSeedHex, accessLevel, accessLevelHmac };
 };
 
 const handleInitialize = (event: MessageEvent) => {

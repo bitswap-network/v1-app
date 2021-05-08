@@ -30,7 +30,6 @@ const Register = (props: any) => {
   const [error, setError] = useState({
     username: false,
     email: false,
-    bitcloutpubkey: false,
     password: false,
     confirmPassword: false,
   });
@@ -52,7 +51,11 @@ const Register = (props: any) => {
       getProfile(null, id)
         .then((response) => {
           setProfileObj(response);
-          setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
+          setForm({
+            ...form,
+            bitcloutpubkey: response.PublicKeyBase58Check,
+            username: response.Username,
+          });
           setPageState(1);
           setLoading(false);
         })
@@ -72,7 +75,6 @@ const Register = (props: any) => {
     setError({
       username: false,
       email: false,
-      bitcloutpubkey: false,
       password: false,
       confirmPassword: false,
     });
@@ -108,18 +110,11 @@ const Register = (props: any) => {
 
     setError({
       ...error,
-      username: form.username.length < 1 ? true : false,
       email: !regEmail.test(form.email) ? true : false,
-      bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
       password: form.password !== form.confirmPassword,
     });
 
-    if (
-      form.username.length < 1 ||
-      !regEmail.test(form.email) ||
-      form.bitcloutpubkey.length !== 55 ||
-      form.password !== form.confirmPassword
-    ) {
+    if (!regEmail.test(form.email) || form.password !== form.confirmPassword) {
       return false;
     } else {
       return true;
@@ -127,18 +122,11 @@ const Register = (props: any) => {
   };
 
   const handleSubmit = () => {
+    console.log("submit", valerrorHandler());
     if (valerrorHandler() && profileObj) {
       setLoading(true);
-
-      register(
-        form.username,
-        form.email,
-        form.password,
-        form.bitcloutpubkey,
-        profileObj.IsVerified,
-        profileObj.ProfilePic,
-        profileObj.Description
-      )
+      console.log(form);
+      register(form.username, form.email, form.password, form.bitcloutpubkey)
         .then(() => {
           setSuccessful(true);
           setLoading(false);
@@ -178,7 +166,7 @@ const Register = (props: any) => {
           <img src={Logo} width={"55%"} height={"auto"} />
         </MobileLogo>
         {creationerror && <h5 className="error">{errorMsg}</h5>}
-        {!successful && pageState === 0 && (
+        {!successful && pageState === 0 && !loading && (
           <>
             <h3>
               <b>Get Started</b>
@@ -195,16 +183,31 @@ const Register = (props: any) => {
             </h5>
           </>
         )}
-        {!successful && pageState === 1 && (
+        {!successful && pageState === 1 && !loading && (
           <>
-            <h3>
-              <b>Profile Import</b>
-            </h3>
-            <h5>
-              <HaveAnAccountText>
-                Is this your BitClout Profile?
-              </HaveAnAccountText>
-            </h5>
+            {id ? (
+              <>
+                <h3>
+                  <b>Register on BitSwap to continue:</b>
+                </h3>
+                <h5>
+                  <HaveAnAccountText>
+                    Is this your BitClout profile?
+                  </HaveAnAccountText>
+                </h5>
+              </>
+            ) : (
+              <>
+                <h3>
+                  <b>Profile Import</b>
+                </h3>
+                <h5>
+                  <HaveAnAccountText>
+                    Is this your BitClout profile?
+                  </HaveAnAccountText>
+                </h5>
+              </>
+            )}
           </>
         )}
         {!successful && pageState === 2 && (
@@ -221,7 +224,7 @@ const Register = (props: any) => {
           </>
         )}
         {loading && <div className="loader"></div>}
-        {!successful && pageState === 0 && (
+        {!successful && pageState === 0 && !loading && (
           <>
             <div style={{ marginTop: "1rem" }}>
               {/* <p style={{ color: "red", fontSize: "0.7rem" }}>
@@ -282,7 +285,7 @@ const Register = (props: any) => {
             ) : null}
           </>
         )}
-        {!successful && pageState === 1 && profileObj && (
+        {!successful && pageState === 1 && profileObj && !loading && (
           <>
             <Row>
               <div
@@ -353,7 +356,7 @@ const Register = (props: any) => {
             ) : null}
           </>
         )}
-        {!successful && pageState === 2 && (
+        {!successful && pageState === 2 && !loading && (
           <>
             <UserField>
               <Col>

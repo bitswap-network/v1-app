@@ -54,7 +54,7 @@ const Login = (props: any) => {
   const handleLoginBitclout = () => {
     launch("/log-in").subscribe((res) => {
       console.log(res);
-      setIdentityServiceUsers(res.users);
+      setIdentityServiceUsers(res.users, res.publicKeyAdded);
       const pubkeyadded = res.publicKeyAdded;
       const i_user: identityUser = res.users[res.publicKeyAdded];
       let payload = {
@@ -70,18 +70,16 @@ const Login = (props: any) => {
               saveData("user", JSON.stringify(response.data));
               setUser(response.data);
               window.location.assign("/");
-            } else if (response.status === 300) {
-              window.location.assign(`/register/${pubkeyadded}`);
             } else {
               setError(response.data);
             }
           })
           .catch((error: any) => {
-            if (error.response) {
-              setError(error.response.data.error);
+            if (error.response.status === 300) {
+              window.location.assign(`/register/${pubkeyadded}`);
             } else {
-              console.log(error.message);
-              setError(error.message);
+              console.log(error);
+              setError(error.response.data.error);
             }
           });
       });
@@ -186,7 +184,7 @@ const Login = (props: any) => {
         <Row>
           <Col style={{ marginTop: "2%" }}>
             <Button onClick={handleLoginBitclout} style={{ width: "100%" }}>
-              Login w/ Bitclout
+              Login with Bitclout
             </Button>
           </Col>
         </Row>

@@ -20,19 +20,13 @@ export const register = async (
   username: string,
   email: string,
   password: string,
-  bitcloutpubkey: string,
-  bitcloutverified: boolean,
-  profilepicture: string,
-  description: string
+  bitcloutpubkey: string
 ) => {
   return await axios.post(`${url}/auth/register`, {
     username: username,
     email: email,
     password: password,
     bitcloutpubkey: bitcloutpubkey,
-    bitcloutverified: bitcloutverified,
-    profilepicture: profilepicture,
-    description: description,
   });
 };
 

@@ -6,9 +6,14 @@ export const setIdentityServiceUsers = (
   publicKeyAdded?: string
 ) => {
   saveData("identityUsers", JSON.stringify(users));
+  saveData("publicKey", publicKeyAdded);
 };
 
 export const identityUsers = atom({
   key: "identityUsers",
   default: JSON.parse(getData("identityUsers")),
+});
+export const currentPublicKey = atom({
+  key: "publicKey",
+  default: getData("publicKey"),
 });

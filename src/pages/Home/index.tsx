@@ -9,30 +9,15 @@ import {
   Form,
   Dropdown,
 } from "react-bootstrap";
-import FeedListing from "../../components/FeedListing";
-import Slider from "@material-ui/core/Slider";
 
-import { ListingSchema } from "../../components/interfaces";
 import { FiHelpCircle, FiFilter, FiX, FiSliders } from "react-icons/fi";
 import NavBar from "../../components/NavBar";
 import { getListings, createListing } from "../../services/listings";
 import { loggedInState, userState } from "store";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { MainContent, Wrapper, FeedContent, MobileButton } from "./styles";
-import { useUser, useFirstRender, useEthPrice } from "components/hooks";
+import { useUser } from "components/hooks";
 import OngoingItem from "components/OngoingItem";
-import { TableRow } from "material-ui";
-
-import {
-  getLogs,
-  getTotalVolume,
-  getAvgPrice,
-  getPendingTransactions,
-  postRetryListing,
-} from "../../services/admin";
-import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
-import PastTransactions from "components/PastListings";
-
 const ongoingSwapTooltip = (props) => (
   <Tooltip id="swap-tooltip" {...props}>
     These are listings you have made that are currently in progress
@@ -57,11 +42,9 @@ const volumeReinvestedTooltip = (props) => (
 
 const Home = (props: any) => {
   const user = useRecoilValue(userState);
-  const firstRender = useFirstRender();
   const { userData, isLoading, isError } = useUser(user?.token);
   const isLoggedIn = useRecoilValue(loggedInState);
   const [loading, setLoading] = useState(true);
-  const [listings, setListings] = useState<ListingSchema[]>([]);
   const [volumeSort, setVolumeSort] = useState("");
   const [dateSort, setDateSort] = useState("desc");
   const [priceSort, setPriceSort] = useState("");
@@ -81,140 +64,7 @@ const Home = (props: any) => {
   const [showVolumeTag, setShowVolumeTag] = useState(false);
   const [showPriceTag, setShowPriceTag] = useState(false);
 
-  const [avgprice, setAvgprice] = useState(null);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
-  const [volumeLoading, setVolumeLoading] = useState(true);
   const [showPastTransactions, setShowPastTransactions] = useState(false);
-
-  const handleChangePrice = (event, newValue) => {
-    setShowPriceTag(true);
-    setPricePerBitcloutFilter(newValue);
-  };
-
-  const handleChangeVolume = (event, newValue) => {
-    setVolumeFilter(newValue);
-    setShowVolumeTag(true);
-  };
-
-  useEffect(() => {
-    getAvgPrice()
-      .then((response) => {
-        setAvgprice(response.data);
-        setStatsLoading(false);
-        console.log(response);
-      })
-      .catch((error) => {
-        setStatsLoading(false);
-        console.log(error.data);
-      });
-
-    getTotalVolume()
-      .then((response) => {
-        setVolume(response.data);
-        setVolumeLoading(false);
-      })
-      .catch((error) => {
-        console.log(error.data);
-        setVolumeLoading(false);
-      });
-
-    getListings(
-      volumeSort,
-      dateSort,
-      priceSort,
-      pricePerBitcloutFilter[0],
-      pricePerBitcloutFilter[1],
-      volumeFilter[0],
-      volumeFilter[1]
-    )
-      .then((res) => {
-        // console.log(res);
-        setListings(res.data);
-        // let minPrice = Number.MAX_SAFE_INTEGER;
-        // let maxPrice = 0;
-        // let minVolume = Number.MAX_SAFE_INTEGER;
-        // let maxVolume = 0;
-        // res.data.forEach(listing => {
-        //   if (listing.usdamount / (listing.bitcloutnanos / 1e9) > maxPrice) {
-        //     maxPrice = listing.usdamount / (listing.bitcloutnanos / 1e9);
-        //   }
-        //   if (listing.usdamount / (listing.bitcloutnanos / 1e9) < minPrice) {
-        //     minPrice = listing.usdamount / (listing.bitcloutnanos / 1e9);
-        //   }
-        //   if (listing.bitcloutnanos / 1e9 > maxVolume) {
-        //     maxVolume = listing.bitcloutnanos / 1e9;
-        //   }
-        //   if (listing.bitcloutnanos / 1e9 < minVolume) {
-        //     minVolume = listing.bitcloutnanos / 1e9;
-        //   }
-        // });
-        // setPricesPerBitclout([minPrice, maxPrice]);
-        // setVolumes([minVolume, maxVolume]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [dateSort, volumeSort, priceSort, pricePerBitcloutFilter, volumeFilter]);
-
-  useEffect(() => {
-    getListings(volumeSort, dateSort, priceSort)
-      .then((res) => {
-        let minPrice = Number.MAX_SAFE_INTEGER;
-        let maxPrice = 0;
-        let minVolume = Number.MAX_SAFE_INTEGER;
-        let maxVolume = 0;
-        res.data.forEach((listing) => {
-          if (listing.usdamount / (listing.bitcloutnanos / 1e9) > maxPrice) {
-            maxPrice = listing.usdamount / (listing.bitcloutnanos / 1e9);
-          }
-          if (listing.usdamount / (listing.bitcloutnanos / 1e9) < minPrice) {
-            minPrice = listing.usdamount / (listing.bitcloutnanos / 1e9);
-          }
-          if (listing.bitcloutnanos / 1e9 > maxVolume) {
-            maxVolume = listing.bitcloutnanos / 1e9;
-          }
-          if (listing.bitcloutnanos / 1e9 < minVolume) {
-            minVolume = listing.bitcloutnanos / 1e9;
-          }
-        });
-        setPricesPerBitclout([minPrice, maxPrice]);
-        setVolumes([minVolume, maxVolume]);
-        setPricePerBitcloutFilter([minPrice, maxPrice]);
-        setVolumeFilter([minVolume, maxVolume]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (!ethIsLoading) {
-      getTotalVolume()
-        .then((response) => {
-          setVolume(response.data);
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error.data);
-        });
-      // getAvgPrice()
-      //   .then((response) => {
-      //     let bitcloutvolume = volume.totalbitcloutnanos / 1e9;
-      //     let ethervolume = volume.totaletheramount;
-      //     let bitcloutpriceUSD = bitcloutvolume * response.data.avgprice;
-      //     let etherpriceUSD = ethervolume * etherPrice.USD;
-      //     setVolumeUSD(bitcloutpriceUSD + etherpriceUSD);
-      //     setAvgprice(response.data);
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.data);
-      //   });
-    }
-  }, [ethIsLoading, etherPrice]);
 
   if (user && !isLoggedIn) {
     window.location.assign("/login");
@@ -296,13 +146,13 @@ const Home = (props: any) => {
                       {pricePerBitcloutFilter[1].toFixed(0)}
                     </p>
                   </Row>
-                  <Slider
+                  {/* <Slider
                     min={pricesPerBitclout[0]}
                     max={pricesPerBitclout[1]}
                     value={pricePerBitcloutFilter}
                     onChange={handleChangePrice}
                     style={{ color: "#4263EB", width: "95%", marginTop: "10%" }}
-                  />
+                  /> */}
                 </Col>
                 <Col
                   style={{
@@ -336,7 +186,7 @@ const Home = (props: any) => {
                       {volumeFilter[0]} - {volumeFilter[1]}
                     </p>
                   </Row>
-                  <Slider
+                  {/* <Slider
                     min={volumes[0]}
                     max={volumes[1]}
                     style={{ color: "#4263EB", width: "90%", marginTop: "10%" }}
@@ -345,7 +195,7 @@ const Home = (props: any) => {
                     scale={(volumeFilter) => volumeFilter + 10000}
                     aria-labelledby="non-linear-slider"
                     step={1}
-                  />
+                  /> */}
                 </Col>
               </Row>
             </Col>
@@ -880,7 +730,7 @@ const Home = (props: any) => {
                     Amount (BCLT)
                   </p>
                 </Row>
-                <div className="scrollNoBarSplit">
+                {/* <div className="scrollNoBarSplit">
                   <Row>
                     <hr
                       style={{
@@ -907,7 +757,7 @@ const Home = (props: any) => {
                       You don't have any ongoing swaps
                     </p>
                   )}
-                </div>
+                </div> */}
 
                 <Row style={{ marginTop: "7.5%" }}>
                   <h5 style={{ fontWeight: 600, marginLeft: "10%" }}>
@@ -944,7 +794,7 @@ const Home = (props: any) => {
                       }}
                     />
                   </Row>
-                  {userData.buys.map((listing) =>
+                  {/* {userData.buys.map((listing) =>
                     listing.ongoing ? (
                       <OngoingItem
                         bitcloutnanos={listing.bitcloutnanos}
@@ -959,7 +809,7 @@ const Home = (props: any) => {
                     <p style={{ marginLeft: "5%", fontSize: "0.9rem" }}>
                       You don't have any ongoing buys
                     </p>
-                  )}
+                  )} */}
                 </div>
               </>
             )}

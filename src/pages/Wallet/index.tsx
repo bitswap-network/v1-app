@@ -20,7 +20,7 @@ import {
   getTransactions,
   preFlightTxn,
 } from "services/users";
-import { TransactionSchema } from "../../components/interfaces";
+import { TransactionSchema } from "../../interfaces";
 import { useUser } from "../../components/hooks";
 import config from "../../helpers/config.json";
 import TransactionModal from "../../components/modalTransactionInfo";

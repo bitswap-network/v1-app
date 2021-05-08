@@ -1,6 +1,10 @@
 import { getData, removeData } from "helpers/local";
 import { atom, selector } from "recoil";
 import { validateToken } from "services/auth";
+export const identityUsers = atom({
+  key: "identityUsers",
+  default: JSON.parse(getData("identityUsers")),
+});
 
 export const userState = atom({
   key: "userState",

@@ -2,16 +2,11 @@ import axios from "axios";
 const { url } = require("../helpers/config.json");
 
 // Update profile
-const updateProfile = async (
-  email: string,
-  ethereumaddress: string[],
-  token: string
-) => {
+const updateProfile = async (email: string, token: string) => {
   return await axios.put(
     `${url}/user/updateprofile`,
     {
       email: email,
-      ethereumaddress: ethereumaddress,
     },
     {
       headers: { Authorization: `Bearer ${token}` },

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.css";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
+import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import NavBar from "components/NavBar";
 import { FaCheckCircle } from "react-icons/fa";
@@ -15,7 +14,7 @@ const Profile = (props: any) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    getProfile(username).then(profile => {
+    getProfile(username).then((profile) => {
       setUser(profile.data);
       setLoading(false);
     });
@@ -42,7 +41,7 @@ const Profile = (props: any) => {
               : {
                   display: "flex",
                   flexDirection: "column",
-                  alignSelf: "center"
+                  alignSelf: "center",
                 }
           }
         >
@@ -52,7 +51,7 @@ const Profile = (props: any) => {
               backgroundColor: "white",
               padding: "2%",
               borderRadius: "5px",
-              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"
+              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
             }}
           >
             <Row style={{ marginBottom: "10px" }}>
@@ -71,7 +70,7 @@ const Profile = (props: any) => {
                   style={{
                     fontSize: "0.9rem",
                     marginTop: "0",
-                    marginBottom: "0.5rem"
+                    marginBottom: "0.5rem",
                   }}
                 >
                   {user.description}

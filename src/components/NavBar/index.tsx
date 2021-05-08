@@ -42,20 +42,6 @@ const NavElement = (props: any) => {
         window.location.assign(props.linkto);
       }}
     >
-      {/* {window.location.pathname == props.linkto ? (
-        <>
-          <Link to={props.linkto} replace>
-            {props.label}
-          </Link>
-        </>
-      ) : (
-        <>
-          <Link to={props.linkto} replace>
-            {props.label}
-          </Link>
-        </>
-      )} */}
-
       {props.label == "Home" ? (
         <>
           <FiHome
@@ -84,20 +70,7 @@ const NavElement = (props: any) => {
       ) : (
         <> </>
       )}
-      {props.label == " Listings" ? (
-        <>
-          <FiInbox
-            size={18}
-            style={{
-              color: "#43494f",
-              textDecoration:
-                props.currentPage === props.linkto ? "underline" : "none",
-            }}
-          />
-        </>
-      ) : (
-        <> </>
-      )}
+
       {props.label == "  Wallet" ? (
         <>
           <FiDollarSign size={18} style={{ color: "#43494f" }} />
@@ -107,7 +80,10 @@ const NavElement = (props: any) => {
       )}
       <Link
         to={"https://discord.com/invite/bitswap"}
-        style={{ color: props.label == "Discord Support" ?  "#7289DA" : "#43494f", fontFamily: "inherit" }}
+        style={{
+          color: props.label == "Discord Support" ? "#7289DA" : "#43494f",
+          fontFamily: "inherit",
+        }}
       >
         {props.label}
       </Link>
@@ -147,11 +123,14 @@ export const NavBar: React.FC = (props: any) => {
                 {/* <Nav.Link href="/PostAd">Post Ad</Nav.Link> */}
                 {isLoggedIn ? (
                   <>
-                    <Nav.Link href="/userlistings">My Listings</Nav.Link>
                     <Nav.Link href="/profile">My Profile</Nav.Link>
                     <Nav.Link href="/wallet">My Wallet</Nav.Link>
-                    <Nav.Link href="https://discord.gg/bitswap" style={{color: "#7289DA"}}>Discord</Nav.Link>
-
+                    <Nav.Link
+                      href="https://discord.gg/bitswap"
+                      style={{ color: "#7289DA" }}
+                    >
+                      Discord
+                    </Nav.Link>
                   </>
                 ) : null}
                 {isLoggedIn && userData?.admin && (
@@ -224,7 +203,6 @@ export const NavBar: React.FC = (props: any) => {
                   setCurrentPage={setCurrentPage}
                 />
               </Row>
-      
 
               {isLoggedIn ? (
                 <>
@@ -236,15 +214,15 @@ export const NavBar: React.FC = (props: any) => {
                       setCurrentPage={setCurrentPage}
                     />
                   </Row> */}
-                  <Row className="navRow" style={{ paddingTop: "2vh" }}>
+                  {/* <Row className="navRow" style={{ paddingTop: "2vh" }}>
                     <NavElement
                       label=" Listings"
                       linkto="/userlistings"
                       currentPage={currentPage}
                       setCurrentPage={setCurrentPage}
                     />
-                  </Row>
-                  <Row className="navRow" style={{ paddingTop: "4vh" }}>
+                  </Row> */}
+                  <Row className="navRow" style={{ paddingTop: "2vh" }}>
                     <NavElement
                       label="  Wallet"
                       linkto="/wallet"
@@ -255,7 +233,11 @@ export const NavBar: React.FC = (props: any) => {
                 </>
               ) : null}
               <Row className="navRow" style={{ paddingTop: "6vh" }}>
-                <img src={`https://cdn.discordapp.com/attachments/831671962106986517/838837226070474822/discordIcon.png`} height={13} style={{marginTop: "0.4rem", marginRight: "0.6rem"}}></img>
+                <img
+                  src={`https://cdn.discordapp.com/attachments/831671962106986517/838837226070474822/discordIcon.png`}
+                  height={13}
+                  style={{ marginTop: "0.4rem", marginRight: "0.6rem" }}
+                ></img>
                 <NavElement
                   label="Discord Support"
                   linkto="/"
@@ -270,7 +252,7 @@ export const NavBar: React.FC = (props: any) => {
                   width: "200%",
                 }}
               >
-                {isLoggedIn && userData?.verified !== "verified" && (
+                {isLoggedIn && userData?.verification.status !== "verified" && (
                   <>
                     <div
                       style={{
@@ -286,8 +268,7 @@ export const NavBar: React.FC = (props: any) => {
                   </>
                 )}
               </Row>
-        
-           
+
               <Row
                 style={{
                   marginTop: "2vh",
@@ -316,18 +297,18 @@ export const NavBar: React.FC = (props: any) => {
                   width: "200%",
                 }}
               >
-                <OverlayTrigger
+                {/* <OverlayTrigger
                   placement="top"
                   delay={{ show: 100, hide: 300 }}
                   overlay={renderTooltip}
-                >
-                  <p style={{ fontSize: "0.85rem" }}>
+                > */}
+                {/* <p style={{ fontSize: "0.85rem" }}>
                     {isLoggedIn && (
                       <>
                         <b>
                           Balance:{" "}
                           {isLoading || isError
-                            ? user.bitswapbalance.toFixed(2)
+                            ? user.balance.toFixed(2)
                             : userData.bitswapbalance.toFixed(2)}{" "}
                           $BCLT
                         </b>
@@ -336,16 +317,16 @@ export const NavBar: React.FC = (props: any) => {
                         />
                       </>
                     )}
-                  </p>
-                </OverlayTrigger>
+                  </p> */}
+                {/* </OverlayTrigger> */}
               </Row>
 
               {user ? (
                 <Row style={{ width: "120%" }}>
                   <img
                     src={
-                      user.profilepicture
-                        ? user.profilepicture
+                      user.bitclout.profilePicture
+                        ? user.bitclout.profilePicture
                         : `https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`
                     }
                     style={{

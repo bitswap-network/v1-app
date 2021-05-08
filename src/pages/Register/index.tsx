@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.css";
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
@@ -22,6 +22,7 @@ import { register, getProfile } from "services/auth";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImKey } from "react-icons/im";
 const Register = (props: any) => {
+  const { id }: any = useParams();
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageState, setPageState] = useState(0);
@@ -30,7 +31,6 @@ const Register = (props: any) => {
     username: false,
     email: false,
     bitcloutpubkey: false,
-    ethereumaddress: false,
     password: false,
     confirmPassword: false,
   });
@@ -42,10 +42,27 @@ const Register = (props: any) => {
     username: "" as string,
     email: "" as string,
     bitcloutpubkey: "" as string,
-    ethereumaddress: "" as string,
     password: "" as string,
     confirmPassword: "" as string,
   });
+  useEffect(() => {
+    if (id) {
+      setLoading(true);
+      setErrorMsg("");
+      getProfile(null, id)
+        .then((response) => {
+          setProfileObj(response);
+          setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
+          setPageState(1);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          setLoading(false);
+          setErrorMsg(error.response.data);
+        });
+    }
+  }, []);
 
   const handleNameChange = (e: any) => {
     setForm({
@@ -56,7 +73,6 @@ const Register = (props: any) => {
       username: false,
       email: false,
       bitcloutpubkey: false,
-      ethereumaddress: false,
       password: false,
       confirmPassword: false,
     });
@@ -74,7 +90,6 @@ const Register = (props: any) => {
     } else if (form.username.length !== 0) {
       getProfile(form.username)
         .then((response) => {
-          // console.log(response);
           setProfileObj(response);
           setForm({ ...form, bitcloutpubkey: response.PublicKeyBase58Check });
           setPageState(1);
@@ -96,7 +111,6 @@ const Register = (props: any) => {
       username: form.username.length < 1 ? true : false,
       email: !regEmail.test(form.email) ? true : false,
       bitcloutpubkey: form.bitcloutpubkey.length !== 55 ? true : false,
-      ethereumaddress: form.ethereumaddress.length !== 42 ? true : false,
       password: form.password !== form.confirmPassword,
     });
 
@@ -104,7 +118,6 @@ const Register = (props: any) => {
       form.username.length < 1 ||
       !regEmail.test(form.email) ||
       form.bitcloutpubkey.length !== 55 ||
-      form.ethereumaddress.length !== 42 ||
       form.password !== form.confirmPassword
     ) {
       return false;
@@ -122,7 +135,6 @@ const Register = (props: any) => {
         form.email,
         form.password,
         form.bitcloutpubkey,
-        form.ethereumaddress,
         profileObj.IsVerified,
         profileObj.ProfilePic,
         profileObj.Description
@@ -357,19 +369,7 @@ const Register = (props: any) => {
                 />
               </Col>
             </UserField>
-            <UserField>
-              <Col>
-                <TextField
-                  id="ethereumaddress"
-                  label="Ethereum Address"
-                  variant="outlined"
-                  value={form.ethereumaddress}
-                  onChange={handleNameChange}
-                  error={error.ethereumaddress}
-                  style={{ width: "90%" }}
-                />
-              </Col>
-            </UserField>
+
             <UserField>
               <Col>
                 <TextField

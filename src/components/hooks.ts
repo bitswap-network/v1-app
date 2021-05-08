@@ -77,12 +77,3 @@ export function useGasPrice() {
     gasIsError: error,
   };
 }
-export function useFirstRender() {
-  const firstRender = useRef(true);
-
-  useEffect(() => {
-    firstRender.current = false;
-  }, []);
-
-  return firstRender.current;
-}

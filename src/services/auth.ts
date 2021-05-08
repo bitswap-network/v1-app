@@ -1,6 +1,14 @@
 import axios from "axios";
 import { url } from "../helpers/config.json";
-
+export const identityLogin = async (
+  PublicKeyBase58Check: string,
+  jwt: string
+) => {
+  return await axios.post(`${url}/auth/identity-login`, {
+    PublicKeyBase58Check: PublicKeyBase58Check,
+    identityJWT: jwt,
+  });
+};
 export const login = async (username: string, password: string) => {
   return await axios.post(`${url}/auth/login`, {
     username: username,
@@ -12,21 +20,13 @@ export const register = async (
   username: string,
   email: string,
   password: string,
-  bitcloutpubkey: string,
-  ethereumaddress: string,
-  bitcloutverified: boolean,
-  profilepicture: string,
-  description: string
+  bitcloutpubkey: string
 ) => {
   return await axios.post(`${url}/auth/register`, {
     username: username,
     email: email,
     password: password,
     bitcloutpubkey: bitcloutpubkey,
-    ethereumaddress: ethereumaddress,
-    bitcloutverified: bitcloutverified,
-    profilepicture: profilepicture,
-    description: description,
   });
 };
 
@@ -48,12 +48,17 @@ export const validateToken = async (token: string) => {
       return false;
     });
 };
-export const getProfile = async (username: string) => {
+export const getProfile = async (username?: string, publickey?: string) => {
+  let query = "";
+  if (username && publickey) {
+    query = query.concat(query, `?username=${username}&publickey=${publickey}`);
+  } else if (username) {
+    query = query.concat(query, `?username=${username}`);
+  } else if (publickey) {
+    query = query.concat(query, `?publickey=${publickey}`);
+  }
   return await axios
-    .post(`${url}/auth/getbitcloutprofile`, {
-      PublicKeyBase58Check: "",
-      Username: username,
-    })
+    .get(`${url}/auth/fetchProfile${query}`)
     .then((response) => {
       return response.data;
     })
@@ -65,13 +70,13 @@ export const getProfile = async (username: string) => {
 
 export const forgotPassword = async (email: string) => {
   return await axios
-  .post(`${url}/user/forgotpassword`, {
-    email: email,
-  })
-  .then((response) => {
-    return response.data
-  })
-  .catch((error) => {
-    console.log(error);
-  })
-}
+    .post(`${url}/user/forgotpassword`, {
+      email: email,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

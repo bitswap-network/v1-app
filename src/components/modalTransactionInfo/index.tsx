@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import { loggedInState, userState } from "../../store";
 import { useRecoilValue } from "recoil";
-import { TransactionSchema } from "../interfaces";
+import { TransactionSchema } from "../../interfaces";
 import { FiX } from "react-icons/fi";
 import config from "../../helpers/config.json";
 
@@ -62,12 +62,12 @@ const TransactionModal: React.FC<TxnModal> = (
                 }}
               >
                 ID:{" "}
-                {transaction.tx_id ? (
+                {transaction.txnHash ? (
                   <a
-                    href={`https://explorer.bitclout.com/?transaction-id=${transaction.tx_id}&query-node=https:%2F%2Fapi.bitclout.com`}
+                    href={`https://explorer.bitclout.com/?transaction-id=${transaction.txnHash}&query-node=https:%2F%2Fapi.bitclout.com`}
                     target="_blank"
                   >
-                    {transaction.tx_id}
+                    {transaction.txnHash}
                   </a>
                 ) : (
                   `pending`
@@ -89,7 +89,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 <Row>TXN TYPE</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.transactiontype}
+                    {transaction.transactionType}
                   </p>
                 </Row>
               </Col>
@@ -97,7 +97,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 <Row>AMOUNT</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.bitcloutnanos / 1e9} $BCLT
+                    {transaction.value}
                   </p>
                 </Row>
               </Col>
@@ -105,7 +105,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 <Row>FEES (nanos)</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.fees ? transaction.fees : "N/A"}
+                    {transaction.gasDeducted ? transaction.gasDeducted : "N/A"}
                   </p>
                 </Row>
               </Col>
@@ -124,7 +124,7 @@ const TransactionModal: React.FC<TxnModal> = (
                 <Row>STATUS</Row>
                 <Row>
                   <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                    {transaction.status}
+                    {transaction.state}
                   </p>
                 </Row>
               </Col>
@@ -137,14 +137,19 @@ const TransactionModal: React.FC<TxnModal> = (
                   </p>
                 </Row>
               </Col>
-              {transaction.status === "completed" ? (
+              {transaction.completed ? (
                 <>
                   <Col sm={4}>
                     <Row> COMPLETED TIME</Row>
                     <Row>
                       <p style={{ fontSize: "0.75rem", color: "#495057" }}>
-                        {new Date(transaction.completed).toLocaleDateString()}:{" "}
-                        {new Date(transaction.completed).toLocaleTimeString()}
+                        {new Date(
+                          transaction.completionDate
+                        ).toLocaleDateString()}
+                        :{" "}
+                        {new Date(
+                          transaction.completionDate
+                        ).toLocaleTimeString()}
                       </p>
                     </Row>
                   </Col>
@@ -162,8 +167,8 @@ const TransactionModal: React.FC<TxnModal> = (
                 </>
               )}
             </Col>
-            {transaction.transactiontype === "deposit" &&
-              transaction.status === "pending" && (
+            {transaction.transactionType === "deposit" &&
+              transaction.state === "pending" && (
                 <Col style={{ textAlign: "center", marginTop: "5%" }}>
                   <p style={{ fontSize: "0.7rem", marginBottom: "0%" }}>
                     If you haven't already, send the required amount to:

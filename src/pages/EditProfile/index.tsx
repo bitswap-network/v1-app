@@ -99,35 +99,7 @@ const EditProfile = (props: any) => {
       ethereumaddress: false,
     });
   };
-  const handleEthChange = (i: number) => (e: any) => {
-    console.log(form);
-    setFormUpdated(true);
-    let newArr = form.ethereumaddress;
-    newArr[i] = e.target.value;
 
-    setForm({
-      ...form,
-      ethereumaddress: newArr,
-    });
-  };
-  const addAddress = () => {
-    setFormUpdated(true);
-    let newArr = form.ethereumaddress;
-    newArr.push("");
-    setForm({
-      ...form,
-      ethereumaddress: newArr,
-    });
-  };
-  const removeAddress = (i: number) => {
-    setFormUpdated(true);
-    let newArr = form.ethereumaddress;
-    newArr.splice(i, 1);
-    setForm({
-      ...form,
-      ethereumaddress: newArr,
-    });
-  };
   const handlePassChange = (e: any) => {
     setPasswordUpdated(true);
     setForm({
@@ -144,7 +116,7 @@ const EditProfile = (props: any) => {
   const handlePost = () => {
     if (valerrorHandler()) {
       setLoading(true);
-      updateProfile(form.email, form.ethereumaddress, user.token)
+      updateProfile(form.email, user.token)
         .then((response) => {
           setLoading(false);
           setSuccessful(true);
@@ -230,7 +202,8 @@ const EditProfile = (props: any) => {
             />
             <Col style={{ textAlign: "center" }}>
               <p style={{ marginTop: "3%" }}>
-                Verifying my @bitswap account! {userData?.bitcloutverification}
+                Verifying my @bitswap account!{" "}
+                {userData?.verification.bitcloutString}
               </p>
             </Col>
           </Col>
@@ -239,7 +212,7 @@ const EditProfile = (props: any) => {
               style={{ backgroundColor: "white", color: "blue" }}
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `Verifying my @bitswap account! ${userData?.bitcloutverification}`
+                  `Verifying my @bitswap account! ${userData?.verification.bitcloutString}`
                 );
                 setCopy(true);
                 setTimeout(() => {
@@ -298,7 +271,7 @@ const EditProfile = (props: any) => {
                   >
                     <a href={"https://bitclout.com/u/" + user.username}>
                       <b>@{user.username}</b>{" "}
-                      {user.bitcloutverified && (
+                      {user.bitclout.verified && (
                         <FaCheckCircle color="#0059f7" fontSize="1.5rem" />
                       )}
                     </a>
@@ -310,10 +283,10 @@ const EditProfile = (props: any) => {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    {user.description}
+                    {user.bitclout.bio}
                   </p>
                   <p style={{ fontSize: "0.7rem", marginTop: "0" }}>
-                    <ImKey /> {user.bitcloutpubkey}
+                    <ImKey /> {user.bitclout.publicKey}
                   </p>
                   <Row>
                     {userData && !isLoading && !isError && (
@@ -325,19 +298,19 @@ const EditProfile = (props: any) => {
                               marginTop: "0",
                               fontWeight: "bold",
                               color:
-                                userData.verified === "verified"
+                                userData.verification.status === "verified"
                                   ? "#4263EB"
                                   : "#F03D3E",
                             }}
                           >
-                            {userData.verified === "unverified" &&
+                            {userData.verification.status === "unverified" &&
                               "Profile Unverified"}
-                            {userData.verified === "pending" &&
+                            {userData.verification.status === "pending" &&
                               "Profile Verification Pending"}
-                            {userData.verified === "verified" &&
+                            {userData.verification.status === "verified" &&
                               "Profile Verified"}
                           </p>
-                          {userData.verified !== "verified" && (
+                          {userData.verification.status !== "verified" && (
                             <Button
                               variant="danger"
                               size="sm"
@@ -354,12 +327,12 @@ const EditProfile = (props: any) => {
                               fontSize: "0.8rem",
                               marginTop: "0",
                               fontWeight: "bold",
-                              color: userData.emailverified
+                              color: userData.verification.email
                                 ? "#4263EB"
                                 : "#F03D3E",
                             }}
                           >
-                            {userData.emailverified
+                            {userData.verification.email
                               ? "Email Verified"
                               : "Email Not Verified"}
                           </p>
@@ -371,8 +344,8 @@ const EditProfile = (props: any) => {
                 <Col sm={window.visualViewport.width >= 1600 ? 3 : 2}>
                   <img
                     src={
-                      user.profilepicture
-                        ? user.profilepicture
+                      user.bitclout.profilePicture
+                        ? user.bitclout.profilePicture
                         : `https://cdn.discordapp.com/attachments/831893651844104243/834221365648949278/iu.png`
                     }
                     style={{ width: "100%" }}
@@ -399,52 +372,6 @@ const EditProfile = (props: any) => {
                   </Col>
                 </Row>
 
-                {form.ethereumaddress.map((address, i) => (
-                  <>
-                    <Row
-                      className="align-items-center"
-                      style={{
-                        marginTop: i == 0 ? "30px" : "5px",
-                        marginBottom: "0px",
-                      }}
-                    >
-                      <Col sm={12}>
-                        <TextField
-                          color="primary"
-                          margin="dense"
-                          key={i}
-                          id={`ethereumaddress_${i}`}
-                          label={`Ethereum Address ${i + 1}`}
-                          variant="outlined"
-                          value={address ? address : ""}
-                          error={error.ethereumaddress}
-                          onChange={handleEthChange(i)}
-                          style={{ width: "93%" }}
-                        />
-                        <FiXCircle
-                          className="hoverCursor"
-                          size={"1.5rem"}
-                          onClick={() => {
-                            removeAddress(i);
-                          }}
-                          style={{
-                            float: "right",
-                            // marginRight: "0.1rem",
-                            marginTop: "1rem",
-                            color: "#ACB5BD",
-                          }}
-                        />
-                      </Col>{" "}
-                    </Row>
-                  </>
-                ))}
-                <Row style={{ marginTop: "5px", marginBottom: "30px" }}>
-                  <Col>
-                    <Button size="sm" onClick={addAddress}>
-                      Add Address
-                    </Button>
-                  </Col>
-                </Row>
                 <Row>
                   <Col
                     style={

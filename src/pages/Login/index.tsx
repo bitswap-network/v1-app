@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "../../App.css";
 import { Row, Col, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "url:../../assets/transparentLogo.png";
 import RegImage from "url:../../assets/regImage.png";
 import {
@@ -17,12 +17,21 @@ import {
   PasswordRow,
   MobileLogo,
 } from "./styles";
-import { login } from "services/auth";
+import { login, identityLogin } from "services/auth";
 import { saveData } from "helpers/local";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loggedInState, userState } from "store";
+import { launch, jwt } from "../../identity/core";
+import { setIdentityServiceUsers } from "../../identity/store";
 
-declare let window: any;
+interface identityUser {
+  accessLevel: number;
+  accessLevelHmac: string;
+  btcDepositAddress: string;
+  encryptedSeedHex: string;
+  hasExtraText: boolean;
+  network: string;
+}
 
 const Login = (props: any) => {
   const isLoggedIn = useRecoilValue(loggedInState);
@@ -39,6 +48,41 @@ const Login = (props: any) => {
     setForm({
       ...form,
       [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleLoginBitclout = () => {
+    launch("/log-in").subscribe((res) => {
+      console.log(res);
+      setIdentityServiceUsers(res.users, res.publicKeyAdded);
+      const pubkeyadded = res.publicKeyAdded;
+      const i_user: identityUser = res.users[res.publicKeyAdded];
+      let payload = {
+        accessLevel: i_user.accessLevel,
+        accessLevelHmac: i_user.accessLevelHmac,
+        encryptedSeedHex: i_user.encryptedSeedHex,
+      };
+      jwt(payload).subscribe((token) => {
+        console.log("TOKEN: ", token);
+        identityLogin(pubkeyadded, token.jwt)
+          .then((response) => {
+            if (response.status === 200) {
+              saveData("user", JSON.stringify(response.data));
+              setUser(response.data);
+              window.location.assign("/");
+            } else {
+              setError(response.data);
+            }
+          })
+          .catch((error: any) => {
+            if (error.response.status === 300) {
+              window.location.assign(`/register/${pubkeyadded}`);
+            } else {
+              console.log(error);
+              setError(error.response.data.error);
+            }
+          });
+      });
     });
   };
 
@@ -138,6 +182,13 @@ const Login = (props: any) => {
           </Col>
         </Row>
         <Row>
+          <Col style={{ marginTop: "2%" }}>
+            <Button onClick={handleLoginBitclout} style={{ width: "100%" }}>
+              Login with Bitclout
+            </Button>
+          </Col>
+        </Row>
+        <Row>
           <Col style={{ marginTop: "4%" }}>
             <a
               href="https://bitswap.network/bitswap-guide"
@@ -152,7 +203,16 @@ const Login = (props: any) => {
         {error ? (
           <Row>
             <Col style={{ marginTop: "4%" }}>
-              <p style={{ color: "red" }}>Error: {error}  <a href="#" onClick={ () => window.location.assign("/forgot")} style={{color: "#6494FF"}}>Forgot Password?</a></p>
+              <p style={{ color: "red" }}>
+                Error: {error}{" "}
+                <a
+                  href="#"
+                  onClick={() => window.location.assign("/forgot")}
+                  style={{ color: "#6494FF" }}
+                >
+                  Forgot Password?
+                </a>
+              </p>
             </Col>
           </Row>
         ) : null}

@@ -16,7 +16,7 @@ import {
   postRetryListing,
 } from "../../services/admin";
 import TransactionModal from "../../components/modalTransactionInfo";
-import { TransactionSchema } from "../../components/interfaces";
+import { TransactionSchema } from "../../interfaces";
 
 const Admin = (props: any) => {
   const user = useRecoilValue(userState);

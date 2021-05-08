@@ -798,7 +798,7 @@ const Home = (props: any) => {
                   ></Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 
-                  {!showPastTransactions
+                  {/* {!showPastTransactions
                     ? listings.map((listing: any, i: number) => (
                         <FeedListing
                           listing={listing}
@@ -818,11 +818,11 @@ const Home = (props: any) => {
                           loading={loading}
                           history={props.history}
                         />
-                      ))}
-                  {listings.length == 0 && (
+                      ))} */}
+                  {/* {listings.length == 0 && (
                     // <div style={{ width: "100%" }}></div>
                     <Row style={{ minWidth: "100vw" }}></Row>
-                  )}
+                  )} */}
                 </div>
               </Col>
             </FeedContent>

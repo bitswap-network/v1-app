@@ -21,8 +21,6 @@ import {
 import { register, getProfile } from "services/auth";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImKey } from "react-icons/im";
-import { profile } from "node:console";
-
 const Register = (props: any) => {
   const [successful, setSuccessful] = useState(false);
   const [loading, setLoading] = useState(false);

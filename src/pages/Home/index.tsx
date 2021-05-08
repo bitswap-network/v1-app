@@ -85,7 +85,7 @@ const Home = (props: any) => {
   const [statsLoading, setStatsLoading] = useState(true);
   const { etherPrice, ethIsLoading, ethIsError } = useEthPrice();
   const [volumeLoading, setVolumeLoading] = useState(true);
-  const [showPastTransactions, setShowPastTransactions] = useState(false)
+  const [showPastTransactions, setShowPastTransactions] = useState(false);
 
   const handleChangePrice = (event, newValue) => {
     setShowPriceTag(true);
@@ -200,19 +200,19 @@ const Home = (props: any) => {
         .catch((error) => {
           console.log(error.data);
         });
-      getAvgPrice()
-        .then((response) => {
-          let bitcloutvolume = volume.totalbitcloutnanos / 1e9;
-          let ethervolume = volume.totaletheramount;
-          let bitcloutpriceUSD = bitcloutvolume * response.data.avgprice;
-          let etherpriceUSD = ethervolume * etherPrice.USD;
-          setVolumeUSD(bitcloutpriceUSD + etherpriceUSD);
-          setAvgprice(response.data);
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error.data);
-        });
+      // getAvgPrice()
+      //   .then((response) => {
+      //     let bitcloutvolume = volume.totalbitcloutnanos / 1e9;
+      //     let ethervolume = volume.totaletheramount;
+      //     let bitcloutpriceUSD = bitcloutvolume * response.data.avgprice;
+      //     let etherpriceUSD = ethervolume * etherPrice.USD;
+      //     setVolumeUSD(bitcloutpriceUSD + etherpriceUSD);
+      //     setAvgprice(response.data);
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.data);
+      //   });
     }
   }, [ethIsLoading, etherPrice]);
 
@@ -468,10 +468,9 @@ const Home = (props: any) => {
                   size="sm"
                   onClick={() => {
                     if (showPastTransactions) {
-                      setShowPastTransactions(false)
-                    }
-                    else {
-                      setShowPastTransactions(true)
+                      setShowPastTransactions(false);
+                    } else {
+                      setShowPastTransactions(true);
                     }
                   }}
                   style={{
@@ -556,7 +555,7 @@ const Home = (props: any) => {
                       fontWeight: 700,
                     }}
                   >
-                    ${!statsLoading ? avgprice.avgprice.toFixed(2) : 100}
+                    {/* ${!statsLoading ? avgprice.avgprice.toFixed(2) : 100} */}
                   </p>
                 </div>
               </Col>
@@ -617,8 +616,6 @@ const Home = (props: any) => {
             <Row style={{ marginLeft: "1rem", marginTop: "4%" }}>
               <Col sm={1}>
                 <Row>
-                
-                
                   <Dropdown
                     onSelect={(eventKey: any, event: Object) => {
                       switch (eventKey) {
@@ -686,17 +683,15 @@ const Home = (props: any) => {
                       >
                         Volume, descending
                       </Dropdown.Item>
-                      <Dropdown.Item style={{color: "#6494FF"}}
-                        
-                      >
+                      <Dropdown.Item style={{ color: "#6494FF" }}>
                         See Past Transactions
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Row>
               </Col>
-           
-              <Col style={{marginLeft: "5%"}}>
+
+              <Col style={{ marginLeft: "5%" }}>
                 <Row>
                   <FiFilter
                     onClick={() => setFilterModal(true)}
@@ -783,7 +778,6 @@ const Home = (props: any) => {
                   </div>
                 </Row>
               </Col>
-     
             </Row>
             <FeedContent>
               <Col>
@@ -804,27 +798,27 @@ const Home = (props: any) => {
                   ></Row>
                   <hr style={{ marginBottom: "5%" }}></hr>
 
-                  
-                  {!showPastTransactions ? listings.map((listing: any, i: number) => (
-                    <FeedListing
-                      listing={listing}
-                      price={1}
-                      index={i}
-                      key={i}
-                      loading={loading}
-                      history={props.history}
-                    />
-                  )): 
-                  listings.map((listing: any, i: number) => (
-                  <PastTransactions
-                      listing={listing}
-                      price={1}
-                      index={i}
-                      key={i}
-                      loading={loading}
-                      history={props.history}
-                    />
-                  ))}
+                  {!showPastTransactions
+                    ? listings.map((listing: any, i: number) => (
+                        <FeedListing
+                          listing={listing}
+                          price={1}
+                          index={i}
+                          key={i}
+                          loading={loading}
+                          history={props.history}
+                        />
+                      ))
+                    : listings.map((listing: any, i: number) => (
+                        <PastTransactions
+                          listing={listing}
+                          price={1}
+                          index={i}
+                          key={i}
+                          loading={loading}
+                          history={props.history}
+                        />
+                      ))}
                   {listings.length == 0 && (
                     // <div style={{ width: "100%" }}></div>
                     <Row style={{ minWidth: "100vw" }}></Row>

@@ -19,12 +19,15 @@ import {
   withdraw,
   getTransactions,
   preFlightTxn,
+  submitDeposit,
 } from "services/users";
 import { TransactionSchema } from "../../interfaces";
 import { useUser } from "../../components/hooks";
 import config from "../../helpers/config.json";
 import TransactionModal from "../../components/modalTransactionInfo";
-
+import { launch, jwt, sign } from "../../identity/core";
+import { identityUsers } from "../../identity/store";
+import axios from "axios";
 const renderTooltip = (props) => (
   <Tooltip id="wallet-tooltip" {...props}>
     This is the amount of Bitclout you have on BitSwap. You can increase the
@@ -49,7 +52,9 @@ const Wallet = (props: any) => {
   const [withdrawError, setWithdrawError] = useState(false);
   const [fees, setFees] = useState(0);
   const [max, setMax] = useState(null);
-
+  const [txnHash, setTxnHash] = useState(null);
+  const [identityUsersList, setIdentityUsersList] =
+    useRecoilState(identityUsers);
   if (!isLoggedIn) {
     window.location.assign("/login");
   }
@@ -109,22 +114,24 @@ const Wallet = (props: any) => {
   const handleSubmit = () => {
     setLoading(true);
     if (transactionType === "Deposit") {
-      deposit(user.token, amount)
-        .then(() => {
-          confirmModalOpen(false);
-          setSuccessful(true);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-          if (error.response) {
-            setError(error.response.data.message);
-          } else if (error.message) {
-            setError(error.message);
-          } else {
-            setError("An error occurred");
-          }
-        });
+      console.log(txnHash);
+      sign({
+        accessLevel: identityUsersList[user.bitclout.publicKey].accessLevel,
+        accessLevelHmac:
+          identityUsersList[user.bitclout.publicKey].accessLevelHmac,
+        encryptedSeedHex:
+          identityUsersList[user.bitclout.publicKey].encryptedSeedHex,
+        transactionHex: txnHash,
+      }).subscribe((res) => {
+        console.log(res);
+        submitDeposit(user.token, res.signedTransactionHex)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
     } else {
       withdraw(user.token, amount, fees)
         .then(() => {
@@ -145,10 +152,12 @@ const Wallet = (props: any) => {
     }
   };
   const preFlight = () => {
+    console.log(amount);
     preFlightTxn(user.token, amount)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         setFees(parseInt(response.data.FeeNanos));
+        setTxnHash(response.data.TransactionHex);
       })
       .catch((error) => {
         console.log(error);
@@ -347,8 +356,8 @@ const Wallet = (props: any) => {
                 <p style={{ color: "#495057", fontSize: "1.3rem" }}>
                   <b style={{ fontSize: "1.8rem" }}>
                     {userData
-                      ? userData.bitswapbalance.toFixed(2)
-                      : user.bitswapbalance.toFixed(2)}
+                      ? userData.balance.bitclout.toFixed(2)
+                      : user.balance.bitclout.toFixed(2)}
                   </b>{" "}
                   BCLT
                 </p>
@@ -473,11 +482,7 @@ const Wallet = (props: any) => {
                   confirmModalOpen(true);
                   preFlight();
                 }}
-                disabled={
-                  withdrawError ||
-                  amount === 0 ||
-                  userData?.verified !== "verified"
-                }
+                disabled={withdrawError || amount === 0}
               >
                 {transactionType === "Deposit"
                   ? `Start Deposit`

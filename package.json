@@ -36,7 +36,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "rxjs": "^7.0.0",
-    "serve": "^11.3.2",
+    "serve": "^13.0.2",
     "socket.io-client": "^4.0.1",
     "styled-components": "^5.2.3",
     "styled-content-loader": "^1.2.2",

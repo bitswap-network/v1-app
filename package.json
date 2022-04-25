@@ -28,7 +28,7 @@
     "react-loading-icons": "^1.0.4",
     "react-password-strength-bar": "^0.3.3",
     "react-popup": "^0.10.0",
-    "react-redux": "^7.2.3",
+    "react-redux": "^8.0.1",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
